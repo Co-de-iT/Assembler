@@ -1,0 +1,11 @@
+---
+name: Assembler
+version: 1.0.5
+authors:
+- Alessio Erioli - Co-de-iT
+description: >
+ This plugin builds and manages Assemblages. Not aggregations. Not aggregates.
+url: https://www.co-de-it.com
+keywords:
+- assemblage
+- mereology

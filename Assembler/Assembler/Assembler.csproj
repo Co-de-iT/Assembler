@@ -1,0 +1,322 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DC05FFEC-A67E-44DA-8A15-656816D92AC7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Assembler</RootNamespace>
+    <AssemblyName>Assembler</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AssemblerLib, Version=1.3.10.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\AssemblerLib\bin\Debug\AssemblerLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Eto, Version=2.5.0.0, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
+      <HintPath>..\packages\RhinoCommon.6.13.19058.371\lib\net45\Eto.dll</HintPath>
+    </Reference>
+    <Reference Include="GH_IO, Version=6.13.19058.370, Culture=neutral, PublicKeyToken=6a29997d2e6b4f97, processorArchitecture=MSIL">
+      <HintPath>..\packages\Grasshopper.6.13.19058.371\lib\net45\GH_IO.dll</HintPath>
+    </Reference>
+    <Reference Include="Grasshopper, Version=6.13.19058.370, Culture=neutral, PublicKeyToken=dda4f5ec2cd80803, processorArchitecture=MSIL">
+      <HintPath>..\packages\Grasshopper.6.13.19058.371\lib\net45\Grasshopper.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.UI, Version=6.13.19058.370, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
+      <HintPath>..\packages\RhinoCommon.6.13.19058.371\lib\net45\Rhino.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="RhinoCommon, Version=6.13.19058.370, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
+      <HintPath>..\packages\RhinoCommon.6.13.19058.371\lib\net45\RhinoCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Components\SetSupports.cs" />
+    <Compile Include="Components\ExtractSupports.cs" />
+    <Compile Include="DeconstructRule.cs" />
+    <Compile Include="D_AssCustomPreview.cs" />
+    <Compile Include="I-O\AssemblyObjectsFromJSON.cs" />
+    <Compile Include="I-O\AssemblyObjectsToJSON.cs" />
+    <Compile Include="Engine\AssemblerEngine.cs" />
+    <Compile Include="Engine\AssemblerEngineX.cs" />
+    <Compile Include="AssemblerInfo.cs" />
+    <Compile Include="IGH_TypeViewer.cs" />
+    <Compile Include="Post Processing\AssociateXData.cs" />
+    <Compile Include="D_ConstructHandle_tree.cs" />
+    <Compile Include="Post Processing\DisplayAssemblage.cs" />
+    <Compile Include="D_ExtractOffsetMesh.cs" />
+    <Compile Include="Heuristics\HeuristicsDisplay.cs" />
+    <Compile Include="Heuristics\HeuristicsDisplayEx.cs" />
+    <Compile Include="LEGACY-HIDDEN\L_AssociateXData.cs" />
+    <Compile Include="LEGACY-HIDDEN\H_ColorFieldbyAttractors.cs" />
+    <Compile Include="Exogenous\ColorFieldbyScalar.cs" />
+    <Compile Include="Components\ConstructAssemblyObject.cs" />
+    <Compile Include="Components\ConstructCompositeAO.cs" />
+    <Compile Include="LEGACY-HIDDEN\L_ConstructFieldMeshN.cs" />
+    <Compile Include="LEGACY-HIDDEN\L_ConstructFieldMeshXYZ.cs" />
+    <Compile Include="Exogenous\ConstructFieldN.cs" />
+    <Compile Include="Exogenous\ConstructFieldXYZ.cs" />
+    <Compile Include="Components\ConstructHandle.cs" />
+    <Compile Include="Components\ConstructXData.cs" />
+    <Compile Include="Post Processing\DeconstructAssemblage.cs" />
+    <Compile Include="Components\DeconstructAssemblyObject.cs" />
+    <Compile Include="Exogenous\DeconstructField.cs" />
+    <Compile Include="Components\DeconstructHandle.cs" />
+    <Compile Include="Components\DeconstructXData.cs" />
+    <Compile Include="Post Processing\DisplayCandidates.cs" />
+    <Compile Include="Components\DisplayHandle.cs" />
+    <Compile Include="Exogenous\ExogenousSettingsComponent.cs" />
+    <Compile Include="Post Processing\ExtractAOSet.cs" />
+    <Compile Include="Components\ExtractCollisionMesh.cs" />
+    <Compile Include="Components\ExtractReferencePlane.cs" />
+    <Compile Include="Components\ExtractSenderHandlesPlanes.cs" />
+    <Compile Include="Post Processing\ExtractTopology.cs" />
+    <Compile Include="Components\ExtractType.cs" />
+    <Compile Include="LEGACY-HIDDEN\L_HeuristicsDisplay.cs" />
+    <Compile Include="LEGACY-HIDDEN\L_HeuristicsDisplayEx.cs" />
+    <Compile Include="Heuristics\HeuristicsSettingsComponent.cs" />
+    <Compile Include="Heuristics\HeuristicWriter.cs" />
+    <Compile Include="LEGACY-HIDDEN\L_HeuristicsWriter.cs" />
+    <Compile Include="Exogenous\PopulateField.cs" />
+    <Compile Include="LEGACY-HIDDEN\H_PopulateFieldiWeightsAtt.cs" />
+    <Compile Include="LEGACY-HIDDEN\H_PopulateFieldiWeightsSc.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Components\TransformAssemblyObject.cs" />
+    <Compile Include="Components\TransformXData.cs" />
+    <Compile Include="Heuristics\WeighHeuristics.cs" />
+    <Compile Include="RemoveAssemblyObjects.cs" />
+    <Compile Include="Utils\AssemblyObjectGHParam.cs" />
+    <Compile Include="Utils\AssemblageGoo.cs" />
+    <Compile Include="Utils\AssemblyObjectGoo.cs" />
+    <Compile Include="Utils\FieldGoo.cs" />
+    <Compile Include="Utils\RuleGoo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Resources\Heuristics Writer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Populate Field iW attractors.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Populate Field iW scalars.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Populate Field.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Transform AO.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Transform XData.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Assemblage From JSON.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Assemblage To JSON.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Assembler Engine X.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Assembler Engine.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Associate XData.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Color Field attractors.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Color Field scalars.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Construct AO.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Construct compositeAO.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Construct Handle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Construct XData.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Deconstruct AO.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Deconstruct Assemblage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Deconstruct Field.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Deconstruct Handle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Deconstruct XData.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Exogenous settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Extract CollisionMesh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Extract Reference Plane.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Extract Sender Handles Planes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Extract Topology.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Field from Box N.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Field from Box XYZ.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Field from Mesh N.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Field from Mesh XYZ.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Heuristics Dispay X.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Heuristics Dispay.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Heuristics Settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FlamIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Assembler Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Display Handle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Extract Candidates.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Extract Type.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Etract AOSet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Heuristics Writer_OLD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Associate XData_OLD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Heuristics Dispay_OLD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Heuristics Dispay X_OLD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Construct Handle_OLD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Display Assemblage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Weigh Rules_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Weigh Rules.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AO_param.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Field N_OLD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Field XYZ_OLD.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>Copy "$(TargetPath)" "$(TargetDir)$(ProjectName).gha"
+Erase "$(TargetPath)"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <FallbackCulture>en-US</FallbackCulture>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <StartProgram>C:\Program Files\Rhino 6\System\Rhino.exe</StartProgram>
+    <StartArguments>
+    </StartArguments>
+    <StartAction>Program</StartAction>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <Import Project="..\packages\RhinoCommon.6.13.19058.371\build\net45\RhinoCommon.targets" Condition="Exists('..\packages\RhinoCommon.6.13.19058.371\build\net45\RhinoCommon.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\RhinoCommon.6.13.19058.371\build\net45\RhinoCommon.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\RhinoCommon.6.13.19058.371\build\net45\RhinoCommon.targets'))" />
+    <Error Condition="!Exists('..\packages\Grasshopper.6.13.19058.371\build\net45\Grasshopper.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Grasshopper.6.13.19058.371\build\net45\Grasshopper.targets'))" />
+  </Target>
+  <Import Project="..\packages\Grasshopper.6.13.19058.371\build\net45\Grasshopper.targets" Condition="Exists('..\packages\Grasshopper.6.13.19058.371\build\net45\Grasshopper.targets')" />
+</Project>

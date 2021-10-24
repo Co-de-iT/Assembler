@@ -1,0 +1,306 @@
+{
+  "homepages": [],
+  "source_base_path": "C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "rDaZ9rfTTpUtDVkrJ4I9wUPqYTUt5D587U6QUnYQAeo="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro.html",
+          "hash": "ZWwrQTxwiw4whBucNmeG7Q60lSVebaDeNrSBsQkcfzY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html",
+          "hash": "BlPxk5mtl2kgfcZUgkEguqiSAR/EUyUTT4EdebwkQvs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "p7a3H1Ys65paW7aRXNKMwpbCe0anDl9usCKztHbVxdc="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/AssemblerLib.Assemblage.EnvCheckMethod.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/AssemblerLib.Assemblage.EnvCheckMethod.html",
+          "hash": "mGzmk9AjxNodrgBOfF9TN8axqOsv48/+9GL0qzbvGMk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/AssemblerLib.Assemblage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/AssemblerLib.Assemblage.html",
+          "hash": "RawVce9bJ6Djd9/GIXlSPwzjctlckMopX2sHRsanSn0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/AssemblerLib.AssemblyObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/AssemblerLib.AssemblyObject.html",
+          "hash": "0M4Sp/e09sbhsgu0sQiXeVWZp+Xd9fvBkDoO4KOHbMk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/AssemblerLib.ExogenousSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/AssemblerLib.ExogenousSettings.html",
+          "hash": "eS/lCyDWe0z/AqWTk2zPIkF6gMj0muLzuvaY3uOOyMI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/AssemblerLib.Field.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/AssemblerLib.Field.html",
+          "hash": "G0ZR8Q0a1Ocm4VKC21brDdspS5LS24XAxNxr86DLHTw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/AssemblerLib.Handle.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/AssemblerLib.Handle.html",
+          "hash": "yQhfCr/6kty9utAWebItmfmTTcRymZyTkg5e727yJ+Q="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/AssemblerLib.HeuristicsSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/AssemblerLib.HeuristicsSettings.html",
+          "hash": "+YrONvoK0t5gGLYBGHjRXBoJ9O3Rq/t9tC/czG1s6sw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/AssemblerLib.MeshEnvironment.Type.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/AssemblerLib.MeshEnvironment.Type.html",
+          "hash": "plC5c+3yQFnV20K5gDCm1BZXiUH1SQY+k2nO5aWlKC4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/AssemblerLib.MeshEnvironment.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/AssemblerLib.MeshEnvironment.html",
+          "hash": "hWYq4V7/ifQaHv3HLiVS6ogJPbcAsYQoAP9Xf2M7hAw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/AssemblerLib.Rule.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/AssemblerLib.Rule.html",
+          "hash": "/T+foR0ket3zBdGpE8HSj1M3/V+RjhrcfOHjOixGPI0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/AssemblerLib.Support.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/AssemblerLib.Support.html",
+          "hash": "lwq8iYfe66TEb/g4jjoQw5618SJMlp7SCSyYFmhepow="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/AssemblerLib.Tensor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/AssemblerLib.Tensor.html",
+          "hash": "A3y4ymRqmKEcApR+BBf0h8zUvYEWbM6Nh0HUCQBdpZ4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/AssemblerLib.Utilities.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/AssemblerLib.Utilities.html",
+          "hash": "ZPtukVkyuPFTESSV+eZ5AEKa5iow6W5IgVyvoxoBZ30="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/AssemblerLib.XData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/AssemblerLib.XData.html",
+          "hash": "v7BAZQJKgh9OCJDYDtqEZppw93tU/EXPh/0zDcm3JPI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/AssemblerLib.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/AssemblerLib.html",
+          "hash": "NXJYrb3l28GUPsWzmk74kxJj6oijFhVaPYxa0lHKB6Y="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "obj/api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "+LHXs1Y2y54Ln5hzMyJE80NKJ5SMOM/6eAvjeEOMrds="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "Oa9PuD4E1hvZnCkVjUgzNBX6S00Zo5YilamTERTZo54="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": true,
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 3,
+          "skipped_file_count": 3
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 15,
+          "skipped_file_count": 15
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
