@@ -112,5 +112,10 @@ namespace AssemblerLib
             for (int i = 0; i < receivers.Length; i++) receivers[i].Transform(Xform);
         }
 
+        public override string ToString()
+        {
+            return string.Format("Handle type {0} with {1} rotations", type, rRotations.Length);
+        }
+
     }
 }

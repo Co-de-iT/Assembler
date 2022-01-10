@@ -116,13 +116,24 @@
   
   
   <a id="AssemblerLib_Assemblage__ctor_" data-uid="AssemblerLib.Assemblage.#ctor*"></a>
+  <h4 id="AssemblerLib_Assemblage__ctor" data-uid="AssemblerLib.Assemblage.#ctor">Assemblage()</h4>
+  <div class="markdown level1 summary"><p>debug variables</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Assemblage()</code></pre>
+  </div>
+  
+  
+  <a id="AssemblerLib_Assemblage__ctor_" data-uid="AssemblerLib.Assemblage.#ctor*"></a>
   <h4 id="AssemblerLib_Assemblage__ctor_System_Collections_Generic_List_AssemblerLib_AssemblyObject__System_Collections_Generic_List_AssemblerLib_AssemblyObject__AssemblerLib_Field_System_Double_System_Collections_Generic_List_System_String__Rhino_Geometry_Plane_System_Int32_System_Collections_Generic_List_Rhino_Geometry_Mesh__Rhino_Geometry_Box_" data-uid="AssemblerLib.Assemblage.#ctor(System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.List{AssemblerLib.AssemblyObject},AssemblerLib.Field,System.Double,System.Collections.Generic.List{System.String},Rhino.Geometry.Plane,System.Int32,System.Collections.Generic.List{Rhino.Geometry.Mesh},Rhino.Geometry.Box)">Assemblage(List&lt;AssemblyObject&gt;, List&lt;AssemblyObject&gt;, Field, Double, List&lt;String&gt;, Plane, Int32, List&lt;Mesh&gt;, Box)</h4>
   <div class="markdown level1 summary"><p>Extensive constructor for the Assemblage class</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Assemblage(List&lt;AssemblyObject&gt; AO, List&lt;AssemblyObject&gt; pAO, Field field, double fieldThreshold, List&lt;string&gt; heuristicsString, Plane startPlane, int startType, List&lt;Mesh&gt; environmentMeshes, Box sandbox)</code></pre>
+    <pre><code class="lang-csharp hljs">public Assemblage(List&lt;AssemblyObject&gt; AOs, List&lt;AssemblyObject&gt; pAO, Field field, double fieldThreshold, List&lt;string&gt; heuristicsString, Plane startPlane, int startType, List&lt;Mesh&gt; environmentMeshes, Box sandbox)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -136,7 +147,7 @@
     <tbody>
       <tr>
         <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>&gt;</td>
-        <td><span class="parametername">AO</span></td>
+        <td><span class="parametername">AOs</span></td>
         <td></td>
       </tr>
       <tr>
@@ -564,11 +575,12 @@
   
   <a id="AssemblerLib_Assemblage_AddValidObject_" data-uid="AssemblerLib.Assemblage.AddValidObject*"></a>
   <h4 id="AssemblerLib_Assemblage_AddValidObject_AssemblerLib_AssemblyObject_AssemblerLib_Rule_System_Int32_" data-uid="AssemblerLib.Assemblage.AddValidObject(AssemblerLib.AssemblyObject,AssemblerLib.Rule,System.Int32)">AddValidObject(AssemblyObject, Rule, Int32)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Adds a valid Object to the Assemblage, updating connectivity</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void AddValidObject(AssemblyObject newObject, Rule rule, int rInd)</code></pre>
+    <pre><code class="lang-csharp hljs">public virtual void AddValidObject(AssemblyObject newObject, Rule rule, int rInd)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -878,7 +890,7 @@
   
   <a id="AssemblerLib_Assemblage_SelectReceiver_" data-uid="AssemblerLib.Assemblage.SelectReceiver*"></a>
   <h4 id="AssemblerLib_Assemblage_SelectReceiver_System_Collections_Generic_List_System_Int32__" data-uid="AssemblerLib.Assemblage.SelectReceiver(System.Collections.Generic.List{System.Int32})">SelectReceiver(List&lt;Int32&gt;)</h4>
-  <div class="markdown level1 summary"><p>A virtual method for customizing receiver selection criteria</p>
+  <div class="markdown level1 summary"><p>A virtual dummy method for customizing receiver selection criteria</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -1132,34 +1144,6 @@
       <tr>
         <td><span class="xref">System.Int32</span></td>
         <td><span class="parametername">environmentMode</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="AssemblerLib_Assemblage_SetHeuristics_" data-uid="AssemblerLib.Assemblage.SetHeuristics*"></a>
-  <h4 id="AssemblerLib_Assemblage_SetHeuristics_System_Collections_Generic_List_System_String__" data-uid="AssemblerLib.Assemblage.SetHeuristics(System.Collections.Generic.List{System.String})">SetHeuristics(List&lt;String&gt;)</h4>
-  <div class="markdown level1 summary"><p>Sets Assemblage Heuristics</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void SetHeuristics(List&lt;string&gt; heuristicsString)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.String</span>&gt;</td>
-        <td><span class="parametername">heuristicsString</span></td>
         <td></td>
       </tr>
     </tbody>

@@ -1,0 +1,2377 @@
+### YamlMime:ManagedReference
+items:
+- uid: AssemblerLib.Assemblage
+  commentId: T:AssemblerLib.Assemblage
+  id: Assemblage
+  parent: AssemblerLib
+  children:
+  - AssemblerLib.Assemblage.#ctor
+  - AssemblerLib.Assemblage.#ctor(System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.List{AssemblerLib.AssemblyObject},AssemblerLib.Field,System.Double,System.Collections.Generic.List{System.String},Rhino.Geometry.Plane,System.Int32,System.Collections.Generic.List{Rhino.Geometry.Mesh},Rhino.Geometry.Box)
+  - AssemblerLib.Assemblage.AddValidObject(AssemblerLib.AssemblyObject,AssemblerLib.Rule,System.Int32)
+  - AssemblerLib.Assemblage.AOset
+  - AssemblerLib.Assemblage.assemblageRules
+  - AssemblerLib.Assemblage.assemblyObjects
+  - AssemblerLib.Assemblage.candidateObjects
+  - AssemblerLib.Assemblage.checkWorldZLock
+  - AssemblerLib.Assemblage.currentHeuristics
+  - AssemblerLib.Assemblage.E_sandbox
+  - AssemblerLib.Assemblage.environmentMeshes
+  - AssemblerLib.Assemblage.ExtractAvailableObjects
+  - AssemblerLib.Assemblage.ExtractUnreachableObjects
+  - AssemblerLib.Assemblage.FieldScalarSearch(System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Double,System.Boolean)
+  - AssemblerLib.Assemblage.fieldThreshold
+  - AssemblerLib.Assemblage.FieldVectorSearch(System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Boolean,System.Boolean)
+  - AssemblerLib.Assemblage.heuristicsMode
+  - AssemblerLib.Assemblage.heuristicsTree
+  - AssemblerLib.Assemblage.objectsDictionary
+  - AssemblerLib.Assemblage.receiverIndexes
+  - AssemblerLib.Assemblage.ResetAvailableObjects
+  - AssemblerLib.Assemblage.ResetExogenous(System.Collections.Generic.List{Rhino.Geometry.Mesh},AssemblerLib.Field,System.Double,Rhino.Geometry.Box)
+  - AssemblerLib.Assemblage.RetrieveCandidates(System.Int32,System.Collections.Generic.List{AssemblerLib.Rule}@,System.Collections.Generic.List{System.Int32}@,System.Collections.Generic.List{AssemblerLib.AssemblyObject}@)
+  - AssemblerLib.Assemblage.SelectReceiver(System.Collections.Generic.List{System.Int32})
+  - AssemblerLib.Assemblage.SelectReceiver(System.Collections.Generic.List{System.Int32},System.Int32)
+  - AssemblerLib.Assemblage.selectReceiverMode
+  - AssemblerLib.Assemblage.SelectRule(System.Collections.Generic.List{AssemblerLib.Rule},System.Collections.Generic.List{System.Int32},System.Collections.Generic.List{AssemblerLib.AssemblyObject},AssemblerLib.AssemblyObject@)
+  - AssemblerLib.Assemblage.SelectRule(System.Int32,System.Collections.Generic.List{AssemblerLib.Rule},System.Collections.Generic.List{System.Int32},System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Int32,AssemblerLib.AssemblyObject@)
+  - AssemblerLib.Assemblage.selectRuleMode
+  - AssemblerLib.Assemblage.SetEnvCheckMethod(System.Int32)
+  - AssemblerLib.Assemblage.SetSandbox(Rhino.Geometry.Box)
+  - AssemblerLib.Assemblage.Update
+  - AssemblerLib.Assemblage.WeightedRandomChoice``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{System.Int32})
+  - AssemblerLib.Assemblage.WeightedRandomChoiceIndex(System.Collections.Generic.List{System.Int32})
+  langs:
+  - csharp
+  - vb
+  name: Assemblage
+  nameWithType: Assemblage
+  fullName: AssemblerLib.Assemblage
+  type: Class
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: Assemblage
+    path: Assemblage.cs
+    startLine: 15
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nAssemblage class - A Class that manages Assemblages\n"
+  example: []
+  syntax:
+    content: public class Assemblage
+    content.vb: Public Class Assemblage
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: AssemblerLib.Assemblage.assemblyObjects
+  commentId: F:AssemblerLib.Assemblage.assemblyObjects
+  id: assemblyObjects
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: assemblyObjects
+  nameWithType: Assemblage.assemblyObjects
+  fullName: AssemblerLib.Assemblage.assemblyObjects
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: assemblyObjects
+    path: Assemblage.cs
+    startLine: 31
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nThe list of <xref href=\"AssemblerLib.AssemblyObject\" data-throw-if-not-resolved=\"false\"></xref>s in the assemblage\n"
+  example: []
+  syntax:
+    content: public List<AssemblyObject> assemblyObjects
+    return:
+      type: System.Collections.Generic.List{AssemblerLib.AssemblyObject}
+    content.vb: Public assemblyObjects As List(Of AssemblyObject)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Assemblage.AOset
+  commentId: F:AssemblerLib.Assemblage.AOset
+  id: AOset
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: AOset
+  nameWithType: Assemblage.AOset
+  fullName: AssemblerLib.Assemblage.AOset
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: AOset
+    path: Assemblage.cs
+    startLine: 35
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nThe set of unique object types\n"
+  example: []
+  syntax:
+    content: public AssemblyObject[] AOset
+    return:
+      type: AssemblerLib.AssemblyObject[]
+    content.vb: Public AOset As AssemblyObject()
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Assemblage.objectsDictionary
+  commentId: F:AssemblerLib.Assemblage.objectsDictionary
+  id: objectsDictionary
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: objectsDictionary
+  nameWithType: Assemblage.objectsDictionary
+  fullName: AssemblerLib.Assemblage.objectsDictionary
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: objectsDictionary
+    path: Assemblage.cs
+    startLine: 39
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nThe objects Dictionary built from the set\n"
+  example: []
+  syntax:
+    content: public Dictionary<string, int> objectsDictionary
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,System.Int32}
+    content.vb: Public objectsDictionary As Dictionary(Of String, Integer)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Assemblage.environmentMeshes
+  commentId: F:AssemblerLib.Assemblage.environmentMeshes
+  id: environmentMeshes
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: environmentMeshes
+  nameWithType: Assemblage.environmentMeshes
+  fullName: AssemblerLib.Assemblage.environmentMeshes
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: environmentMeshes
+    path: Assemblage.cs
+    startLine: 43
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nThe environment meshes\n"
+  example: []
+  syntax:
+    content: public List<MeshEnvironment> environmentMeshes
+    return:
+      type: System.Collections.Generic.List{AssemblerLib.MeshEnvironment}
+    content.vb: Public environmentMeshes As List(Of MeshEnvironment)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Assemblage.E_sandbox
+  commentId: F:AssemblerLib.Assemblage.E_sandbox
+  id: E_sandbox
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: E_sandbox
+  nameWithType: Assemblage.E_sandbox
+  fullName: AssemblerLib.Assemblage.E_sandbox
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: E_sandbox
+    path: Assemblage.cs
+    startLine: 47
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nSandbox for focused assemblage growth \n"
+  example: []
+  syntax:
+    content: public Box E_sandbox
+    return:
+      type: Rhino.Geometry.Box
+    content.vb: Public E_sandbox As Box
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Assemblage.currentHeuristics
+  commentId: F:AssemblerLib.Assemblage.currentHeuristics
+  id: currentHeuristics
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: currentHeuristics
+  nameWithType: Assemblage.currentHeuristics
+  fullName: AssemblerLib.Assemblage.currentHeuristics
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: currentHeuristics
+    path: Assemblage.cs
+    startLine: 51
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nIndex of currently used heuristics\n"
+  example: []
+  syntax:
+    content: public int currentHeuristics
+    return:
+      type: System.Int32
+    content.vb: Public currentHeuristics As Integer
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Assemblage.heuristicsTree
+  commentId: F:AssemblerLib.Assemblage.heuristicsTree
+  id: heuristicsTree
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: heuristicsTree
+  nameWithType: Assemblage.heuristicsTree
+  fullName: AssemblerLib.Assemblage.heuristicsTree
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: heuristicsTree
+    path: Assemblage.cs
+    startLine: 55
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nHeuristics as a Rule DataTree\n"
+  example: []
+  syntax:
+    content: public DataTree<Rule> heuristicsTree
+    return:
+      type: Grasshopper.DataTree{AssemblerLib.Rule}
+    content.vb: Public heuristicsTree As DataTree(Of Rule)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Assemblage.candidateObjects
+  commentId: F:AssemblerLib.Assemblage.candidateObjects
+  id: candidateObjects
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: candidateObjects
+  nameWithType: Assemblage.candidateObjects
+  fullName: AssemblerLib.Assemblage.candidateObjects
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: candidateObjects
+    path: Assemblage.cs
+    startLine: 59
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nTest variable to see the temporary sender object(s) in output\n"
+  example: []
+  syntax:
+    content: public List<AssemblyObject> candidateObjects
+    return:
+      type: System.Collections.Generic.List{AssemblerLib.AssemblyObject}
+    content.vb: Public candidateObjects As List(Of AssemblyObject)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Assemblage.assemblageRules
+  commentId: F:AssemblerLib.Assemblage.assemblageRules
+  id: assemblageRules
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: assemblageRules
+  nameWithType: Assemblage.assemblageRules
+  fullName: AssemblerLib.Assemblage.assemblageRules
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: assemblageRules
+    path: Assemblage.cs
+    startLine: 63
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nList of Heuristics used during the assemblage\n"
+  example: []
+  syntax:
+    content: public List<string> assemblageRules
+    return:
+      type: System.Collections.Generic.List{System.String}
+    content.vb: Public assemblageRules As List(Of String)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Assemblage.receiverIndexes
+  commentId: F:AssemblerLib.Assemblage.receiverIndexes
+  id: receiverIndexes
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: receiverIndexes
+  nameWithType: Assemblage.receiverIndexes
+  fullName: AssemblerLib.Assemblage.receiverIndexes
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: receiverIndexes
+    path: Assemblage.cs
+    startLine: 67
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nList of Receivers indexes used in the assemblage\n"
+  example: []
+  syntax:
+    content: public List<int> receiverIndexes
+    return:
+      type: System.Collections.Generic.List{System.Int32}
+    content.vb: Public receiverIndexes As List(Of Integer)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Assemblage.fieldThreshold
+  commentId: F:AssemblerLib.Assemblage.fieldThreshold
+  id: fieldThreshold
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: fieldThreshold
+  nameWithType: Assemblage.fieldThreshold
+  fullName: AssemblerLib.Assemblage.fieldThreshold
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: fieldThreshold
+    path: Assemblage.cs
+    startLine: 71
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nField Threshold for scalar field methods\n"
+  example: []
+  syntax:
+    content: public double fieldThreshold
+    return:
+      type: System.Double
+    content.vb: Public fieldThreshold As Double
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Assemblage.selectReceiverMode
+  commentId: F:AssemblerLib.Assemblage.selectReceiverMode
+  id: selectReceiverMode
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: selectReceiverMode
+  nameWithType: Assemblage.selectReceiverMode
+  fullName: AssemblerLib.Assemblage.selectReceiverMode
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: selectReceiverMode
+    path: Assemblage.cs
+    startLine: 75
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nSelect receiver mode\n"
+  example: []
+  syntax:
+    content: public int selectReceiverMode
+    return:
+      type: System.Int32
+    content.vb: Public selectReceiverMode As Integer
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Assemblage.selectRuleMode
+  commentId: F:AssemblerLib.Assemblage.selectRuleMode
+  id: selectRuleMode
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: selectRuleMode
+  nameWithType: Assemblage.selectRuleMode
+  fullName: AssemblerLib.Assemblage.selectRuleMode
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: selectRuleMode
+    path: Assemblage.cs
+    startLine: 79
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nSelect Rule mode\n"
+  example: []
+  syntax:
+    content: public int selectRuleMode
+    return:
+      type: System.Int32
+    content.vb: Public selectRuleMode As Integer
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Assemblage.heuristicsMode
+  commentId: F:AssemblerLib.Assemblage.heuristicsMode
+  id: heuristicsMode
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: heuristicsMode
+  nameWithType: Assemblage.heuristicsMode
+  fullName: AssemblerLib.Assemblage.heuristicsMode
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: heuristicsMode
+    path: Assemblage.cs
+    startLine: 86
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\n<ul><li></li><li></li></ul>\n"
+  example: []
+  syntax:
+    content: public int heuristicsMode
+    return:
+      type: System.Int32
+    content.vb: Public heuristicsMode As Integer
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Assemblage.checkWorldZLock
+  commentId: F:AssemblerLib.Assemblage.checkWorldZLock
+  id: checkWorldZLock
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: checkWorldZLock
+  nameWithType: Assemblage.checkWorldZLock
+  fullName: AssemblerLib.Assemblage.checkWorldZLock
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: checkWorldZLock
+    path: Assemblage.cs
+    startLine: 102
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nif True, forces candidates to have their own Z axis parallel to the World Z axis (fixed up)\n"
+  example: []
+  syntax:
+    content: public bool checkWorldZLock
+    return:
+      type: System.Boolean
+    content.vb: Public checkWorldZLock As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Assemblage.#ctor
+  commentId: M:AssemblerLib.Assemblage.#ctor
+  id: '#ctor'
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: Assemblage()
+  nameWithType: Assemblage.Assemblage()
+  fullName: AssemblerLib.Assemblage.Assemblage()
+  type: Constructor
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: .ctor
+    path: Assemblage.cs
+    startLine: 130
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\ndebug variables\n"
+  example: []
+  syntax:
+    content: public Assemblage()
+    content.vb: Public Sub New
+  overload: AssemblerLib.Assemblage.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Assemblage.#ctor(System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.List{AssemblerLib.AssemblyObject},AssemblerLib.Field,System.Double,System.Collections.Generic.List{System.String},Rhino.Geometry.Plane,System.Int32,System.Collections.Generic.List{Rhino.Geometry.Mesh},Rhino.Geometry.Box)
+  commentId: M:AssemblerLib.Assemblage.#ctor(System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.List{AssemblerLib.AssemblyObject},AssemblerLib.Field,System.Double,System.Collections.Generic.List{System.String},Rhino.Geometry.Plane,System.Int32,System.Collections.Generic.List{Rhino.Geometry.Mesh},Rhino.Geometry.Box)
+  id: '#ctor(System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.List{AssemblerLib.AssemblyObject},AssemblerLib.Field,System.Double,System.Collections.Generic.List{System.String},Rhino.Geometry.Plane,System.Int32,System.Collections.Generic.List{Rhino.Geometry.Mesh},Rhino.Geometry.Box)'
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: Assemblage(List<AssemblyObject>, List<AssemblyObject>, Field, Double, List<String>, Plane, Int32, List<Mesh>, Box)
+  nameWithType: Assemblage.Assemblage(List<AssemblyObject>, List<AssemblyObject>, Field, Double, List<String>, Plane, Int32, List<Mesh>, Box)
+  fullName: AssemblerLib.Assemblage.Assemblage(System.Collections.Generic.List<AssemblerLib.AssemblyObject>, System.Collections.Generic.List<AssemblerLib.AssemblyObject>, AssemblerLib.Field, System.Double, System.Collections.Generic.List<System.String>, Rhino.Geometry.Plane, System.Int32, System.Collections.Generic.List<Rhino.Geometry.Mesh>, Rhino.Geometry.Box)
+  type: Constructor
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: .ctor
+    path: Assemblage.cs
+    startLine: 147
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nExtensive constructor for the Assemblage class\n"
+  example: []
+  syntax:
+    content: public Assemblage(List<AssemblyObject> AOs, List<AssemblyObject> pAO, Field field, double fieldThreshold, List<string> heuristicsString, Plane startPlane, int startType, List<Mesh> environmentMeshes, Box sandbox)
+    parameters:
+    - id: AOs
+      type: System.Collections.Generic.List{AssemblerLib.AssemblyObject}
+      description: ''
+    - id: pAO
+      type: System.Collections.Generic.List{AssemblerLib.AssemblyObject}
+      description: ''
+    - id: field
+      type: AssemblerLib.Field
+      description: ''
+    - id: fieldThreshold
+      type: System.Double
+      description: ''
+    - id: heuristicsString
+      type: System.Collections.Generic.List{System.String}
+      description: ''
+    - id: startPlane
+      type: Rhino.Geometry.Plane
+      description: ''
+    - id: startType
+      type: System.Int32
+      description: ''
+    - id: environmentMeshes
+      type: System.Collections.Generic.List{Rhino.Geometry.Mesh}
+      description: ''
+    - id: sandbox
+      type: Rhino.Geometry.Box
+      description: ''
+    content.vb: Public Sub New(AOs As List(Of AssemblyObject), pAO As List(Of AssemblyObject), field As Field, fieldThreshold As Double, heuristicsString As List(Of String), startPlane As Plane, startType As Integer, environmentMeshes As List(Of Mesh), sandbox As Box)
+  overload: AssemblerLib.Assemblage.#ctor*
+  nameWithType.vb: Assemblage.Assemblage(List(Of AssemblyObject), List(Of AssemblyObject), Field, Double, List(Of String), Plane, Int32, List(Of Mesh), Box)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: AssemblerLib.Assemblage.Assemblage(System.Collections.Generic.List(Of AssemblerLib.AssemblyObject), System.Collections.Generic.List(Of AssemblerLib.AssemblyObject), AssemblerLib.Field, System.Double, System.Collections.Generic.List(Of System.String), Rhino.Geometry.Plane, System.Int32, System.Collections.Generic.List(Of Rhino.Geometry.Mesh), Rhino.Geometry.Box)
+  name.vb: Assemblage(List(Of AssemblyObject), List(Of AssemblyObject), Field, Double, List(Of String), Plane, Int32, List(Of Mesh), Box)
+- uid: AssemblerLib.Assemblage.SetSandbox(Rhino.Geometry.Box)
+  commentId: M:AssemblerLib.Assemblage.SetSandbox(Rhino.Geometry.Box)
+  id: SetSandbox(Rhino.Geometry.Box)
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: SetSandbox(Box)
+  nameWithType: Assemblage.SetSandbox(Box)
+  fullName: AssemblerLib.Assemblage.SetSandbox(Rhino.Geometry.Box)
+  type: Method
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: SetSandbox
+    path: Assemblage.cs
+    startLine: 354
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nSets Sandbox geometry\n"
+  example: []
+  syntax:
+    content: public void SetSandbox(Box sandbox)
+    parameters:
+    - id: sandbox
+      type: Rhino.Geometry.Box
+      description: ''
+    content.vb: Public Sub SetSandbox(sandbox As Box)
+  overload: AssemblerLib.Assemblage.SetSandbox*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Assemblage.SetEnvCheckMethod(System.Int32)
+  commentId: M:AssemblerLib.Assemblage.SetEnvCheckMethod(System.Int32)
+  id: SetEnvCheckMethod(System.Int32)
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: SetEnvCheckMethod(Int32)
+  nameWithType: Assemblage.SetEnvCheckMethod(Int32)
+  fullName: AssemblerLib.Assemblage.SetEnvCheckMethod(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: SetEnvCheckMethod
+    path: Assemblage.cs
+    startLine: 370
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nSets Environment Check Method to use\n"
+  example: []
+  syntax:
+    content: public void SetEnvCheckMethod(int environmentMode)
+    parameters:
+    - id: environmentMode
+      type: System.Int32
+      description: ''
+    content.vb: Public Sub SetEnvCheckMethod(environmentMode As Integer)
+  overload: AssemblerLib.Assemblage.SetEnvCheckMethod*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Assemblage.Update
+  commentId: M:AssemblerLib.Assemblage.Update
+  id: Update
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: Update()
+  nameWithType: Assemblage.Update()
+  fullName: AssemblerLib.Assemblage.Update()
+  type: Method
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: Update
+    path: Assemblage.cs
+    startLine: 403
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nUpdate method\n\nUpdate is composed by these steps:\n. receiver selection (where do I add the next one?)\n. rule selection (what do I add and how?) and new object addition to the assemblage\n\nThe method can be customized with an override.\n"
+  example: []
+  syntax:
+    content: public virtual void Update()
+    content.vb: Public Overridable Sub Update
+  overload: AssemblerLib.Assemblage.Update*
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
+- uid: AssemblerLib.Assemblage.SelectReceiver(System.Collections.Generic.List{System.Int32})
+  commentId: M:AssemblerLib.Assemblage.SelectReceiver(System.Collections.Generic.List{System.Int32})
+  id: SelectReceiver(System.Collections.Generic.List{System.Int32})
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: SelectReceiver(List<Int32>)
+  nameWithType: Assemblage.SelectReceiver(List<Int32>)
+  fullName: AssemblerLib.Assemblage.SelectReceiver(System.Collections.Generic.List<System.Int32>)
+  type: Method
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: SelectReceiver
+    path: Assemblage.cs
+    startLine: 487
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nA virtual dummy method for customizing receiver selection criteria\n"
+  example: []
+  syntax:
+    content: public virtual int SelectReceiver(List<int> availableObjects)
+    parameters:
+    - id: availableObjects
+      type: System.Collections.Generic.List{System.Int32}
+      description: ''
+    return:
+      type: System.Int32
+      description: index of selected receiver
+    content.vb: Public Overridable Function SelectReceiver(availableObjects As List(Of Integer)) As Integer
+  overload: AssemblerLib.Assemblage.SelectReceiver*
+  nameWithType.vb: Assemblage.SelectReceiver(List(Of Int32))
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
+  fullName.vb: AssemblerLib.Assemblage.SelectReceiver(System.Collections.Generic.List(Of System.Int32))
+  name.vb: SelectReceiver(List(Of Int32))
+- uid: AssemblerLib.Assemblage.SelectReceiver(System.Collections.Generic.List{System.Int32},System.Int32)
+  commentId: M:AssemblerLib.Assemblage.SelectReceiver(System.Collections.Generic.List{System.Int32},System.Int32)
+  id: SelectReceiver(System.Collections.Generic.List{System.Int32},System.Int32)
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: SelectReceiver(List<Int32>, Int32)
+  nameWithType: Assemblage.SelectReceiver(List<Int32>, Int32)
+  fullName: AssemblerLib.Assemblage.SelectReceiver(System.Collections.Generic.List<System.Int32>, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: SelectReceiver
+    path: Assemblage.cs
+    startLine: 506
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nReceiver Selection according to a set possible criteria: \n<ul><li></li><li></li><li></li><li></li><li></li><li></li></ul>\n"
+  example: []
+  syntax:
+    content: public virtual int SelectReceiver(List<int> availableObjects, int selectReceiverMode)
+    parameters:
+    - id: availableObjects
+      type: System.Collections.Generic.List{System.Int32}
+      description: list of available <xref href="AssemblerLib.AssemblyObject" data-throw-if-not-resolved="false"></xref>s in the Assemblage
+    - id: selectReceiverMode
+      type: System.Int32
+      description: integer to set receiver mode selection
+    return:
+      type: System.Int32
+      description: The index of the available <xref href="AssemblerLib.AssemblyObject" data-throw-if-not-resolved="false"></xref> selected as a receiver
+    content.vb: Public Overridable Function SelectReceiver(availableObjects As List(Of Integer), selectReceiverMode As Integer) As Integer
+  overload: AssemblerLib.Assemblage.SelectReceiver*
+  nameWithType.vb: Assemblage.SelectReceiver(List(Of Int32), Int32)
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
+  fullName.vb: AssemblerLib.Assemblage.SelectReceiver(System.Collections.Generic.List(Of System.Int32), System.Int32)
+  name.vb: SelectReceiver(List(Of Int32), Int32)
+- uid: AssemblerLib.Assemblage.RetrieveCandidates(System.Int32,System.Collections.Generic.List{AssemblerLib.Rule}@,System.Collections.Generic.List{System.Int32}@,System.Collections.Generic.List{AssemblerLib.AssemblyObject}@)
+  commentId: M:AssemblerLib.Assemblage.RetrieveCandidates(System.Int32,System.Collections.Generic.List{AssemblerLib.Rule}@,System.Collections.Generic.List{System.Int32}@,System.Collections.Generic.List{AssemblerLib.AssemblyObject}@)
+  id: RetrieveCandidates(System.Int32,System.Collections.Generic.List{AssemblerLib.Rule}@,System.Collections.Generic.List{System.Int32}@,System.Collections.Generic.List{AssemblerLib.AssemblyObject}@)
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: RetrieveCandidates(Int32, out List<Rule>, out List<Int32>, out List<AssemblyObject>)
+  nameWithType: Assemblage.RetrieveCandidates(Int32, out List<Rule>, out List<Int32>, out List<AssemblyObject>)
+  fullName: AssemblerLib.Assemblage.RetrieveCandidates(System.Int32, out System.Collections.Generic.List<AssemblerLib.Rule>, out System.Collections.Generic.List<System.Int32>, out System.Collections.Generic.List<AssemblerLib.AssemblyObject>)
+  type: Method
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: RetrieveCandidates
+    path: Assemblage.cs
+    startLine: 554
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nRetrieve Candidates based on receiver index\n"
+  example: []
+  syntax:
+    content: public bool RetrieveCandidates(int receiverIndex, out List<Rule> receiverRules, out List<int> validRules, out List<AssemblyObject> candidates)
+    parameters:
+    - id: receiverIndex
+      type: System.Int32
+      description: Index of the receiver <xref href="AssemblerLib.AssemblyObject" data-throw-if-not-resolved="false"></xref>
+    - id: receiverRules
+      type: System.Collections.Generic.List{AssemblerLib.Rule}
+      description: List of corresponding <xref href="AssemblerLib.Rule" data-throw-if-not-resolved="false"></xref>s
+    - id: validRules
+      type: System.Collections.Generic.List{System.Int32}
+      description: Indices of valid <xref href="AssemblerLib.Rule" data-throw-if-not-resolved="false"></xref>s (candidates that do not collide with existing assemblage and/or environment obstacles)
+    - id: candidates
+      type: System.Collections.Generic.List{AssemblerLib.AssemblyObject}
+      description: List of candidates <xref href="AssemblerLib.AssemblyObject" data-throw-if-not-resolved="false"></xref>s
+    return:
+      type: System.Boolean
+      description: True if at least one suitable candidate has been found, False otherwise
+    content.vb: Public Function RetrieveCandidates(receiverIndex As Integer, ByRef receiverRules As List(Of Rule), ByRef validRules As List(Of Integer), ByRef candidates As List(Of AssemblyObject)) As Boolean
+  overload: AssemblerLib.Assemblage.RetrieveCandidates*
+  nameWithType.vb: Assemblage.RetrieveCandidates(Int32, ByRef List(Of Rule), ByRef List(Of Int32), ByRef List(Of AssemblyObject))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: AssemblerLib.Assemblage.RetrieveCandidates(System.Int32, ByRef System.Collections.Generic.List(Of AssemblerLib.Rule), ByRef System.Collections.Generic.List(Of System.Int32), ByRef System.Collections.Generic.List(Of AssemblerLib.AssemblyObject))
+  name.vb: RetrieveCandidates(Int32, ByRef List(Of Rule), ByRef List(Of Int32), ByRef List(Of AssemblyObject))
+- uid: AssemblerLib.Assemblage.SelectRule(System.Collections.Generic.List{AssemblerLib.Rule},System.Collections.Generic.List{System.Int32},System.Collections.Generic.List{AssemblerLib.AssemblyObject},AssemblerLib.AssemblyObject@)
+  commentId: M:AssemblerLib.Assemblage.SelectRule(System.Collections.Generic.List{AssemblerLib.Rule},System.Collections.Generic.List{System.Int32},System.Collections.Generic.List{AssemblerLib.AssemblyObject},AssemblerLib.AssemblyObject@)
+  id: SelectRule(System.Collections.Generic.List{AssemblerLib.Rule},System.Collections.Generic.List{System.Int32},System.Collections.Generic.List{AssemblerLib.AssemblyObject},AssemblerLib.AssemblyObject@)
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: SelectRule(List<Rule>, List<Int32>, List<AssemblyObject>, out AssemblyObject)
+  nameWithType: Assemblage.SelectRule(List<Rule>, List<Int32>, List<AssemblyObject>, out AssemblyObject)
+  fullName: AssemblerLib.Assemblage.SelectRule(System.Collections.Generic.List<AssemblerLib.Rule>, System.Collections.Generic.List<System.Int32>, System.Collections.Generic.List<AssemblerLib.AssemblyObject>, out AssemblerLib.AssemblyObject)
+  type: Method
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: SelectRule
+    path: Assemblage.cs
+    startLine: 638
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nA virtual method for customizing rule selection criteria\n"
+  example: []
+  syntax:
+    content: public virtual Rule SelectRule(List<Rule> rRules, List<int> validRules, List<AssemblyObject> candidates, out AssemblyObject newObject)
+    parameters:
+    - id: rRules
+      type: System.Collections.Generic.List{AssemblerLib.Rule}
+      description: List of <xref href="AssemblerLib.Rule" data-throw-if-not-resolved="false"></xref>s admitted by the receiver
+    - id: validRules
+      type: System.Collections.Generic.List{System.Int32}
+      description: Indices of valid <xref href="AssemblerLib.Rule" data-throw-if-not-resolved="false"></xref>s (candidates that do not collide with existing assemblage and/or environment obstacles)
+    - id: candidates
+      type: System.Collections.Generic.List{AssemblerLib.AssemblyObject}
+      description: List of candidate <xref href="AssemblerLib.AssemblyObject" data-throw-if-not-resolved="false"></xref>s
+    - id: newObject
+      type: AssemblerLib.AssemblyObject
+      description: Selected new <xref href="AssemblerLib.AssemblyObject" data-throw-if-not-resolved="false"></xref> to add according to the selected Rule
+    return:
+      type: AssemblerLib.Rule
+      description: The selected Rule
+    content.vb: Public Overridable Function SelectRule(rRules As List(Of Rule), validRules As List(Of Integer), candidates As List(Of AssemblyObject), ByRef newObject As AssemblyObject) As Rule
+  overload: AssemblerLib.Assemblage.SelectRule*
+  nameWithType.vb: Assemblage.SelectRule(List(Of Rule), List(Of Int32), List(Of AssemblyObject), ByRef AssemblyObject)
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
+  fullName.vb: AssemblerLib.Assemblage.SelectRule(System.Collections.Generic.List(Of AssemblerLib.Rule), System.Collections.Generic.List(Of System.Int32), System.Collections.Generic.List(Of AssemblerLib.AssemblyObject), ByRef AssemblerLib.AssemblyObject)
+  name.vb: SelectRule(List(Of Rule), List(Of Int32), List(Of AssemblyObject), ByRef AssemblyObject)
+- uid: AssemblerLib.Assemblage.SelectRule(System.Int32,System.Collections.Generic.List{AssemblerLib.Rule},System.Collections.Generic.List{System.Int32},System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Int32,AssemblerLib.AssemblyObject@)
+  commentId: M:AssemblerLib.Assemblage.SelectRule(System.Int32,System.Collections.Generic.List{AssemblerLib.Rule},System.Collections.Generic.List{System.Int32},System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Int32,AssemblerLib.AssemblyObject@)
+  id: SelectRule(System.Int32,System.Collections.Generic.List{AssemblerLib.Rule},System.Collections.Generic.List{System.Int32},System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Int32,AssemblerLib.AssemblyObject@)
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: SelectRule(Int32, List<Rule>, List<Int32>, List<AssemblyObject>, Int32, out AssemblyObject)
+  nameWithType: Assemblage.SelectRule(Int32, List<Rule>, List<Int32>, List<AssemblyObject>, Int32, out AssemblyObject)
+  fullName: AssemblerLib.Assemblage.SelectRule(System.Int32, System.Collections.Generic.List<AssemblerLib.Rule>, System.Collections.Generic.List<System.Int32>, System.Collections.Generic.List<AssemblerLib.AssemblyObject>, System.Int32, out AssemblerLib.AssemblyObject)
+  type: Method
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: SelectRule
+    path: Assemblage.cs
+    startLine: 660
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nRule selection according to 3 possible criteria: random, scalar field search, vector field search\n"
+  example: []
+  syntax:
+    content: public virtual Rule SelectRule(int receiverIndex, List<Rule> receiverRules, List<int> validRules, List<AssemblyObject> candidates, int mode, out AssemblyObject newObject)
+    parameters:
+    - id: receiverIndex
+      type: System.Int32
+      description: Index of the receiver <xref href="AssemblerLib.AssemblyObject" data-throw-if-not-resolved="false"></xref>
+    - id: receiverRules
+      type: System.Collections.Generic.List{AssemblerLib.Rule}
+      description: List of <xref href="AssemblerLib.Rule" data-throw-if-not-resolved="false"></xref>s admitted by the receiver
+    - id: validRules
+      type: System.Collections.Generic.List{System.Int32}
+      description: Indices of valid <xref href="AssemblerLib.Rule" data-throw-if-not-resolved="false"></xref>s (candidates that do not collide with existing assemblage and/or environment obstacles)
+    - id: candidates
+      type: System.Collections.Generic.List{AssemblerLib.AssemblyObject}
+      description: List of candidates <xref href="AssemblerLib.AssemblyObject" data-throw-if-not-resolved="false"></xref>s
+    - id: mode
+      type: System.Int32
+      description: integer for selection mode
+    - id: newObject
+      type: AssemblerLib.AssemblyObject
+      description: new AssemblyObject to add to the assemblage
+    return:
+      type: AssemblerLib.Rule
+      description: selected rule
+    content.vb: Public Overridable Function SelectRule(receiverIndex As Integer, receiverRules As List(Of Rule), validRules As List(Of Integer), candidates As List(Of AssemblyObject), mode As Integer, ByRef newObject As AssemblyObject) As Rule
+  overload: AssemblerLib.Assemblage.SelectRule*
+  nameWithType.vb: Assemblage.SelectRule(Int32, List(Of Rule), List(Of Int32), List(Of AssemblyObject), Int32, ByRef AssemblyObject)
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
+  fullName.vb: AssemblerLib.Assemblage.SelectRule(System.Int32, System.Collections.Generic.List(Of AssemblerLib.Rule), System.Collections.Generic.List(Of System.Int32), System.Collections.Generic.List(Of AssemblerLib.AssemblyObject), System.Int32, ByRef AssemblerLib.AssemblyObject)
+  name.vb: SelectRule(Int32, List(Of Rule), List(Of Int32), List(Of AssemblyObject), Int32, ByRef AssemblyObject)
+- uid: AssemblerLib.Assemblage.AddValidObject(AssemblerLib.AssemblyObject,AssemblerLib.Rule,System.Int32)
+  commentId: M:AssemblerLib.Assemblage.AddValidObject(AssemblerLib.AssemblyObject,AssemblerLib.Rule,System.Int32)
+  id: AddValidObject(AssemblerLib.AssemblyObject,AssemblerLib.Rule,System.Int32)
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: AddValidObject(AssemblyObject, Rule, Int32)
+  nameWithType: Assemblage.AddValidObject(AssemblyObject, Rule, Int32)
+  fullName: AssemblerLib.Assemblage.AddValidObject(AssemblerLib.AssemblyObject, AssemblerLib.Rule, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: AddValidObject
+    path: Assemblage.cs
+    startLine: 736
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nAdds a valid Object to the Assemblage, updating connectivity\n"
+  example: []
+  syntax:
+    content: public virtual void AddValidObject(AssemblyObject newObject, Rule rule, int rInd)
+    parameters:
+    - id: newObject
+      type: AssemblerLib.AssemblyObject
+      description: ''
+    - id: rule
+      type: AssemblerLib.Rule
+      description: ''
+    - id: rInd
+      type: System.Int32
+      description: ''
+    content.vb: Public Overridable Sub AddValidObject(newObject As AssemblyObject, rule As Rule, rInd As Integer)
+  overload: AssemblerLib.Assemblage.AddValidObject*
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
+- uid: AssemblerLib.Assemblage.WeightedRandomChoiceIndex(System.Collections.Generic.List{System.Int32})
+  commentId: M:AssemblerLib.Assemblage.WeightedRandomChoiceIndex(System.Collections.Generic.List{System.Int32})
+  id: WeightedRandomChoiceIndex(System.Collections.Generic.List{System.Int32})
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: WeightedRandomChoiceIndex(List<Int32>)
+  nameWithType: Assemblage.WeightedRandomChoiceIndex(List<Int32>)
+  fullName: AssemblerLib.Assemblage.WeightedRandomChoiceIndex(System.Collections.Generic.List<System.Int32>)
+  type: Method
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: WeightedRandomChoiceIndex
+    path: Assemblage.cs
+    startLine: 768
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nPerforms a Weighted Random Choice given a List of weights\n"
+  example: []
+  syntax:
+    content: public int WeightedRandomChoiceIndex(List<int> weights)
+    parameters:
+    - id: weights
+      type: System.Collections.Generic.List{System.Int32}
+      description: ''
+    return:
+      type: System.Int32
+      description: index of the selected weight
+    content.vb: Public Function WeightedRandomChoiceIndex(weights As List(Of Integer)) As Integer
+  overload: AssemblerLib.Assemblage.WeightedRandomChoiceIndex*
+  nameWithType.vb: Assemblage.WeightedRandomChoiceIndex(List(Of Int32))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: AssemblerLib.Assemblage.WeightedRandomChoiceIndex(System.Collections.Generic.List(Of System.Int32))
+  name.vb: WeightedRandomChoiceIndex(List(Of Int32))
+- uid: AssemblerLib.Assemblage.WeightedRandomChoice``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{System.Int32})
+  commentId: M:AssemblerLib.Assemblage.WeightedRandomChoice``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{System.Int32})
+  id: WeightedRandomChoice``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{System.Int32})
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: WeightedRandomChoice<T>(List<T>, List<Int32>)
+  nameWithType: Assemblage.WeightedRandomChoice<T>(List<T>, List<Int32>)
+  fullName: AssemblerLib.Assemblage.WeightedRandomChoice<T>(System.Collections.Generic.List<T>, System.Collections.Generic.List<System.Int32>)
+  type: Method
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: WeightedRandomChoice
+    path: Assemblage.cs
+    startLine: 794
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nPerforms a Weighted Random Choice on a List of data and corresponding weights\n"
+  example: []
+  syntax:
+    content: public T WeightedRandomChoice<T>(List<T> values, List<int> weights)
+    parameters:
+    - id: values
+      type: System.Collections.Generic.List{{T}}
+      description: ''
+    - id: weights
+      type: System.Collections.Generic.List{System.Int32}
+      description: ''
+    typeParameters:
+    - id: T
+      description: ''
+    return:
+      type: '{T}'
+      description: the selected value
+    content.vb: Public Function WeightedRandomChoice(Of T)(values As List(Of T), weights As List(Of Integer)) As T
+  overload: AssemblerLib.Assemblage.WeightedRandomChoice*
+  nameWithType.vb: Assemblage.WeightedRandomChoice(Of T)(List(Of T), List(Of Int32))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: AssemblerLib.Assemblage.WeightedRandomChoice(Of T)(System.Collections.Generic.List(Of T), System.Collections.Generic.List(Of System.Int32))
+  name.vb: WeightedRandomChoice(Of T)(List(Of T), List(Of Int32))
+- uid: AssemblerLib.Assemblage.FieldScalarSearch(System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Double,System.Boolean)
+  commentId: M:AssemblerLib.Assemblage.FieldScalarSearch(System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Double,System.Boolean)
+  id: FieldScalarSearch(System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Double,System.Boolean)
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: FieldScalarSearch(List<AssemblyObject>, Double, Boolean)
+  nameWithType: Assemblage.FieldScalarSearch(List<AssemblyObject>, Double, Boolean)
+  fullName: AssemblerLib.Assemblage.FieldScalarSearch(System.Collections.Generic.List<AssemblerLib.AssemblyObject>, System.Double, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: FieldScalarSearch
+    path: Assemblage.cs
+    startLine: 918
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nSelect among candidates AssemblyObjects by Scalar Field criteria\n"
+  example: []
+  syntax:
+    content: public int FieldScalarSearch(List<AssemblyObject> candidates, double threshold, bool accurate)
+    parameters:
+    - id: candidates
+      type: System.Collections.Generic.List{AssemblerLib.AssemblyObject}
+      description: ''
+    - id: threshold
+      type: System.Double
+      description: ''
+    - id: accurate
+      type: System.Boolean
+    return:
+      type: System.Int32
+      description: ''
+    content.vb: Public Function FieldScalarSearch(candidates As List(Of AssemblyObject), threshold As Double, accurate As Boolean) As Integer
+  overload: AssemblerLib.Assemblage.FieldScalarSearch*
+  nameWithType.vb: Assemblage.FieldScalarSearch(List(Of AssemblyObject), Double, Boolean)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: AssemblerLib.Assemblage.FieldScalarSearch(System.Collections.Generic.List(Of AssemblerLib.AssemblyObject), System.Double, System.Boolean)
+  name.vb: FieldScalarSearch(List(Of AssemblyObject), Double, Boolean)
+- uid: AssemblerLib.Assemblage.FieldVectorSearch(System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Boolean,System.Boolean)
+  commentId: M:AssemblerLib.Assemblage.FieldVectorSearch(System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Boolean,System.Boolean)
+  id: FieldVectorSearch(System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Boolean,System.Boolean)
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: FieldVectorSearch(List<AssemblyObject>, Boolean, Boolean)
+  nameWithType: Assemblage.FieldVectorSearch(List<AssemblyObject>, Boolean, Boolean)
+  fullName: AssemblerLib.Assemblage.FieldVectorSearch(System.Collections.Generic.List<AssemblerLib.AssemblyObject>, System.Boolean, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: FieldVectorSearch
+    path: Assemblage.cs
+    startLine: 954
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nSelect among candidates AssemblyObjects by Vector Field criteria\n"
+  example: []
+  syntax:
+    content: public int FieldVectorSearch(List<AssemblyObject> candidates, bool bidirectional, bool accurate)
+    parameters:
+    - id: candidates
+      type: System.Collections.Generic.List{AssemblerLib.AssemblyObject}
+      description: ''
+    - id: bidirectional
+      type: System.Boolean
+      description: ''
+    - id: accurate
+      type: System.Boolean
+    return:
+      type: System.Int32
+      description: ''
+    content.vb: Public Function FieldVectorSearch(candidates As List(Of AssemblyObject), bidirectional As Boolean, accurate As Boolean) As Integer
+  overload: AssemblerLib.Assemblage.FieldVectorSearch*
+  nameWithType.vb: Assemblage.FieldVectorSearch(List(Of AssemblyObject), Boolean, Boolean)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: AssemblerLib.Assemblage.FieldVectorSearch(System.Collections.Generic.List(Of AssemblerLib.AssemblyObject), System.Boolean, System.Boolean)
+  name.vb: FieldVectorSearch(List(Of AssemblyObject), Boolean, Boolean)
+- uid: AssemblerLib.Assemblage.ResetExogenous(System.Collections.Generic.List{Rhino.Geometry.Mesh},AssemblerLib.Field,System.Double,Rhino.Geometry.Box)
+  commentId: M:AssemblerLib.Assemblage.ResetExogenous(System.Collections.Generic.List{Rhino.Geometry.Mesh},AssemblerLib.Field,System.Double,Rhino.Geometry.Box)
+  id: ResetExogenous(System.Collections.Generic.List{Rhino.Geometry.Mesh},AssemblerLib.Field,System.Double,Rhino.Geometry.Box)
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: ResetExogenous(List<Mesh>, Field, Double, Box)
+  nameWithType: Assemblage.ResetExogenous(List<Mesh>, Field, Double, Box)
+  fullName: AssemblerLib.Assemblage.ResetExogenous(System.Collections.Generic.List<Rhino.Geometry.Mesh>, AssemblerLib.Field, System.Double, Rhino.Geometry.Box)
+  type: Method
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: ResetExogenous
+    path: Assemblage.cs
+    startLine: 1026
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nResets Exogenous parameters\n"
+  example: []
+  syntax:
+    content: public void ResetExogenous(List<Mesh> environMentMeshes, Field field, double fieldThreshold, Box SandBox)
+    parameters:
+    - id: environMentMeshes
+      type: System.Collections.Generic.List{Rhino.Geometry.Mesh}
+      description: ''
+    - id: field
+      type: AssemblerLib.Field
+      description: ''
+    - id: fieldThreshold
+      type: System.Double
+      description: ''
+    - id: SandBox
+      type: Rhino.Geometry.Box
+      description: ''
+    content.vb: Public Sub ResetExogenous(environMentMeshes As List(Of Mesh), field As Field, fieldThreshold As Double, SandBox As Box)
+  overload: AssemblerLib.Assemblage.ResetExogenous*
+  nameWithType.vb: Assemblage.ResetExogenous(List(Of Mesh), Field, Double, Box)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: AssemblerLib.Assemblage.ResetExogenous(System.Collections.Generic.List(Of Rhino.Geometry.Mesh), AssemblerLib.Field, System.Double, Rhino.Geometry.Box)
+  name.vb: ResetExogenous(List(Of Mesh), Field, Double, Box)
+- uid: AssemblerLib.Assemblage.ResetAvailableObjects
+  commentId: M:AssemblerLib.Assemblage.ResetAvailableObjects
+  id: ResetAvailableObjects
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: ResetAvailableObjects()
+  nameWithType: Assemblage.ResetAvailableObjects()
+  fullName: AssemblerLib.Assemblage.ResetAvailableObjects()
+  type: Method
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: ResetAvailableObjects
+    path: Assemblage.cs
+    startLine: 1055
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nVerify list of available/unreachable objects according to current environment and heuristics\n"
+  example: []
+  syntax:
+    content: public void ResetAvailableObjects()
+    content.vb: Public Sub ResetAvailableObjects
+  overload: AssemblerLib.Assemblage.ResetAvailableObjects*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Assemblage.ExtractAvailableObjects
+  commentId: M:AssemblerLib.Assemblage.ExtractAvailableObjects
+  id: ExtractAvailableObjects
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: ExtractAvailableObjects()
+  nameWithType: Assemblage.ExtractAvailableObjects()
+  fullName: AssemblerLib.Assemblage.ExtractAvailableObjects()
+  type: Method
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: ExtractAvailableObjects
+    path: Assemblage.cs
+    startLine: 1148
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nExtract available objects indices\n"
+  example: []
+  syntax:
+    content: public GH_Integer[] ExtractAvailableObjects()
+    return:
+      type: Grasshopper.Kernel.Types.GH_Integer[]
+      description: An array of indices of available objects in the Assemblage
+    content.vb: Public Function ExtractAvailableObjects As GH_Integer()
+  overload: AssemblerLib.Assemblage.ExtractAvailableObjects*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Assemblage.ExtractUnreachableObjects
+  commentId: M:AssemblerLib.Assemblage.ExtractUnreachableObjects
+  id: ExtractUnreachableObjects
+  parent: AssemblerLib.Assemblage
+  langs:
+  - csharp
+  - vb
+  name: ExtractUnreachableObjects()
+  nameWithType: Assemblage.ExtractUnreachableObjects()
+  fullName: AssemblerLib.Assemblage.ExtractUnreachableObjects()
+  type: Method
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Assemblage.cs
+    id: ExtractUnreachableObjects
+    path: Assemblage.cs
+    startLine: 1167
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nExtract unreachable objects indices\n"
+  example: []
+  syntax:
+    content: public GH_Integer[] ExtractUnreachableObjects()
+    return:
+      type: Grasshopper.Kernel.Types.GH_Integer[]
+      description: An array of indices of unreachable objects in the Assemblage
+    content.vb: Public Function ExtractUnreachableObjects As GH_Integer()
+  overload: AssemblerLib.Assemblage.ExtractUnreachableObjects*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: AssemblerLib
+  commentId: N:AssemblerLib
+  name: AssemblerLib
+  nameWithType: AssemblerLib
+  fullName: AssemblerLib
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: AssemblerLib.AssemblyObject
+  commentId: T:AssemblerLib.AssemblyObject
+  parent: AssemblerLib
+  name: AssemblyObject
+  nameWithType: AssemblyObject
+  fullName: AssemblerLib.AssemblyObject
+- uid: System.Collections.Generic.List{AssemblerLib.AssemblyObject}
+  commentId: T:System.Collections.Generic.List{AssemblerLib.AssemblyObject}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<AssemblyObject>
+  nameWithType: List<AssemblyObject>
+  fullName: System.Collections.Generic.List<AssemblerLib.AssemblyObject>
+  nameWithType.vb: List(Of AssemblyObject)
+  fullName.vb: System.Collections.Generic.List(Of AssemblerLib.AssemblyObject)
+  name.vb: List(Of AssemblyObject)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: AssemblerLib.AssemblyObject
+    name: AssemblyObject
+    nameWithType: AssemblyObject
+    fullName: AssemblerLib.AssemblyObject
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: AssemblerLib.AssemblyObject
+    name: AssemblyObject
+    nameWithType: AssemblyObject
+    fullName: AssemblerLib.AssemblyObject
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: AssemblerLib.AssemblyObject[]
+  isExternal: true
+  name: AssemblyObject[]
+  nameWithType: AssemblyObject[]
+  fullName: AssemblerLib.AssemblyObject[]
+  nameWithType.vb: AssemblyObject()
+  fullName.vb: AssemblerLib.AssemblyObject()
+  name.vb: AssemblyObject()
+  spec.csharp:
+  - uid: AssemblerLib.AssemblyObject
+    name: AssemblyObject
+    nameWithType: AssemblyObject
+    fullName: AssemblerLib.AssemblyObject
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: AssemblerLib.AssemblyObject
+    name: AssemblyObject
+    nameWithType: AssemblyObject
+    fullName: AssemblerLib.AssemblyObject
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: System.Collections.Generic.Dictionary{System.String,System.Int32}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,System.Int32}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  name: Dictionary<String, Int32>
+  nameWithType: Dictionary<String, Int32>
+  fullName: System.Collections.Generic.Dictionary<System.String, System.Int32>
+  nameWithType.vb: Dictionary(Of String, Int32)
+  fullName.vb: System.Collections.Generic.Dictionary(Of System.String, System.Int32)
+  name.vb: Dictionary(Of String, Int32)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List{AssemblerLib.MeshEnvironment}
+  commentId: T:System.Collections.Generic.List{AssemblerLib.MeshEnvironment}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<MeshEnvironment>
+  nameWithType: List<MeshEnvironment>
+  fullName: System.Collections.Generic.List<AssemblerLib.MeshEnvironment>
+  nameWithType.vb: List(Of MeshEnvironment)
+  fullName.vb: System.Collections.Generic.List(Of AssemblerLib.MeshEnvironment)
+  name.vb: List(Of MeshEnvironment)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: AssemblerLib.MeshEnvironment
+    name: MeshEnvironment
+    nameWithType: MeshEnvironment
+    fullName: AssemblerLib.MeshEnvironment
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: AssemblerLib.MeshEnvironment
+    name: MeshEnvironment
+    nameWithType: MeshEnvironment
+    fullName: AssemblerLib.MeshEnvironment
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Rhino.Geometry.Box
+  commentId: T:Rhino.Geometry.Box
+  parent: Rhino.Geometry
+  isExternal: true
+  name: Box
+  nameWithType: Box
+  fullName: Rhino.Geometry.Box
+- uid: Rhino.Geometry
+  commentId: N:Rhino.Geometry
+  isExternal: true
+  name: Rhino.Geometry
+  nameWithType: Rhino.Geometry
+  fullName: Rhino.Geometry
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: Grasshopper.DataTree{AssemblerLib.Rule}
+  commentId: T:Grasshopper.DataTree{AssemblerLib.Rule}
+  parent: Grasshopper
+  definition: Grasshopper.DataTree`1
+  name: DataTree<Rule>
+  nameWithType: DataTree<Rule>
+  fullName: Grasshopper.DataTree<AssemblerLib.Rule>
+  nameWithType.vb: DataTree(Of Rule)
+  fullName.vb: Grasshopper.DataTree(Of AssemblerLib.Rule)
+  name.vb: DataTree(Of Rule)
+  spec.csharp:
+  - uid: Grasshopper.DataTree`1
+    name: DataTree
+    nameWithType: DataTree
+    fullName: Grasshopper.DataTree
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: AssemblerLib.Rule
+    name: Rule
+    nameWithType: Rule
+    fullName: AssemblerLib.Rule
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Grasshopper.DataTree`1
+    name: DataTree
+    nameWithType: DataTree
+    fullName: Grasshopper.DataTree
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: AssemblerLib.Rule
+    name: Rule
+    nameWithType: Rule
+    fullName: AssemblerLib.Rule
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Grasshopper.DataTree`1
+  commentId: T:Grasshopper.DataTree`1
+  isExternal: true
+  name: DataTree<T>
+  nameWithType: DataTree<T>
+  fullName: Grasshopper.DataTree<T>
+  nameWithType.vb: DataTree(Of T)
+  fullName.vb: Grasshopper.DataTree(Of T)
+  name.vb: DataTree(Of T)
+  spec.csharp:
+  - uid: Grasshopper.DataTree`1
+    name: DataTree
+    nameWithType: DataTree
+    fullName: Grasshopper.DataTree
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Grasshopper.DataTree`1
+    name: DataTree
+    nameWithType: DataTree
+    fullName: Grasshopper.DataTree
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Grasshopper
+  commentId: N:Grasshopper
+  isExternal: true
+  name: Grasshopper
+  nameWithType: Grasshopper
+  fullName: Grasshopper
+- uid: System.Collections.Generic.List{System.String}
+  commentId: T:System.Collections.Generic.List{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<String>
+  nameWithType: List<String>
+  fullName: System.Collections.Generic.List<System.String>
+  nameWithType.vb: List(Of String)
+  fullName.vb: System.Collections.Generic.List(Of System.String)
+  name.vb: List(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List{System.Int32}
+  commentId: T:System.Collections.Generic.List{System.Int32}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<Int32>
+  nameWithType: List<Int32>
+  fullName: System.Collections.Generic.List<System.Int32>
+  nameWithType.vb: List(Of Int32)
+  fullName.vb: System.Collections.Generic.List(Of System.Int32)
+  name.vb: List(Of Int32)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: AssemblerLib.Assemblage.#ctor*
+  commentId: Overload:AssemblerLib.Assemblage.#ctor
+  name: Assemblage
+  nameWithType: Assemblage.Assemblage
+  fullName: AssemblerLib.Assemblage.Assemblage
+- uid: AssemblerLib.Field
+  commentId: T:AssemblerLib.Field
+  parent: AssemblerLib
+  name: Field
+  nameWithType: Field
+  fullName: AssemblerLib.Field
+- uid: Rhino.Geometry.Plane
+  commentId: T:Rhino.Geometry.Plane
+  parent: Rhino.Geometry
+  isExternal: true
+  name: Plane
+  nameWithType: Plane
+  fullName: Rhino.Geometry.Plane
+- uid: System.Collections.Generic.List{Rhino.Geometry.Mesh}
+  commentId: T:System.Collections.Generic.List{Rhino.Geometry.Mesh}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<Mesh>
+  nameWithType: List<Mesh>
+  fullName: System.Collections.Generic.List<Rhino.Geometry.Mesh>
+  nameWithType.vb: List(Of Mesh)
+  fullName.vb: System.Collections.Generic.List(Of Rhino.Geometry.Mesh)
+  name.vb: List(Of Mesh)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: Rhino.Geometry.Mesh
+    name: Mesh
+    nameWithType: Mesh
+    fullName: Rhino.Geometry.Mesh
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: Rhino.Geometry.Mesh
+    name: Mesh
+    nameWithType: Mesh
+    fullName: Rhino.Geometry.Mesh
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: AssemblerLib.Assemblage.SetSandbox*
+  commentId: Overload:AssemblerLib.Assemblage.SetSandbox
+  name: SetSandbox
+  nameWithType: Assemblage.SetSandbox
+  fullName: AssemblerLib.Assemblage.SetSandbox
+- uid: AssemblerLib.Assemblage.SetEnvCheckMethod*
+  commentId: Overload:AssemblerLib.Assemblage.SetEnvCheckMethod
+  name: SetEnvCheckMethod
+  nameWithType: Assemblage.SetEnvCheckMethod
+  fullName: AssemblerLib.Assemblage.SetEnvCheckMethod
+- uid: AssemblerLib.Assemblage.Update*
+  commentId: Overload:AssemblerLib.Assemblage.Update
+  name: Update
+  nameWithType: Assemblage.Update
+  fullName: AssemblerLib.Assemblage.Update
+- uid: AssemblerLib.Assemblage.SelectReceiver*
+  commentId: Overload:AssemblerLib.Assemblage.SelectReceiver
+  name: SelectReceiver
+  nameWithType: Assemblage.SelectReceiver
+  fullName: AssemblerLib.Assemblage.SelectReceiver
+- uid: AssemblerLib.Rule
+  commentId: T:AssemblerLib.Rule
+  parent: AssemblerLib
+  name: Rule
+  nameWithType: Rule
+  fullName: AssemblerLib.Rule
+- uid: AssemblerLib.Assemblage.RetrieveCandidates*
+  commentId: Overload:AssemblerLib.Assemblage.RetrieveCandidates
+  name: RetrieveCandidates
+  nameWithType: Assemblage.RetrieveCandidates
+  fullName: AssemblerLib.Assemblage.RetrieveCandidates
+- uid: System.Collections.Generic.List{AssemblerLib.Rule}
+  commentId: T:System.Collections.Generic.List{AssemblerLib.Rule}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<Rule>
+  nameWithType: List<Rule>
+  fullName: System.Collections.Generic.List<AssemblerLib.Rule>
+  nameWithType.vb: List(Of Rule)
+  fullName.vb: System.Collections.Generic.List(Of AssemblerLib.Rule)
+  name.vb: List(Of Rule)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: AssemblerLib.Rule
+    name: Rule
+    nameWithType: Rule
+    fullName: AssemblerLib.Rule
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: AssemblerLib.Rule
+    name: Rule
+    nameWithType: Rule
+    fullName: AssemblerLib.Rule
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: AssemblerLib.Assemblage.SelectRule*
+  commentId: Overload:AssemblerLib.Assemblage.SelectRule
+  name: SelectRule
+  nameWithType: Assemblage.SelectRule
+  fullName: AssemblerLib.Assemblage.SelectRule
+- uid: AssemblerLib.Assemblage.AddValidObject*
+  commentId: Overload:AssemblerLib.Assemblage.AddValidObject
+  name: AddValidObject
+  nameWithType: Assemblage.AddValidObject
+  fullName: AssemblerLib.Assemblage.AddValidObject
+- uid: AssemblerLib.Assemblage.WeightedRandomChoiceIndex*
+  commentId: Overload:AssemblerLib.Assemblage.WeightedRandomChoiceIndex
+  name: WeightedRandomChoiceIndex
+  nameWithType: Assemblage.WeightedRandomChoiceIndex
+  fullName: AssemblerLib.Assemblage.WeightedRandomChoiceIndex
+- uid: AssemblerLib.Assemblage.WeightedRandomChoice*
+  commentId: Overload:AssemblerLib.Assemblage.WeightedRandomChoice
+  name: WeightedRandomChoice
+  nameWithType: Assemblage.WeightedRandomChoice
+  fullName: AssemblerLib.Assemblage.WeightedRandomChoice
+- uid: System.Collections.Generic.List{{T}}
+  commentId: T:System.Collections.Generic.List{``0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  commentId: '!:T'
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: AssemblerLib.Assemblage.FieldScalarSearch*
+  commentId: Overload:AssemblerLib.Assemblage.FieldScalarSearch
+  name: FieldScalarSearch
+  nameWithType: Assemblage.FieldScalarSearch
+  fullName: AssemblerLib.Assemblage.FieldScalarSearch
+- uid: AssemblerLib.Assemblage.FieldVectorSearch*
+  commentId: Overload:AssemblerLib.Assemblage.FieldVectorSearch
+  name: FieldVectorSearch
+  nameWithType: Assemblage.FieldVectorSearch
+  fullName: AssemblerLib.Assemblage.FieldVectorSearch
+- uid: AssemblerLib.Assemblage.ResetExogenous*
+  commentId: Overload:AssemblerLib.Assemblage.ResetExogenous
+  name: ResetExogenous
+  nameWithType: Assemblage.ResetExogenous
+  fullName: AssemblerLib.Assemblage.ResetExogenous
+- uid: AssemblerLib.Assemblage.ResetAvailableObjects*
+  commentId: Overload:AssemblerLib.Assemblage.ResetAvailableObjects
+  name: ResetAvailableObjects
+  nameWithType: Assemblage.ResetAvailableObjects
+  fullName: AssemblerLib.Assemblage.ResetAvailableObjects
+- uid: AssemblerLib.Assemblage.ExtractAvailableObjects*
+  commentId: Overload:AssemblerLib.Assemblage.ExtractAvailableObjects
+  name: ExtractAvailableObjects
+  nameWithType: Assemblage.ExtractAvailableObjects
+  fullName: AssemblerLib.Assemblage.ExtractAvailableObjects
+- uid: Grasshopper.Kernel.Types.GH_Integer[]
+  isExternal: true
+  name: GH_Integer[]
+  nameWithType: GH_Integer[]
+  fullName: Grasshopper.Kernel.Types.GH_Integer[]
+  nameWithType.vb: GH_Integer()
+  fullName.vb: Grasshopper.Kernel.Types.GH_Integer()
+  name.vb: GH_Integer()
+  spec.csharp:
+  - uid: Grasshopper.Kernel.Types.GH_Integer
+    name: GH_Integer
+    nameWithType: GH_Integer
+    fullName: Grasshopper.Kernel.Types.GH_Integer
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: Grasshopper.Kernel.Types.GH_Integer
+    name: GH_Integer
+    nameWithType: GH_Integer
+    fullName: Grasshopper.Kernel.Types.GH_Integer
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: AssemblerLib.Assemblage.ExtractUnreachableObjects*
+  commentId: Overload:AssemblerLib.Assemblage.ExtractUnreachableObjects
+  name: ExtractUnreachableObjects
+  nameWithType: Assemblage.ExtractUnreachableObjects
+  fullName: AssemblerLib.Assemblage.ExtractUnreachableObjects

@@ -185,7 +185,7 @@ namespace AssemblerLib
             x = corners[0].DistanceTo(corners[1]);
             y = corners[0].DistanceTo(corners[3]);
             z = corners[0].DistanceTo(corners[4]);
-          
+
             double maxDim = Math.Max(Math.Max(x, y), z);
             double res = maxDim / n;
             int nX = Math.Max(1, (int)Math.Round(x / res));

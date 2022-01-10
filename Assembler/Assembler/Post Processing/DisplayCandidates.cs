@@ -33,7 +33,8 @@ namespace Assembler
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddMeshParameter("Candidate Objects", "cO", "CAndidate Object Meshes for last iteration", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Candidate Objects", "AO", "Candidate AssemblyObjects for last iteration", GH_ParamAccess.list);
+            //pManager.AddMeshParameter("Candidate Objects", "cO", "Candidate Object Meshes for last iteration", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -45,7 +46,8 @@ namespace Assembler
             Assemblage AOa = null;
             if (!DA.GetData(0, ref AOa)) return;
 
-            DA.SetDataList("Candidate Objects", AOa.candidateObjects.Select(a => a.collisionMesh));
+            DA.SetDataList("Candidate Objects", AOa.candidateObjects);
+            //DA.SetDataList("Candidate Objects", AOa.candidateObjects.Select(a => a.collisionMesh));
         }
 
         /// <summary>

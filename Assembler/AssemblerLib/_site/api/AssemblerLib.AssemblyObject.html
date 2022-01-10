@@ -201,7 +201,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public AssemblyObject(Mesh collisionMesh, Handle[] handles, Plane referencePlane, Vector3d direction, string name, int type, double weight, int iWeight, List&lt;Support&gt; supports, int minSupports, bool absoluteZLock)</code></pre>
+    <pre><code class="lang-csharp hljs">public AssemblyObject(Mesh collisionMesh, Handle[] handles, Plane referencePlane, Vector3d direction, string name, int type, double weight, int iWeight, List&lt;Support&gt; supports, int minSupports, bool worldZLock)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -275,7 +275,7 @@
       </tr>
       <tr>
         <td><span class="xref">System.Boolean</span></td>
-        <td><span class="parametername">absoluteZLock</span></td>
+        <td><span class="parametername">worldZLock</span></td>
         <td><p>lock orientation of Z axis to World Z axis</p>
 </td>
       </tr>
@@ -294,7 +294,7 @@ or Utilities.CloneWithConnectivity method</p>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonConstructor]
-public AssemblyObject(Mesh collisionMesh, Mesh offsetMesh, Handle[] handles, Plane referencePlane, Vector3d direction, int aInd, List&lt;int[]&gt; occludedNeighbours, double collisionRadius, string name, int type, double weight, int iWeight, List&lt;Support&gt; supports, int minSupports, bool supported, bool absoluteZLock, List&lt;AssemblyObject&gt; children, List&lt;int[]&gt; handleMap)</code></pre>
+public AssemblyObject(Mesh collisionMesh, Mesh offsetMesh, Handle[] handles, Plane referencePlane, Vector3d direction, int aInd, List&lt;int[]&gt; occludedNeighbours, double collisionRadius, string name, int type, double weight, int iWeight, List&lt;Support&gt; supports, int minSupports, bool supported, bool worldZLock, List&lt;AssemblyObject&gt; children, List&lt;int[]&gt; handleMap)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -383,7 +383,7 @@ public AssemblyObject(Mesh collisionMesh, Mesh offsetMesh, Handle[] handles, Pla
       </tr>
       <tr>
         <td><span class="xref">System.Boolean</span></td>
-        <td><span class="parametername">absoluteZLock</span></td>
+        <td><span class="parametername">worldZLock</span></td>
         <td></td>
       </tr>
       <tr>
@@ -463,31 +463,6 @@ public AssemblyObject(Mesh collisionMesh, Mesh offsetMesh, Handle[] handles, Pla
   </table>
   <h3 id="fields">Fields
   </h3>
-  
-  
-  <h4 id="AssemblerLib_AssemblyObject_absoluteZLock" data-uid="AssemblerLib.AssemblyObject.absoluteZLock">absoluteZLock</h4>
-  <div class="markdown level1 summary"><p>True to force the object&apos;s reference plane Z axys parallel to the World&apos;s Z axis</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool absoluteZLock</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
   
   
   <h4 id="AssemblerLib_AssemblyObject_children" data-uid="AssemblerLib.AssemblyObject.children">children</h4>
@@ -859,6 +834,31 @@ public AssemblyObject(Mesh collisionMesh, Mesh offsetMesh, Handle[] handles, Pla
     <tbody>
       <tr>
         <td><span class="xref">System.Double</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="AssemblerLib_AssemblyObject_worldZLock" data-uid="AssemblerLib.AssemblyObject.worldZLock">worldZLock</h4>
+  <div class="markdown level1 summary"><p>True to force the object&apos;s reference plane Z axys parallel to the World&apos;s Z axis</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool worldZLock</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
         <td></td>
       </tr>
     </tbody>

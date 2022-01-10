@@ -81,7 +81,7 @@ namespace AssemblerLib
         /// <summary>
         /// True to force the object's reference plane Z axys parallel to the World's Z axis
         /// </summary>
-        public bool absoluteZLock;
+        public bool worldZLock;
 
         /// <summary>
         /// internal map of handles for composite object
@@ -125,13 +125,13 @@ namespace AssemblerLib
         /// <param name="supports"></param>
         /// <param name="minSupports"></param>
         /// <param name="supported"></param>
-        /// <param name="absoluteZLock"></param>
+        /// <param name="worldZLock"></param>
         /// <param name="children"></param>
         /// <param name="handleMap"></param>
         [JsonConstructor]
         public AssemblyObject(Mesh collisionMesh, Mesh offsetMesh, Handle[] handles, Plane referencePlane, Vector3d direction, int aInd, List<int[]> occludedNeighbours,
             double collisionRadius, string name, int type, double weight, int iWeight, List<Support> supports, int minSupports,
-            bool supported, bool absoluteZLock, List<AssemblyObject> children, List<int[]> handleMap)
+            bool supported, bool worldZLock, List<AssemblyObject> children, List<int[]> handleMap)
         {
             this.collisionMesh = collisionMesh;
             this.offsetMesh = offsetMesh;
@@ -148,7 +148,7 @@ namespace AssemblerLib
             this.supports = supports;
             this.minSupports = minSupports;
             this.supported = supported;
-            this.absoluteZLock = absoluteZLock;
+            this.worldZLock = worldZLock;
             this.children = children;
             this.handleMap = handleMap;
         }
@@ -166,9 +166,9 @@ namespace AssemblerLib
         /// <param name="iWeight">integer Weight for Weighted Random choice</param>
         /// <param name="supports">list of supports</param>
         /// <param name="minSupports">minimum n. of supports required</param>
-        /// <param name="absoluteZLock">lock orientation of Z axis to World Z axis</param>
+        /// <param name="worldZLock">lock orientation of Z axis to World Z axis</param>
         public AssemblyObject(Mesh collisionMesh, Handle[] handles, Plane referencePlane, Vector3d direction, string name, int type, double weight, int iWeight,
-            List<Support> supports, int minSupports, bool absoluteZLock)
+            List<Support> supports, int minSupports, bool worldZLock)
         {
             // collision Mesh operations
             this.collisionMesh = new Mesh();
@@ -202,7 +202,7 @@ namespace AssemblerLib
             supported = false;
 
             // Z Lock
-            this.absoluteZLock = absoluteZLock;
+            this.worldZLock = worldZLock;
 
             // children and handlemap initialization
             children = new List<AssemblyObject>();

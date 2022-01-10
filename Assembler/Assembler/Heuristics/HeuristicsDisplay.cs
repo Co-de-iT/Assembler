@@ -398,7 +398,7 @@ namespace Assembler
                 // check for Z orientation lock
                 // if sender is NOT oriented as World Z rule is considered Z-Lock incompatible (but not invalid)
                 bool zLockChecked = true;
-                if (filterkWZLock && senderAO.absoluteZLock)
+                if (filterkWZLock && senderAO.worldZLock)
                     zLockChecked = Utilities.AbsoluteZCheck(senderAO);
 
                 zLockPattern.Add(zLockChecked, new GH_Path(i));

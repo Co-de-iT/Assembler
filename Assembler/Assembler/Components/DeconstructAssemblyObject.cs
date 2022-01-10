@@ -79,7 +79,7 @@ namespace Assembler
             DA.SetDataList("Handles", AO.handles);
             if (AO.children != null)
                 DA.SetDataList("Children", AO.children.Select(ao => new AssemblyObjectGoo(ao)).ToList());
-            DA.SetData("Z Lock", AO.absoluteZLock);
+            DA.SetData("Z Lock", AO.worldZLock);
         }
 
         DataTree<GH_Integer> OccludedAOs(AssemblyObject AO)

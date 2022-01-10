@@ -56,6 +56,7 @@ namespace AssemblerLib
 
         #region Assemblage Utilities
 
+        #region Collision Utilities
         /// <summary>
         /// Collision Check in the assemblage for a given <see cref="Assemblage"/> and <see cref="AssemblyObject"/>
         /// </summary>
@@ -69,7 +70,7 @@ namespace AssemblerLib
 
             // find neighbours in Assemblage 
             List<int> neighList = new List<int>();
-            // collision radius is a field of AssemblyObjects
+            // collision radius is a field of the AssemblyObject itself
             AOa.centroidsTree.Search(new Sphere(sO.referencePlane.Origin, sO.collisionRadius), (object sender, RTreeEventArgs e) =>
             {
                 // recover the AssemblyObject index related to the found centroid
@@ -77,12 +78,16 @@ namespace AssemblerLib
             });
 
             // check for no neighbours
-            if (neighList.Count == 0)
-                return false;
+            if (neighList.Count == 0) return false;
 
             // check for collisions + inclusion (sender in receiver, receiver in sender)
             foreach (int index in neighList)
             {
+                // check Bounding Box intersection first - if no intersection continue to the next
+                if (!BoundingBoxIntersect(sO.collisionMesh.GetBoundingBox(false),
+                    AOa.assemblyObjects[index].collisionMesh.GetBoundingBox(false)))
+                    continue;
+                // check Mesh intersection
                 if (Intersection.MeshMeshFast(sO.offsetMesh, AOa.assemblyObjects[index].collisionMesh).Length > 0)
                     return true;
                 // check if sender object is inside neighbour
@@ -96,9 +101,10 @@ namespace AssemblerLib
             }
             return false;
         }
-        
+
         /// <summary>
         /// Collision Check in the assemblage for a given <see cref="Assemblage"/> and <see cref="AssemblyObject"/> - Parallel version
+        /// Works but PAINFULLY SLOW
         /// </summary>
         /// <param name="AOa">The <see cref="Assemblage"/> to check</param>
         /// <param name="sO">The sender <see cref="AssemblyObject"/></param>
@@ -125,7 +131,7 @@ namespace AssemblerLib
             // check for collisions + inclusion (sender in receiver, receiver in sender)
             // see https://docs.microsoft.com/en-us/dotnet/standard/parallel-programming/how-to-write-a-parallel-foreach-loop-with-partition-local-variables
             // works but it's PAINFULLY slow
-            Parallel.ForEach<int, bool>(neighList, ()=>false, (index,loop,result) =>
+            Parallel.ForEach<int, bool>(neighList, () => false, (index, loop, result) =>
             //foreach (int index in neighList)
             {
                 if (result) return true;
@@ -202,6 +208,16 @@ namespace AssemblerLib
             return false;
         }
 
+        private static bool BoundingBoxIntersect(BoundingBox a, BoundingBox b)
+        {
+            return (a.Min.X <= b.Max.X && a.Max.X >= b.Min.X &&
+                a.Min.Y <= b.Max.Y && a.Max.Y >= b.Min.Y &&
+                a.Min.Z <= b.Max.Z && a.Max.Z >= b.Min.Z);
+        }
+
+        #endregion Collision Utilities
+
+        #region Obstruction Utilities
         /// <summary>
         /// Check obstruction status for an <see cref="AssemblyObject"/> in the <see cref="Assemblage"/>
         /// </summary>
@@ -407,45 +423,55 @@ namespace AssemblerLib
             return obstruct;
         }
 
-        public static bool AbsoluteZCheck(AssemblyObject AO)
+        #endregion Obstruction Utilities
+
+        public static Assemblage Clone(Assemblage ass)
         {
-            return AO.referencePlane.ZAxis * Vector3d.ZAxis == 1;
+            Assemblage cAss = new Assemblage();
+            // clone AssemblyObjects
+            cAss.assemblyObjects = new List<AssemblyObject>();
+            for (int i = 0; i < ass.assemblyObjects.Count; i++)
+                cAss.assemblyObjects.Add(CloneWithConnectivity(ass.assemblyObjects[i]));
+            // clone AOSet
+            cAss.AOset = new AssemblyObject[ass.AOset.Length];
+            for (int i = 0; i < ass.AOset.Length; i++)
+                cAss.AOset[i] = Clone(ass.AOset[i]);
+            // clone dictionary
+            cAss.objectsDictionary = new Dictionary<string, int>(ass.objectsDictionary);
+            // clone environment meshes
+            cAss.environmentMeshes = new List<MeshEnvironment>();
+            for (int i = 0; i < ass.environmentMeshes.Count; i++)
+                cAss.environmentMeshes.Add(new MeshEnvironment(ass.environmentMeshes[i]));
+            // clone Sandbox
+            cAss.E_sandbox = ass.E_sandbox;
+            // duplicate others
+            cAss.currentHeuristics = ass.currentHeuristics;
+            cAss.heuristicsTree = ass.heuristicsTree;
+            // candidateObjects doesn't need duplication
+            cAss.assemblageRules = ass.assemblageRules;
+            cAss.receiverIndexes = ass.receiverIndexes;
+            cAss.fieldThreshold = ass.fieldThreshold;
+            cAss.selectReceiverMode = ass.selectReceiverMode;
+            cAss.selectRuleMode = ass.selectRuleMode;
+            cAss.heuristicsMode = ass.heuristicsMode;
+            cAss.checkWorldZLock = ass.checkWorldZLock;
+            cAss.centroidsAO = ass.centroidsAO;
+            cAss.centroidsTree = ass.centroidsTree;
+            cAss.availableObjects = ass.availableObjects;
+            cAss.unreachableObjects = ass.unreachableObjects;
+            cAss.field = new Field(ass.field);
+            return cAss;
         }
 
-        private static bool RuleExist(Assemblage AOa, int sO, int rO, int sH, int rH)
-        {
-            if (AOa.heuristicsTree.PathExists(AOa.currentHeuristics, AOa.assemblyObjects[rO].type))
-            // search for rInd rule
-            {
-                // scan rO rules
-                foreach (Rule r in AOa.heuristicsTree.Branch(AOa.currentHeuristics, AOa.assemblyObjects[rO].type))
-                {
-                    if (r.sT != AOa.assemblyObjects[sO].type) continue;
-                    else if (r.sH == sH && r.rH == rH) return true;
-                }
-            }
-            else if (AOa.heuristicsTree.PathExists(AOa.currentHeuristics, AOa.assemblyObjects[sO].type))
-            // search for sInd rule
-            {
-                // scan sO rules
-                foreach (Rule r in AOa.heuristicsTree.Branch(AOa.currentHeuristics, AOa.assemblyObjects[sO].type))
-                {
-                    if (r.sT != AOa.assemblyObjects[rO].type) continue;
-                    else if (r.sH == rH && r.rH == sH) return true;
-                }
-
-            }
-            return false; // there is no corresponding rule
-        }
-
-        #endregion
+        #endregion Assemblage Utilities
 
         #region Object Utilities
 
         /// <summary>
         /// Builds the dictionary of AssemblyObjects
         /// </summary>
-        /// <param name="AOset">the array of unique AssemblyObjects constituting the set</param>
+        /// <param name="AOset">the array of unique <see cref="AssemblyObject"/>s constituting the set</param>
+        /// <param name="forceOrder">forces the <see cref="AssemblyObject"/>s types to follow the array order</param>
         /// <returns></returns>
         public static Dictionary<string, int> BuildDictionary(AssemblyObject[] AOset, bool forceOrder)
         {
@@ -516,7 +542,7 @@ namespace AssemblerLib
 
             // clone AssemblyObject
             AssemblyObject AOclone = new AssemblyObject(collisionMesh, offsetMesh, handles, AO.referencePlane, AO.direction, AO.AInd, occludedNeighbours, AO.collisionRadius,
-                AO.name, AO.type, AO.weight, AO.iWeight, supports, AO.minSupports, AO.supported, AO.absoluteZLock, children, handleMap);
+                AO.name, AO.type, AO.weight, AO.iWeight, supports, AO.minSupports, AO.supported, AO.worldZLock, children, handleMap);
 
             return AOclone;
         }
@@ -552,11 +578,19 @@ namespace AssemblerLib
             AO.collisionRadius = AO.collisionMesh.GetBoundingBox(false).Diagonal.Length * 2.5;
         }
 
+        /// <summary>
+        /// Performs a check for World Z-Axis orientation of the AssemblyObject
+        /// </summary>
+        /// <param name="AO">the <see cref="AssemblyObject"/> to check</param>
+        /// <returns>true if the Z axis of the object Reference Plane is oriented along the World Z</returns>
+        public static bool AbsoluteZCheck(AssemblyObject AO)
+        {
+            return AO.referencePlane.ZAxis * Vector3d.ZAxis == 1;
+        }
 
+        #endregion Object Utilities
 
-        #endregion
-
-        #region Supports utilities
+        #region Supports Utilities
 
         /// <summary>
         /// Add Supports to the AssemblyObject - returns true if successful
@@ -608,7 +642,7 @@ namespace AssemblerLib
             List<int> cSupports = new List<int>();
 
             for (int i = 0; i < AO.supports.Count; i++)
-                if (AO.supports[i].connected || SupportIntersect(AO.supports[i],neighbours))
+                if (AO.supports[i].connected || SupportIntersect(AO.supports[i], neighbours))
                 {
                     sCount++;
                     cSupports.Add(i);
@@ -666,21 +700,26 @@ namespace AssemblerLib
         {
             int[] faceIds;
             Point3d[] intPts;
-            Vector3d dir = s.line.Direction;
-            dir.Unitize();
-            double minD;
+            //Vector3d dir = s.line.Direction;
+            //dir.Unitize();
+            //double minD;
             foreach (AssemblyObject AO in neighbours)
             {
                 intPts = Intersection.MeshLine(AO.collisionMesh, s.line, out faceIds);
                 // if intersections are found resize support line to intersection point and return true
                 if (intPts.Length > 0)
                 {
-                    minD = double.MaxValue;
-                    for (int i = 0; i < intPts.Length; i++)
-                        minD = Math.Min(minD, s.line.From.DistanceToSquared(intPts[i]));
-                    dir *= minD;
-                    s.line = new Line(s.line.From, s.line.From + dir);
+                    // move to Rhino 7 package since it has MeshLineSorted intersection
+                    // consider the point at index 0 for the time being - correct if something's wrong
+
+                    //minD = double.MaxValue;
+                    //for (int i = 0; i < intPts.Length; i++)
+                    //    minD = Math.Min(minD, s.line.From.DistanceToSquared(intPts[i]));
+                    //dir *= minD;
+                    //s.line = new Line(s.line.From, s.line.From + dir);
+                    s.line = new Line(s.line.From, intPts[0]);
                     s.neighbourObject = AO.AInd;
+                    s.connected = true;
                     return true;
                 }
             }
@@ -719,7 +758,7 @@ namespace AssemblerLib
 
             return false;
         }
-        
+
         /// <summary>
         /// Check intersection of a Support with a list of Meshes
         /// </summary>
@@ -754,9 +793,9 @@ namespace AssemblerLib
 
 
 
-        #endregion
+        #endregion Supports Utilities
 
-        #region Handle utilities
+        #region Handle Utilities
 
         /// <summary>
         /// Clones a Handle
@@ -806,7 +845,7 @@ namespace AssemblerLib
             return handleCloneConnect;
         }
 
-        #endregion
+        #endregion Handle Utilities
 
         #region Rule Utilities
         /// <summary>
@@ -825,35 +864,6 @@ namespace AssemblerLib
             for (int i = 0; i < heuristics.Count; i++)
                 heuristicsTree.Add(heuristics[i], new GH_Path(i));
 
-            //List<Rule> heuList = new List<Rule>();
-            //heuristicsTree = new DataTree<string>();
-
-            //string[] ruleStrings = heuristics.ToArray();
-
-            //int rT, rH, rR, sT, sH;
-            //double rRA;
-            //int iWeight;
-            //for (int i = 0; i < ruleStrings.Length; i++)
-            //{
-            //    string[] ruleString = ruleStrings[i].Split(new[] { '<', '%' });
-            //    string[] rec = ruleString[0].Split(new[] { '|' });
-            //    string[] sen = ruleString[1].Split(new[] { '|' });
-            //    // sender and receiver component types
-            //    sT = AOCatalog[sen[0]];
-            //    rT = AOCatalog[rec[0]];
-            //    // sender handle index
-            //    sH = Convert.ToInt32(sen[1]);
-            //    // iWeight
-            //    iWeight = Convert.ToInt32(ruleString[2]);
-            //    string[] rRot = rec[1].Split(new[] { '=' });
-            //    // receiver handle index and rotation
-            //    rH = Convert.ToInt32(rRot[0]);
-            //    rRA = Convert.ToDouble(rRot[1]);
-            //    rR = AOset[rT].handles[rH].rDictionary[rRA]; // using rotations
-
-            //    heuList.Add(new Rule(rec[0], rT, rH, rR, rRA, sen[0], sT, sH, iWeight));
-            //    heuristicsTree.Add(ruleStrings[i], new GH_Path(i));
-            //}
             return heuList;
         }
 
@@ -896,7 +906,33 @@ namespace AssemblerLib
             return heuT;
         }
 
-        #endregion
+        //private static bool RuleExist(Assemblage AOa, int sO, int rO, int sH, int rH)
+        //{
+        //    if (AOa.heuristicsTree.PathExists(AOa.currentHeuristics, AOa.assemblyObjects[rO].type))
+        //    // search for rInd rule
+        //    {
+        //        // scan rO rules
+        //        foreach (Rule r in AOa.heuristicsTree.Branch(AOa.currentHeuristics, AOa.assemblyObjects[rO].type))
+        //        {
+        //            if (r.sT != AOa.assemblyObjects[sO].type) continue;
+        //            else if (r.sH == sH && r.rH == rH) return true;
+        //        }
+        //    }
+        //    else if (AOa.heuristicsTree.PathExists(AOa.currentHeuristics, AOa.assemblyObjects[sO].type))
+        //    // search for sInd rule
+        //    {
+        //        // scan sO rules
+        //        foreach (Rule r in AOa.heuristicsTree.Branch(AOa.currentHeuristics, AOa.assemblyObjects[sO].type))
+        //        {
+        //            if (r.sT != AOa.assemblyObjects[rO].type) continue;
+        //            else if (r.sH == rH && r.rH == sH) return true;
+        //        }
+
+        //    }
+        //    return false; // there is no corresponding rule
+        //}
+
+        #endregion Rule Utilities
 
         #region File Utilities
 
@@ -1091,7 +1127,7 @@ namespace AssemblerLib
             return assemblage.ToList();
         }
 
-        #endregion
+        #endregion File Utilities
 
         #region Mesh Utilities
 
@@ -1251,7 +1287,47 @@ namespace AssemblerLib
             return lines.ToArray();
         }
 
-        #endregion
+        /// <summary>
+        /// Trinagulate a Mesh splitting quad faces along the shortest diagonal
+        /// </summary>
+        /// <param name="inputMesh"></param>
+        /// <returns>a Mesh with triangular faces only</returns>
+        public static Mesh Triangulate(Mesh inputMesh)
+        { 
+            Mesh triMesh = new Mesh();
+            int facecount = inputMesh.Faces.Count;
+            for (int i = 0; i < facecount; i++)
+            {
+                var mf = inputMesh.Faces[i];
+                if (mf.IsQuad)
+                {
+                    double dist1 = inputMesh.Vertices[mf.A].DistanceTo(inputMesh.Vertices[mf.C]);
+                    double dist2 = inputMesh.Vertices[mf.B].DistanceTo(inputMesh.Vertices[mf.D]);
+                    if (dist1 > dist2)
+                    {
+                        triMesh.Faces.AddFace(mf.A, mf.B, mf.D);
+                        triMesh.Faces.AddFace(mf.B, mf.C, mf.D);
+                    }
+                    else
+                    {
+                        triMesh.Faces.AddFace(mf.A, mf.B, mf.C);
+                        triMesh.Faces.AddFace(mf.A, mf.C, mf.D);
+                    }
+                }
+                else
+                {
+                    triMesh.Faces.AddFace(mf.A, mf.B, mf.C);
+                }
+            }
+
+            triMesh.Vertices.AddVertices(inputMesh.Vertices);
+            triMesh.Unweld(0, false);
+            triMesh.RebuildNormals();
+            triMesh.UnifyNormals();
+            return triMesh;
+        }
+
+        #endregion Mesh Utilities
 
         #region Vector Utilities
 
@@ -1322,7 +1398,7 @@ namespace AssemblerLib
 
             return result.ToArray();
         }
-        #endregion
+        #endregion Vector Utilities
 
         #region Color Utilities
 
@@ -1342,7 +1418,7 @@ namespace AssemblerLib
 
         }
 
-        #endregion
+        #endregion Color Utilities
 
         #region Math Utilities
 
@@ -1452,33 +1528,6 @@ namespace AssemblerLib
             return normVal;
         }
 
-        //public static double[][] NormalizeRanges(double[][] values)
-        //{
-
-        //    double vMin = values[0][0];
-        //    double vMax = vMin;
-        //    double tMin, tMax;
-        //    for (int i = 0; i < values.Length; i++)
-        //    {
-        //        tMin = values[i].Min();
-        //        tMax = values[i].Max();
-        //        if (tMin < vMin) vMin = tMin;
-        //        if (tMax > vMax) vMax = tMax;
-        //    }
-
-        //    if (vMin > 0 && vMax < 1) return values;
-
-        //    double den = 1 / (vMax - vMin);
-
-        //    double[][] normVal = new double[values.Length][];
-
-        //    for (int i = 0; i < values.Length; i++)
-        //        for (int j = 0; j < values[i].Length; j++)
-        //            normVal[i][j] = (values[i][j] - vMin) * den;
-
-        //    return normVal;
-        //}
-
         /// <summary>
         /// Normalizes a DataTree of real numbers
         /// </summary>
@@ -1495,28 +1544,7 @@ namespace AssemblerLib
             return normVal;
         }
 
-        //public static DataTree<double> NormalizeRanges(DataTree<double> values)
-        //{
-
-        //    double vMin, vMax;
-        //    double[] allValues = values.AllData().ToArray();
-        //    vMin = allValues.Min();
-        //    vMax = allValues.Max();
-
-        //    if (vMin > 0 && vMax < 1) return values;
-
-        //    double den = 1 / (vMax - vMin);
-
-        //    DataTree<double> normVal = new DataTree<double>();//[values.Length][];
-
-        //    for (int i = 0; i < values.BranchCount; i++)
-        //        for (int j = 0; j < values.Branches[i].Count; j++)
-        //            normVal.Add((values.Branches[i][j] - vMin) * den, values.Path(i));
-
-        //    return normVal;
-        //}
-
-        #endregion
+        #endregion Math Utilities
 
         #region Data Utilities
 
@@ -1621,7 +1649,7 @@ namespace AssemblerLib
             return true;
         }
 
-        #endregion
+        #endregion Data Utilities
 
         #region Diagnostic Utilities
 
@@ -1632,7 +1660,7 @@ namespace AssemblerLib
             return elapsedTime;
         }
 
-        #endregion
+        #endregion Diagnostic Utilities
 
     }
 }

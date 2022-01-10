@@ -13,6 +13,12 @@ references:
   commentId: T:AssemblerLib.Assemblage
   fullName: AssemblerLib.Assemblage
   nameWithType: Assemblage
+- uid: AssemblerLib.Assemblage.#ctor
+  name: Assemblage()
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage__ctor
+  commentId: M:AssemblerLib.Assemblage.#ctor
+  fullName: AssemblerLib.Assemblage.Assemblage()
+  nameWithType: Assemblage.Assemblage()
 - uid: AssemblerLib.Assemblage.#ctor(System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.List{AssemblerLib.AssemblyObject},AssemblerLib.Field,System.Double,System.Collections.Generic.List{System.String},Rhino.Geometry.Plane,System.Int32,System.Collections.Generic.List{Rhino.Geometry.Mesh},Rhino.Geometry.Box)
   name: Assemblage(List<AssemblyObject>, List<AssemblyObject>, Field, Double, List<String>, Plane, Int32, List<Mesh>, Box)
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage__ctor_System_Collections_Generic_List_AssemblerLib_AssemblyObject__System_Collections_Generic_List_AssemblerLib_AssemblyObject__AssemblerLib_Field_System_Double_System_Collections_Generic_List_System_String__Rhino_Geometry_Plane_System_Int32_System_Collections_Generic_List_Rhino_Geometry_Mesh__Rhino_Geometry_Box_
@@ -84,12 +90,6 @@ references:
   commentId: F:AssemblerLib.Assemblage.E_sandbox
   fullName: AssemblerLib.Assemblage.E_sandbox
   nameWithType: Assemblage.E_sandbox
-- uid: AssemblerLib.Assemblage.EnvCheckMethod
-  name: Assemblage.EnvCheckMethod
-  href: api/AssemblerLib.Assemblage.EnvCheckMethod.html
-  commentId: T:AssemblerLib.Assemblage.EnvCheckMethod
-  fullName: AssemblerLib.Assemblage.EnvCheckMethod
-  nameWithType: Assemblage.EnvCheckMethod
 - uid: AssemblerLib.Assemblage.environmentMeshes
   name: environmentMeshes
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_environmentMeshes
@@ -304,22 +304,6 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Assemblage.SetEnvCheckMethod
   nameWithType: Assemblage.SetEnvCheckMethod
-- uid: AssemblerLib.Assemblage.SetHeuristics(System.Collections.Generic.List{System.String})
-  name: SetHeuristics(List<String>)
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_SetHeuristics_System_Collections_Generic_List_System_String__
-  commentId: M:AssemblerLib.Assemblage.SetHeuristics(System.Collections.Generic.List{System.String})
-  name.vb: SetHeuristics(List(Of String))
-  fullName: AssemblerLib.Assemblage.SetHeuristics(System.Collections.Generic.List<System.String>)
-  fullName.vb: AssemblerLib.Assemblage.SetHeuristics(System.Collections.Generic.List(Of System.String))
-  nameWithType: Assemblage.SetHeuristics(List<String>)
-  nameWithType.vb: Assemblage.SetHeuristics(List(Of String))
-- uid: AssemblerLib.Assemblage.SetHeuristics*
-  name: SetHeuristics
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_SetHeuristics_
-  commentId: Overload:AssemblerLib.Assemblage.SetHeuristics
-  isSpec: "True"
-  fullName: AssemblerLib.Assemblage.SetHeuristics
-  nameWithType: Assemblage.SetHeuristics
 - uid: AssemblerLib.Assemblage.SetSandbox(Rhino.Geometry.Box)
   name: SetSandbox(Box)
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_SetSandbox_Rhino_Geometry_Box_
@@ -433,12 +417,6 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.AssemblyObject.AssemblyObject
   nameWithType: AssemblyObject.AssemblyObject
-- uid: AssemblerLib.AssemblyObject.absoluteZLock
-  name: absoluteZLock
-  href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject_absoluteZLock
-  commentId: F:AssemblerLib.AssemblyObject.absoluteZLock
-  fullName: AssemblerLib.AssemblyObject.absoluteZLock
-  nameWithType: AssemblyObject.absoluteZLock
 - uid: AssemblerLib.AssemblyObject.AInd
   name: AInd
   href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject_AInd
@@ -568,6 +546,12 @@ references:
   commentId: F:AssemblerLib.AssemblyObject.weight
   fullName: AssemblerLib.AssemblyObject.weight
   nameWithType: AssemblyObject.weight
+- uid: AssemblerLib.AssemblyObject.worldZLock
+  name: worldZLock
+  href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject_worldZLock
+  commentId: F:AssemblerLib.AssemblyObject.worldZLock
+  fullName: AssemblerLib.AssemblyObject.worldZLock
+  nameWithType: AssemblyObject.worldZLock
 - uid: AssemblerLib.ExogenousSettings
   name: ExogenousSettings
   href: api/AssemblerLib.ExogenousSettings.html
@@ -1273,6 +1257,19 @@ references:
   commentId: F:AssemblerLib.Handle.sender
   fullName: AssemblerLib.Handle.sender
   nameWithType: Handle.sender
+- uid: AssemblerLib.Handle.ToString
+  name: ToString()
+  href: api/AssemblerLib.Handle.html#AssemblerLib_Handle_ToString
+  commentId: M:AssemblerLib.Handle.ToString
+  fullName: AssemblerLib.Handle.ToString()
+  nameWithType: Handle.ToString()
+- uid: AssemblerLib.Handle.ToString*
+  name: ToString
+  href: api/AssemblerLib.Handle.html#AssemblerLib_Handle_ToString_
+  commentId: Overload:AssemblerLib.Handle.ToString
+  isSpec: "True"
+  fullName: AssemblerLib.Handle.ToString
+  nameWithType: Handle.ToString
 - uid: AssemblerLib.Handle.Transform(Rhino.Geometry.Transform)
   name: Transform(Transform)
   href: api/AssemblerLib.Handle.html#AssemblerLib_Handle_Transform_Rhino_Geometry_Transform_
@@ -1356,6 +1353,12 @@ references:
   commentId: T:AssemblerLib.MeshEnvironment
   fullName: AssemblerLib.MeshEnvironment
   nameWithType: MeshEnvironment
+- uid: AssemblerLib.MeshEnvironment.#ctor(AssemblerLib.MeshEnvironment)
+  name: MeshEnvironment(MeshEnvironment)
+  href: api/AssemblerLib.MeshEnvironment.html#AssemblerLib_MeshEnvironment__ctor_AssemblerLib_MeshEnvironment_
+  commentId: M:AssemblerLib.MeshEnvironment.#ctor(AssemblerLib.MeshEnvironment)
+  fullName: AssemblerLib.MeshEnvironment.MeshEnvironment(AssemblerLib.MeshEnvironment)
+  nameWithType: MeshEnvironment.MeshEnvironment(MeshEnvironment)
 - uid: AssemblerLib.MeshEnvironment.#ctor(Rhino.Geometry.Mesh)
   name: MeshEnvironment(Mesh)
   href: api/AssemblerLib.MeshEnvironment.html#AssemblerLib_MeshEnvironment__ctor_Rhino_Geometry_Mesh_
@@ -1388,19 +1391,19 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.MeshEnvironment.CollisionCheck
   nameWithType: MeshEnvironment.CollisionCheck
-- uid: AssemblerLib.MeshEnvironment.IsPointInside(Rhino.Geometry.Point3d,System.Double)
-  name: IsPointInside(Point3d, Double)
-  href: api/AssemblerLib.MeshEnvironment.html#AssemblerLib_MeshEnvironment_IsPointInside_Rhino_Geometry_Point3d_System_Double_
-  commentId: M:AssemblerLib.MeshEnvironment.IsPointInside(Rhino.Geometry.Point3d,System.Double)
-  fullName: AssemblerLib.MeshEnvironment.IsPointInside(Rhino.Geometry.Point3d, System.Double)
-  nameWithType: MeshEnvironment.IsPointInside(Point3d, Double)
-- uid: AssemblerLib.MeshEnvironment.IsPointInside*
-  name: IsPointInside
-  href: api/AssemblerLib.MeshEnvironment.html#AssemblerLib_MeshEnvironment_IsPointInside_
-  commentId: Overload:AssemblerLib.MeshEnvironment.IsPointInside
+- uid: AssemblerLib.MeshEnvironment.IsPointInvalid(Rhino.Geometry.Point3d)
+  name: IsPointInvalid(Point3d)
+  href: api/AssemblerLib.MeshEnvironment.html#AssemblerLib_MeshEnvironment_IsPointInvalid_Rhino_Geometry_Point3d_
+  commentId: M:AssemblerLib.MeshEnvironment.IsPointInvalid(Rhino.Geometry.Point3d)
+  fullName: AssemblerLib.MeshEnvironment.IsPointInvalid(Rhino.Geometry.Point3d)
+  nameWithType: MeshEnvironment.IsPointInvalid(Point3d)
+- uid: AssemblerLib.MeshEnvironment.IsPointInvalid*
+  name: IsPointInvalid
+  href: api/AssemblerLib.MeshEnvironment.html#AssemblerLib_MeshEnvironment_IsPointInvalid_
+  commentId: Overload:AssemblerLib.MeshEnvironment.IsPointInvalid
   isSpec: "True"
-  fullName: AssemblerLib.MeshEnvironment.IsPointInside
-  nameWithType: MeshEnvironment.IsPointInside
+  fullName: AssemblerLib.MeshEnvironment.IsPointInvalid
+  nameWithType: MeshEnvironment.IsPointInvalid
 - uid: AssemblerLib.MeshEnvironment.mesh
   name: mesh
   href: api/AssemblerLib.MeshEnvironment.html#AssemblerLib_MeshEnvironment_mesh
@@ -1992,6 +1995,12 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Utilities.CheckSupport
   nameWithType: Utilities.CheckSupport
+- uid: AssemblerLib.Utilities.Clone(AssemblerLib.Assemblage)
+  name: Clone(Assemblage)
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_Clone_AssemblerLib_Assemblage_
+  commentId: M:AssemblerLib.Utilities.Clone(AssemblerLib.Assemblage)
+  fullName: AssemblerLib.Utilities.Clone(AssemblerLib.Assemblage)
+  nameWithType: Utilities.Clone(Assemblage)
 - uid: AssemblerLib.Utilities.Clone(AssemblerLib.AssemblyObject)
   name: Clone(AssemblyObject)
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_Clone_AssemblerLib_AssemblyObject_
@@ -2603,6 +2612,19 @@ references:
   fullName.vb: AssemblerLib.Utilities.ToListOfArrays(Of T)(Grasshopper.DataTree(Of T))
   nameWithType: Utilities.ToListOfArrays<T>(DataTree<T>)
   nameWithType.vb: Utilities.ToListOfArrays(Of T)(DataTree(Of T))
+- uid: AssemblerLib.Utilities.Triangulate(Rhino.Geometry.Mesh)
+  name: Triangulate(Mesh)
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_Triangulate_Rhino_Geometry_Mesh_
+  commentId: M:AssemblerLib.Utilities.Triangulate(Rhino.Geometry.Mesh)
+  fullName: AssemblerLib.Utilities.Triangulate(Rhino.Geometry.Mesh)
+  nameWithType: Utilities.Triangulate(Mesh)
+- uid: AssemblerLib.Utilities.Triangulate*
+  name: Triangulate
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_Triangulate_
+  commentId: Overload:AssemblerLib.Utilities.Triangulate
+  isSpec: "True"
+  fullName: AssemblerLib.Utilities.Triangulate
+  nameWithType: Utilities.Triangulate
 - uid: AssemblerLib.Utilities.zHeightGradient
   name: zHeightGradient
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_zHeightGradient

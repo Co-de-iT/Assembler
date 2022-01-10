@@ -6,10 +6,8 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using AssemblerLib;
 using Assembler.Properties;
-using GH_IO.Serialization;
-using Assembler;
 using Assembler.Utils;
-using System.Text.RegularExpressions;
+using Assembler.Engine;
 
 namespace Assembler
 {
@@ -69,6 +67,11 @@ namespace Assembler
         {
             pManager.AddGenericParameter("Assemblage", "AOa", "The Assemblage", GH_ParamAccess.item);
             pManager.AddIntegerParameter("Assemblage Count", "c", "The number of objects in the Assemblage", GH_ParamAccess.item);
+        }
+
+        public override void CreateAttributes()
+        {
+            m_attributes = new AssemblerEngine_Attributes(this);
         }
 
         /// <summary>

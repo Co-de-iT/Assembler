@@ -53,6 +53,21 @@ namespace Assembler.Utils
         #endregion
 
         #region properties
+
+        private Guid ReferenceGuid;
+
+        public override Guid ReferenceID
+        {
+            get
+            {
+                return ReferenceGuid;
+            }
+            set
+            {
+                ReferenceGuid = value;
+            }
+        }
+
         public override bool IsValid
         {
             get
@@ -102,10 +117,7 @@ namespace Assembler.Utils
             return Value.collisionMesh.GetBoundingBox(xform);
         }
 
-        //public bool IsBakeCapable
-        //{
-        //    get { return Value != null; }
-        //}
+
 
         #endregion
 
@@ -199,21 +211,7 @@ namespace Assembler.Utils
 
         #endregion
 
-        // check read and write methods
-
-        private Guid ReferenceGuid;
-
-        public override Guid ReferenceID
-        {
-            get
-            {
-                return ReferenceGuid;
-            }
-            set
-            {
-                ReferenceGuid = value;
-            }
-        }
+        #region (de)serialization methods
 
         // things that must be (de)serialized - [w] serialized - [r] deserialized
         //
@@ -328,7 +326,7 @@ namespace Assembler.Utils
 
             // weight
             writer.SetDouble(IoWeightKey, Value.weight);
-
+            
             // iWeight
             writer.SetInt32(IoIWeightKey, Value.iWeight);
 
@@ -354,7 +352,7 @@ namespace Assembler.Utils
             writer.SetBoolean(IoSupportedKey, Value.supported);
 
             // absoluteZLock
-            writer.SetBoolean(IoAbsZlockKey, Value.absoluteZLock);
+            writer.SetBoolean(IoAbsZlockKey, Value.worldZLock);
 
             // children
             //if (m_value.children != null || m_value.children.Count > 0)
@@ -494,7 +492,7 @@ namespace Assembler.Utils
             m_value.supported = reader.GetBoolean(IoSupportedKey);
 
             // deserialize absoluteZLock
-            m_value.absoluteZLock = reader.GetBoolean(IoAbsZlockKey);
+            m_value.worldZLock = reader.GetBoolean(IoAbsZlockKey);
 
 
             return true;
@@ -531,8 +529,14 @@ namespace Assembler.Utils
             return neighbours;
         }
 
+        #endregion
 
         #region bake methods
+
+        //public bool IsBakeCapable
+        //{
+        //    get { return Value != null; }
+        //}
 
         //public void BakeGeometry(RhinoDoc doc, List<Guid> obj_ids)
         //{

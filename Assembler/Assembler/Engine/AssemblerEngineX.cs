@@ -7,9 +7,9 @@ using Rhino.Geometry;
 using AssemblerLib;
 using Assembler.Properties;
 using GH_IO.Serialization;
-using Assembler;
 using System.Windows.Forms;
 using Assembler.Utils;
+using Assembler.Engine;
 
 namespace Assembler
 {
@@ -55,7 +55,8 @@ namespace Assembler
             // exogenous
             pManager.AddGenericParameter("Exogenous Settings", "ES", "Exogenous Settings for the Assemblage", GH_ParamAccess.item);
 
-            pManager[5].Optional = true; // Exogenous
+            // exogenous settings are optional
+            pManager[5].Optional = true; 
 
             // controls
             pManager.AddBooleanParameter("Go", "go", "Run Assemblage continuously until it reaches the desired n. of objects", GH_ParamAccess.item, false);
@@ -74,6 +75,11 @@ namespace Assembler
         {
             pManager.AddGenericParameter("Assemblage", "AOa", "The Assemblage", GH_ParamAccess.item);
             pManager.AddIntegerParameter("Assemblage Count", "c", "The number of objects in the Assemblage", GH_ParamAccess.item);
+        }
+
+        public override void CreateAttributes()
+        {
+            m_attributes = new AssemblerEngineX_Attributes(this);
         }
 
         /// <summary>
@@ -98,14 +104,11 @@ namespace Assembler
                 return;
             }
 
-            //AOs = GH_AOs.Select(ao => ao.Value).ToList();
-
             DA.GetDataList("Previous Assemblage", GH_AOpa);
 
-            //AOpa = GH_AOpa.Select(ao => ao.Value).ToList();
 
-            Plane referencePlane = new Plane();
-            DA.GetData("Starting Plane", ref referencePlane);
+            Plane startReferencePlane = new Plane();
+            DA.GetData("Starting Plane", ref startReferencePlane);
             int startingObjectType = 0;
             DA.GetData("Starting Object Type", ref startingObjectType);
 
@@ -136,53 +139,6 @@ namespace Assembler
                 sandbox = ES.sandBox;
             }
 
-            // . . . . controls
-            bool go = false, step = false, reset = false, resetEx = false;
-            int nInt = 0, maxObj = 0;
-            DA.GetData("Go", ref go);
-            DA.GetData("Step", ref step);
-            DA.GetData("N. Iterations", ref nInt);
-            DA.GetData("Max n. Objects", ref maxObj);
-            DA.GetData("Reset Exogenous", ref resetEx);
-            DA.GetData("Reset", ref reset);
-
-            //
-            // . . . . . . . . . . . . 1. Reset and initialize protocols
-            //
-
-            if (reset || AOa == null)
-            {
-                AOs = GH_AOs.Select(ao => ao.Value).ToList();
-                AOpa = GH_AOpa.Select(ao => ao.Value).ToList();
-                AOa = new Assemblage(AOs, AOpa, field, fieldScalarThreshold, heuristicsString, referencePlane, startingObjectType, environmentMeshes, sandbox);
-            }
-
-            //
-            // . . . . . . . . . . . . 2. Update live variables
-            //
-
-            AOa.checkWorldZLock = checkWZLock;  //GetValue("ZLockCheck", false);
-
-            // update environment check method
-            AOa.SetEnvCheckMethod(environmentMode);
-
-            // reset exogenous parameters if necessary (without resetting the assemblage)
-            if (resetEx)
-                AOa.ResetExogenous(environmentMeshes, field, fieldScalarThreshold, sandbox);
-
-            // update current heuristics mode
-            AOa.heuristicsMode = heuristicsMode;
-            // update current heuristic index in manual mode
-            // NOTE: if the assemblage uses the Field heuristics weights mode this is ignored
-            if (heuristicsMode == 0 && currentHeuristics != AOa.currentHeuristics)
-            {
-                AOa.currentHeuristics = currentHeuristics % AOa.heuristicsTree.BranchCount;
-                AOa.ResetAvailableObjects();
-            }
-            // update selection modes
-            AOa.selectReceiverMode = receiverSelectionMode;
-            AOa.selectRuleMode = ruleSelectionMode;
-
             // check field-dependent variables
             if (field == null)
             {
@@ -204,6 +160,58 @@ namespace Assembler
                     return;
                 }
             }
+
+            // . . . . controls
+            bool go = false, step = false, reset = false, resetEx = false;
+            int nInt = 0, maxObj = 0;
+            DA.GetData("Go", ref go);
+            DA.GetData("Step", ref step);
+            DA.GetData("N. Iterations", ref nInt);
+            DA.GetData("Max n. Objects", ref maxObj);
+            DA.GetData("Reset Exogenous", ref resetEx);
+            DA.GetData("Reset", ref reset);
+
+            //
+            // . . . . . . . . . . . . 1. Reset and initialize protocols
+            //
+
+            if (reset || AOa == null)
+            {
+                AOs = GH_AOs.Select(ao => ao.Value).ToList();
+                AOpa = GH_AOpa.Select(ao => ao.Value).ToList();
+                AOa = new Assemblage(AOs, AOpa, field, fieldScalarThreshold, heuristicsString, startReferencePlane, startingObjectType, environmentMeshes, sandbox);
+                AOa.heuristicsMode = heuristicsMode;
+                AOa.currentHeuristics = currentHeuristics % AOa.heuristicsTree.BranchCount;
+                AOa.ResetExogenous(environmentMeshes, field, fieldScalarThreshold, sandbox);
+            }
+
+            //
+            // . . . . . . . . . . . . 2. Update live variables
+            //
+
+            // update environment check method
+            AOa.SetEnvCheckMethod(environmentMode);
+
+            // reset exogenous parameters if necessary (without resetting the assemblage)
+            if (resetEx)
+                AOa.ResetExogenous(environmentMeshes, field, fieldScalarThreshold, sandbox);
+
+            // update current heuristics mode
+            AOa.heuristicsMode = heuristicsMode;
+            // update current heuristic index in manual mode
+            // NOTE: if the assemblage uses Field-driven heuristics this is ignored
+            if (heuristicsMode == 0 && currentHeuristics != AOa.currentHeuristics)
+            {
+                AOa.currentHeuristics = currentHeuristics % AOa.heuristicsTree.BranchCount;
+                AOa.ResetAvailableObjects();
+            }
+            // update selection modes
+            AOa.selectReceiverMode = receiverSelectionMode;
+            AOa.selectRuleMode = ruleSelectionMode;
+
+            // World Z-Lock
+            AOa.checkWorldZLock = checkWZLock;  //GetValue("ZLockCheck", false);
+
 
             //
             // . . . . . . . . . . . . 3. Update Assemblage & Component

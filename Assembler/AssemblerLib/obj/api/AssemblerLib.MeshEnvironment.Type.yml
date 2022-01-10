@@ -1,0 +1,137 @@
+### YamlMime:ManagedReference
+items:
+- uid: AssemblerLib.MeshEnvironment.Type
+  commentId: T:AssemblerLib.MeshEnvironment.Type
+  id: MeshEnvironment.Type
+  parent: AssemblerLib
+  children:
+  - AssemblerLib.MeshEnvironment.Type.Container
+  - AssemblerLib.MeshEnvironment.Type.Solid
+  - AssemblerLib.MeshEnvironment.Type.Void
+  langs:
+  - csharp
+  - vb
+  name: MeshEnvironment.Type
+  nameWithType: MeshEnvironment.Type
+  fullName: AssemblerLib.MeshEnvironment.Type
+  type: Enum
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/MeshEnvironment.cs
+    id: Type
+    path: MeshEnvironment.cs
+    startLine: 17
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  syntax:
+    content: 'public enum Type : ushort'
+    content.vb: Public Enum Type As UShort
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: AssemblerLib.MeshEnvironment.Type.Solid
+  commentId: F:AssemblerLib.MeshEnvironment.Type.Solid
+  id: Solid
+  parent: AssemblerLib.MeshEnvironment.Type
+  langs:
+  - csharp
+  - vb
+  name: Solid
+  nameWithType: MeshEnvironment.Type.Solid
+  fullName: AssemblerLib.MeshEnvironment.Type.Solid
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/MeshEnvironment.cs
+    id: Solid
+    path: MeshEnvironment.cs
+    startLine: 17
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  syntax:
+    content: Solid = 0
+    return:
+      type: AssemblerLib.MeshEnvironment.Type
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AssemblerLib.MeshEnvironment.Type.Void
+  commentId: F:AssemblerLib.MeshEnvironment.Type.Void
+  id: Void
+  parent: AssemblerLib.MeshEnvironment.Type
+  langs:
+  - csharp
+  - vb
+  name: Void
+  nameWithType: MeshEnvironment.Type.Void
+  fullName: AssemblerLib.MeshEnvironment.Type.Void
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/MeshEnvironment.cs
+    id: Void
+    path: MeshEnvironment.cs
+    startLine: 17
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  syntax:
+    content: Void = 1
+    return:
+      type: AssemblerLib.MeshEnvironment.Type
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AssemblerLib.MeshEnvironment.Type.Container
+  commentId: F:AssemblerLib.MeshEnvironment.Type.Container
+  id: Container
+  parent: AssemblerLib.MeshEnvironment.Type
+  langs:
+  - csharp
+  - vb
+  name: Container
+  nameWithType: MeshEnvironment.Type.Container
+  fullName: AssemblerLib.MeshEnvironment.Type.Container
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/MeshEnvironment.cs
+    id: Container
+    path: MeshEnvironment.cs
+    startLine: 17
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  syntax:
+    content: Container = 2
+    return:
+      type: AssemblerLib.MeshEnvironment.Type
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: AssemblerLib
+  commentId: N:AssemblerLib
+  name: AssemblerLib
+  nameWithType: AssemblerLib
+  fullName: AssemblerLib
+- uid: AssemblerLib.MeshEnvironment.Type
+  commentId: T:AssemblerLib.MeshEnvironment.Type
+  parent: AssemblerLib
+  name: MeshEnvironment.Type
+  nameWithType: MeshEnvironment.Type
+  fullName: AssemblerLib.MeshEnvironment.Type

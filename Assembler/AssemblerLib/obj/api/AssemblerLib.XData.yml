@@ -1,0 +1,766 @@
+### YamlMime:ManagedReference
+items:
+- uid: AssemblerLib.XData
+  commentId: T:AssemblerLib.XData
+  id: XData
+  parent: AssemblerLib
+  children:
+  - AssemblerLib.XData.#ctor(AssemblerLib.XData)
+  - AssemblerLib.XData.#ctor(System.Collections.Generic.List{System.Object},System.String,Rhino.Geometry.Plane,System.String)
+  - AssemblerLib.XData.AOName
+  - AssemblerLib.XData.data
+  - AssemblerLib.XData.label
+  - AssemblerLib.XData.refPlane
+  - AssemblerLib.XData.Transform(Rhino.Geometry.Transform)
+  - AssemblerLib.XData.XCopy(AssemblerLib.XData)
+  langs:
+  - csharp
+  - vb
+  name: XData
+  nameWithType: XData
+  fullName: AssemblerLib.XData
+  type: Class
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/XData.cs
+    id: XData
+    path: XData.cs
+    startLine: 9
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nA simple Xtra/Xtended data container\n"
+  example: []
+  syntax:
+    content: public class XData
+    content.vb: Public Class XData
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: AssemblerLib.XData.data
+  commentId: F:AssemblerLib.XData.data
+  id: data
+  parent: AssemblerLib.XData
+  langs:
+  - csharp
+  - vb
+  name: data
+  nameWithType: XData.data
+  fullName: AssemblerLib.XData.data
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/XData.cs
+    id: data
+    path: XData.cs
+    startLine: 14
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\ngeneric data container as list\n"
+  example: []
+  syntax:
+    content: public List<object> data
+    return:
+      type: System.Collections.Generic.List{System.Object}
+    content.vb: Public data As List(Of Object)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.XData.label
+  commentId: F:AssemblerLib.XData.label
+  id: label
+  parent: AssemblerLib.XData
+  langs:
+  - csharp
+  - vb
+  name: label
+  nameWithType: XData.label
+  fullName: AssemblerLib.XData.label
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/XData.cs
+    id: label
+    path: XData.cs
+    startLine: 18
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nlabel for the XData\n"
+  example: []
+  syntax:
+    content: public readonly string label
+    return:
+      type: System.String
+    content.vb: Public ReadOnly label As String
+  modifiers.csharp:
+  - public
+  - readonly
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: AssemblerLib.XData.refPlane
+  commentId: F:AssemblerLib.XData.refPlane
+  id: refPlane
+  parent: AssemblerLib.XData
+  langs:
+  - csharp
+  - vb
+  name: refPlane
+  nameWithType: XData.refPlane
+  fullName: AssemblerLib.XData.refPlane
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/XData.cs
+    id: refPlane
+    path: XData.cs
+    startLine: 22
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nReference Plane for XData\n"
+  example: []
+  syntax:
+    content: public Plane refPlane
+    return:
+      type: Rhino.Geometry.Plane
+    content.vb: Public refPlane As Plane
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.XData.AOName
+  commentId: F:AssemblerLib.XData.AOName
+  id: AOName
+  parent: AssemblerLib.XData
+  langs:
+  - csharp
+  - vb
+  name: AOName
+  nameWithType: XData.AOName
+  fullName: AssemblerLib.XData.AOName
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/XData.cs
+    id: AOName
+    path: XData.cs
+    startLine: 26
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nAssemblyObject name for XData association\n"
+  example: []
+  syntax:
+    content: public readonly string AOName
+    return:
+      type: System.String
+    content.vb: Public ReadOnly AOName As String
+  modifiers.csharp:
+  - public
+  - readonly
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: AssemblerLib.XData.#ctor(System.Collections.Generic.List{System.Object},System.String,Rhino.Geometry.Plane,System.String)
+  commentId: M:AssemblerLib.XData.#ctor(System.Collections.Generic.List{System.Object},System.String,Rhino.Geometry.Plane,System.String)
+  id: '#ctor(System.Collections.Generic.List{System.Object},System.String,Rhino.Geometry.Plane,System.String)'
+  parent: AssemblerLib.XData
+  langs:
+  - csharp
+  - vb
+  name: XData(List<Object>, String, Plane, String)
+  nameWithType: XData.XData(List<Object>, String, Plane, String)
+  fullName: AssemblerLib.XData.XData(System.Collections.Generic.List<System.Object>, System.String, Rhino.Geometry.Plane, System.String)
+  type: Constructor
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/XData.cs
+    id: .ctor
+    path: XData.cs
+    startLine: 44
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nConstructs an Xdata item\n"
+  example: []
+  syntax:
+    content: public XData(List<object> data, string label, Plane refPlane, string AOName)
+    parameters:
+    - id: data
+      type: System.Collections.Generic.List{System.Object}
+      description: ''
+    - id: label
+      type: System.String
+      description: ''
+    - id: refPlane
+      type: Rhino.Geometry.Plane
+      description: ''
+    - id: AOName
+      type: System.String
+      description: ''
+    content.vb: Public Sub New(data As List(Of Object), label As String, refPlane As Plane, AOName As String)
+  overload: AssemblerLib.XData.#ctor*
+  nameWithType.vb: XData.XData(List(Of Object), String, Plane, String)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: AssemblerLib.XData.XData(System.Collections.Generic.List(Of System.Object), System.String, Rhino.Geometry.Plane, System.String)
+  name.vb: XData(List(Of Object), String, Plane, String)
+- uid: AssemblerLib.XData.#ctor(AssemblerLib.XData)
+  commentId: M:AssemblerLib.XData.#ctor(AssemblerLib.XData)
+  id: '#ctor(AssemblerLib.XData)'
+  parent: AssemblerLib.XData
+  langs:
+  - csharp
+  - vb
+  name: XData(XData)
+  nameWithType: XData.XData(XData)
+  fullName: AssemblerLib.XData.XData(AssemblerLib.XData)
+  type: Constructor
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/XData.cs
+    id: .ctor
+    path: XData.cs
+    startLine: 56
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nDuplicate Method\n"
+  example: []
+  syntax:
+    content: public XData(XData otherXData)
+    parameters:
+    - id: otherXData
+      type: AssemblerLib.XData
+      description: ''
+    content.vb: Public Sub New(otherXData As XData)
+  overload: AssemblerLib.XData.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.XData.XCopy(AssemblerLib.XData)
+  commentId: M:AssemblerLib.XData.XCopy(AssemblerLib.XData)
+  id: XCopy(AssemblerLib.XData)
+  parent: AssemblerLib.XData
+  langs:
+  - csharp
+  - vb
+  name: XCopy(XData)
+  nameWithType: XData.XCopy(XData)
+  fullName: AssemblerLib.XData.XCopy(AssemblerLib.XData)
+  type: Method
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/XData.cs
+    id: XCopy
+    path: XData.cs
+    startLine: 71
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\n\n"
+  example: []
+  syntax:
+    content: public XData XCopy(XData otherXDataCopy)
+    parameters:
+    - id: otherXDataCopy
+      type: AssemblerLib.XData
+      description: ''
+    return:
+      type: AssemblerLib.XData
+      description: ''
+    content.vb: Public Function XCopy(otherXDataCopy As XData) As XData
+  overload: AssemblerLib.XData.XCopy*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.XData.Transform(Rhino.Geometry.Transform)
+  commentId: M:AssemblerLib.XData.Transform(Rhino.Geometry.Transform)
+  id: Transform(Rhino.Geometry.Transform)
+  parent: AssemblerLib.XData
+  langs:
+  - csharp
+  - vb
+  name: Transform(Transform)
+  nameWithType: XData.Transform(Transform)
+  fullName: AssemblerLib.XData.Transform(Rhino.Geometry.Transform)
+  type: Method
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/XData.cs
+    id: Transform
+    path: XData.cs
+    startLine: 84
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nApply a transformation to the XData\n"
+  example: []
+  syntax:
+    content: public void Transform(Transform xForm)
+    parameters:
+    - id: xForm
+      type: Rhino.Geometry.Transform
+      description: ''
+    content.vb: Public Sub Transform(xForm As Transform)
+  overload: AssemblerLib.XData.Transform*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: AssemblerLib
+  commentId: N:AssemblerLib
+  name: AssemblerLib
+  nameWithType: AssemblerLib
+  fullName: AssemblerLib
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.List{System.Object}
+  commentId: T:System.Collections.Generic.List{System.Object}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<Object>
+  nameWithType: List<Object>
+  fullName: System.Collections.Generic.List<System.Object>
+  nameWithType.vb: List(Of Object)
+  fullName.vb: System.Collections.Generic.List(Of System.Object)
+  name.vb: List(Of Object)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: Rhino.Geometry.Plane
+  commentId: T:Rhino.Geometry.Plane
+  parent: Rhino.Geometry
+  isExternal: true
+  name: Plane
+  nameWithType: Plane
+  fullName: Rhino.Geometry.Plane
+- uid: Rhino.Geometry
+  commentId: N:Rhino.Geometry
+  isExternal: true
+  name: Rhino.Geometry
+  nameWithType: Rhino.Geometry
+  fullName: Rhino.Geometry
+- uid: AssemblerLib.XData.#ctor*
+  commentId: Overload:AssemblerLib.XData.#ctor
+  name: XData
+  nameWithType: XData.XData
+  fullName: AssemblerLib.XData.XData
+- uid: AssemblerLib.XData
+  commentId: T:AssemblerLib.XData
+  parent: AssemblerLib
+  name: XData
+  nameWithType: XData
+  fullName: AssemblerLib.XData
+- uid: AssemblerLib.XData.XCopy*
+  commentId: Overload:AssemblerLib.XData.XCopy
+  name: XCopy
+  nameWithType: XData.XCopy
+  fullName: AssemblerLib.XData.XCopy
+- uid: AssemblerLib.XData.Transform*
+  commentId: Overload:AssemblerLib.XData.Transform
+  name: Transform
+  nameWithType: XData.Transform
+  fullName: AssemblerLib.XData.Transform
+- uid: Rhino.Geometry.Transform
+  commentId: T:Rhino.Geometry.Transform
+  parent: Rhino.Geometry
+  isExternal: true
+  name: Transform
+  nameWithType: Transform
+  fullName: Rhino.Geometry.Transform

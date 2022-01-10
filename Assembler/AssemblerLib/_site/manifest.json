@@ -53,23 +53,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/AssemblerLib.Assemblage.EnvCheckMethod.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/AssemblerLib.Assemblage.EnvCheckMethod.html",
-          "hash": "mGzmk9AjxNodrgBOfF9TN8axqOsv48/+9GL0qzbvGMk="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
       "source_relative_path": "obj/api/AssemblerLib.Assemblage.yml",
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.Assemblage.html",
-          "hash": "RawVce9bJ6Djd9/GIXlSPwzjctlckMopX2sHRsanSn0="
+          "hash": "b5wJqARzRq2Na1tFdk2Fk3CbrA/QFNkCQEHN9uUejKE="
         }
       },
       "is_incremental": true,
@@ -81,7 +69,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.AssemblyObject.html",
-          "hash": "0M4Sp/e09sbhsgu0sQiXeVWZp+Xd9fvBkDoO4KOHbMk="
+          "hash": "3Y1yyR+s27EWWB9FusGrxbmnPAabl8bOO+go+dRb924="
         }
       },
       "is_incremental": true,
@@ -117,7 +105,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.Handle.html",
-          "hash": "yQhfCr/6kty9utAWebItmfmTTcRymZyTkg5e727yJ+Q="
+          "hash": "m02XlPWP+RrzjpL8Dqb2mBp04JO4RIzQ1FSfNpSrF2w="
         }
       },
       "is_incremental": true,
@@ -153,7 +141,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.MeshEnvironment.html",
-          "hash": "hWYq4V7/ifQaHv3HLiVS6ogJPbcAsYQoAP9Xf2M7hAw="
+          "hash": "GU1hNex9o7vNnRI+6GkUVUirJTUvo8i7RajCsKhjPzE="
         }
       },
       "is_incremental": true,
@@ -201,7 +189,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.Utilities.html",
-          "hash": "ZPtukVkyuPFTESSV+eZ5AEKa5iow6W5IgVyvoxoBZ30="
+          "hash": "h8H4aAMyPBgVi9TYjPbzGScoCdzjZ1xwJpxopLZNVjs="
         }
       },
       "is_incremental": true,
@@ -225,7 +213,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.html",
-          "hash": "NXJYrb3l28GUPsWzmk74kxJj6oijFhVaPYxa0lHKB6Y="
+          "hash": "7J92wxZW8mW5rUtLKzMygjQInqiwVk3yKZTMbEJszBY="
         }
       },
       "is_incremental": true,
@@ -237,7 +225,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "+LHXs1Y2y54Ln5hzMyJE80NKJ5SMOM/6eAvjeEOMrds="
+          "hash": "XytavTztETjgi0C9aJYPa5esRSZp9XreGNg++r4S7wI="
         }
       },
       "is_incremental": false,
@@ -274,8 +262,8 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": true,
           "incrementalPhase": "build",
-          "total_file_count": 15,
-          "skipped_file_count": 15
+          "total_file_count": 14,
+          "skipped_file_count": 14
         },
         "TocDocumentProcessor": {
           "can_incremental": false,

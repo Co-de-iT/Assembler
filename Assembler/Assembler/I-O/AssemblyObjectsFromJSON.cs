@@ -49,7 +49,7 @@ namespace Assembler
         {
             string Path = "";
             bool load = false;
-            
+
             // sanity check input data
             if (!DA.GetData("File Path", ref Path)) return;
             DA.GetData("Load", ref load);
@@ -61,8 +61,9 @@ namespace Assembler
             }
 
             // load if trigger is pressed
-            if (load) AOs = Utilities.AssemblageFromJSONdump(Path);
-            else AOs = null;
+            if (!load) return;
+            AOs = Utilities.AssemblageFromJSONdump(Path);
+
 
             List<AssemblyObjectGoo> GH_AOs = AOs.Select(ao => new AssemblyObjectGoo(ao)).ToList();
 

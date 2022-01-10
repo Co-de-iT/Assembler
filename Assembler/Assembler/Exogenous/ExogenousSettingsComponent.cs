@@ -22,7 +22,7 @@ namespace Assembler
         /// Initializes a new instance of the ExogeousSettingsComp class.
         /// </summary>
         public ExogenousSettingsComponent()
-          : base("Exogeous Settings ", "ExoSet",
+          : base("Exogenous Settings ", "ExoSet",
               "Collects exogenous related settings",
               "Assembler", "Exogenous")
         {
@@ -156,7 +156,7 @@ namespace Assembler
         /// </summary>
         public override GH_Exposure Exposure
         {
-            get { return GH_Exposure.quarternary; }
+            get { return GH_Exposure.tertiary; }
         }
 
         /// <summary>

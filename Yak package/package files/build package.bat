@@ -1,1 +1,0 @@
-"C:\Program Files\Rhino 7\System\Yak.exe" build

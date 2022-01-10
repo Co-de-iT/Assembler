@@ -313,7 +313,8 @@
   
   <a id="AssemblerLib_Utilities_AbsoluteZCheck_" data-uid="AssemblerLib.Utilities.AbsoluteZCheck*"></a>
   <h4 id="AssemblerLib_Utilities_AbsoluteZCheck_AssemblerLib_AssemblyObject_" data-uid="AssemblerLib.Utilities.AbsoluteZCheck(AssemblerLib.AssemblyObject)">AbsoluteZCheck(AssemblyObject)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Performs a check for World Z-Axis orientation of the AssemblyObject</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -332,7 +333,8 @@
       <tr>
         <td><a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a></td>
         <td><span class="parametername">AO</span></td>
-        <td></td>
+        <td><p>the <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> to check</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -347,7 +349,8 @@
     <tbody>
       <tr>
         <td><span class="xref">System.Boolean</span></td>
-        <td></td>
+        <td><p>true if the Z axis of the object Reference Plane is oriented along the World Z</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -638,13 +641,14 @@ Useful for Vertex normal calculations</p>
       <tr>
         <td><a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>[]</td>
         <td><span class="parametername">AOset</span></td>
-        <td><p>the array of unique AssemblyObjects constituting the set</p>
+        <td><p>the array of unique <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>s constituting the set</p>
 </td>
       </tr>
       <tr>
         <td><span class="xref">System.Boolean</span></td>
         <td><span class="parametername">forceOrder</span></td>
-        <td></td>
+        <td><p>forces the <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>s types to follow the array order</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -799,6 +803,48 @@ Useful for Vertex normal calculations</p>
     <tbody>
       <tr>
         <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="AssemblerLib_Utilities_Clone_" data-uid="AssemblerLib.Utilities.Clone*"></a>
+  <h4 id="AssemblerLib_Utilities_Clone_AssemblerLib_Assemblage_" data-uid="AssemblerLib.Utilities.Clone(AssemblerLib.Assemblage)">Clone(Assemblage)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Assemblage Clone(Assemblage ass)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="AssemblerLib.Assemblage.html">Assemblage</a></td>
+        <td><span class="parametername">ass</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="AssemblerLib.Assemblage.html">Assemblage</a></td>
         <td></td>
       </tr>
     </tbody>
@@ -1096,7 +1142,8 @@ Useful for Vertex normal calculations</p>
   
   <a id="AssemblerLib_Utilities_CollisionCheckAssemblageParallel_" data-uid="AssemblerLib.Utilities.CollisionCheckAssemblageParallel*"></a>
   <h4 id="AssemblerLib_Utilities_CollisionCheckAssemblageParallel_AssemblerLib_Assemblage_AssemblerLib_AssemblyObject_" data-uid="AssemblerLib.Utilities.CollisionCheckAssemblageParallel(AssemblerLib.Assemblage,AssemblerLib.AssemblyObject)">CollisionCheckAssemblageParallel(Assemblage, AssemblyObject)</h4>
-  <div class="markdown level1 summary"><p>Collision Check in the assemblage for a given <a class="xref" href="AssemblerLib.Assemblage.html">Assemblage</a> and <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> - Parallel version</p>
+  <div class="markdown level1 summary"><p>Collision Check in the assemblage for a given <a class="xref" href="AssemblerLib.Assemblage.html">Assemblage</a> and <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> - Parallel version
+Works but PAINFULLY SLOW</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -2861,6 +2908,50 @@ and: <a href="http://www.bytehazard.com/articles/vertnorm.html">http://www.byteh
       <tr>
         <td><span class="parametername">T</span></td>
         <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="AssemblerLib_Utilities_Triangulate_" data-uid="AssemblerLib.Utilities.Triangulate*"></a>
+  <h4 id="AssemblerLib_Utilities_Triangulate_Rhino_Geometry_Mesh_" data-uid="AssemblerLib.Utilities.Triangulate(Rhino.Geometry.Mesh)">Triangulate(Mesh)</h4>
+  <div class="markdown level1 summary"><p>Trinagulate a Mesh splitting quad faces along the shortest diagonal</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Mesh Triangulate(Mesh inputMesh)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Rhino.Geometry.Mesh</span></td>
+        <td><span class="parametername">inputMesh</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Rhino.Geometry.Mesh</span></td>
+        <td><p>a Mesh with triangular faces only</p>
+</td>
       </tr>
     </tbody>
   </table>

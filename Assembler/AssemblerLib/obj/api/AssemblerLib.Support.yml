@@ -1,0 +1,698 @@
+### YamlMime:ManagedReference
+items:
+- uid: AssemblerLib.Support
+  commentId: T:AssemblerLib.Support
+  id: Support
+  parent: AssemblerLib
+  children:
+  - AssemblerLib.Support.#ctor(AssemblerLib.Support)
+  - AssemblerLib.Support.#ctor(Rhino.Geometry.Line)
+  - AssemblerLib.Support.#ctor(Rhino.Geometry.Point3d,Rhino.Geometry.Vector3d,System.Double)
+  - AssemblerLib.Support.connected
+  - AssemblerLib.Support.initLength
+  - AssemblerLib.Support.line
+  - AssemblerLib.Support.neighbourObject
+  - AssemblerLib.Support.Reset
+  - AssemblerLib.Support.Transform(Rhino.Geometry.Transform)
+  langs:
+  - csharp
+  - vb
+  name: Support
+  nameWithType: Support
+  fullName: AssemblerLib.Support
+  type: Struct
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Support.cs
+    id: Support
+    path: Support.cs
+    startLine: 10
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nSupport class for embedded structural consistency\n"
+  example: []
+  syntax:
+    content: public struct Support
+    content.vb: Public Structure Support
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetType
+  modifiers.csharp:
+  - public
+  - struct
+  modifiers.vb:
+  - Public
+  - Structure
+- uid: AssemblerLib.Support.line
+  commentId: F:AssemblerLib.Support.line
+  id: line
+  parent: AssemblerLib.Support
+  langs:
+  - csharp
+  - vb
+  name: line
+  nameWithType: Support.line
+  fullName: AssemblerLib.Support.line
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Support.cs
+    id: line
+    path: Support.cs
+    startLine: 15
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nSupport line\n"
+  example: []
+  syntax:
+    content: public Line line
+    return:
+      type: Rhino.Geometry.Line
+    content.vb: Public line As Line
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Support.initLength
+  commentId: F:AssemblerLib.Support.initLength
+  id: initLength
+  parent: AssemblerLib.Support
+  langs:
+  - csharp
+  - vb
+  name: initLength
+  nameWithType: Support.initLength
+  fullName: AssemblerLib.Support.initLength
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Support.cs
+    id: initLength
+    path: Support.cs
+    startLine: 20
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\ninitial length of the support\n"
+  example: []
+  syntax:
+    content: public readonly double initLength
+    return:
+      type: System.Double
+    content.vb: Public ReadOnly initLength As Double
+  modifiers.csharp:
+  - public
+  - readonly
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: AssemblerLib.Support.connected
+  commentId: F:AssemblerLib.Support.connected
+  id: connected
+  parent: AssemblerLib.Support
+  langs:
+  - csharp
+  - vb
+  name: connected
+  nameWithType: Support.connected
+  fullName: AssemblerLib.Support.connected
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Support.cs
+    id: connected
+    path: Support.cs
+    startLine: 25
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nconnected flag - true if support intersects a nearby geometry\n"
+  example: []
+  syntax:
+    content: public bool connected
+    return:
+      type: System.Boolean
+    content.vb: Public connected As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Support.neighbourObject
+  commentId: F:AssemblerLib.Support.neighbourObject
+  id: neighbourObject
+  parent: AssemblerLib.Support
+  langs:
+  - csharp
+  - vb
+  name: neighbourObject
+  nameWithType: Support.neighbourObject
+  fullName: AssemblerLib.Support.neighbourObject
+  type: Field
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Support.cs
+    id: neighbourObject
+    path: Support.cs
+    startLine: 30
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nIndex of neighbour AssemblyObject connected by the support; -1 if free, -2 if connected to other entities (i.e. an external object)\n"
+  example: []
+  syntax:
+    content: public int neighbourObject
+    return:
+      type: System.Int32
+    content.vb: Public neighbourObject As Integer
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Support.#ctor(AssemblerLib.Support)
+  commentId: M:AssemblerLib.Support.#ctor(AssemblerLib.Support)
+  id: '#ctor(AssemblerLib.Support)'
+  parent: AssemblerLib.Support
+  langs:
+  - csharp
+  - vb
+  name: Support(Support)
+  nameWithType: Support.Support(Support)
+  fullName: AssemblerLib.Support.Support(AssemblerLib.Support)
+  type: Constructor
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Support.cs
+    id: .ctor
+    path: Support.cs
+    startLine: 36
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nConstruct a support from another Support (deep copy)\n"
+  example: []
+  syntax:
+    content: public Support(Support other)
+    parameters:
+    - id: other
+      type: AssemblerLib.Support
+      description: ''
+    content.vb: Public Sub New(other As Support)
+  overload: AssemblerLib.Support.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Support.#ctor(Rhino.Geometry.Point3d,Rhino.Geometry.Vector3d,System.Double)
+  commentId: M:AssemblerLib.Support.#ctor(Rhino.Geometry.Point3d,Rhino.Geometry.Vector3d,System.Double)
+  id: '#ctor(Rhino.Geometry.Point3d,Rhino.Geometry.Vector3d,System.Double)'
+  parent: AssemblerLib.Support
+  langs:
+  - csharp
+  - vb
+  name: Support(Point3d, Vector3d, Double)
+  nameWithType: Support.Support(Point3d, Vector3d, Double)
+  fullName: AssemblerLib.Support.Support(Rhino.Geometry.Point3d, Rhino.Geometry.Vector3d, System.Double)
+  type: Constructor
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Support.cs
+    id: .ctor
+    path: Support.cs
+    startLine: 50
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nConstruct a support from origin point, direction vector and length\n"
+  example: []
+  syntax:
+    content: public Support(Point3d origin, Vector3d direction, double length)
+    parameters:
+    - id: origin
+      type: Rhino.Geometry.Point3d
+      description: ''
+    - id: direction
+      type: Rhino.Geometry.Vector3d
+      description: ''
+    - id: length
+      type: System.Double
+      description: ''
+    content.vb: Public Sub New(origin As Point3d, direction As Vector3d, length As Double)
+  overload: AssemblerLib.Support.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Support.#ctor(Rhino.Geometry.Line)
+  commentId: M:AssemblerLib.Support.#ctor(Rhino.Geometry.Line)
+  id: '#ctor(Rhino.Geometry.Line)'
+  parent: AssemblerLib.Support
+  langs:
+  - csharp
+  - vb
+  name: Support(Line)
+  nameWithType: Support.Support(Line)
+  fullName: AssemblerLib.Support.Support(Rhino.Geometry.Line)
+  type: Constructor
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Support.cs
+    id: .ctor
+    path: Support.cs
+    startLine: 62
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nConstruct a support from a line\n"
+  example: []
+  syntax:
+    content: public Support(Line line)
+    parameters:
+    - id: line
+      type: Rhino.Geometry.Line
+      description: ''
+    content.vb: Public Sub New(line As Line)
+  overload: AssemblerLib.Support.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Support.Reset
+  commentId: M:AssemblerLib.Support.Reset
+  id: Reset
+  parent: AssemblerLib.Support
+  langs:
+  - csharp
+  - vb
+  name: Reset()
+  nameWithType: Support.Reset()
+  fullName: AssemblerLib.Support.Reset()
+  type: Method
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Support.cs
+    id: Reset
+    path: Support.cs
+    startLine: 73
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nResets support to initial length value and resets connectivity data\n"
+  example: []
+  syntax:
+    content: public void Reset()
+    content.vb: Public Sub Reset
+  overload: AssemblerLib.Support.Reset*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AssemblerLib.Support.Transform(Rhino.Geometry.Transform)
+  commentId: M:AssemblerLib.Support.Transform(Rhino.Geometry.Transform)
+  id: Transform(Rhino.Geometry.Transform)
+  parent: AssemblerLib.Support
+  langs:
+  - csharp
+  - vb
+  name: Transform(Transform)
+  nameWithType: Support.Transform(Transform)
+  fullName: AssemblerLib.Support.Transform(Rhino.Geometry.Transform)
+  type: Method
+  source:
+    remote:
+      path: C:/Users/aless/Documents/@ code/GH code/@ Assembler/Assembler/AssemblerLib/Support.cs
+    id: Transform
+    path: Support.cs
+    startLine: 85
+  assemblies:
+  - AssemblerLib
+  namespace: AssemblerLib
+  summary: "\nTransform Support using a generic Transformation\n"
+  example: []
+  syntax:
+    content: public void Transform(Transform xForm)
+    parameters:
+    - id: xForm
+      type: Rhino.Geometry.Transform
+      description: ''
+    content.vb: Public Sub Transform(xForm As Transform)
+  overload: AssemblerLib.Support.Transform*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: AssemblerLib
+  commentId: N:AssemblerLib
+  name: AssemblerLib
+  nameWithType: AssemblerLib
+  fullName: AssemblerLib
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: ValueType.Equals(Object)
+  fullName: System.ValueType.Equals(System.Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    nameWithType: ValueType.Equals
+    fullName: System.ValueType.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    nameWithType: ValueType.Equals
+    fullName: System.ValueType.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    nameWithType: ValueType.GetHashCode
+    fullName: System.ValueType.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    nameWithType: ValueType.GetHashCode
+    fullName: System.ValueType.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    nameWithType: ValueType.ToString
+    fullName: System.ValueType.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    nameWithType: ValueType.ToString
+    fullName: System.ValueType.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Rhino.Geometry.Line
+  commentId: T:Rhino.Geometry.Line
+  parent: Rhino.Geometry
+  isExternal: true
+  name: Line
+  nameWithType: Line
+  fullName: Rhino.Geometry.Line
+- uid: Rhino.Geometry
+  commentId: N:Rhino.Geometry
+  isExternal: true
+  name: Rhino.Geometry
+  nameWithType: Rhino.Geometry
+  fullName: Rhino.Geometry
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: AssemblerLib.Support.#ctor*
+  commentId: Overload:AssemblerLib.Support.#ctor
+  name: Support
+  nameWithType: Support.Support
+  fullName: AssemblerLib.Support.Support
+- uid: AssemblerLib.Support
+  commentId: T:AssemblerLib.Support
+  parent: AssemblerLib
+  name: Support
+  nameWithType: Support
+  fullName: AssemblerLib.Support
+- uid: Rhino.Geometry.Point3d
+  commentId: T:Rhino.Geometry.Point3d
+  parent: Rhino.Geometry
+  isExternal: true
+  name: Point3d
+  nameWithType: Point3d
+  fullName: Rhino.Geometry.Point3d
+- uid: Rhino.Geometry.Vector3d
+  commentId: T:Rhino.Geometry.Vector3d
+  parent: Rhino.Geometry
+  isExternal: true
+  name: Vector3d
+  nameWithType: Vector3d
+  fullName: Rhino.Geometry.Vector3d
+- uid: AssemblerLib.Support.Reset*
+  commentId: Overload:AssemblerLib.Support.Reset
+  name: Reset
+  nameWithType: Support.Reset
+  fullName: AssemblerLib.Support.Reset
+- uid: AssemblerLib.Support.Transform*
+  commentId: Overload:AssemblerLib.Support.Transform
+  name: Transform
+  nameWithType: Support.Transform
+  fullName: AssemblerLib.Support.Transform
+- uid: Rhino.Geometry.Transform
+  commentId: T:Rhino.Geometry.Transform
+  parent: Rhino.Geometry
+  isExternal: true
+  name: Transform
+  nameWithType: Transform
+  fullName: Rhino.Geometry.Transform
