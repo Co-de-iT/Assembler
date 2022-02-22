@@ -12,6 +12,7 @@ using Assembler.Properties;
 
 namespace Assembler
 {
+    [Obsolete]
     public class H_PopulateFieldiWeightsAtt : GH_Component
     {
         /// <summary>

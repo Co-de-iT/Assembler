@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Namespace AssemblerLib
+    <title>Delegate Assemblage.ComputeReceiverMethod
    </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Namespace AssemblerLib
+    <meta name="title" content="Delegate Assemblage.ComputeReceiverMethod
    ">
     <meta name="generator" content="docfx 2.57.2.0">
     
@@ -68,70 +68,52 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="AssemblerLib">
+            <article class="content wrap" id="_content" data-uid="AssemblerLib.Assemblage.ComputeReceiverMethod">
   
-  <h1 id="AssemblerLib" data-uid="AssemblerLib" class="text-break">Namespace AssemblerLib
+  
+  <h1 id="AssemblerLib_Assemblage_ComputeReceiverMethod" data-uid="AssemblerLib.Assemblage.ComputeReceiverMethod" class="text-break">Delegate Assemblage.ComputeReceiverMethod
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Delegate type for computing a single receiver value</p>
+</div>
   <div class="markdown level0 conceptual"></div>
-  <div class="markdown level0 remarks"></div>
-    <h3 id="classes">Classes
-  </h3>
-      <h4><a class="xref" href="AssemblerLib.Assemblage.html">Assemblage</a></h4>
-      <section><p>Assemblage class - A Class that manages Assemblages
-refactor Assemblage class to embed settings structs as part of it (variables used directly from the structs)</p>
-</section>
-      <h4><a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a></h4>
-      <section><p>Assemblage Object with extended connectivity and collision-check properties</p>
-</section>
-      <h4><a class="xref" href="AssemblerLib.Field.html">Field</a></h4>
-      <section><p>Stores spatially-distributed scalar, vector and integer weights values</p>
-</section>
-      <h4><a class="xref" href="AssemblerLib.MeshEnvironment.html">MeshEnvironment</a></h4>
-      <section><p>this class can give more properties to the environment objects</p>
-</section>
-      <h4><a class="xref" href="AssemblerLib.Tensor.html">Tensor</a></h4>
-      <section><p>Stores a lists of scalar, vector and integer weights values</p>
-</section>
-      <h4><a class="xref" href="AssemblerLib.Utilities.html">Utilities</a></h4>
-      <section><p>A static Utilities class grouping some useful methods</p>
-</section>
-      <h4><a class="xref" href="AssemblerLib.XData.html">XData</a></h4>
-      <section><p>A simple Xtra/Xtended data container</p>
-</section>
-    <h3 id="structs">Structs
-  </h3>
-      <h4><a class="xref" href="AssemblerLib.ExogenousSettings.html">ExogenousSettings</a></h4>
-      <section></section>
-      <h4><a class="xref" href="AssemblerLib.Handle.html">Handle</a></h4>
-      <section><p>Handle structure for connection handles</p>
-</section>
-      <h4><a class="xref" href="AssemblerLib.HeuristicsSettings.html">HeuristicsSettings</a></h4>
-      <section></section>
-      <h4><a class="xref" href="AssemblerLib.Rule.html">Rule</a></h4>
-      <section><p>Structure storing indexes to automate Assemblage operations</p>
-</section>
-      <h4><a class="xref" href="AssemblerLib.Support.html">Support</a></h4>
-      <section><p>Support class for embedded structural consistency</p>
-</section>
-    <h3 id="enums">Enums
-  </h3>
-      <h4><a class="xref" href="AssemblerLib.MeshEnvironment.Type.html">MeshEnvironment.Type</a></h4>
-      <section></section>
-    <h3 id="delegates">Delegates
-  </h3>
-      <h4><a class="xref" href="AssemblerLib.Assemblage.ComputeCandidatesValuesMethod.html">Assemblage.ComputeCandidatesValuesMethod</a></h4>
-      <section><p>Delegate type for computing candidates (sender) values</p>
-</section>
-      <h4><a class="xref" href="AssemblerLib.Assemblage.ComputeReceiverMethod.html">Assemblage.ComputeReceiverMethod</a></h4>
-      <section><p>Delegate type for computing a single receiver value</p>
-</section>
-      <h4><a class="xref" href="AssemblerLib.Assemblage.EnvironmentCheckMethod.html">Assemblage.EnvironmentCheckMethod</a></h4>
-      <section><p>Delegate type for environment contaier behavior (collision or inclusion)</p>
-</section>
-      <h4><a class="xref" href="AssemblerLib.Assemblage.SelectWinnerMethod.html">Assemblage.SelectWinnerMethod</a></h4>
-      <section><p>Delegate method for choosing winner index from sender values</p>
-</section>
+  <h6><strong>Namespace</strong>: <a class="xref" href="AssemblerLib.html">AssemblerLib</a></h6>
+  <h6><strong>Assembly</strong>: AssemblerLib.dll</h6>
+  <h5 id="AssemblerLib_Assemblage_ComputeReceiverMethod_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public delegate double ComputeReceiverMethod(AssemblyObject receiver);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a></td>
+        <td><span class="parametername">receiver</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Double</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 </article>
           </div>
           

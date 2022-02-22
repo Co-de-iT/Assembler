@@ -13,6 +13,9 @@ namespace AssemblerLib
     /// <summary>
     /// Stores spatially-distributed scalar, vector and integer weights values
     /// </summary>
+    /// <remarks>test if field improves transforming scalars to integer values - i.e. input desired precision (3, 4, etc.) 
+    /// and multiply 0-1 * 10^precision.
+    /// Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to speed up vector field computations?</remarks>
     public class Field
     {
         /// <summary>

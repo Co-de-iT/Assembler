@@ -8,6 +8,7 @@ using Assembler.Properties;
 
 namespace Assembler
 {
+    [Obsolete]
     public class L_HeuristicsWriter : GH_Component
     {
         /// <summary>

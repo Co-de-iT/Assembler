@@ -51,7 +51,7 @@ namespace Assembler
 
             if (AOa == null) return;
 
-            List<AssemblyObjectGoo> GH_AOset = AOa.AOset.Select(ao => new AssemblyObjectGoo(ao)).ToList();
+            List<AssemblyObjectGoo> GH_AOset = AOa.AOSet.Select(ao => new AssemblyObjectGoo(ao)).ToList();
 
             DA.SetDataList(0, GH_AOset);
         }

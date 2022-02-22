@@ -10,6 +10,7 @@ using Assembler.Properties;
 
 namespace Assembler
 {
+    [Obsolete]
     public class L_AssociateXData : GH_Component
     {
         /// <summary>

@@ -57,13 +57,13 @@ namespace AssemblerLib
         /// </summary>
         public string name;
         /// <summary>
-        /// AssemblyObject unique index in an assemblage
+        /// AssemblyObject unique index in an assemblage - NOT IMPLEMENTED YET
         /// </summary>
         public int AInd
         { get { return aInd; } set { aInd = value; } }
         private int aInd;
         /// <summary>
-        /// List of tuples containing object index and handle index occluded by this object
+        /// List of 2 indices containing object index and handle index occluded by this object
         /// </summary>
         public List<int[]> occludedNeighbours;
         /// <summary>
@@ -75,13 +75,23 @@ namespace AssemblerLib
         /// </summary>
         public double weight;
         /// <summary>
-        /// Integer Weight for Weighted Random choice (to be implemented) or other weight-based operations
+        /// Integer Weight for heuristics assignment
         /// </summary>
         public int iWeight;
         /// <summary>
         /// True to force the object's reference plane Z axys parallel to the World's Z axis
         /// </summary>
         public bool worldZLock;
+        /// <summary>
+        /// stores a value during the Assemblage when acting as receiver;
+        /// this value depends on the active <see cref="HeuristicsSettings.receiverSelectionMode"/>
+        /// </summary>
+        public double receiverValue;
+        /// <summary>
+        /// stores a value during the Assemblage when acting as a sender candidate;
+        /// /// this value depends on the active <see cref="HeuristicsSettings.ruleSelectionMode"/>
+        /// </summary>
+        public double senderValue;
 
         /// <summary>
         /// internal map of handles for composite object
@@ -128,10 +138,12 @@ namespace AssemblerLib
         /// <param name="worldZLock"></param>
         /// <param name="children"></param>
         /// <param name="handleMap"></param>
+        /// <param name="receiverValue"></param>
+        /// <param name="senderValue"></param>
         [JsonConstructor]
         public AssemblyObject(Mesh collisionMesh, Mesh offsetMesh, Handle[] handles, Plane referencePlane, Vector3d direction, int aInd, List<int[]> occludedNeighbours,
             double collisionRadius, string name, int type, double weight, int iWeight, List<Support> supports, int minSupports,
-            bool supported, bool worldZLock, List<AssemblyObject> children, List<int[]> handleMap)
+            bool supported, bool worldZLock, List<AssemblyObject> children, List<int[]> handleMap, double receiverValue, double senderValue)
         {
             this.collisionMesh = collisionMesh;
             this.offsetMesh = offsetMesh;
@@ -151,6 +163,8 @@ namespace AssemblerLib
             this.worldZLock = worldZLock;
             this.children = children;
             this.handleMap = handleMap;
+            this.receiverValue = receiverValue;
+            this.senderValue = senderValue;
         }
 
         /// <summary>
@@ -207,6 +221,10 @@ namespace AssemblerLib
             // children and handlemap initialization
             children = new List<AssemblyObject>();
             handleMap = new List<int[]>();
+
+            // "in Assemblage" values
+            receiverValue = double.NaN;
+            senderValue = double.NaN;
         }
 
         #endregion

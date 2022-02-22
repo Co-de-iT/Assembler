@@ -16,6 +16,7 @@ using Assembler.Properties;
 
 namespace Assembler
 {
+    [Obsolete]
     public class L_HeuristicsDisplay : GH_Component
     {
         bool showEdges, haveXData;

@@ -11,6 +11,7 @@ using Assembler.Properties;
 
 namespace Assembler
 {
+    [Obsolete]
     public class H_PopulateFieldiWeightsSc : GH_Component
     {
         /// <summary>

@@ -8,6 +8,7 @@ using Assembler.Properties;
 
 namespace Assembler
 {
+    [Obsolete]
     public class L_ConstructFieldMeshN : GH_Component
     {
         /// <summary>

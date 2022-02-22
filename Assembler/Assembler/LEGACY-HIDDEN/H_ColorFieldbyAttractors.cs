@@ -9,6 +9,7 @@ using Assembler.Properties;
 
 namespace Assembler
 {
+    [Obsolete]
     public class H_ColorFieldbyAttractors : GH_Component
     {
         private PointCloud _cloud;

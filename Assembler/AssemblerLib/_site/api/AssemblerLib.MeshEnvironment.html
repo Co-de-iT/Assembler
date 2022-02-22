@@ -117,7 +117,8 @@
   
   <a id="AssemblerLib_MeshEnvironment__ctor_" data-uid="AssemblerLib.MeshEnvironment.#ctor*"></a>
   <h4 id="AssemblerLib_MeshEnvironment__ctor_AssemblerLib_MeshEnvironment_" data-uid="AssemblerLib.MeshEnvironment.#ctor(AssemblerLib.MeshEnvironment)">MeshEnvironment(MeshEnvironment)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Constructs a <a class="xref" href="AssemblerLib.MeshEnvironment.html">MeshEnvironment</a> from another (duplicate method)</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -144,7 +145,7 @@
   
   <a id="AssemblerLib_MeshEnvironment__ctor_" data-uid="AssemblerLib.MeshEnvironment.#ctor*"></a>
   <h4 id="AssemblerLib_MeshEnvironment__ctor_Rhino_Geometry_Mesh_" data-uid="AssemblerLib.MeshEnvironment.#ctor(Rhino.Geometry.Mesh)">MeshEnvironment(Mesh)</h4>
-  <div class="markdown level1 summary"><p>Constructs a MeshEnvironment from a Mesh</p>
+  <div class="markdown level1 summary"><p>Constructs a <a class="xref" href="AssemblerLib.MeshEnvironment.html">MeshEnvironment</a> from a Mesh - can create only solids or voids according to mesh volume</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -172,7 +173,7 @@
   
   <a id="AssemblerLib_MeshEnvironment__ctor_" data-uid="AssemblerLib.MeshEnvironment.#ctor*"></a>
   <h4 id="AssemblerLib_MeshEnvironment__ctor_Rhino_Geometry_Mesh_System_Int32_" data-uid="AssemblerLib.MeshEnvironment.#ctor(Rhino.Geometry.Mesh,System.Int32)">MeshEnvironment(Mesh, Int32)</h4>
-  <div class="markdown level1 summary"><p>Constructs a MeshEnvironment from a Mesh and an explicit type</p>
+  <div class="markdown level1 summary"><p>Constructs a <a class="xref" href="AssemblerLib.MeshEnvironment.html">MeshEnvironment</a> from a Mesh and an explicit type</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -263,7 +264,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool CollisionCheck(Mesh m)</code></pre>
+    <pre><code class="lang-csharp hljs">public bool CollisionCheck(Mesh otherMesh)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -277,7 +278,7 @@
     <tbody>
       <tr>
         <td><span class="xref">Rhino.Geometry.Mesh</span></td>
-        <td><span class="parametername">m</span></td>
+        <td><span class="parametername">otherMesh</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -302,7 +303,7 @@
   
   <a id="AssemblerLib_MeshEnvironment_IsPointInvalid_" data-uid="AssemblerLib.MeshEnvironment.IsPointInvalid*"></a>
   <h4 id="AssemblerLib_MeshEnvironment_IsPointInvalid_Rhino_Geometry_Point3d_" data-uid="AssemblerLib.MeshEnvironment.IsPointInvalid(Rhino.Geometry.Point3d)">IsPointInvalid(Point3d)</h4>
-  <div class="markdown level1 summary"><p>Check if point P is inside an obstacle or outside a container</p>
+  <div class="markdown level1 summary"><p>Check if point P is inside an obstacle or void, or outside a container</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -337,7 +338,7 @@
     <tbody>
       <tr>
         <td><span class="xref">System.Boolean</span></td>
-        <td><p>True if a point is invalid (inside an obstacle or outside a container)</p>
+        <td><p>True if a point is invalid (inside an obstacle or void, or outside a container)</p>
 </td>
       </tr>
     </tbody>

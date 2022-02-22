@@ -13,6 +13,7 @@ using Assembler.Properties;
 
 namespace Assembler
 {
+    [Obsolete]
     public class L_HeuristicsDisplayEx : GH_Component
     {
         bool haveXData;

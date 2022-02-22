@@ -6,17 +6,21 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using AssemblerLib;
 using Assembler.Properties;
+using System.Windows.Forms;
 
 namespace Assembler
 {
     public class ExogenousSettingsComponent : GH_Component
     {
+        private bool hasContainer;
         private BoundingBox _clip;
         private Mesh _container;
-        private List<Mesh> _obstacles;
+        private List<Mesh> _solids;
+        private List<Mesh> _voids;
         //private List<Color> _color;
         private readonly Color containerColor = Color.Black;
-        private readonly Color obstacleColor = Color.FromArgb(115, 124, 148);
+        private readonly Color solidColor = Color.FromArgb(115, 124, 148);
+        private readonly Color voidColor = Color.FromArgb(146, 51, 51);
 
         /// <summary>
         /// Initializes a new instance of the ExogeousSettingsComp class.
@@ -26,6 +30,9 @@ namespace Assembler
               "Collects exogenous related settings",
               "Assembler", "Exogenous")
         {
+            hasContainer = GetValue("HasContainer", false);
+            UpdateMessage();
+            ExpireSolution(true);
         }
 
         /// <summary>
@@ -33,16 +40,18 @@ namespace Assembler
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddMeshParameter("Environment Meshes", "ME", "Closed Meshes as environmental objects\noptional\nMesh normal direction decides the object type\noutwards: obstacle\ninward: container", GH_ParamAccess.list);
+            pManager.AddMeshParameter("Environment Meshes", "ME", "Closed Meshes as environmental objects" +
+                "\nMesh normal direction decides the object type\noutwards: obstacle\ninward: void" +
+                "\nNOTE: if the right-click menu 'Use Container' option is active, the first Mesh in a non-empty list will be used as a container", GH_ParamAccess.list);
             pManager.AddIntegerParameter("Environment Mode", "eM",
                 "Environment interaction mode" +
-                "\n0 - ignore" +
-                "\n1 - collision" +
-                "\n2 - inclusion",
+                "\n0 - ignore environmental objects" +
+                "\n1 - use objects - container collision" +
+                "\n2 - use objects - container inclusion",
                 GH_ParamAccess.item, 1);
             pManager.AddGenericParameter("Field", "F", "Field", GH_ParamAccess.item);
             pManager.AddNumberParameter("Field scalar Threshold", "fT", "Threshold value for scalar field based criteria - normalized range (0-1)", GH_ParamAccess.item, 0.5);
-            pManager.AddBoxParameter("Sandbox", "sB", "Sandbox for focused assemblages (EXPERIMENTAL)\nif present, Assemblage will grow only inside the Box", GH_ParamAccess.item, Box.Empty);
+            pManager.AddBoxParameter("Sandbox", "sB", "Sandbox for focused assemblages (NOT IMPLEMENTED YET)\nif present, Assemblage will grow only inside the Box", GH_ParamAccess.item, Box.Empty);
 
             pManager[1].Optional = true;
             pManager[2].Optional = true;
@@ -65,34 +74,42 @@ namespace Assembler
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            // refactor this: since there can only be 1 container, make it the first mesh of the list
+            // any other eventual mesh is treated as obstacle (simpler and clearer)
+            // just check if its normals are inverted (negative volume)
+            // then, refactor ExogenousSettings Struct to make EnvronmentMeshes directly
             // exogenous
             List<Mesh> ME = new List<Mesh>();
             if (!DA.GetDataList("Environment Meshes", ME)) return;
             // check environment meshes and remove nulls and invalids
             int meshCount = ME.Count;
-            int countContainers = 0;
+            //int countContainers = 0;
             for (int i = ME.Count - 1; i >= 0; i--)
             {
                 if (ME[i] == null || !ME[i].IsValid) ME.RemoveAt(i);
-                if (ME[i].Volume() < 0)
-                {
-                    if (countContainers == 0)
-                    {
-                        _container = ME[i];
-                        countContainers++;
-                    }
-                    else
-                    {
-                        countContainers++;
-                        break;
-                    }
-                }
-                else _obstacles.Add(ME[i]);
+                //if (ME[i].Volume() < 0)
+                //{
+                //    if (countContainers == 0)
+                //    {
+                //        _container = ME[i];
+                //        countContainers++;
+                //    }
+                //    else
+                //    {
+                //        countContainers++;
+                //        break;
+                //    }
+                //}
+                //else _obstacles.Add(ME[i]);
 
-                _clip.Union(ME[i].GetBoundingBox(false));
+
             }
-            if (countContainers > 1)
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "More than one container detected - use only one container mesh\nOnly the first container mesh was retained");
+
+            if (ME.Count == 0)
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "All input Meshes are null or invalid");
+
+            //if (countContainers > 1)
+            //    AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "More than one container detected - use only one container mesh\nOnly the first container mesh was retained");
 
             if (ME.Count != meshCount)
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Some Environment Meshes are null or invalid and have been removed from the list");
@@ -111,11 +128,54 @@ namespace Assembler
                     sandbox = Box.Empty;
                 }
 
-            ExogenousSettings ES = new ExogenousSettings(ME, eM, F, fT, sandbox);
+            ExogenousSettings ES = new ExogenousSettings(ME, eM, F, fT, sandbox, hasContainer);
 
+            // assign Display geometries
+            foreach (MeshEnvironment mEnv in ES.environmentMeshes)
+            {
+                switch (mEnv.type)
+                {
+                    case MeshEnvironment.Type.Void: // controls only centroid in/out
+                        _voids.Add(mEnv.mesh);
+                        break;
+                    case MeshEnvironment.Type.Solid:
+                        _solids.Add(mEnv.mesh);
+                        break;
+                    case MeshEnvironment.Type.Container:
+                        _container = mEnv.mesh;
+                        break;
+                }
+
+                _clip.Union(mEnv.mesh.GetBoundingBox(false));
+            }
+
+            // output data
             DA.SetData(0, ES);
         }
 
+        public override void AppendAdditionalMenuItems(ToolStripDropDown menu)
+        {
+            Menu_AppendSeparator(menu);
+            ToolStripMenuItem toolStripMenuItem = Menu_AppendItem(menu, "Use Container", Container_click, true, hasContainer);
+            toolStripMenuItem.ToolTipText = "When this option is checked, the first Mesh in the list will be flagged as Container";
+            Menu_AppendSeparator(menu);
+        }
+
+        private void Container_click(object sender, EventArgs e)
+        {
+            RecordUndoEvent("Use Container");
+            hasContainer = !GetValue("HasContainer", false);
+            SetValue("HasContainer", hasContainer);
+
+            // set component message
+            UpdateMessage();
+            ExpireSolution(true);
+        }
+
+        private void UpdateMessage()
+        {
+            Message = hasContainer ? "Container" : "";
+        }
 
         /// <summary>
         /// This method will be called once every solution, before any calls to RunScript.
@@ -123,7 +183,8 @@ namespace Assembler
         protected override void BeforeSolveInstance()
         {
             _clip = BoundingBox.Empty;
-            _obstacles = new List<Mesh>();
+            _solids = new List<Mesh>();
+            _voids = new List<Mesh>();
             _container = new Mesh();
         }
 
@@ -139,19 +200,39 @@ namespace Assembler
             if (base.Attributes.Selected)
             {
                 args.Display.DrawMeshWires(_container, args.WireColour_Selected, args.DefaultCurveThickness);
-                foreach (Mesh ob in _obstacles)
-                    args.Display.DrawMeshWires(ob, args.WireColour_Selected, args.DefaultCurveThickness);
+                foreach (Mesh mOb in _solids)
+                    args.Display.DrawMeshWires(mOb, args.WireColour_Selected, args.DefaultCurveThickness);
+                foreach (Mesh mVoid in _voids)
+                    args.Display.DrawMeshWires(mVoid, args.WireColour_Selected, args.DefaultCurveThickness);
             }
             else
             {
-                args.Display.DrawMeshWires(_container, containerColor);
-                foreach (Mesh ob in _obstacles)
-                    args.Display.DrawMeshWires(ob, obstacleColor, 2);
+                args.Display.DrawMeshWires(_container, containerColor, 1);
+                //for (int i = 0; i < _container.Faces.Count; i++)
+                //{
+                //    args.Display.DrawArrow(new Line(_container.Faces.GetFaceCenter(i), _container.FaceNormals[i], 1.0), containerColor);
+                //}
+                foreach (Mesh mOb in _solids)
+                {
+                    args.Display.DrawMeshWires(mOb, solidColor, 2);
+                    //for (int i = 0; i < mOb.Faces.Count; i++)
+                    //{
+                    //    args.Display.DrawArrow(new Line(mOb.Faces.GetFaceCenter(i), mOb.FaceNormals[i], 1.0), solidColor);
+                    //}
+                }
+                foreach (Mesh mVoid in _voids)
+                {
+                    args.Display.DrawMeshWires(mVoid, voidColor, 2);
+                    //for (int i = 0; i < mVoid.Faces.Count; i++)
+                    //{
+                    //    args.Display.DrawArrow(new Line(mVoid.Faces.GetFaceCenter(i), mVoid.FaceNormals[i], 1.0), voidColor);
+                    //}
+                }
             }
         }
 
         /// <summary>
-        /// Exposure override for position in the SUbcategory (options primary to septenary)
+        /// Exposure override for position in the Subcategory (options primary to septenary)
         /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
         /// </summary>
         public override GH_Exposure Exposure

@@ -16,8 +16,8 @@ namespace Assembler.Engine
             GH_ObjectResponse result;
             if (flag)
             {
-                AssemblerEngine fileToScript = (AssemblerEngine)this.Owner;
-                fileToScript.ExpireSolution(true);
+                AssemblerEngine engineX = (AssemblerEngine)this.Owner;
+                engineX.ExpireSolution(true);
                 result = GH_ObjectResponse.Handled;// 3;
             }
             else

@@ -32,24 +32,24 @@ namespace Assembler
             pManager.AddTextParameter("Heuristics String", "HeS", "Heuristics String", GH_ParamAccess.tree);
             pManager.AddIntegerParameter("Current Heuristics", "cH", "index of current Heuristics String to use from the list above", GH_ParamAccess.item, 0);
             pManager.AddIntegerParameter("Heuristics Mode", "HeM", "Heuristics Mode selector" +
-                "\n0 - manual via cH parameter" +
-                "\n1 - Field driven via iWeights",
+                "\n0 - manual - via cH parameter" +
+                "\n1 - Field driven - via Field iWeights",
                 GH_ParamAccess.item, 0);
             // criteria selectors
             pManager.AddIntegerParameter("Receiver Selection Mode", "rOS",
                 "Receiver Object selection criteria" +
                 "\n0 - random" +
-                "\n1 - scalar field fast" +
-                "\n2 - scalar field accurate" +
-                "\n3 - dense packing (SLOW)",
+                "\n1 - scalar field nearest" +
+                "\n2 - scalar field interpolated" +
+                "\n3 - dense packing - minimum sum of connected objects' weights",
                 GH_ParamAccess.item, 0);
             pManager.AddIntegerParameter("Rule Selection Mode", "rRS",
                 "Rule selection criteria" +
                 "\n0 - random" +
-                "\n1 - scalar field fast" +
-                "\n2 - scalar field accurate" +
-                "\n3 - vector field fast" +
-                "\n4 - vector field accurate" +
+                "\n1 - scalar field nearest" +
+                "\n2 - scalar field interpolated" +
+                "\n3 - vector field nearest" +
+                "\n4 - vector field interpolated" +
                 "\n5 - minimum local bounding box volume" +
                 "\n6 - minimum local bounding box diagonal"+
                 "\n7 - weighted random choice",

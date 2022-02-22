@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Assembler.Utils;
+using AssemblerLib;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using AssemblerLib;
-using Assembler.Properties;
 
 namespace Assembler
 {
-    public class TransformXData : GH_Component
+    public class D_InspectAOValues : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the TransformXData class.
+        /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
-        public TransformXData()
-          : base("Transform XData", "XDX",
-              "Apply a transformation to an XData item",
+        public D_InspectAOValues()
+          : base("Inspect AO values", "IAOval",
+              "Inspect an AssemblyObject receiver and sender values (Debug)",
               "Assembler", "Components")
         {
         }
@@ -25,8 +24,7 @@ namespace Assembler
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("XData", "XD", "Extended Data associated to an AssemblyObject after the assemblage", GH_ParamAccess.item);
-            pManager.AddTransformParameter("Transformation", "X", "The Transformation to apply", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Assembly Object", "AO", "The newly created Assembly Object", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -34,8 +32,9 @@ namespace Assembler
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("XData", "XD", "Extended Data Transformed", GH_ParamAccess.item);
-            
+            pManager.AddNumberParameter("Receiver Value", "rV", "", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Sender Value", "sV", "", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("iWeight", "iW", "", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -44,16 +43,15 @@ namespace Assembler
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            XData xd = null, xdT;
-            Transform X = new Transform();
-            if (!DA.GetData(0, ref xd)) return;
-            if (!DA.GetData("Transformation", ref X)) return;
+            AssemblyObjectGoo GH_AO = null;
+            AssemblyObject AO;
+            // sanity check on inputs
+            if (!DA.GetData("Assembly Object", ref GH_AO)) return;
+            AO = GH_AO.Value;
 
-            xdT = new XData(xd);
-
-            xdT.Transform(X);
-
-            DA.SetData(0, xdT);
+            DA.SetData(0, AO.receiverValue);
+            DA.SetData(1, AO.senderValue);
+            DA.SetData(2, AO.iWeight);
         }
 
         /// <summary>
@@ -65,7 +63,7 @@ namespace Assembler
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.Transform_XData;
+                return null;
             }
         }
 
@@ -75,7 +73,7 @@ namespace Assembler
         /// </summary>
         public override GH_Exposure Exposure
         {
-            get { return GH_Exposure.tertiary; }
+            get { return GH_Exposure.hidden; }
         }
 
         /// <summary>
@@ -83,7 +81,7 @@ namespace Assembler
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("01966d06-64ae-4c4a-9424-e204d5f672c8"); }
+            get { return new Guid("F354C5D4-4849-4264-B897-E1ED8E77A9D5"); }
         }
     }
 }

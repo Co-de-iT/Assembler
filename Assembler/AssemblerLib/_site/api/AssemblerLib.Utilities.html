@@ -211,6 +211,30 @@
   </table>
   
   
+  <h4 id="AssemblerLib_Utilities_receiverValuesGradient" data-uid="AssemblerLib.Utilities.receiverValuesGradient">receiverValuesGradient</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly GH_Gradient receiverValuesGradient</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Grasshopper.GUI.Gradient.GH_Gradient</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
   <h4 id="AssemblerLib_Utilities_RhinoAbsoluteTolerance" data-uid="AssemblerLib.Utilities.RhinoAbsoluteTolerance">RhinoAbsoluteTolerance</h4>
   <div class="markdown level1 summary"><p>Tolerance from Rhino file</p>
 </div>
@@ -715,7 +739,7 @@ Useful for Vertex normal calculations</p>
   
   <a id="AssemblerLib_Utilities_CheckSupport_" data-uid="AssemblerLib.Utilities.CheckSupport*"></a>
   <h4 id="AssemblerLib_Utilities_CheckSupport_AssemblerLib_AssemblyObject_System_Collections_Generic_List_AssemblerLib_AssemblyObject__" data-uid="AssemblerLib.Utilities.CheckSupport(AssemblerLib.AssemblyObject,System.Collections.Generic.List{AssemblerLib.AssemblyObject})">CheckSupport(AssemblyObject, List&lt;AssemblyObject&gt;)</h4>
-  <div class="markdown level1 summary"><p>Check if the object is supported by a list of neighbouring AssemblyObjects</p>
+  <div class="markdown level1 summary"><p>Check if the <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> is supported by a list of neighbouring AssemblyObjects</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -755,7 +779,8 @@ Useful for Vertex normal calculations</p>
     <tbody>
       <tr>
         <td><span class="xref">System.Boolean</span></td>
-        <td></td>
+        <td><p>true if the object is supported, false otherwise</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -763,7 +788,7 @@ Useful for Vertex normal calculations</p>
   
   <a id="AssemblerLib_Utilities_CheckSupport_" data-uid="AssemblerLib.Utilities.CheckSupport*"></a>
   <h4 id="AssemblerLib_Utilities_CheckSupport_AssemblerLib_AssemblyObject_System_Collections_Generic_List_Rhino_Geometry_Mesh__" data-uid="AssemblerLib.Utilities.CheckSupport(AssemblerLib.AssemblyObject,System.Collections.Generic.List{Rhino.Geometry.Mesh})">CheckSupport(AssemblyObject, List&lt;Mesh&gt;)</h4>
-  <div class="markdown level1 summary"><p>Check if the object is supported by a list of neighbouring Meshes</p>
+  <div class="markdown level1 summary"><p>Check if the <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> is supported by a list of neighbouring Meshes</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -803,7 +828,8 @@ Useful for Vertex normal calculations</p>
     <tbody>
       <tr>
         <td><span class="xref">System.Boolean</span></td>
-        <td></td>
+        <td><p>true if the object is supported, false otherwise</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1134,7 +1160,8 @@ Useful for Vertex normal calculations</p>
     <tbody>
       <tr>
         <td><span class="xref">System.Boolean</span></td>
-        <td></td>
+        <td><p>true if a collision exists</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1143,7 +1170,7 @@ Useful for Vertex normal calculations</p>
   <a id="AssemblerLib_Utilities_CollisionCheckAssemblageParallel_" data-uid="AssemblerLib.Utilities.CollisionCheckAssemblageParallel*"></a>
   <h4 id="AssemblerLib_Utilities_CollisionCheckAssemblageParallel_AssemblerLib_Assemblage_AssemblerLib_AssemblyObject_" data-uid="AssemblerLib.Utilities.CollisionCheckAssemblageParallel(AssemblerLib.Assemblage,AssemblerLib.AssemblyObject)">CollisionCheckAssemblageParallel(Assemblage, AssemblyObject)</h4>
   <div class="markdown level1 summary"><p>Collision Check in the assemblage for a given <a class="xref" href="AssemblerLib.Assemblage.html">Assemblage</a> and <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> - Parallel version
-Works but PAINFULLY SLOW</p>
+Works but PAINFULLY SLOW - probably too many overhangs</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -1191,14 +1218,63 @@ Works but PAINFULLY SLOW</p>
   </table>
   
   
-  <a id="AssemblerLib_Utilities_CollisionCheckNeighbours_" data-uid="AssemblerLib.Utilities.CollisionCheckNeighbours*"></a>
-  <h4 id="AssemblerLib_Utilities_CollisionCheckNeighbours_AssemblerLib_AssemblyObject_System_Collections_Generic_List_AssemblerLib_AssemblyObject__" data-uid="AssemblerLib.Utilities.CollisionCheckNeighbours(AssemblerLib.AssemblyObject,System.Collections.Generic.List{AssemblerLib.AssemblyObject})">CollisionCheckNeighbours(AssemblyObject, List&lt;AssemblyObject&gt;)</h4>
-  <div class="markdown level1 summary"><p>Collision Check in the <a class="xref" href="AssemblerLib.Assemblage.html">Assemblage</a> for a given <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a></p>
+  <a id="AssemblerLib_Utilities_CollisionCheckMeshes_" data-uid="AssemblerLib.Utilities.CollisionCheckMeshes*"></a>
+  <h4 id="AssemblerLib_Utilities_CollisionCheckMeshes_Rhino_Geometry_Mesh_Rhino_Geometry_Mesh_" data-uid="AssemblerLib.Utilities.CollisionCheckMeshes(Rhino.Geometry.Mesh,Rhino.Geometry.Mesh)">CollisionCheckMeshes(Mesh, Mesh)</h4>
+  <div class="markdown level1 summary"><p>Collision Check between 2 Meshes</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static bool CollisionCheckNeighbours(AssemblyObject AO, List&lt;AssemblyObject&gt; neighList)</code></pre>
+    <pre><code class="lang-csharp hljs">public static bool CollisionCheckMeshes(Mesh test, Mesh surroundings)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Rhino.Geometry.Mesh</span></td>
+        <td><span class="parametername">test</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">Rhino.Geometry.Mesh</span></td>
+        <td><span class="parametername">surroundings</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>True if objects are colliding or one contains the other</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="AssemblerLib_Utilities_CollisionCheckNeighbours_" data-uid="AssemblerLib.Utilities.CollisionCheckNeighbours*"></a>
+  <h4 id="AssemblerLib_Utilities_CollisionCheckNeighbours_AssemblerLib_AssemblyObject_System_Collections_Generic_List_AssemblerLib_AssemblyObject__" data-uid="AssemblerLib.Utilities.CollisionCheckNeighbours(AssemblerLib.AssemblyObject,System.Collections.Generic.List{AssemblerLib.AssemblyObject})">CollisionCheckNeighbours(AssemblyObject, List&lt;AssemblyObject&gt;)</h4>
+  <div class="markdown level1 summary"><p>Collision Check with other <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>s for a given <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool CollisionCheckNeighbours(AssemblyObject AO, List&lt;AssemblyObject&gt; neighbours)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1217,7 +1293,7 @@ Works but PAINFULLY SLOW</p>
       </tr>
       <tr>
         <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>&gt;</td>
-        <td><span class="parametername">neighList</span></td>
+        <td><span class="parametername">neighbours</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -1509,7 +1585,7 @@ Mesh weighted normals implemented from the tips at the folowing pages:
   
   <a id="AssemblerLib_Utilities_GetUniqueVectors_" data-uid="AssemblerLib.Utilities.GetUniqueVectors*"></a>
   <h4 id="AssemblerLib_Utilities_GetUniqueVectors_Rhino_Geometry_Vector3d___System_Double_" data-uid="AssemblerLib.Utilities.GetUniqueVectors(Rhino.Geometry.Vector3d[],System.Double)">GetUniqueVectors(Vector3d[], Double)</h4>
-  <div class="markdown level1 summary"><p>Removes duplicate vectors (within tolerance) from an array, returing only unique vectors</p>
+  <div class="markdown level1 summary"><p>Removes duplicate vectors (within tolerance) from an array, returning only unique vectors</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -2444,7 +2520,7 @@ and: <a href="http://www.bytehazard.com/articles/vertnorm.html">http://www.byteh
   
   <a id="AssemblerLib_Utilities_SetSupports_" data-uid="AssemblerLib.Utilities.SetSupports*"></a>
   <h4 id="AssemblerLib_Utilities_SetSupports_AssemblerLib_AssemblyObject_System_Collections_Generic_List_Rhino_Geometry_Line__System_Int32_" data-uid="AssemblerLib.Utilities.SetSupports(AssemblerLib.AssemblyObject,System.Collections.Generic.List{Rhino.Geometry.Line},System.Int32)">SetSupports(AssemblyObject, List&lt;Line&gt;, Int32)</h4>
-  <div class="markdown level1 summary"><p>Add Supports to the AssemblyObject - returns true if successful</p>
+  <div class="markdown level1 summary"><p>Add <a class="xref" href="AssemblerLib.Support.html">Support</a>s to the <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a></p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -2489,7 +2565,8 @@ and: <a href="http://www.bytehazard.com/articles/vertnorm.html">http://www.byteh
     <tbody>
       <tr>
         <td><span class="xref">System.Boolean</span></td>
-        <td></td>
+        <td><p>true if successful</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -2539,7 +2616,7 @@ and: <a href="http://www.bytehazard.com/articles/vertnorm.html">http://www.byteh
   
   <a id="AssemblerLib_Utilities_SupportIntersect_" data-uid="AssemblerLib.Utilities.SupportIntersect*"></a>
   <h4 id="AssemblerLib_Utilities_SupportIntersect_AssemblerLib_Support_System_Collections_Generic_List_AssemblerLib_AssemblyObject__" data-uid="AssemblerLib.Utilities.SupportIntersect(AssemblerLib.Support,System.Collections.Generic.List{AssemblerLib.AssemblyObject})">SupportIntersect(Support, List&lt;AssemblyObject&gt;)</h4>
-  <div class="markdown level1 summary"><p>Check intersection of a Support with a list of AssemblyObjects</p>
+  <div class="markdown level1 summary"><p>Check intersection of a <a class="xref" href="AssemblerLib.Support.html">Support</a> with a list of <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>s</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -2688,7 +2765,7 @@ and: <a href="http://www.bytehazard.com/articles/vertnorm.html">http://www.byteh
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static DataTree&lt;T&gt; ToDataTree&lt;T&gt;(T[][] jArray)</code></pre>
+    <pre><code class="lang-csharp hljs">public static DataTree&lt;T&gt; ToDataTree&lt;T&gt;(T[][] jaggedArray)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -2702,7 +2779,7 @@ and: <a href="http://www.bytehazard.com/articles/vertnorm.html">http://www.byteh
     <tbody>
       <tr>
         <td>T[][]</td>
-        <td><span class="parametername">jArray</span></td>
+        <td><span class="parametername">jaggedArray</span></td>
         <td></td>
       </tr>
     </tbody>

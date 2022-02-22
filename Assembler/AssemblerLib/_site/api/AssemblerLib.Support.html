@@ -109,7 +109,7 @@
   
   <a id="AssemblerLib_Support__ctor_" data-uid="AssemblerLib.Support.#ctor*"></a>
   <h4 id="AssemblerLib_Support__ctor_AssemblerLib_Support_" data-uid="AssemblerLib.Support.#ctor(AssemblerLib.Support)">Support(Support)</h4>
-  <div class="markdown level1 summary"><p>Construct a support from another Support (deep copy)</p>
+  <div class="markdown level1 summary"><p>Construct a support from another Support (Clone with connectivity)</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -203,31 +203,6 @@
   </h3>
   
   
-  <h4 id="AssemblerLib_Support_connected" data-uid="AssemblerLib.Support.connected">connected</h4>
-  <div class="markdown level1 summary"><p>connected flag - true if support intersects a nearby geometry</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool connected</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
   <h4 id="AssemblerLib_Support_initLength" data-uid="AssemblerLib.Support.initLength">initLength</h4>
   <div class="markdown level1 summary"><p>initial length of the support</p>
 </div>
@@ -279,7 +254,8 @@
   
   
   <h4 id="AssemblerLib_Support_neighbourObject" data-uid="AssemblerLib.Support.neighbourObject">neighbourObject</h4>
-  <div class="markdown level1 summary"><p>Index of neighbour AssemblyObject connected by the support; -1 if free, -2 if connected to other entities (i.e. an external object)</p>
+  <div class="markdown level1 summary"><p>Index of neighbour AssemblyObject connected by the support
+-1 if free, -2 if connected to other entities (i.e. an external object)</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -297,6 +273,34 @@
     <tbody>
       <tr>
         <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="AssemblerLib_Support_Connected_" data-uid="AssemblerLib.Support.Connected*"></a>
+  <h4 id="AssemblerLib_Support_Connected" data-uid="AssemblerLib.Support.Connected">Connected</h4>
+  <div class="markdown level1 summary"><p>connected flag - true if support intersects a nearby geometry</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Connected { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
         <td></td>
       </tr>
     </tbody>

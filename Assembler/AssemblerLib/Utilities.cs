@@ -35,7 +35,10 @@ namespace AssemblerLib
             new Color[] { Color.Black, Color.FromArgb(56, 136, 150), Color.FromArgb(186, 224, 224), Color.White });
         public static readonly GH_Gradient zHeightGradient = new GH_Gradient(new double[] { 0.0, 0.33, 0.66, 1.0 },
             new Color[] { Color.Black, Color.FromArgb(150, 66, 114), Color.FromArgb(224, 186, 187), Color.White });
-        public static readonly GH_Gradient densityGradient = new GH_Gradient(new double[] { 0.0, 1.0 }, new Color[] { Color.White, Color.Red });
+        public static readonly GH_Gradient densityGradient = new GH_Gradient(new double[] { 0.0, 0.5, 1.0 },
+            new Color[] { Color.White, Color.SlateGray, Color.DarkSlateGray });
+        public static readonly GH_Gradient receiverValuesGradient = new GH_Gradient(new double[] { 0.0, 0.5, 1.0 },
+            new Color[] { Color.White, Color.Red, Color.DarkRed });
 
         // AssemblyObject Type palette has a max of 24 colors - which is already WAY TOO MANY!!!
         public static readonly Color[] AOTypePalette = new Color[] {
@@ -62,7 +65,7 @@ namespace AssemblerLib
         /// </summary>
         /// <param name="AOa">The <see cref="Assemblage"/> to check</param>
         /// <param name="sO">The sender <see cref="AssemblyObject"/></param>
-        /// <returns></returns>
+        /// <returns>true if a collision exists</returns>
         public static bool CollisionCheckAssemblage(Assemblage AOa, AssemblyObject sO)
         {
             // get first vertex as Point3d for inclusion check
@@ -70,11 +73,11 @@ namespace AssemblerLib
 
             // find neighbours in Assemblage 
             List<int> neighList = new List<int>();
-            // collision radius is a field of the AssemblyObject itself
-            AOa.centroidsTree.Search(new Sphere(sO.referencePlane.Origin, sO.collisionRadius), (object sender, RTreeEventArgs e) =>
+            // collision radius is a field of AssemblyObject
+            AOa.centroidsTree.Search(new Sphere(sO.referencePlane.Origin, sO.collisionRadius), (sender, args) =>
             {
                 // recover the AssemblyObject index related to the found centroid
-                neighList.Add(AOa.centroidsAO[e.Id]);
+                neighList.Add(AOa.centroidsAO[args.Id]);
             });
 
             // check for no neighbours
@@ -83,7 +86,7 @@ namespace AssemblerLib
             // check for collisions + inclusion (sender in receiver, receiver in sender)
             foreach (int index in neighList)
             {
-                // check Bounding Box intersection first - if no intersection continue to the next
+                // check Bounding Box intersection first - if no intersection continue to the next loop iteration
                 if (!BoundingBoxIntersect(sO.collisionMesh.GetBoundingBox(false),
                     AOa.assemblyObjects[index].collisionMesh.GetBoundingBox(false)))
                     continue;
@@ -104,7 +107,7 @@ namespace AssemblerLib
 
         /// <summary>
         /// Collision Check in the assemblage for a given <see cref="Assemblage"/> and <see cref="AssemblyObject"/> - Parallel version
-        /// Works but PAINFULLY SLOW
+        /// Works but PAINFULLY SLOW - probably too many overhangs
         /// </summary>
         /// <param name="AOa">The <see cref="Assemblage"/> to check</param>
         /// <param name="sO">The sender <see cref="AssemblyObject"/></param>
@@ -118,10 +121,10 @@ namespace AssemblerLib
             // find neighbours in Assemblage 
             List<int> neighList = new List<int>();
             // collision radius is a field of AssemblyObjects
-            AOa.centroidsTree.Search(new Sphere(sO.referencePlane.Origin, sO.collisionRadius), (object sender, RTreeEventArgs e) =>
+            AOa.centroidsTree.Search(new Sphere(sO.referencePlane.Origin, sO.collisionRadius), (sender, args) =>
             {
                 // recover the AssemblyObject index related to the found centroid
-                neighList.Add(AOa.centroidsAO[e.Id]);
+                neighList.Add(AOa.centroidsAO[args.Id]);
             });
 
             // check for no neighbours
@@ -153,19 +156,19 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// Collision Check in the <see cref="Assemblage"/> for a given <see cref="AssemblyObject"/>
+        /// Collision Check with other <see cref="AssemblyObject"/>s for a given <see cref="AssemblyObject"/>
         /// </summary>
         /// <param name="AO"></param>
-        /// <param name="neighList"></param>
+        /// <param name="neighbours"></param>
         /// <returns></returns>
-        public static bool CollisionCheckNeighbours(AssemblyObject AO, List<AssemblyObject> neighList)
+        public static bool CollisionCheckNeighbours(AssemblyObject AO, List<AssemblyObject> neighbours)
         {
 
             // get first vertex as Point3d for inclusion check
             Point3d neighFirstVertex, AOfirstVertex = AO.offsetMesh.Vertices[0];
 
-            // check for collisions + distance between centroids under threshold
-            foreach (AssemblyObject neighbour in neighList)
+            // check for collisions + inclusion (first points inside each other under threshold)
+            foreach (AssemblyObject neighbour in neighbours)
             {
                 if (Intersection.MeshMeshFast(AO.offsetMesh, neighbour.collisionMesh).Length > 0)
                     return true;
@@ -176,9 +179,6 @@ namespace AssemblerLib
 
                 if (AO.collisionMesh.IsPointInside(neighFirstVertex, RhinoAbsoluteTolerance, true))
                     return true;
-
-                //if (AO.referencePlane.Origin.DistanceToSquared(other.referencePlane.Origin) < tolSquared)// Rhino.RhinoDoc.ActiveDoc.ModelAbsoluteTolerance) // formerly 0.01
-                //    return true;
             }
             return false;
         }
@@ -191,18 +191,41 @@ namespace AssemblerLib
         /// <returns>True if objects are colliding or one contains the other</returns>
         public static bool CollisionCheckPair(AssemblyObject receiver, AssemblyObject sender)
         {
-            // mesh colliison test
+            // mesh collision test
             if (Intersection.MeshMeshFast(receiver.collisionMesh, sender.offsetMesh).Length > 0)
                 return true;
 
-            // mesh inclusion test
-            // get first vertex as Point3d for inclusion check
-            Point3d sOfirstVertex = sender.offsetMesh.Vertices[0];
+            // mesh inclusion test - uses first vertex as Point3d for inclusion check
             Point3d rOfirstVertex = receiver.offsetMesh.Vertices[0];
-
             if (sender.collisionMesh.IsPointInside(rOfirstVertex, RhinoAbsoluteTolerance, true))
                 return true;
+
+            Point3d sOfirstVertex = sender.offsetMesh.Vertices[0];
             if (receiver.collisionMesh.IsPointInside(sOfirstVertex, RhinoAbsoluteTolerance, true))
+                return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// Collision Check between 2 Meshes
+        /// </summary>
+        /// <param name="test"></param>
+        /// <param name="surroundings"></param>
+        /// <returns>True if objects are colliding or one contains the other</returns>
+        public static bool CollisionCheckMeshes(Mesh test, Mesh surroundings)
+        {
+            // mesh collision test
+            if (Intersection.MeshMeshFast(test, surroundings).Length > 0)
+                return true;
+
+            // mesh inclusion test - uses first vertex as Point3d for inclusion check
+            Point3d testFirstVertex = test.Vertices[0];
+            if (surroundings.IsPointInside(testFirstVertex, RhinoAbsoluteTolerance, true))
+                return true;
+
+            Point3d sFirstVertex = surroundings.Vertices[0];
+            if (test.IsPointInside(sFirstVertex, RhinoAbsoluteTolerance, true))
                 return true;
 
             return false;
@@ -234,10 +257,10 @@ namespace AssemblerLib
             // find neighbours in Assemblage
             List<int> neighList = new List<int>();
             // collision radius is a field of AssemblyObjects
-            AOa.centroidsTree.Search(new Sphere(AO.referencePlane.Origin, AO.collisionRadius), (object sender, RTreeEventArgs e) =>
+            AOa.centroidsTree.Search(new Sphere(AO.referencePlane.Origin, AO.collisionRadius), (sender, args) =>
             {
                 // check and recover the AssemblyObject index related to the found centroid
-                if (AOa.centroidsAO[e.Id] != AOindex) neighList.Add(AOa.centroidsAO[e.Id]);
+                if (AOa.centroidsAO[args.Id] != AOindex) neighList.Add(AOa.centroidsAO[args.Id]);
             });
 
             // if there are no neighbours return
@@ -266,10 +289,10 @@ namespace AssemblerLib
                         if (AO.handles[k].occupancy != 0) continue;
                         // ANY Handle (type independent) who is accidentally in contact is considered connected by default
                         // maybe set an option for strict type or rule based check if necessary
-                        // for rule based chacks, newly placed AO is treated as sender, neighbour is treated as receiver
+                        // for rule based checks, newly placed AO is treated as sender, neighbour is treated as receiver
                         // if (RuleExist(AOa, AO.type, AOa.assemblyObjects[index].type, AO.handles[k].type, AOa.assemblyObjects[index].handles[j].type))
                         // if handles are of the same type...
-                        //if (AO.handles[k].type == AOa.assemblyObjects[index].handles[j].type)
+                        // if (AO.handles[k].type == AOa.assemblyObjects[index].handles[j].type)
                         // ...and their distance is below absolute tolerance...
                         if (AOa.assemblyObjects[index].handles[j].sender.Origin.DistanceToSquared(AO.handles[k].sender.Origin) < RhinoAbsoluteToleranceSquared)
                         {
@@ -286,7 +309,7 @@ namespace AssemblerLib
 
                     // CHECK OBSTRUCTION OF NEIGHBOUR HANDLES BY sO
                     // shoot a line from the handle
-                    ray = new Line(AOa.assemblyObjects[index].handles[j].sender.Origin - (AOa.assemblyObjects[index].handles[j].sender.ZAxis * Utilities.RhinoAbsoluteTolerance * 5), AOa.assemblyObjects[index].handles[j].sender.ZAxis * 1.5);
+                    ray = new Line(AOa.assemblyObjects[index].handles[j].sender.Origin - (AOa.assemblyObjects[index].handles[j].sender.ZAxis * RhinoAbsoluteTolerance * 5), AOa.assemblyObjects[index].handles[j].sender.ZAxis * 1.5);
 
                     // if it intercepts the last added object
                     if (Intersection.MeshLine(AO.collisionMesh, ray, out faceIDs).Length != 0)
@@ -433,15 +456,14 @@ namespace AssemblerLib
             for (int i = 0; i < ass.assemblyObjects.Count; i++)
                 cAss.assemblyObjects.Add(CloneWithConnectivity(ass.assemblyObjects[i]));
             // clone AOSet
-            cAss.AOset = new AssemblyObject[ass.AOset.Length];
-            for (int i = 0; i < ass.AOset.Length; i++)
-                cAss.AOset[i] = Clone(ass.AOset[i]);
+            cAss.AOSet = new AssemblyObject[ass.AOSet.Length];
+            for (int i = 0; i < ass.AOSet.Length; i++)
+                cAss.AOSet[i] = Clone(ass.AOSet[i]);
             // clone dictionary
             cAss.objectsDictionary = new Dictionary<string, int>(ass.objectsDictionary);
-            // clone environment meshes
-            cAss.environmentMeshes = new List<MeshEnvironment>();
-            for (int i = 0; i < ass.environmentMeshes.Count; i++)
-                cAss.environmentMeshes.Add(new MeshEnvironment(ass.environmentMeshes[i]));
+            // clone settings
+            cAss.HeuristicsSettings = ass.HeuristicsSettings;
+            cAss.ExogenousSettings = ass.ExogenousSettings;
             // clone Sandbox
             cAss.E_sandbox = ass.E_sandbox;
             // duplicate others
@@ -450,16 +472,11 @@ namespace AssemblerLib
             // candidateObjects doesn't need duplication
             cAss.assemblageRules = ass.assemblageRules;
             cAss.receiverIndexes = ass.receiverIndexes;
-            cAss.fieldThreshold = ass.fieldThreshold;
-            cAss.selectReceiverMode = ass.selectReceiverMode;
-            cAss.selectRuleMode = ass.selectRuleMode;
-            cAss.heuristicsMode = ass.heuristicsMode;
             cAss.checkWorldZLock = ass.checkWorldZLock;
             cAss.centroidsAO = ass.centroidsAO;
             cAss.centroidsTree = ass.centroidsTree;
             cAss.availableObjects = ass.availableObjects;
             cAss.unreachableObjects = ass.unreachableObjects;
-            cAss.field = new Field(ass.field);
             return cAss;
         }
 
@@ -542,7 +559,7 @@ namespace AssemblerLib
 
             // clone AssemblyObject
             AssemblyObject AOclone = new AssemblyObject(collisionMesh, offsetMesh, handles, AO.referencePlane, AO.direction, AO.AInd, occludedNeighbours, AO.collisionRadius,
-                AO.name, AO.type, AO.weight, AO.iWeight, supports, AO.minSupports, AO.supported, AO.worldZLock, children, handleMap);
+                AO.name, AO.type, AO.weight, AO.iWeight, supports, AO.minSupports, AO.supported, AO.worldZLock, children, handleMap, AO.receiverValue, AO.senderValue);
 
             return AOclone;
         }
@@ -593,12 +610,12 @@ namespace AssemblerLib
         #region Supports Utilities
 
         /// <summary>
-        /// Add Supports to the AssemblyObject - returns true if successful
+        /// Add <see cref="Support"/>s to the <see cref="AssemblyObject"/>
         /// </summary>
         /// <param name="AO"></param>
         /// <param name="lines"></param>
         /// <param name="minSupports"></param>
-        /// <returns></returns>
+        /// <returns>true if successful</returns>
         public static bool SetSupports(AssemblyObject AO, List<Line> lines, int minSupports)
         {
             if (lines == null || lines.Count == 0) return false;
@@ -626,23 +643,22 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// Check if the object is supported by a list of neighbouring AssemblyObjects
+        /// Check if the <see cref="AssemblyObject"/> is supported by a list of neighbouring AssemblyObjects
         /// </summary>
         /// <param name="AO"></param>
         /// <param name="neighbours"></param>
-        /// <returns></returns>
+        /// <returns>true if the object is supported, false otherwise</returns>
         public static bool CheckSupport(AssemblyObject AO, List<AssemblyObject> neighbours)
         {
             if (AO.supported) return true;
 
             //AO.supported = false;
-
             int sCount = 0;
             // connected supports (as tentative)
             List<int> cSupports = new List<int>();
 
             for (int i = 0; i < AO.supports.Count; i++)
-                if (AO.supports[i].connected || SupportIntersect(AO.supports[i], neighbours))
+                if (AO.supports[i].Connected || SupportIntersect(AO.supports[i], neighbours))
                 {
                     sCount++;
                     cSupports.Add(i);
@@ -659,11 +675,11 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// Check if the object is supported by a list of neighbouring Meshes
+        /// Check if the <see cref="AssemblyObject"/> is supported by a list of neighbouring Meshes
         /// </summary>
         /// <param name="AO"></param>
         /// <param name="neighMeshes"></param>
-        /// <returns></returns>
+        /// <returns>true if the object is supported, false otherwise</returns>
         public static bool CheckSupport(AssemblyObject AO, List<Mesh> neighMeshes)
         {
             if (AO.supported) return true;
@@ -674,7 +690,7 @@ namespace AssemblerLib
             List<int> cSupports = new List<int>();
 
             for (int i = 0; i < AO.supports.Count; i++)
-                if (AO.supports[i].connected || SupportIntersect(AO.supports[i], neighMeshes))
+                if (AO.supports[i].Connected || SupportIntersect(AO.supports[i], neighMeshes))
                 {
                     sCount++;
                     cSupports.Add(i);
@@ -691,7 +707,7 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// Check intersection of a Support with a list of AssemblyObjects
+        /// Check intersection of a <see cref="Support"/> with a list of <see cref="AssemblyObject"/>s
         /// </summary>
         /// <param name="s"></param>
         /// <param name="neighbours"></param>
@@ -719,7 +735,7 @@ namespace AssemblerLib
                     //s.line = new Line(s.line.From, s.line.From + dir);
                     s.line = new Line(s.line.From, intPts[0]);
                     s.neighbourObject = AO.AInd;
-                    s.connected = true;
+                    //s.connected = true;
                     return true;
                 }
             }
@@ -1368,7 +1384,7 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// Removes duplicate vectors (within tolerance) from an array, returing only unique vectors
+        /// Removes duplicate vectors (within tolerance) from an array, returning only unique vectors
         /// </summary>
         /// <param name="vectors"></param>
         /// <param name="angleTolerance"></param>
@@ -1552,14 +1568,14 @@ namespace AssemblerLib
         /// Converts a jagged array into a DataTree of the same type
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="jArray"></param>
+        /// <param name="jaggedArray"></param>
         /// <returns></returns>
-        public static DataTree<T> ToDataTree<T>(T[][] jArray)
+        public static DataTree<T> ToDataTree<T>(T[][] jaggedArray)
         {
             DataTree<T> data = new DataTree<T>();
 
-            for (int i = 0; i < jArray.Length; i++)
-                data.AddRange(jArray[i].Select(d => d).ToList(), new GH_Path(i));
+            for (int i = 0; i < jaggedArray.Length; i++)
+                data.AddRange(jaggedArray[i].Select(d => d).ToList(), new GH_Path(i));
 
             return data;
         }

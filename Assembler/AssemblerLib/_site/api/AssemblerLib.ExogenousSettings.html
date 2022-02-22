@@ -107,12 +107,12 @@
   
   
   <a id="AssemblerLib_ExogenousSettings__ctor_" data-uid="AssemblerLib.ExogenousSettings.#ctor*"></a>
-  <h4 id="AssemblerLib_ExogenousSettings__ctor_System_Collections_Generic_List_Rhino_Geometry_Mesh__System_Int32_AssemblerLib_Field_System_Double_Rhino_Geometry_Box_" data-uid="AssemblerLib.ExogenousSettings.#ctor(System.Collections.Generic.List{Rhino.Geometry.Mesh},System.Int32,AssemblerLib.Field,System.Double,Rhino.Geometry.Box)">ExogenousSettings(List&lt;Mesh&gt;, Int32, Field, Double, Box)</h4>
+  <h4 id="AssemblerLib_ExogenousSettings__ctor_System_Collections_Generic_List_Rhino_Geometry_Mesh__System_Int32_AssemblerLib_Field_System_Double_Rhino_Geometry_Box_System_Boolean_" data-uid="AssemblerLib.ExogenousSettings.#ctor(System.Collections.Generic.List{Rhino.Geometry.Mesh},System.Int32,AssemblerLib.Field,System.Double,Rhino.Geometry.Box,System.Boolean)">ExogenousSettings(List&lt;Mesh&gt;, Int32, Field, Double, Box, Boolean)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ExogenousSettings(List&lt;Mesh&gt; environmentMeshes, int environmentMode, Field field, double fieldScalarThreshold, Box sandBox)</code></pre>
+    <pre><code class="lang-csharp hljs">public ExogenousSettings(List&lt;Mesh&gt; meshes, int environmentMode, Field field, double fieldScalarThreshold, Box sandBox, bool hasContainer)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -126,7 +126,7 @@
     <tbody>
       <tr>
         <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">Rhino.Geometry.Mesh</span>&gt;</td>
-        <td><span class="parametername">environmentMeshes</span></td>
+        <td><span class="parametername">meshes</span></td>
         <td></td>
       </tr>
       <tr>
@@ -149,6 +149,11 @@
         <td><span class="parametername">sandBox</span></td>
         <td></td>
       </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">hasContainer</span></td>
+        <td></td>
+      </tr>
     </tbody>
   </table>
   <h3 id="fields">Fields
@@ -160,7 +165,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public List&lt;Mesh&gt; environmentMeshes</code></pre>
+    <pre><code class="lang-csharp hljs">public readonly List&lt;MeshEnvironment&gt; environmentMeshes</code></pre>
   </div>
   <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -172,7 +177,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">Rhino.Geometry.Mesh</span>&gt;</td>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AssemblerLib.MeshEnvironment.html">MeshEnvironment</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -184,7 +189,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int environmentMode</code></pre>
+    <pre><code class="lang-csharp hljs">public readonly int environmentMode</code></pre>
   </div>
   <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -208,7 +213,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Field field</code></pre>
+    <pre><code class="lang-csharp hljs">public readonly Field field</code></pre>
   </div>
   <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -232,7 +237,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public double fieldScalarThreshold</code></pre>
+    <pre><code class="lang-csharp hljs">public readonly double fieldScalarThreshold</code></pre>
   </div>
   <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">

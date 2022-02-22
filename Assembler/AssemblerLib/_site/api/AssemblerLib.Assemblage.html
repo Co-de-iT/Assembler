@@ -73,7 +73,8 @@
   
   <h1 id="AssemblerLib_Assemblage" data-uid="AssemblerLib.Assemblage" class="text-break">Class Assemblage
   </h1>
-  <div class="markdown level0 summary"><p>Assemblage class - A Class that manages Assemblages</p>
+  <div class="markdown level0 summary"><p>Assemblage class - A Class that manages Assemblages
+refactor Assemblage class to embed settings structs as part of it (variables used directly from the structs)</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
@@ -117,8 +118,7 @@
   
   <a id="AssemblerLib_Assemblage__ctor_" data-uid="AssemblerLib.Assemblage.#ctor*"></a>
   <h4 id="AssemblerLib_Assemblage__ctor" data-uid="AssemblerLib.Assemblage.#ctor">Assemblage()</h4>
-  <div class="markdown level1 summary"><p>debug variables</p>
-</div>
+  <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -127,13 +127,13 @@
   
   
   <a id="AssemblerLib_Assemblage__ctor_" data-uid="AssemblerLib.Assemblage.#ctor*"></a>
-  <h4 id="AssemblerLib_Assemblage__ctor_System_Collections_Generic_List_AssemblerLib_AssemblyObject__System_Collections_Generic_List_AssemblerLib_AssemblyObject__AssemblerLib_Field_System_Double_System_Collections_Generic_List_System_String__Rhino_Geometry_Plane_System_Int32_System_Collections_Generic_List_Rhino_Geometry_Mesh__Rhino_Geometry_Box_" data-uid="AssemblerLib.Assemblage.#ctor(System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.List{AssemblerLib.AssemblyObject},AssemblerLib.Field,System.Double,System.Collections.Generic.List{System.String},Rhino.Geometry.Plane,System.Int32,System.Collections.Generic.List{Rhino.Geometry.Mesh},Rhino.Geometry.Box)">Assemblage(List&lt;AssemblyObject&gt;, List&lt;AssemblyObject&gt;, Field, Double, List&lt;String&gt;, Plane, Int32, List&lt;Mesh&gt;, Box)</h4>
-  <div class="markdown level1 summary"><p>Extensive constructor for the Assemblage class</p>
+  <h4 id="AssemblerLib_Assemblage__ctor_System_Collections_Generic_List_AssemblerLib_AssemblyObject__System_Collections_Generic_List_AssemblerLib_AssemblyObject__Rhino_Geometry_Plane_System_Int32_AssemblerLib_HeuristicsSettings_AssemblerLib_ExogenousSettings_" data-uid="AssemblerLib.Assemblage.#ctor(System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.List{AssemblerLib.AssemblyObject},Rhino.Geometry.Plane,System.Int32,AssemblerLib.HeuristicsSettings,AssemblerLib.ExogenousSettings)">Assemblage(List&lt;AssemblyObject&gt;, List&lt;AssemblyObject&gt;, Plane, Int32, HeuristicsSettings, ExogenousSettings)</h4>
+  <div class="markdown level1 summary"><p>Construct an Assemblage from essential parameters</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Assemblage(List&lt;AssemblyObject&gt; AOs, List&lt;AssemblyObject&gt; pAO, Field field, double fieldThreshold, List&lt;string&gt; heuristicsString, Plane startPlane, int startType, List&lt;Mesh&gt; environmentMeshes, Box sandbox)</code></pre>
+    <pre><code class="lang-csharp hljs">public Assemblage(List&lt;AssemblyObject&gt; AOs, List&lt;AssemblyObject&gt; pAO, Plane startPlane, int startType, HeuristicsSettings HeuristicsSettings, ExogenousSettings ExogenousSettings)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -156,21 +156,6 @@
         <td></td>
       </tr>
       <tr>
-        <td><a class="xref" href="AssemblerLib.Field.html">Field</a></td>
-        <td><span class="parametername">field</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Double</span></td>
-        <td><span class="parametername">fieldThreshold</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.String</span>&gt;</td>
-        <td><span class="parametername">heuristicsString</span></td>
-        <td></td>
-      </tr>
-      <tr>
         <td><span class="xref">Rhino.Geometry.Plane</span></td>
         <td><span class="parametername">startPlane</span></td>
         <td></td>
@@ -181,13 +166,13 @@
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">Rhino.Geometry.Mesh</span>&gt;</td>
-        <td><span class="parametername">environmentMeshes</span></td>
+        <td><a class="xref" href="AssemblerLib.HeuristicsSettings.html">HeuristicsSettings</a></td>
+        <td><span class="parametername">HeuristicsSettings</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">Rhino.Geometry.Box</span></td>
-        <td><span class="parametername">sandbox</span></td>
+        <td><a class="xref" href="AssemblerLib.ExogenousSettings.html">ExogenousSettings</a></td>
+        <td><span class="parametername">ExogenousSettings</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -196,13 +181,13 @@
   </h3>
   
   
-  <h4 id="AssemblerLib_Assemblage_AOset" data-uid="AssemblerLib.Assemblage.AOset">AOset</h4>
-  <div class="markdown level1 summary"><p>The set of unique object types</p>
+  <h4 id="AssemblerLib_Assemblage_AOSet" data-uid="AssemblerLib.Assemblage.AOSet">AOSet</h4>
+  <div class="markdown level1 summary"><p>The set of unique <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> types</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public AssemblyObject[] AOset</code></pre>
+    <pre><code class="lang-csharp hljs">public AssemblyObject[] AOSet</code></pre>
   </div>
   <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -272,7 +257,7 @@
   
   
   <h4 id="AssemblerLib_Assemblage_candidateObjects" data-uid="AssemblerLib.Assemblage.candidateObjects">candidateObjects</h4>
-  <div class="markdown level1 summary"><p>Test variable to see the temporary sender object(s) in output</p>
+  <div class="markdown level1 summary"><p>Candidate sender objects at each iteration</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -297,7 +282,7 @@
   
   
   <h4 id="AssemblerLib_Assemblage_checkWorldZLock" data-uid="AssemblerLib.Assemblage.checkWorldZLock">checkWorldZLock</h4>
-  <div class="markdown level1 summary"><p>if True, forces candidates to have their own Z axis parallel to the World Z axis (fixed up)</p>
+  <div class="markdown level1 summary"><p>if True, forces candidates to have their own Z axis parallel to the World Z axis (fixed up direction)</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -347,7 +332,7 @@
   
   
   <h4 id="AssemblerLib_Assemblage_E_sandbox" data-uid="AssemblerLib.Assemblage.E_sandbox">E_sandbox</h4>
-  <div class="markdown level1 summary"><p>Sandbox for focused assemblage growth </p>
+  <div class="markdown level1 summary"><p>Sandbox for focused assemblage growth - EXPERIMENTAL - NOT IMPLEMENTED YET</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -371,13 +356,13 @@
   </table>
   
   
-  <h4 id="AssemblerLib_Assemblage_environmentMeshes" data-uid="AssemblerLib.Assemblage.environmentMeshes">environmentMeshes</h4>
-  <div class="markdown level1 summary"><p>The environment meshes</p>
+  <h4 id="AssemblerLib_Assemblage_ExogenousSettings" data-uid="AssemblerLib.Assemblage.ExogenousSettings">ExogenousSettings</h4>
+  <div class="markdown level1 summary"><p>Exogenous settings (external influences)</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public List&lt;MeshEnvironment&gt; environmentMeshes</code></pre>
+    <pre><code class="lang-csharp hljs">public ExogenousSettings ExogenousSettings</code></pre>
   </div>
   <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -389,20 +374,20 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AssemblerLib.MeshEnvironment.html">MeshEnvironment</a>&gt;</td>
+        <td><a class="xref" href="AssemblerLib.ExogenousSettings.html">ExogenousSettings</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   
   
-  <h4 id="AssemblerLib_Assemblage_fieldThreshold" data-uid="AssemblerLib.Assemblage.fieldThreshold">fieldThreshold</h4>
-  <div class="markdown level1 summary"><p>Field Threshold for scalar field methods</p>
+  <h4 id="AssemblerLib_Assemblage_HeuristicsSettings" data-uid="AssemblerLib.Assemblage.HeuristicsSettings">HeuristicsSettings</h4>
+  <div class="markdown level1 summary"><p>Heuristics settings (rules + selection criteria)</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public double fieldThreshold</code></pre>
+    <pre><code class="lang-csharp hljs">public HeuristicsSettings HeuristicsSettings</code></pre>
   </div>
   <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -414,57 +399,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Double</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <h4 id="AssemblerLib_Assemblage_heuristicsMode" data-uid="AssemblerLib.Assemblage.heuristicsMode">heuristicsMode</h4>
-  <div class="markdown level1 summary"><ul><li></li><li></li></ul>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int heuristicsMode</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <h4 id="AssemblerLib_Assemblage_heuristicsTree" data-uid="AssemblerLib.Assemblage.heuristicsTree">heuristicsTree</h4>
-  <div class="markdown level1 summary"><p>Heuristics as a Rule DataTree</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public DataTree&lt;Rule&gt; heuristicsTree</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Grasshopper.DataTree</span>&lt;<a class="xref" href="AssemblerLib.Rule.html">Rule</a>&gt;</td>
+        <td><a class="xref" href="AssemblerLib.HeuristicsSettings.html">HeuristicsSettings</a></td>
         <td></td>
       </tr>
     </tbody>
@@ -496,6 +431,31 @@
   </table>
   
   
+  <h4 id="AssemblerLib_Assemblage_receiverIndex" data-uid="AssemblerLib.Assemblage.receiverIndex">receiverIndex</h4>
+  <div class="markdown level1 summary"><p>stores selected receiver index at each Assemblage iteration</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int receiverIndex</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
   <h4 id="AssemblerLib_Assemblage_receiverIndexes" data-uid="AssemblerLib.Assemblage.receiverIndexes">receiverIndexes</h4>
   <div class="markdown level1 summary"><p>List of Receivers indexes used in the assemblage</p>
 </div>
@@ -521,13 +481,13 @@
   </table>
   
   
-  <h4 id="AssemblerLib_Assemblage_selectReceiverMode" data-uid="AssemblerLib.Assemblage.selectReceiverMode">selectReceiverMode</h4>
-  <div class="markdown level1 summary"><p>Select receiver mode</p>
+  <h4 id="AssemblerLib_Assemblage_receiverRules" data-uid="AssemblerLib.Assemblage.receiverRules">receiverRules</h4>
+  <div class="markdown level1 summary"><p>stores <a class="xref" href="AssemblerLib.Rule.html">Rule</a>s pertaining the selected receiver at each Assemblage iteration</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int selectReceiverMode</code></pre>
+    <pre><code class="lang-csharp hljs">public List&lt;Rule&gt; receiverRules</code></pre>
   </div>
   <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -539,22 +499,49 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AssemblerLib.Rule.html">Rule</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   
   
-  <h4 id="AssemblerLib_Assemblage_selectRuleMode" data-uid="AssemblerLib.Assemblage.selectRuleMode">selectRuleMode</h4>
-  <div class="markdown level1 summary"><p>Select Rule mode</p>
+  <h4 id="AssemblerLib_Assemblage_validRulesIndexes" data-uid="AssemblerLib.Assemblage.validRulesIndexes">validRulesIndexes</h4>
+  <div class="markdown level1 summary"><p>stores indexes of filtered valid rules from <a class="xref" href="AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_receiverRules">receiverRules</a> at each Assemblage iteration</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int selectRuleMode</code></pre>
+    <pre><code class="lang-csharp hljs">public List&lt;int&gt; validRulesIndexes</code></pre>
   </div>
   <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="AssemblerLib_Assemblage_RulesCount_" data-uid="AssemblerLib.Assemblage.RulesCount*"></a>
+  <h4 id="AssemblerLib_Assemblage_RulesCount" data-uid="AssemblerLib.Assemblage.RulesCount">RulesCount</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int RulesCount { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
@@ -574,13 +561,13 @@
   
   
   <a id="AssemblerLib_Assemblage_AddValidObject_" data-uid="AssemblerLib.Assemblage.AddValidObject*"></a>
-  <h4 id="AssemblerLib_Assemblage_AddValidObject_AssemblerLib_AssemblyObject_AssemblerLib_Rule_System_Int32_" data-uid="AssemblerLib.Assemblage.AddValidObject(AssemblerLib.AssemblyObject,AssemblerLib.Rule,System.Int32)">AddValidObject(AssemblyObject, Rule, Int32)</h4>
-  <div class="markdown level1 summary"><p>Adds a valid Object to the Assemblage, updating connectivity</p>
+  <h4 id="AssemblerLib_Assemblage_AddValidObject_AssemblerLib_AssemblyObject_AssemblerLib_Rule_" data-uid="AssemblerLib.Assemblage.AddValidObject(AssemblerLib.AssemblyObject,AssemblerLib.Rule)">AddValidObject(AssemblyObject, Rule)</h4>
+  <div class="markdown level1 summary"><p>Adds a valid <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> to the <a class="xref" href="AssemblerLib.Assemblage.html">Assemblage</a>, updating connectivity</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public virtual void AddValidObject(AssemblyObject newObject, Rule rule, int rInd)</code></pre>
+    <pre><code class="lang-csharp hljs">public virtual void AddValidObject(AssemblyObject newObject, Rule rule)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -600,11 +587,6 @@
       <tr>
         <td><a class="xref" href="AssemblerLib.Rule.html">Rule</a></td>
         <td><span class="parametername">rule</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">rInd</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -665,14 +647,14 @@
   </table>
   
   
-  <a id="AssemblerLib_Assemblage_FieldScalarSearch_" data-uid="AssemblerLib.Assemblage.FieldScalarSearch*"></a>
-  <h4 id="AssemblerLib_Assemblage_FieldScalarSearch_System_Collections_Generic_List_AssemblerLib_AssemblyObject__System_Double_System_Boolean_" data-uid="AssemblerLib.Assemblage.FieldScalarSearch(System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Double,System.Boolean)">FieldScalarSearch(List&lt;AssemblyObject&gt;, Double, Boolean)</h4>
-  <div class="markdown level1 summary"><p>Select among candidates AssemblyObjects by Scalar Field criteria</p>
+  <a id="AssemblerLib_Assemblage_ResetSettings_" data-uid="AssemblerLib.Assemblage.ResetSettings*"></a>
+  <h4 id="AssemblerLib_Assemblage_ResetSettings_AssemblerLib_HeuristicsSettings_AssemblerLib_ExogenousSettings_" data-uid="AssemblerLib.Assemblage.ResetSettings(AssemblerLib.HeuristicsSettings,AssemblerLib.ExogenousSettings)">ResetSettings(HeuristicsSettings, ExogenousSettings)</h4>
+  <div class="markdown level1 summary"><p>Reset Heuristics Settings and Exogenous Settings</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int FieldScalarSearch(List&lt;AssemblyObject&gt; candidates, double threshold, bool accurate)</code></pre>
+    <pre><code class="lang-csharp hljs">public void ResetSettings(HeuristicsSettings Heu, ExogenousSettings Exo)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -685,191 +667,30 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>&gt;</td>
-        <td><span class="parametername">candidates</span></td>
-        <td></td>
+        <td><a class="xref" href="AssemblerLib.HeuristicsSettings.html">HeuristicsSettings</a></td>
+        <td><span class="parametername">Heu</span></td>
+        <td><p>Heuristics Setting</p>
+</td>
       </tr>
       <tr>
-        <td><span class="xref">System.Double</span></td>
-        <td><span class="parametername">threshold</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td><span class="parametername">accurate</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="AssemblerLib_Assemblage_FieldVectorSearch_" data-uid="AssemblerLib.Assemblage.FieldVectorSearch*"></a>
-  <h4 id="AssemblerLib_Assemblage_FieldVectorSearch_System_Collections_Generic_List_AssemblerLib_AssemblyObject__System_Boolean_System_Boolean_" data-uid="AssemblerLib.Assemblage.FieldVectorSearch(System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Boolean,System.Boolean)">FieldVectorSearch(List&lt;AssemblyObject&gt;, Boolean, Boolean)</h4>
-  <div class="markdown level1 summary"><p>Select among candidates AssemblyObjects by Vector Field criteria</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int FieldVectorSearch(List&lt;AssemblyObject&gt; candidates, bool bidirectional, bool accurate)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>&gt;</td>
-        <td><span class="parametername">candidates</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td><span class="parametername">bidirectional</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td><span class="parametername">accurate</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="AssemblerLib_Assemblage_ResetAvailableObjects_" data-uid="AssemblerLib.Assemblage.ResetAvailableObjects*"></a>
-  <h4 id="AssemblerLib_Assemblage_ResetAvailableObjects" data-uid="AssemblerLib.Assemblage.ResetAvailableObjects">ResetAvailableObjects()</h4>
-  <div class="markdown level1 summary"><p>Verify list of available/unreachable objects according to current environment and heuristics</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void ResetAvailableObjects()</code></pre>
-  </div>
-  
-  
-  <a id="AssemblerLib_Assemblage_ResetExogenous_" data-uid="AssemblerLib.Assemblage.ResetExogenous*"></a>
-  <h4 id="AssemblerLib_Assemblage_ResetExogenous_System_Collections_Generic_List_Rhino_Geometry_Mesh__AssemblerLib_Field_System_Double_Rhino_Geometry_Box_" data-uid="AssemblerLib.Assemblage.ResetExogenous(System.Collections.Generic.List{Rhino.Geometry.Mesh},AssemblerLib.Field,System.Double,Rhino.Geometry.Box)">ResetExogenous(List&lt;Mesh&gt;, Field, Double, Box)</h4>
-  <div class="markdown level1 summary"><p>Resets Exogenous parameters</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void ResetExogenous(List&lt;Mesh&gt; environMentMeshes, Field field, double fieldThreshold, Box SandBox)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">Rhino.Geometry.Mesh</span>&gt;</td>
-        <td><span class="parametername">environMentMeshes</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="AssemblerLib.Field.html">Field</a></td>
-        <td><span class="parametername">field</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Double</span></td>
-        <td><span class="parametername">fieldThreshold</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">Rhino.Geometry.Box</span></td>
-        <td><span class="parametername">SandBox</span></td>
-        <td></td>
+        <td><a class="xref" href="AssemblerLib.ExogenousSettings.html">ExogenousSettings</a></td>
+        <td><span class="parametername">Exo</span></td>
+        <td><p>Exogenous Settings</p>
+</td>
       </tr>
     </tbody>
   </table>
   
   
   <a id="AssemblerLib_Assemblage_RetrieveCandidates_" data-uid="AssemblerLib.Assemblage.RetrieveCandidates*"></a>
-  <h4 id="AssemblerLib_Assemblage_RetrieveCandidates_System_Int32_System_Collections_Generic_List_AssemblerLib_Rule___System_Collections_Generic_List_System_Int32___System_Collections_Generic_List_AssemblerLib_AssemblyObject___" data-uid="AssemblerLib.Assemblage.RetrieveCandidates(System.Int32,System.Collections.Generic.List{AssemblerLib.Rule}@,System.Collections.Generic.List{System.Int32}@,System.Collections.Generic.List{AssemblerLib.AssemblyObject}@)">RetrieveCandidates(Int32, out List&lt;Rule&gt;, out List&lt;Int32&gt;, out List&lt;AssemblyObject&gt;)</h4>
+  <h4 id="AssemblerLib_Assemblage_RetrieveCandidates" data-uid="AssemblerLib.Assemblage.RetrieveCandidates">RetrieveCandidates()</h4>
   <div class="markdown level1 summary"><p>Retrieve Candidates based on receiver index</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool RetrieveCandidates(int receiverIndex, out List&lt;Rule&gt; receiverRules, out List&lt;int&gt; validRules, out List&lt;AssemblyObject&gt; candidates)</code></pre>
+    <pre><code class="lang-csharp hljs">public bool RetrieveCandidates()</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">receiverIndex</span></td>
-        <td><p>Index of the receiver <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a></p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AssemblerLib.Rule.html">Rule</a>&gt;</td>
-        <td><span class="parametername">receiverRules</span></td>
-        <td><p>List of corresponding <a class="xref" href="AssemblerLib.Rule.html">Rule</a>s</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
-        <td><span class="parametername">validRules</span></td>
-        <td><p>Indices of valid <a class="xref" href="AssemblerLib.Rule.html">Rule</a>s (candidates that do not collide with existing assemblage and/or environment obstacles)</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>&gt;</td>
-        <td><span class="parametername">candidates</span></td>
-        <td><p>List of candidates <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>s</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
@@ -889,83 +710,14 @@
   
   
   <a id="AssemblerLib_Assemblage_SelectReceiver_" data-uid="AssemblerLib.Assemblage.SelectReceiver*"></a>
-  <h4 id="AssemblerLib_Assemblage_SelectReceiver_System_Collections_Generic_List_System_Int32__" data-uid="AssemblerLib.Assemblage.SelectReceiver(System.Collections.Generic.List{System.Int32})">SelectReceiver(List&lt;Int32&gt;)</h4>
-  <div class="markdown level1 summary"><p>A virtual dummy method for customizing receiver selection criteria</p>
+  <h4 id="AssemblerLib_Assemblage_SelectReceiver" data-uid="AssemblerLib.Assemblage.SelectReceiver">SelectReceiver()</h4>
+  <div class="markdown level1 summary"><p>Receiver Selection</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public virtual int SelectReceiver(List&lt;int&gt; availableObjects)</code></pre>
+    <pre><code class="lang-csharp hljs">public virtual int SelectReceiver()</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
-        <td><span class="parametername">availableObjects</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><p>index of selected receiver</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="AssemblerLib_Assemblage_SelectReceiver_" data-uid="AssemblerLib.Assemblage.SelectReceiver*"></a>
-  <h4 id="AssemblerLib_Assemblage_SelectReceiver_System_Collections_Generic_List_System_Int32__System_Int32_" data-uid="AssemblerLib.Assemblage.SelectReceiver(System.Collections.Generic.List{System.Int32},System.Int32)">SelectReceiver(List&lt;Int32&gt;, Int32)</h4>
-  <div class="markdown level1 summary"><p>Receiver Selection according to a set possible criteria: 
-<ul><li></li><li></li><li></li><li></li><li></li><li></li></ul></p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public virtual int SelectReceiver(List&lt;int&gt; availableObjects, int selectReceiverMode)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
-        <td><span class="parametername">availableObjects</span></td>
-        <td><p>list of available <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>s in the Assemblage</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">selectReceiverMode</span></td>
-        <td><p>integer to set receiver mode selection</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
@@ -985,13 +737,13 @@
   
   
   <a id="AssemblerLib_Assemblage_SelectRule_" data-uid="AssemblerLib.Assemblage.SelectRule*"></a>
-  <h4 id="AssemblerLib_Assemblage_SelectRule_System_Collections_Generic_List_AssemblerLib_Rule__System_Collections_Generic_List_System_Int32__System_Collections_Generic_List_AssemblerLib_AssemblyObject__AssemblerLib_AssemblyObject__" data-uid="AssemblerLib.Assemblage.SelectRule(System.Collections.Generic.List{AssemblerLib.Rule},System.Collections.Generic.List{System.Int32},System.Collections.Generic.List{AssemblerLib.AssemblyObject},AssemblerLib.AssemblyObject@)">SelectRule(List&lt;Rule&gt;, List&lt;Int32&gt;, List&lt;AssemblyObject&gt;, out AssemblyObject)</h4>
-  <div class="markdown level1 summary"><p>A virtual method for customizing rule selection criteria</p>
+  <h4 id="AssemblerLib_Assemblage_SelectRule_System_Collections_Generic_List_AssemblerLib_AssemblyObject__AssemblerLib_AssemblyObject__" data-uid="AssemblerLib.Assemblage.SelectRule(System.Collections.Generic.List{AssemblerLib.AssemblyObject},AssemblerLib.AssemblyObject@)">SelectRule(List&lt;AssemblyObject&gt;, out AssemblyObject)</h4>
+  <div class="markdown level1 summary"><p>A virtual method for <a class="xref" href="AssemblerLib.Rule.html">Rule</a> selection - default version uses internally predefined criteria</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public virtual Rule SelectRule(List&lt;Rule&gt; rRules, List&lt;int&gt; validRules, List&lt;AssemblyObject&gt; candidates, out AssemblyObject newObject)</code></pre>
+    <pre><code class="lang-csharp hljs">public virtual Rule SelectRule(List&lt;AssemblyObject&gt; candidates, out AssemblyObject newObject)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1003,87 +755,6 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AssemblerLib.Rule.html">Rule</a>&gt;</td>
-        <td><span class="parametername">rRules</span></td>
-        <td><p>List of <a class="xref" href="AssemblerLib.Rule.html">Rule</a>s admitted by the receiver</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
-        <td><span class="parametername">validRules</span></td>
-        <td><p>Indices of valid <a class="xref" href="AssemblerLib.Rule.html">Rule</a>s (candidates that do not collide with existing assemblage and/or environment obstacles)</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>&gt;</td>
-        <td><span class="parametername">candidates</span></td>
-        <td><p>List of candidate <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>s</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a></td>
-        <td><span class="parametername">newObject</span></td>
-        <td><p>Selected new <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> to add according to the selected Rule</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="AssemblerLib.Rule.html">Rule</a></td>
-        <td><p>The selected Rule</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="AssemblerLib_Assemblage_SelectRule_" data-uid="AssemblerLib.Assemblage.SelectRule*"></a>
-  <h4 id="AssemblerLib_Assemblage_SelectRule_System_Int32_System_Collections_Generic_List_AssemblerLib_Rule__System_Collections_Generic_List_System_Int32__System_Collections_Generic_List_AssemblerLib_AssemblyObject__System_Int32_AssemblerLib_AssemblyObject__" data-uid="AssemblerLib.Assemblage.SelectRule(System.Int32,System.Collections.Generic.List{AssemblerLib.Rule},System.Collections.Generic.List{System.Int32},System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Int32,AssemblerLib.AssemblyObject@)">SelectRule(Int32, List&lt;Rule&gt;, List&lt;Int32&gt;, List&lt;AssemblyObject&gt;, Int32, out AssemblyObject)</h4>
-  <div class="markdown level1 summary"><p>Rule selection according to 3 possible criteria: random, scalar field search, vector field search</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public virtual Rule SelectRule(int receiverIndex, List&lt;Rule&gt; receiverRules, List&lt;int&gt; validRules, List&lt;AssemblyObject&gt; candidates, int mode, out AssemblyObject newObject)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">receiverIndex</span></td>
-        <td><p>Index of the receiver <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a></p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AssemblerLib.Rule.html">Rule</a>&gt;</td>
-        <td><span class="parametername">receiverRules</span></td>
-        <td><p>List of <a class="xref" href="AssemblerLib.Rule.html">Rule</a>s admitted by the receiver</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
-        <td><span class="parametername">validRules</span></td>
-        <td><p>Indices of valid <a class="xref" href="AssemblerLib.Rule.html">Rule</a>s (candidates that do not collide with existing assemblage and/or environment obstacles)</p>
-</td>
-      </tr>
       <tr>
         <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>&gt;</td>
         <td><span class="parametername">candidates</span></td>
@@ -1091,15 +762,9 @@
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">mode</span></td>
-        <td><p>integer for selection mode</p>
-</td>
-      </tr>
-      <tr>
         <td><a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a></td>
         <td><span class="parametername">newObject</span></td>
-        <td><p>new AssemblyObject to add to the assemblage</p>
+        <td><p>new <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> to add to the <a class="xref" href="AssemblerLib.Assemblage.html">Assemblage</a></p>
 </td>
       </tr>
     </tbody>
@@ -1115,190 +780,30 @@
     <tbody>
       <tr>
         <td><a class="xref" href="AssemblerLib.Rule.html">Rule</a></td>
-        <td><p>selected rule</p>
+        <td><p>The selected <a class="xref" href="AssemblerLib.Rule.html">Rule</a></p>
 </td>
       </tr>
     </tbody>
   </table>
-  
-  
-  <a id="AssemblerLib_Assemblage_SetEnvCheckMethod_" data-uid="AssemblerLib.Assemblage.SetEnvCheckMethod*"></a>
-  <h4 id="AssemblerLib_Assemblage_SetEnvCheckMethod_System_Int32_" data-uid="AssemblerLib.Assemblage.SetEnvCheckMethod(System.Int32)">SetEnvCheckMethod(Int32)</h4>
-  <div class="markdown level1 summary"><p>Sets Environment Check Method to use</p>
+  <h5 id="AssemblerLib_Assemblage_SelectRule_System_Collections_Generic_List_AssemblerLib_AssemblyObject__AssemblerLib_AssemblyObject___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>The method is virtual, so it can be customized with an override</p>
 </div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void SetEnvCheckMethod(int environmentMode)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">environmentMode</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="AssemblerLib_Assemblage_SetSandbox_" data-uid="AssemblerLib.Assemblage.SetSandbox*"></a>
-  <h4 id="AssemblerLib_Assemblage_SetSandbox_Rhino_Geometry_Box_" data-uid="AssemblerLib.Assemblage.SetSandbox(Rhino.Geometry.Box)">SetSandbox(Box)</h4>
-  <div class="markdown level1 summary"><p>Sets Sandbox geometry</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void SetSandbox(Box sandbox)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Rhino.Geometry.Box</span></td>
-        <td><span class="parametername">sandbox</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
   
   
   <a id="AssemblerLib_Assemblage_Update_" data-uid="AssemblerLib.Assemblage.Update*"></a>
   <h4 id="AssemblerLib_Assemblage_Update" data-uid="AssemblerLib.Assemblage.Update">Update()</h4>
   <div class="markdown level1 summary"><p>Update method</p>
-<p>Update is composed by these steps:
-. receiver selection (where do I add the next one?)
-. rule selection (what do I add and how?) and new object addition to the assemblage</p>
-<p>The method can be customized with an override.</p>
+<p>Update is composed by the following steps:
+<ol><li></li><li></li><li></li><li></li></ol></p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public virtual void Update()</code></pre>
   </div>
-  
-  
-  <a id="AssemblerLib_Assemblage_WeightedRandomChoice_" data-uid="AssemblerLib.Assemblage.WeightedRandomChoice*"></a>
-  <h4 id="AssemblerLib_Assemblage_WeightedRandomChoice__1_System_Collections_Generic_List___0__System_Collections_Generic_List_System_Int32__" data-uid="AssemblerLib.Assemblage.WeightedRandomChoice``1(System.Collections.Generic.List{``0},System.Collections.Generic.List{System.Int32})">WeightedRandomChoice&lt;T&gt;(List&lt;T&gt;, List&lt;Int32&gt;)</h4>
-  <div class="markdown level1 summary"><p>Performs a Weighted Random Choice on a List of data and corresponding weights</p>
+  <h5 id="AssemblerLib_Assemblage_Update_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>The method is virtual, so it can be customized with an override</p>
 </div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public T WeightedRandomChoice&lt;T&gt;(List&lt;T&gt; values, List&lt;int&gt; weights)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;T&gt;</td>
-        <td><span class="parametername">values</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
-        <td><span class="parametername">weights</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">T</span></td>
-        <td><p>the selected value</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="typeParameters">Type Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="parametername">T</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="AssemblerLib_Assemblage_WeightedRandomChoiceIndex_" data-uid="AssemblerLib.Assemblage.WeightedRandomChoiceIndex*"></a>
-  <h4 id="AssemblerLib_Assemblage_WeightedRandomChoiceIndex_System_Collections_Generic_List_System_Int32__" data-uid="AssemblerLib.Assemblage.WeightedRandomChoiceIndex(System.Collections.Generic.List{System.Int32})">WeightedRandomChoiceIndex(List&lt;Int32&gt;)</h4>
-  <div class="markdown level1 summary"><p>Performs a Weighted Random Choice given a List of weights</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int WeightedRandomChoiceIndex(List&lt;int&gt; weights)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
-        <td><span class="parametername">weights</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><p>index of the selected weight</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
 </article>
           </div>
           

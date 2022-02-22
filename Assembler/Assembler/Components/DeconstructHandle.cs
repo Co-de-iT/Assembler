@@ -37,9 +37,9 @@ namespace Assembler
             pManager.AddNumberParameter("Receiver Planes rotations", "Rr", "Receiver Planes rotations", GH_ParamAccess.list);
             pManager.AddIntegerParameter("Handle Type", "T", "Handle Type", GH_ParamAccess.item);
             pManager.AddNumberParameter("Handle Weight", "W", "Handle Weight", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("Handle Occupancy", "hO", "Handle Occupancy\n-1 occluded\n0 available\n1 connected", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("Neighbour Object", "nO", "Neighbour Object\nindex of neighbour object in the assemblage\n-1 if occluded", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("Neighbour Handle", "nH", "Neighbour Handle\nindex of neighbour object's handle\n-1 if available or occluded", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Handle Occupancy", "hO", "Handle Occupancy status\n-1 occluded\n0 available\n1 connected", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Neighbour Object index", "nO", "Neighbour Object\nindex of neighbour AssemblyObject\n-1 if Handle is available", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Neighbour Handle index", "nH", "Neighbour Handle\nindex of neighbour AssemblyObject's Handle\n-1 if Handle is available or occluded", GH_ParamAccess.item);
 
         }
 

@@ -261,6 +261,8 @@ namespace Assembler.Utils
         private const string IoMinSupportsKey = "MinSupports";
         private const string IoSupportedKey = "Supported";
         private const string IoAbsZlockKey = "AbsZLock";
+        private const string IoReceiverValueKey = "ReceiverValue";
+        private const string IoSenderValueKey = "SenderValue";
 
         public override bool Write(GH_IWriter writer)
         {
@@ -332,11 +334,10 @@ namespace Assembler.Utils
 
             // serialize Supports
             writer.SetInt32(IoSupportsCountKey, Value.supports.Count);
-            // key struture: "Support_<index>_<field>"
+            // key structure: "Support_<index>_<field>"
             for (int i = 0; i < Value.supports.Count; i++)
             {
                 Support s = Value.supports[i];
-                writer.SetBoolean(IoSupportKey + i.ToString() + "_connected", s.connected);
                 writer.SetInt32(IoSupportKey + i.ToString() + "_neighbourObject", s.neighbourObject);
                 writer.SetDouble(IoSupportKey + i.ToString() + "_initLength", s.initLength);
 
@@ -353,6 +354,10 @@ namespace Assembler.Utils
 
             // absoluteZLock
             writer.SetBoolean(IoAbsZlockKey, Value.worldZLock);
+
+            // field values
+            writer.SetDouble(IoReceiverValueKey, Value.receiverValue);
+            writer.SetDouble(IoSenderValueKey, Value.senderValue);
 
             // children
             //if (m_value.children != null || m_value.children.Count > 0)
@@ -466,8 +471,6 @@ namespace Assembler.Utils
                 double initLen = reader.GetDouble(IoSupportKey + i.ToString() + "_initLength");
                 // reset line length
                 sLine.Length = initLen;
-                // connected
-                bool connected = reader.GetBoolean(IoSupportKey + i.ToString() + "_connected");
                 // neighbourObject
                 int neighObj = reader.GetInt32(IoSupportKey + i.ToString() + "_neighbourObject");
 
@@ -477,7 +480,7 @@ namespace Assembler.Utils
                 sLine.Length = currLen;
                 s.line = sLine;
                 // assign remaining values
-                s.connected = connected;
+                //s.connected = connected;
                 s.neighbourObject = neighObj;
 
                 // add to object
@@ -494,6 +497,9 @@ namespace Assembler.Utils
             // deserialize absoluteZLock
             m_value.worldZLock = reader.GetBoolean(IoAbsZlockKey);
 
+            // deserialize field values
+            m_value.receiverValue = reader.GetDouble(IoReceiverValueKey);
+            m_value.senderValue = reader.GetDouble(IoSenderValueKey);
 
             return true;
         }

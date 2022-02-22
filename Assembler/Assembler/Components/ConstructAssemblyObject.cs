@@ -105,10 +105,8 @@ namespace Assembler
             // cast Handles to array
             Handle[] handles = h.ToArray();
 
-            //absoluteZLock = GetValue("Z Lock", false);
-
             // construct the AssemblyObject                                                                        v Zlock
-            AssemblyObject AO = new AssemblyObject(cm, handles, rp, d, name, type, w, 1, new List<Support>(), 0, worldZLock);
+            AssemblyObject AO = new AssemblyObject(cm, handles, rp, d, name, type, w, -1, new List<Support>(), 0, worldZLock);
 
             DA.SetData("Assembly Object", new AssemblyObjectGoo(AO));
 
@@ -128,7 +126,6 @@ namespace Assembler
             worldZLock = !GetValue("ZLockAO", false);
             SetValue("ZLockAO", worldZLock);
             UpdateMessage();
-            //Absolute = !Absolute;
             ExpireSolution(true);
         }
 
@@ -147,7 +144,6 @@ namespace Assembler
 
         public override bool Read(GH_IReader reader)
         {
-            //Absolute = reader.GetBoolean("Absolute Z lock");
             reader.TryGetBoolean("ZLockAO", ref worldZLock);
             UpdateMessage();
             return base.Read(reader);

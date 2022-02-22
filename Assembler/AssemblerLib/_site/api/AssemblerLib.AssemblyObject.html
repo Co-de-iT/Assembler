@@ -284,7 +284,7 @@
   
   
   <a id="AssemblerLib_AssemblyObject__ctor_" data-uid="AssemblerLib.AssemblyObject.#ctor*"></a>
-  <h4 id="AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_Rhino_Geometry_Mesh_AssemblerLib_Handle___Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_Int32_System_Collections_Generic_List_System_Int32____System_Double_System_String_System_Int32_System_Double_System_Int32_System_Collections_Generic_List_AssemblerLib_Support__System_Int32_System_Boolean_System_Boolean_System_Collections_Generic_List_AssemblerLib_AssemblyObject__System_Collections_Generic_List_System_Int32____" data-uid="AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.Int32,System.Collections.Generic.List{System.Int32[]},System.Double,System.String,System.Int32,System.Double,System.Int32,System.Collections.Generic.List{AssemblerLib.Support},System.Int32,System.Boolean,System.Boolean,System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.List{System.Int32[]})">AssemblyObject(Mesh, Mesh, Handle[], Plane, Vector3d, Int32, List&lt;Int32[]&gt;, Double, String, Int32, Double, Int32, List&lt;Support&gt;, Int32, Boolean, Boolean, List&lt;AssemblyObject&gt;, List&lt;Int32[]&gt;)</h4>
+  <h4 id="AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_Rhino_Geometry_Mesh_AssemblerLib_Handle___Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_Int32_System_Collections_Generic_List_System_Int32____System_Double_System_String_System_Int32_System_Double_System_Int32_System_Collections_Generic_List_AssemblerLib_Support__System_Int32_System_Boolean_System_Boolean_System_Collections_Generic_List_AssemblerLib_AssemblyObject__System_Collections_Generic_List_System_Int32____System_Double_System_Double_" data-uid="AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.Int32,System.Collections.Generic.List{System.Int32[]},System.Double,System.String,System.Int32,System.Double,System.Int32,System.Collections.Generic.List{AssemblerLib.Support},System.Int32,System.Boolean,System.Boolean,System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.List{System.Int32[]},System.Double,System.Double)">AssemblyObject(Mesh, Mesh, Handle[], Plane, Vector3d, Int32, List&lt;Int32[]&gt;, Double, String, Int32, Double, Int32, List&lt;Support&gt;, Int32, Boolean, Boolean, List&lt;AssemblyObject&gt;, List&lt;Int32[]&gt;, Double, Double)</h4>
   <div class="markdown level1 summary"><p>Constructor used for JSON deserialization
 This constructor DOES NOT execute a deep copy of data
 If you need to duplicate an AssemblyObject use the Utilities.Clone method
@@ -294,7 +294,7 @@ or Utilities.CloneWithConnectivity method</p>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonConstructor]
-public AssemblyObject(Mesh collisionMesh, Mesh offsetMesh, Handle[] handles, Plane referencePlane, Vector3d direction, int aInd, List&lt;int[]&gt; occludedNeighbours, double collisionRadius, string name, int type, double weight, int iWeight, List&lt;Support&gt; supports, int minSupports, bool supported, bool worldZLock, List&lt;AssemblyObject&gt; children, List&lt;int[]&gt; handleMap)</code></pre>
+public AssemblyObject(Mesh collisionMesh, Mesh offsetMesh, Handle[] handles, Plane referencePlane, Vector3d direction, int aInd, List&lt;int[]&gt; occludedNeighbours, double collisionRadius, string name, int type, double weight, int iWeight, List&lt;Support&gt; supports, int minSupports, bool supported, bool worldZLock, List&lt;AssemblyObject&gt; children, List&lt;int[]&gt; handleMap, double receiverValue, double senderValue)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -394,6 +394,16 @@ public AssemblyObject(Mesh collisionMesh, Mesh offsetMesh, Handle[] handles, Pla
       <tr>
         <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Int32</span>[]&gt;</td>
         <td><span class="parametername">handleMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Double</span></td>
+        <td><span class="parametername">receiverValue</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Double</span></td>
+        <td><span class="parametername">senderValue</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -591,7 +601,7 @@ public AssemblyObject(Mesh collisionMesh, Mesh offsetMesh, Handle[] handles, Pla
   
   
   <h4 id="AssemblerLib_AssemblyObject_iWeight" data-uid="AssemblerLib.AssemblyObject.iWeight">iWeight</h4>
-  <div class="markdown level1 summary"><p>Integer Weight for Weighted Random choice (to be implemented) or other weight-based operations</p>
+  <div class="markdown level1 summary"><p>Integer Weight for heuristics assignment</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -666,7 +676,7 @@ public AssemblyObject(Mesh collisionMesh, Mesh offsetMesh, Handle[] handles, Pla
   
   
   <h4 id="AssemblerLib_AssemblyObject_occludedNeighbours" data-uid="AssemblerLib.AssemblyObject.occludedNeighbours">occludedNeighbours</h4>
-  <div class="markdown level1 summary"><p>List of tuples containing object index and handle index occluded by this object</p>
+  <div class="markdown level1 summary"><p>List of 2 indices containing object index and handle index occluded by this object</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -715,6 +725,32 @@ public AssemblyObject(Mesh collisionMesh, Mesh offsetMesh, Handle[] handles, Pla
   </table>
   
   
+  <h4 id="AssemblerLib_AssemblyObject_receiverValue" data-uid="AssemblerLib.AssemblyObject.receiverValue">receiverValue</h4>
+  <div class="markdown level1 summary"><p>stores a value during the Assemblage when acting as receiver;
+this value depends on the active <a class="xref" href="AssemblerLib.HeuristicsSettings.html#AssemblerLib_HeuristicsSettings_receiverSelectionMode">receiverSelectionMode</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double receiverValue</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Double</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
   <h4 id="AssemblerLib_AssemblyObject_referencePlane" data-uid="AssemblerLib.AssemblyObject.referencePlane">referencePlane</h4>
   <div class="markdown level1 summary"><p>Reference Plane for the AssemblyObject</p>
 </div>
@@ -734,6 +770,32 @@ public AssemblyObject(Mesh collisionMesh, Mesh offsetMesh, Handle[] handles, Pla
     <tbody>
       <tr>
         <td><span class="xref">Rhino.Geometry.Plane</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="AssemblerLib_AssemblyObject_senderValue" data-uid="AssemblerLib.AssemblyObject.senderValue">senderValue</h4>
+  <div class="markdown level1 summary"><p>stores a value during the Assemblage when acting as a sender candidate;
+/// this value depends on the active <a class="xref" href="AssemblerLib.HeuristicsSettings.html#AssemblerLib_HeuristicsSettings_ruleSelectionMode">ruleSelectionMode</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double senderValue</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Double</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -869,7 +931,7 @@ public AssemblyObject(Mesh collisionMesh, Mesh offsetMesh, Handle[] handles, Pla
   
   <a id="AssemblerLib_AssemblyObject_AInd_" data-uid="AssemblerLib.AssemblyObject.AInd*"></a>
   <h4 id="AssemblerLib_AssemblyObject_AInd" data-uid="AssemblerLib.AssemblyObject.AInd">AInd</h4>
-  <div class="markdown level1 summary"><p>AssemblyObject unique index in an assemblage</p>
+  <div class="markdown level1 summary"><p>AssemblyObject unique index in an assemblage - NOT IMPLEMENTED YET</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>

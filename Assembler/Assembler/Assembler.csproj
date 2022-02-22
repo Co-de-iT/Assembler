@@ -72,14 +72,14 @@
     <Compile Include="Components\ExtractSupports.cs" />
     <Compile Include="DeconstructRule.cs" />
     <Compile Include="D_AssCustomPreview.cs" />
-    <Compile Include="Engine\AssemblerEngineX_Attributes.cs" />
     <Compile Include="Engine\AssemblerEngine_Attributes.cs" />
     <Compile Include="I-O\AssemblyObjectsFromJSON.cs" />
     <Compile Include="I-O\AssemblyObjectsToJSON.cs" />
+    <Compile Include="Engine\AssemblerEngine_OLD.cs" />
     <Compile Include="Engine\AssemblerEngine.cs" />
-    <Compile Include="Engine\AssemblerEngineX.cs" />
     <Compile Include="AssemblerInfo.cs" />
     <Compile Include="IGH_TypeViewer.cs" />
+    <Compile Include="D_InspectAOValues.cs" />
     <Compile Include="Post Processing\AssociateXData.cs" />
     <Compile Include="D_ConstructHandle_tree.cs" />
     <Compile Include="Post Processing\DisplayAssemblage.cs" />

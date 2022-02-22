@@ -36,9 +36,9 @@ namespace Assembler
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddIntegerParameter("Handle Occupancy", "hO", "Handle occupancy status\n0 available, 1 connected, -1 occluded", GH_ParamAccess.tree);
-            pManager.AddIntegerParameter("Neighbour Object index", "nO", "Index of neighbour AssemblyObject\n-1 if Handle is available", GH_ParamAccess.tree);
-            pManager.AddIntegerParameter("Neighbour Handle index", "nH", "Neighbour AssemblyObject Handle index\n-1 if Handle is available or occluded", GH_ParamAccess.tree);
+            pManager.AddIntegerParameter("Handle Occupancy", "hO", "Handle Occupancy status\n-1 occluded\n0 available\n1 connected", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Neighbour Object index", "nO", "Neighbour Object\nindex of neighbour AssemblyObject\n-1 if Handle is available", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Neighbour Handle index", "nH", "Neighbour Handle\nindex of neighbour AssemblyObject's Handle\n-1 if Handle is available or occluded", GH_ParamAccess.item);
         }
 
         /// <summary>

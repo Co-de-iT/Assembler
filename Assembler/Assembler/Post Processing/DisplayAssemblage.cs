@@ -177,6 +177,17 @@ namespace Assembler
                         colors[i] = Color.FromArgb((int)((v.X * .5 + .5) * 255), (int)((v.Y * .5 + .5) * 255), (int)((v.Z * .5 + .5) * 255));
                     });
                     break;
+                case "Receiver Values":
+                    double[] rValues = AOa.assemblyObjects.Select(ao => ao.receiverValue).ToArray();
+                    double min = rValues.Min();
+                    double max = rValues.Max();
+                    // avoid division by 0
+                    double factor = min == max ? 0 : 1 / (max - min);
+                    Parallel.For(0, colors.Length, i =>
+                    {
+                        colors[i] = Utilities.receiverValuesGradient.ColourAt((AOa.assemblyObjects[i].receiverValue - min) * factor);
+                    });
+                    break;
                 case "Local Density": // Local Density (volume of AO+connected neighbours individual BBoxes/volume of their union bounding box)
                     // compute density values over a fixed voulme reference, then remap results on 0-1 scale
                     // idea: scan AOcatalog, find largest component and use a scaled volume of that (like 1x to 3x its diagonal)
@@ -263,7 +274,9 @@ namespace Assembler
             toolStripMenuItem8.ToolTipText = "Faux-Normal-style color map for objects direction vector";
             ToolStripMenuItem toolStripMenuItem9 = Menu_AppendItem(menu, "Z Orientation", ZOrientation_Click, true, GetValue("OutputType", "Objects") == "Z Orientation");
             toolStripMenuItem9.ToolTipText = "Faux-Normal-style color map for objects reference plane Z vector";
-            ToolStripMenuItem toolStripMenuItem10 = Menu_AppendItem(menu, "Local Density", LocalDensity_Click, true, GetValue("OutputType", "Objects") == "Local Density");
+            ToolStripMenuItem toolStripMenuItem10 = Menu_AppendItem(menu, "Receiver Values", ReceiverValues_Click, true, GetValue("OutputType", "Objects") == "Receiver Values");
+            toolStripMenuItem10.ToolTipText = "Receiver value of each AssemblyObject";
+            ToolStripMenuItem toolStripMenuItem11 = Menu_AppendItem(menu, "Local Density", LocalDensity_Click, true, GetValue("OutputType", "Objects") == "Local Density");
             toolStripMenuItem10.ToolTipText = "Volume of each AssemblyObject and its connected or occluded neighbours' Bounding Boxes / their cumulative Bounding Box";
             Menu_AppendSeparator(menu);
         }
@@ -336,6 +349,15 @@ namespace Assembler
         {
             RecordUndoEvent("Z Orientation");
             SetValue("OutputType", "Z Orientation");
+            displayMode = GetValue("OutputType", "Objects");
+            UpdateMessage();
+            ExpireSolution(true);
+        }
+
+        private void ReceiverValues_Click(object sender, EventArgs e)
+        {
+            RecordUndoEvent("Receiver Values");
+            SetValue("OutputType", "Receiver Values");
             displayMode = GetValue("OutputType", "Objects");
             UpdateMessage();
             ExpireSolution(true);

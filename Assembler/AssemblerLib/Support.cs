@@ -23,22 +23,24 @@ namespace AssemblerLib
         /// <summary>
         /// connected flag - true if support intersects a nearby geometry
         /// </summary>
-        public bool connected;
+        public bool Connected
+            { get { return neighbourObject != -1; } }
 
         /// <summary>
-        /// Index of neighbour AssemblyObject connected by the support; -1 if free, -2 if connected to other entities (i.e. an external object)
+        /// Index of neighbour AssemblyObject connected by the support
+        /// -1 if free, -2 if connected to other entities (i.e. an external object)
         /// </summary>
         public int neighbourObject;
 
         /// <summary>
-        /// Construct a support from another Support (deep copy)
+        /// Construct a support from another Support (Clone with connectivity)
         /// </summary>
         /// <param name="other"></param>
         public Support(Support other)
         {
             line = other.line;
             initLength = other.initLength;
-            connected = other.connected;
+            //connected = other.connected;
             neighbourObject = other.neighbourObject;
         }
 
@@ -52,7 +54,7 @@ namespace AssemblerLib
         {
             line = new Line(origin, direction, length);
             initLength = length;
-            connected = false;
+            //connected = false;
             neighbourObject = -1;
         }
 
@@ -64,7 +66,7 @@ namespace AssemblerLib
         {
             this.line = line;
             initLength = line.Length;
-            connected = false;
+            //connected = false;
             neighbourObject = -1;
         }
 
@@ -75,7 +77,7 @@ namespace AssemblerLib
         {
             if (line.Length != initLength)
                 line.To = line.From + (line.UnitTangent * initLength);
-            connected = false;
+            //connected = false;
             neighbourObject = -1;
         }
 
