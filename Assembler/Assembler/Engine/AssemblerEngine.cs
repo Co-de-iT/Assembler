@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
+﻿using Assembler.Properties;
+using Assembler.Utils;
+using AssemblerLib;
+using GH_IO.Serialization;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using AssemblerLib;
-using Assembler.Properties;
-using GH_IO.Serialization;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
-using Assembler.Utils;
-using Assembler.Engine;
 
 namespace Assembler
 {
@@ -42,10 +40,10 @@ namespace Assembler
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             // objects
-            pManager.AddGenericParameter("AssemblyObjects Set", "AOs", "List of Assembly Objects in the set", GH_ParamAccess.list);
-            pManager.AddGenericParameter("Previous Assemblage", "AOpa", "The list of AssemblyObjects in an existing Assemblage\noptional", GH_ParamAccess.list);
-            pManager.AddPlaneParameter("Starting Plane", "P", "Starting Plane for the Assemblage\nIgnored if a previous Assemblage is input", GH_ParamAccess.item, Plane.WorldXY);
-            pManager.AddIntegerParameter("Starting Object Type", "sO", "Index of starting object from the AO set\nIgnored if a previous Assemblage is input", GH_ParamAccess.item, 0);
+            pManager.AddGenericParameter("AssemblyObjects Set", "AOs", "List of unique AssemblyObjects composing the set", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Previous Assemblage", "AOpa", "List of preexisting AssemblyObjects, i.e. from an existing Assemblage (optional)", GH_ParamAccess.list);
+            pManager.AddPlaneParameter("Starting Plane", "P", "Starting Plane for the Assemblage\nIgnored if preexisting AssemblyObjects are present", GH_ParamAccess.item, Plane.WorldXY);
+            pManager.AddIntegerParameter("Starting Object Type", "sO", "Index of starting object from the AO set\nIgnored if preexisting AssemblyObjects are present", GH_ParamAccess.item, 0);
 
             pManager[1].Optional = true; // Previous Assemblage
 
@@ -58,12 +56,14 @@ namespace Assembler
             pManager[5].Optional = true;
 
             // controls
-            pManager.AddBooleanParameter("Go", "go", "Run Assemblage continuously until it reaches the desired n. of objects", GH_ParamAccess.item, false);
+            pManager.AddBooleanParameter("Go", "go", "Run Assemblage continuously until it reaches the targeted max n. of objects", GH_ParamAccess.item, false);
             pManager.AddBooleanParameter("Step", "s", "Run an Assemblage step executing the specified n. of iterations", GH_ParamAccess.item, false);
             pManager.AddIntegerParameter("N. Iterations", "nI", "Number of iterations to execute at each step", GH_ParamAccess.item, 10);
-            pManager.AddIntegerParameter("Max n. Objects", "maxN", "The max n. of objects allowed in the assemblage", GH_ParamAccess.item, 1000);
-            pManager.AddBooleanParameter("Reset Exogenous", "rE", "Reset Exogenous factors (Field, Environment Objects) preserving the Assemblage", GH_ParamAccess.item, false);
-            pManager.AddBooleanParameter("Reset", "R", "Reset Assemblage", GH_ParamAccess.item, false);
+            pManager.AddIntegerParameter("Target Max n. Objects", "tN", "The target Max n. of objects allowed in the assemblage" +
+                "\nThis is an *approximate* target Assembler will try to reach, given the number of starting objects and iterations at each step" +
+                "\nWith 1 starting object (default), 100 items per step and a target of 950 you will get 1001 objects", GH_ParamAccess.item, 1000);
+            pManager.AddBooleanParameter("Reset Settings", "rS", "Reset Exogenous and Heuristics settings preserving the Assemblage", GH_ParamAccess.item, false);
+            pManager.AddBooleanParameter("Reset", "R", "Resets the Assemblage", GH_ParamAccess.item, false);
         }
 
         /// <summary>
@@ -134,13 +134,13 @@ namespace Assembler
 
                 if (HS.receiverSelectionMode == 1 || HS.receiverSelectionMode == 2)
                 {
-                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Receiver selection mode" + fieldMsg);
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Receiver selection Mode" + fieldMsg);
                     return;
                 }
 
                 if (HS.ruleSelectionMode > 0 && HS.ruleSelectionMode < 5)
                 {
-                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Rule selection mode" + fieldMsg);
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Sender (Rule) selection Mode" + fieldMsg);
                     return;
                 }
             }
@@ -151,8 +151,8 @@ namespace Assembler
             DA.GetData("Go", ref go);
             DA.GetData("Step", ref step);
             DA.GetData("N. Iterations", ref nInt);
-            DA.GetData("Max n. Objects", ref maxObj);
-            DA.GetData("Reset Exogenous", ref resetEx);
+            DA.GetData("Target Max n. Objects", ref maxObj);
+            DA.GetData("Reset Settings", ref resetEx);
             DA.GetData("Reset", ref reset);
 
             //
@@ -164,6 +164,7 @@ namespace Assembler
                 AOs = GH_AOs.Select(ao => ao.Value).ToList();
                 AOpa = GH_AOpa.Select(ao => ao.Value).ToList();
                 AOa = new Assemblage(AOs, AOpa, startReferencePlane, startingObjectType, HS, ES);
+                AOa.Initialize();
             }
 
             //
@@ -176,6 +177,8 @@ namespace Assembler
 
             // World Z-Lock
             AOa.checkWorldZLock = checkWZLock;
+            // use supports
+            AOa.useSupports = useSupports;
 
             //
             // . . . . . . . . . . . . 3. Update Assemblage & Component
@@ -189,7 +192,7 @@ namespace Assembler
                 return;
             }
 
-            if ((go || (step && pending)) && AOa.assemblyObjects.Count < maxObj)
+            if ((go || (step && pending)) && AOa.assemblyObjects.DataCount < maxObj)
             {
                 for (int i = 0; i < nInt; i++)
                     AOa.Update();
@@ -198,7 +201,7 @@ namespace Assembler
             }
 
             DA.SetData("Assemblage", AOa);
-            DA.SetData("Assemblage Count", AOa.assemblyObjects.Count);
+            DA.SetData("Assemblage Count", AOa.assemblyObjects.DataCount);
         }
 
         public override void AppendAdditionalMenuItems(ToolStripDropDown menu)
@@ -206,8 +209,8 @@ namespace Assembler
             Menu_AppendSeparator(menu);
             ToolStripMenuItem toolStripMenuItem = Menu_AppendItem(menu, "Check World Z lock", ZLock_click, true, checkWZLock);
             toolStripMenuItem.ToolTipText = "Checks World Z axis orientation for AssemblyObjects with World Z lock enabled";
-            //ToolStripMenuItem toolStripMenuItem1 = Menu_AppendItem(menu, "Use Supports", Supports_click, true, useSupports);
-            //toolStripMenuItem1.ToolTipText = "Use supports (if present in AssemblyObjects) for Assemblage coherence\nNOT YET IMPLEMENTED";
+            ToolStripMenuItem toolStripMenuItem1 = Menu_AppendItem(menu, "Use Supports", Supports_click, true, useSupports);
+            toolStripMenuItem1.ToolTipText = "Use supports (if present in AssemblyObjects) for Assemblage coherence\nNOT YET IMPLEMENTED";
             Menu_AppendSeparator(menu);
         }
 
@@ -265,7 +268,7 @@ namespace Assembler
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.Assembler_Engine_X;
+                return Resources.Assembler_Engine;
             }
         }
 

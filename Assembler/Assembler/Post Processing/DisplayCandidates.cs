@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Assembler.Properties;
+using Assembler.Utils;
 using AssemblerLib;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
@@ -45,8 +46,11 @@ namespace Assembler
         {
             Assemblage AOa = null;
             if (!DA.GetData(0, ref AOa)) return;
+            
+            List<AssemblyObjectGoo> candidates = AOa.candidateObjects.Select(ao => new AssemblyObjectGoo(ao)).ToList();
 
-            DA.SetDataList("Candidate Objects", AOa.candidateObjects);
+            DA.SetDataList("Candidate Objects", candidates);
+            //DA.SetDataList("Candidate Objects", AOa.candidateObjects);
             //DA.SetDataList("Candidate Objects", AOa.candidateObjects.Select(a => a.collisionMesh));
         }
 

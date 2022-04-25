@@ -92,11 +92,9 @@ namespace Assembler
             pManager.AddNumberParameter("Y size", "Ys", "Cell size along Y direction as % of Bounding Box", GH_ParamAccess.item, 1.0);
             pManager.AddIntegerParameter("n. Rows", "nR", "number of rows", GH_ParamAccess.item, 10);
             pManager.AddColourParameter("Colors", "C", "Colors (OPTIONAL)\n2 colors for Sender-Receiver display mode (receiver first)\nOne color for component type for Display by type", GH_ParamAccess.list);
-            //pManager.AddBooleanParameter("Show Edges", "E", "Show Mesh edges", GH_ParamAccess.item, false);
 
             pManager[2].Optional = true; // XData is optional
             pManager[7].Optional = true; // colors are optional
-            //pManager[8].Optional = true; // show edges is optional
         }
 
         /// <summary>
@@ -132,17 +130,17 @@ namespace Assembler
             // flag for extra geometry existence
             haveXData = (xDCatalog != null) && (xDCatalog.Count > 0);
 
-            // get the rest of inputs
+            // get the remaining inputs
             Point3d P = new Point3d();
             double xS = double.NaN;
             double yS = double.NaN;
             int nR = 1;
-            //int dMode = 0;
+
             DA.GetData("Origin Point", ref P);
             DA.GetData("X size", ref xS);
             DA.GetData("Y size", ref yS);
             DA.GetData("n. Rows", ref nR);
-            //DA.GetData("Show Edges", ref edges);
+
             if (!DA.GetDataList("Colors", InputColors))
             {
                 // if there's no Color input build TypeColor from default palette
@@ -176,7 +174,7 @@ namespace Assembler
             AssemblyObject[] components = AOs.ToArray();
 
             // build Component catalog
-            catalog = Utilities.BuildDictionary(components, true);
+            catalog = Utilities.BuildDictionary(components);
 
             // build Rules List
             List<Rule> HeR = Utilities.HeuristicsRulesFromString(AOs, catalog, HeS);//, out HeSTree);
@@ -211,15 +209,11 @@ namespace Assembler
                     break;
             }
 
-
-
-            //checkZLock = GetValue("ZLockFilter", false);
             AOpairs = GeneratePairs(components, HeR, P, xS, yS, nR);
             SetPreviewData(AOpairs, xData, srMode);
-
         }
 
-        public GH_Line[] GetSihouette(Mesh M)
+        private GH_Line[] GetSihouette(Mesh M)
         {
             ConcurrentBag<GH_Line> lines = new ConcurrentBag<GH_Line>();
             double tol = Math.PI * 0.25; // angle tolerance  ignore edges whose faces meet at an angle larger than this
@@ -259,39 +253,7 @@ namespace Assembler
 
         }
 
-        //List<Rule> HeuristicsRulesFromString(List<AssemblyObject> AOset, List<string> heu)
-        //{
-        //    List<Rule> heuT = new List<Rule>();
-
-        //    string[] rComp = heu.ToArray();
-
-        //    int rT, rH, rR, sT, sH;
-        //    double rRA;
-        //    int w;
-        //    for (int i = 0; i < rComp.Length; i++)
-        //    {
-        //        string[] rule = rComp[i].Split(new[] { '<', '%' });
-        //        string[] rec = rule[0].Split(new[] { '|' });
-        //        string[] sen = rule[1].Split(new[] { '|' });
-        //        // sender and receiver component types
-        //        sT = catalog[sen[0]];
-        //        rT = catalog[rec[0]];
-        //        // sender handle index
-        //        sH = Convert.ToInt32(sen[1]);
-        //        // weight
-        //        w = Convert.ToInt32(rule[2]);
-        //        string[] rRot = rec[1].Split(new[] { '=' });
-        //        // receiver handle index and rotation
-        //        rH = Convert.ToInt32(rRot[0]);
-        //        rRA = Convert.ToDouble(rRot[1]);
-        //        rR = AOset[rT].handles[rH].rDictionary[rRA]; // using rotations
-
-        //        heuT.Add(new Rule(rec[0], rT, rH, rR, rRA, sen[0], sT, sH, w));
-        //    }
-        //    return heuT;
-        //}
-
-        public DataTree<AssemblyObject> GeneratePairs(AssemblyObject[] AO, List<Rule> Hr, Point3d O, double padX, double padY, int nR)
+        private DataTree<AssemblyObject> GeneratePairs(AssemblyObject[] AO, List<Rule> Hr, Point3d O, double padX, double padY, int nR)
         {
             DataTree<AssemblyObject> AOpairs = new DataTree<AssemblyObject>();
             AssemblyObject senderAO, receiverAO;
@@ -469,7 +431,7 @@ namespace Assembler
             return AOpairs;
         }
 
-        public void SetPreviewData(DataTree<AssemblyObject> Aopairs, DataTree<XData> xDataTree, bool srMode)
+        private void SetPreviewData(DataTree<AssemblyObject> Aopairs, DataTree<XData> xDataTree, bool srMode)
         {
             Mesh m;
             Color edgeColor, typeColor;
@@ -575,6 +537,10 @@ namespace Assembler
                                             //case Rhino.DocObjects.ObjectType.Extrusion:
                                             //    break;
                                             //case Rhino.DocObjects.ObjectType.PointSet:
+                                            //    break;
+                                            //case Rhino.DocObjects.ObjectType.SubD:
+                                            //    XD_SubD.Add(gb as SubD); // prepare a list
+                                            //    item.Geometry = new GH_SubD(gb as SubD);
                                             //    break;
                                             default:
                                                 item.Geometry = null;
@@ -786,7 +752,7 @@ namespace Assembler
             ToolStripMenuItem toolStripMenuItem = Menu_AppendItem(menu, "AO Types", AOTypes_Click, true, GetValue("OutputType", "AO Types") == "AO Types");
             toolStripMenuItem.ToolTipText = "Color by AO type";
             ToolStripMenuItem toolStripMenuItem2 = Menu_AppendItem(menu, "S-R Status", SR_Click, true, GetValue("OutputType", "AO Types") == "S-R");
-            toolStripMenuItem2.ToolTipText = "Color by Sender-Receiver status";
+            toolStripMenuItem2.ToolTipText = "Color by Sender-Receiver status - receiver in blue";
             Menu_AppendSeparator(menu);
             ToolStripMenuItem toolStripMenuItem3 = Menu_AppendItem(menu, "Show Edges", Edges_Click, true, GetValue("ShowEdges", true));
             toolStripMenuItem3.ToolTipText = "Show or hide geometry edges";
@@ -804,7 +770,6 @@ namespace Assembler
         private void AOTypes_Click(object sender, EventArgs e)
         {
             RecordUndoEvent("AO Types");
-            //RecordUndoEvent("output mode");
             SetValue("OutputType", "AO Types");
             displayType = GetValue("OutputType", "AO Types");
             UpdateMessage();
@@ -813,7 +778,6 @@ namespace Assembler
         private void SR_Click(object sender, EventArgs e)
         {
             RecordUndoEvent("S-R Status");
-            //RecordUndoEvent("output mode");
             SetValue("OutputType", "S-R");
             displayType = GetValue("OutputType", "AO Types");
             UpdateMessage();

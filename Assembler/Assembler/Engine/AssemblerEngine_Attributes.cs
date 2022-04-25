@@ -2,7 +2,7 @@
 using Grasshopper.GUI.Canvas;
 using Grasshopper.Kernel.Attributes;
 
-namespace Assembler.Engine
+namespace Assembler
 {
     class AssemblerEngine_Attributes : GH_ComponentAttributes
     {

@@ -48,12 +48,24 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Assemblage.AddValidObject
   nameWithType: Assemblage.AddValidObject
+- uid: AssemblerLib.Assemblage.AOIndexesMap
+  name: AOIndexesMap
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_AOIndexesMap
+  commentId: F:AssemblerLib.Assemblage.AOIndexesMap
+  fullName: AssemblerLib.Assemblage.AOIndexesMap
+  nameWithType: Assemblage.AOIndexesMap
 - uid: AssemblerLib.Assemblage.AOSet
   name: AOSet
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_AOSet
   commentId: F:AssemblerLib.Assemblage.AOSet
   fullName: AssemblerLib.Assemblage.AOSet
   nameWithType: Assemblage.AOSet
+- uid: AssemblerLib.Assemblage.AOSetDictionary
+  name: AOSetDictionary
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_AOSetDictionary
+  commentId: F:AssemblerLib.Assemblage.AOSetDictionary
+  fullName: AssemblerLib.Assemblage.AOSetDictionary
+  nameWithType: Assemblage.AOSetDictionary
 - uid: AssemblerLib.Assemblage.assemblageRules
   name: assemblageRules
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_assemblageRules
@@ -78,18 +90,42 @@ references:
   commentId: F:AssemblerLib.Assemblage.checkWorldZLock
   fullName: AssemblerLib.Assemblage.checkWorldZLock
   nameWithType: Assemblage.checkWorldZLock
-- uid: AssemblerLib.Assemblage.ComputeCandidatesValuesMethod
-  name: Assemblage.ComputeCandidatesValuesMethod
-  href: api/AssemblerLib.Assemblage.ComputeCandidatesValuesMethod.html
-  commentId: T:AssemblerLib.Assemblage.ComputeCandidatesValuesMethod
-  fullName: AssemblerLib.Assemblage.ComputeCandidatesValuesMethod
-  nameWithType: Assemblage.ComputeCandidatesValuesMethod
-- uid: AssemblerLib.Assemblage.ComputeReceiverMethod
-  name: Assemblage.ComputeReceiverMethod
-  href: api/AssemblerLib.Assemblage.ComputeReceiverMethod.html
-  commentId: T:AssemblerLib.Assemblage.ComputeReceiverMethod
-  fullName: AssemblerLib.Assemblage.ComputeReceiverMethod
-  nameWithType: Assemblage.ComputeReceiverMethod
+- uid: AssemblerLib.Assemblage.collisionRadius
+  name: collisionRadius
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_collisionRadius
+  commentId: F:AssemblerLib.Assemblage.collisionRadius
+  fullName: AssemblerLib.Assemblage.collisionRadius
+  nameWithType: Assemblage.collisionRadius
+- uid: AssemblerLib.Assemblage.ComputeCandidatesValuesMethod`1
+  name: Assemblage.ComputeCandidatesValuesMethod<T>
+  href: api/AssemblerLib.Assemblage.ComputeCandidatesValuesMethod-1.html
+  commentId: T:AssemblerLib.Assemblage.ComputeCandidatesValuesMethod`1
+  name.vb: Assemblage.ComputeCandidatesValuesMethod(Of T)
+  fullName: AssemblerLib.Assemblage.ComputeCandidatesValuesMethod<T>
+  fullName.vb: AssemblerLib.Assemblage.ComputeCandidatesValuesMethod(Of T)
+  nameWithType: Assemblage.ComputeCandidatesValuesMethod<T>
+  nameWithType.vb: Assemblage.ComputeCandidatesValuesMethod(Of T)
+- uid: AssemblerLib.Assemblage.ComputeReceiverMethod`1
+  name: Assemblage.ComputeReceiverMethod<T>
+  href: api/AssemblerLib.Assemblage.ComputeReceiverMethod-1.html
+  commentId: T:AssemblerLib.Assemblage.ComputeReceiverMethod`1
+  name.vb: Assemblage.ComputeReceiverMethod(Of T)
+  fullName: AssemblerLib.Assemblage.ComputeReceiverMethod<T>
+  fullName.vb: AssemblerLib.Assemblage.ComputeReceiverMethod(Of T)
+  nameWithType: Assemblage.ComputeReceiverMethod<T>
+  nameWithType.vb: Assemblage.ComputeReceiverMethod(Of T)
+- uid: AssemblerLib.Assemblage.computeReceiverValue
+  name: computeReceiverValue
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_computeReceiverValue
+  commentId: F:AssemblerLib.Assemblage.computeReceiverValue
+  fullName: AssemblerLib.Assemblage.computeReceiverValue
+  nameWithType: Assemblage.computeReceiverValue
+- uid: AssemblerLib.Assemblage.computeSendersValues
+  name: computeSendersValues
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_computeSendersValues
+  commentId: F:AssemblerLib.Assemblage.computeSendersValues
+  fullName: AssemblerLib.Assemblage.computeSendersValues
+  nameWithType: Assemblage.computeSendersValues
 - uid: AssemblerLib.Assemblage.currentHeuristics
   name: currentHeuristics
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_currentHeuristics
@@ -102,6 +138,12 @@ references:
   commentId: F:AssemblerLib.Assemblage.E_sandbox
   fullName: AssemblerLib.Assemblage.E_sandbox
   nameWithType: Assemblage.E_sandbox
+- uid: AssemblerLib.Assemblage.environmentCheck
+  name: environmentCheck
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_environmentCheck
+  commentId: F:AssemblerLib.Assemblage.environmentCheck
+  fullName: AssemblerLib.Assemblage.environmentCheck
+  nameWithType: Assemblage.environmentCheck
 - uid: AssemblerLib.Assemblage.EnvironmentCheckMethod
   name: Assemblage.EnvironmentCheckMethod
   href: api/AssemblerLib.Assemblage.EnvironmentCheckMethod.html
@@ -146,12 +188,19 @@ references:
   commentId: F:AssemblerLib.Assemblage.HeuristicsSettings
   fullName: AssemblerLib.Assemblage.HeuristicsSettings
   nameWithType: Assemblage.HeuristicsSettings
-- uid: AssemblerLib.Assemblage.objectsDictionary
-  name: objectsDictionary
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_objectsDictionary
-  commentId: F:AssemblerLib.Assemblage.objectsDictionary
-  fullName: AssemblerLib.Assemblage.objectsDictionary
-  nameWithType: Assemblage.objectsDictionary
+- uid: AssemblerLib.Assemblage.Initialize
+  name: Initialize()
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_Initialize
+  commentId: M:AssemblerLib.Assemblage.Initialize
+  fullName: AssemblerLib.Assemblage.Initialize()
+  nameWithType: Assemblage.Initialize()
+- uid: AssemblerLib.Assemblage.Initialize*
+  name: Initialize
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_Initialize_
+  commentId: Overload:AssemblerLib.Assemblage.Initialize
+  isSpec: "True"
+  fullName: AssemblerLib.Assemblage.Initialize
+  nameWithType: Assemblage.Initialize
 - uid: AssemblerLib.Assemblage.receiverIndex
   name: receiverIndex
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_receiverIndex
@@ -170,6 +219,19 @@ references:
   commentId: F:AssemblerLib.Assemblage.receiverRules
   fullName: AssemblerLib.Assemblage.receiverRules
   nameWithType: Assemblage.receiverRules
+- uid: AssemblerLib.Assemblage.RemoveObject(System.Int32)
+  name: RemoveObject(Int32)
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_RemoveObject_System_Int32_
+  commentId: M:AssemblerLib.Assemblage.RemoveObject(System.Int32)
+  fullName: AssemblerLib.Assemblage.RemoveObject(System.Int32)
+  nameWithType: Assemblage.RemoveObject(Int32)
+- uid: AssemblerLib.Assemblage.RemoveObject*
+  name: RemoveObject
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_RemoveObject_
+  commentId: Overload:AssemblerLib.Assemblage.RemoveObject
+  isSpec: "True"
+  fullName: AssemblerLib.Assemblage.RemoveObject
+  nameWithType: Assemblage.RemoveObject
 - uid: AssemblerLib.Assemblage.ResetSettings(AssemblerLib.HeuristicsSettings,AssemblerLib.ExogenousSettings)
   name: ResetSettings(HeuristicsSettings, ExogenousSettings)
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_ResetSettings_AssemblerLib_HeuristicsSettings_AssemblerLib_ExogenousSettings_
@@ -209,6 +271,12 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Assemblage.RulesCount
   nameWithType: Assemblage.RulesCount
+- uid: AssemblerLib.Assemblage.selectReceiver
+  name: selectReceiver
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_selectReceiver
+  commentId: F:AssemblerLib.Assemblage.selectReceiver
+  fullName: AssemblerLib.Assemblage.selectReceiver
+  nameWithType: Assemblage.selectReceiver
 - uid: AssemblerLib.Assemblage.SelectReceiver
   name: SelectReceiver()
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_SelectReceiver
@@ -238,12 +306,21 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Assemblage.SelectRule
   nameWithType: Assemblage.SelectRule
-- uid: AssemblerLib.Assemblage.SelectWinnerMethod
-  name: Assemblage.SelectWinnerMethod
-  href: api/AssemblerLib.Assemblage.SelectWinnerMethod.html
-  commentId: T:AssemblerLib.Assemblage.SelectWinnerMethod
-  fullName: AssemblerLib.Assemblage.SelectWinnerMethod
-  nameWithType: Assemblage.SelectWinnerMethod
+- uid: AssemblerLib.Assemblage.selectSender
+  name: selectSender
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_selectSender
+  commentId: F:AssemblerLib.Assemblage.selectSender
+  fullName: AssemblerLib.Assemblage.selectSender
+  nameWithType: Assemblage.selectSender
+- uid: AssemblerLib.Assemblage.SelectWinnerMethod`1
+  name: Assemblage.SelectWinnerMethod<T>
+  href: api/AssemblerLib.Assemblage.SelectWinnerMethod-1.html
+  commentId: T:AssemblerLib.Assemblage.SelectWinnerMethod`1
+  name.vb: Assemblage.SelectWinnerMethod(Of T)
+  fullName: AssemblerLib.Assemblage.SelectWinnerMethod<T>
+  fullName.vb: AssemblerLib.Assemblage.SelectWinnerMethod(Of T)
+  nameWithType: Assemblage.SelectWinnerMethod<T>
+  nameWithType.vb: Assemblage.SelectWinnerMethod(Of T)
 - uid: AssemblerLib.Assemblage.Update
   name: Update()
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_Update
@@ -257,6 +334,12 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Assemblage.Update
   nameWithType: Assemblage.Update
+- uid: AssemblerLib.Assemblage.useSupports
+  name: useSupports
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_useSupports
+  commentId: F:AssemblerLib.Assemblage.useSupports
+  fullName: AssemblerLib.Assemblage.useSupports
+  nameWithType: Assemblage.useSupports
 - uid: AssemblerLib.Assemblage.validRulesIndexes
   name: validRulesIndexes
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_validRulesIndexes
@@ -293,15 +376,15 @@ references:
   fullName.vb: AssemblerLib.AssemblyObject.AssemblyObject(Rhino.Geometry.Mesh, AssemblerLib.Handle(), Rhino.Geometry.Plane, Rhino.Geometry.Vector3d, System.String, System.Int32, System.Double, System.Int32, System.Collections.Generic.List(Of AssemblerLib.Support), System.Int32, System.Boolean)
   nameWithType: AssemblyObject.AssemblyObject(Mesh, Handle[], Plane, Vector3d, String, Int32, Double, Int32, List<Support>, Int32, Boolean)
   nameWithType.vb: AssemblyObject.AssemblyObject(Mesh, Handle(), Plane, Vector3d, String, Int32, Double, Int32, List(Of Support), Int32, Boolean)
-- uid: AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.Int32,System.Collections.Generic.List{System.Int32[]},System.Double,System.String,System.Int32,System.Double,System.Int32,System.Collections.Generic.List{AssemblerLib.Support},System.Int32,System.Boolean,System.Boolean,System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.List{System.Int32[]},System.Double,System.Double)
-  name: AssemblyObject(Mesh, Mesh, Handle[], Plane, Vector3d, Int32, List<Int32[]>, Double, String, Int32, Double, Int32, List<Support>, Int32, Boolean, Boolean, List<AssemblyObject>, List<Int32[]>, Double, Double)
-  href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_Rhino_Geometry_Mesh_AssemblerLib_Handle___Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_Int32_System_Collections_Generic_List_System_Int32____System_Double_System_String_System_Int32_System_Double_System_Int32_System_Collections_Generic_List_AssemblerLib_Support__System_Int32_System_Boolean_System_Boolean_System_Collections_Generic_List_AssemblerLib_AssemblyObject__System_Collections_Generic_List_System_Int32____System_Double_System_Double_
-  commentId: M:AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.Int32,System.Collections.Generic.List{System.Int32[]},System.Double,System.String,System.Int32,System.Double,System.Int32,System.Collections.Generic.List{AssemblerLib.Support},System.Int32,System.Boolean,System.Boolean,System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.List{System.Int32[]},System.Double,System.Double)
-  name.vb: AssemblyObject(Mesh, Mesh, Handle(), Plane, Vector3d, Int32, List(Of Int32()), Double, String, Int32, Double, Int32, List(Of Support), Int32, Boolean, Boolean, List(Of AssemblyObject), List(Of Int32()), Double, Double)
-  fullName: AssemblerLib.AssemblyObject.AssemblyObject(Rhino.Geometry.Mesh, Rhino.Geometry.Mesh, AssemblerLib.Handle[], Rhino.Geometry.Plane, Rhino.Geometry.Vector3d, System.Int32, System.Collections.Generic.List<System.Int32[]>, System.Double, System.String, System.Int32, System.Double, System.Int32, System.Collections.Generic.List<AssemblerLib.Support>, System.Int32, System.Boolean, System.Boolean, System.Collections.Generic.List<AssemblerLib.AssemblyObject>, System.Collections.Generic.List<System.Int32[]>, System.Double, System.Double)
-  fullName.vb: AssemblerLib.AssemblyObject.AssemblyObject(Rhino.Geometry.Mesh, Rhino.Geometry.Mesh, AssemblerLib.Handle(), Rhino.Geometry.Plane, Rhino.Geometry.Vector3d, System.Int32, System.Collections.Generic.List(Of System.Int32()), System.Double, System.String, System.Int32, System.Double, System.Int32, System.Collections.Generic.List(Of AssemblerLib.Support), System.Int32, System.Boolean, System.Boolean, System.Collections.Generic.List(Of AssemblerLib.AssemblyObject), System.Collections.Generic.List(Of System.Int32()), System.Double, System.Double)
-  nameWithType: AssemblyObject.AssemblyObject(Mesh, Mesh, Handle[], Plane, Vector3d, Int32, List<Int32[]>, Double, String, Int32, Double, Int32, List<Support>, Int32, Boolean, Boolean, List<AssemblyObject>, List<Int32[]>, Double, Double)
-  nameWithType.vb: AssemblyObject.AssemblyObject(Mesh, Mesh, Handle(), Plane, Vector3d, Int32, List(Of Int32()), Double, String, Int32, Double, Int32, List(Of Support), Int32, Boolean, Boolean, List(Of AssemblyObject), List(Of Int32()), Double, Double)
+- uid: AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.Int32,System.Collections.Generic.List{System.Int32[]},System.String,System.Int32,System.Double,System.Int32,System.Collections.Generic.List{AssemblerLib.Support},System.Int32,System.Boolean,System.Boolean,System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.List{System.Int32[]},System.Double,System.Double)
+  name: AssemblyObject(Mesh, Mesh, Handle[], Plane, Vector3d, Int32, List<Int32[]>, String, Int32, Double, Int32, List<Support>, Int32, Boolean, Boolean, List<AssemblyObject>, List<Int32[]>, Double, Double)
+  href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_Rhino_Geometry_Mesh_AssemblerLib_Handle___Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_Int32_System_Collections_Generic_List_System_Int32____System_String_System_Int32_System_Double_System_Int32_System_Collections_Generic_List_AssemblerLib_Support__System_Int32_System_Boolean_System_Boolean_System_Collections_Generic_List_AssemblerLib_AssemblyObject__System_Collections_Generic_List_System_Int32____System_Double_System_Double_
+  commentId: M:AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.Int32,System.Collections.Generic.List{System.Int32[]},System.String,System.Int32,System.Double,System.Int32,System.Collections.Generic.List{AssemblerLib.Support},System.Int32,System.Boolean,System.Boolean,System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.List{System.Int32[]},System.Double,System.Double)
+  name.vb: AssemblyObject(Mesh, Mesh, Handle(), Plane, Vector3d, Int32, List(Of Int32()), String, Int32, Double, Int32, List(Of Support), Int32, Boolean, Boolean, List(Of AssemblyObject), List(Of Int32()), Double, Double)
+  fullName: AssemblerLib.AssemblyObject.AssemblyObject(Rhino.Geometry.Mesh, Rhino.Geometry.Mesh, AssemblerLib.Handle[], Rhino.Geometry.Plane, Rhino.Geometry.Vector3d, System.Int32, System.Collections.Generic.List<System.Int32[]>, System.String, System.Int32, System.Double, System.Int32, System.Collections.Generic.List<AssemblerLib.Support>, System.Int32, System.Boolean, System.Boolean, System.Collections.Generic.List<AssemblerLib.AssemblyObject>, System.Collections.Generic.List<System.Int32[]>, System.Double, System.Double)
+  fullName.vb: AssemblerLib.AssemblyObject.AssemblyObject(Rhino.Geometry.Mesh, Rhino.Geometry.Mesh, AssemblerLib.Handle(), Rhino.Geometry.Plane, Rhino.Geometry.Vector3d, System.Int32, System.Collections.Generic.List(Of System.Int32()), System.String, System.Int32, System.Double, System.Int32, System.Collections.Generic.List(Of AssemblerLib.Support), System.Int32, System.Boolean, System.Boolean, System.Collections.Generic.List(Of AssemblerLib.AssemblyObject), System.Collections.Generic.List(Of System.Int32()), System.Double, System.Double)
+  nameWithType: AssemblyObject.AssemblyObject(Mesh, Mesh, Handle[], Plane, Vector3d, Int32, List<Int32[]>, String, Int32, Double, Int32, List<Support>, Int32, Boolean, Boolean, List<AssemblyObject>, List<Int32[]>, Double, Double)
+  nameWithType.vb: AssemblyObject.AssemblyObject(Mesh, Mesh, Handle(), Plane, Vector3d, Int32, List(Of Int32()), String, Int32, Double, Int32, List(Of Support), Int32, Boolean, Boolean, List(Of AssemblyObject), List(Of Int32()), Double, Double)
 - uid: AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.String,System.Int32,System.Double,System.Boolean,System.Collections.Generic.List{AssemblerLib.AssemblyObject})
   name: AssemblyObject(Mesh, Plane, Vector3d, String, Int32, Double, Boolean, List<AssemblyObject>)
   href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_String_System_Int32_System_Double_System_Boolean_System_Collections_Generic_List_AssemblerLib_AssemblyObject__
@@ -343,12 +426,6 @@ references:
   commentId: F:AssemblerLib.AssemblyObject.collisionMesh
   fullName: AssemblerLib.AssemblyObject.collisionMesh
   nameWithType: AssemblyObject.collisionMesh
-- uid: AssemblerLib.AssemblyObject.collisionRadius
-  name: collisionRadius
-  href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject_collisionRadius
-  commentId: F:AssemblerLib.AssemblyObject.collisionRadius
-  fullName: AssemblerLib.AssemblyObject.collisionRadius
-  nameWithType: AssemblyObject.collisionRadius
 - uid: AssemblerLib.AssemblyObject.direction
   name: direction
   href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject_direction
@@ -1858,15 +1935,15 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Utilities.AverageUnitized
   nameWithType: Utilities.AverageUnitized
-- uid: AssemblerLib.Utilities.BuildDictionary(AssemblerLib.AssemblyObject[],System.Boolean)
-  name: BuildDictionary(AssemblyObject[], Boolean)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_BuildDictionary_AssemblerLib_AssemblyObject___System_Boolean_
-  commentId: M:AssemblerLib.Utilities.BuildDictionary(AssemblerLib.AssemblyObject[],System.Boolean)
-  name.vb: BuildDictionary(AssemblyObject(), Boolean)
-  fullName: AssemblerLib.Utilities.BuildDictionary(AssemblerLib.AssemblyObject[], System.Boolean)
-  fullName.vb: AssemblerLib.Utilities.BuildDictionary(AssemblerLib.AssemblyObject(), System.Boolean)
-  nameWithType: Utilities.BuildDictionary(AssemblyObject[], Boolean)
-  nameWithType.vb: Utilities.BuildDictionary(AssemblyObject(), Boolean)
+- uid: AssemblerLib.Utilities.BuildDictionary(AssemblerLib.AssemblyObject[])
+  name: BuildDictionary(AssemblyObject[])
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_BuildDictionary_AssemblerLib_AssemblyObject___
+  commentId: M:AssemblerLib.Utilities.BuildDictionary(AssemblerLib.AssemblyObject[])
+  name.vb: BuildDictionary(AssemblyObject())
+  fullName: AssemblerLib.Utilities.BuildDictionary(AssemblerLib.AssemblyObject[])
+  fullName.vb: AssemblerLib.Utilities.BuildDictionary(AssemblerLib.AssemblyObject())
+  nameWithType: Utilities.BuildDictionary(AssemblyObject[])
+  nameWithType.vb: Utilities.BuildDictionary(AssemblyObject())
 - uid: AssemblerLib.Utilities.BuildDictionary*
   name: BuildDictionary
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_BuildDictionary_
@@ -1994,19 +2071,6 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Utilities.CollisionCheckAssemblage
   nameWithType: Utilities.CollisionCheckAssemblage
-- uid: AssemblerLib.Utilities.CollisionCheckAssemblageParallel(AssemblerLib.Assemblage,AssemblerLib.AssemblyObject)
-  name: CollisionCheckAssemblageParallel(Assemblage, AssemblyObject)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_CollisionCheckAssemblageParallel_AssemblerLib_Assemblage_AssemblerLib_AssemblyObject_
-  commentId: M:AssemblerLib.Utilities.CollisionCheckAssemblageParallel(AssemblerLib.Assemblage,AssemblerLib.AssemblyObject)
-  fullName: AssemblerLib.Utilities.CollisionCheckAssemblageParallel(AssemblerLib.Assemblage, AssemblerLib.AssemblyObject)
-  nameWithType: Utilities.CollisionCheckAssemblageParallel(Assemblage, AssemblyObject)
-- uid: AssemblerLib.Utilities.CollisionCheckAssemblageParallel*
-  name: CollisionCheckAssemblageParallel
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_CollisionCheckAssemblageParallel_
-  commentId: Overload:AssemblerLib.Utilities.CollisionCheckAssemblageParallel
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.CollisionCheckAssemblageParallel
-  nameWithType: Utilities.CollisionCheckAssemblageParallel
 - uid: AssemblerLib.Utilities.CollisionCheckMeshes(Rhino.Geometry.Mesh,Rhino.Geometry.Mesh)
   name: CollisionCheckMeshes(Mesh, Mesh)
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_CollisionCheckMeshes_Rhino_Geometry_Mesh_Rhino_Geometry_Mesh_
@@ -2103,6 +2167,12 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Utilities.DeserializeAssemblage
   nameWithType: Utilities.DeserializeAssemblage
+- uid: AssemblerLib.Utilities.discoGradient
+  name: discoGradient
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_discoGradient
+  commentId: F:AssemblerLib.Utilities.discoGradient
+  fullName: AssemblerLib.Utilities.discoGradient
+  nameWithType: Utilities.discoGradient
 - uid: AssemblerLib.Utilities.GetGHFilePath(Grasshopper.Kernel.GH_Component)
   name: GetGHFilePath(GH_Component)
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GetGHFilePath_Grasshopper_Kernel_GH_Component_

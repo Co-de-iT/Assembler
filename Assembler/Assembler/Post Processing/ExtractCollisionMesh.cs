@@ -9,15 +9,15 @@ using Assembler.Utils;
 
 namespace Assembler
 {
-    public class ExtractType : GH_Component
+    public class ExtractCollisionMesh : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the ExtractID class.
+        /// Initializes a new instance of the ExtractMesh class.
         /// </summary>
-        public ExtractType()
-          : base("Extract Type", "AOType",
-              "Extract Type from AssemblyObject class",
-              "Assembler", "Components")
+        public ExtractCollisionMesh()
+          : base("Extract Collision Mesh", "AOCMesh",
+              "Extract collision mesh from AssemblyObject class",
+              "Assembler", "Post Processing")
         {
         }
 
@@ -34,7 +34,7 @@ namespace Assembler
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddIntegerParameter("Type", "T", "AssemblyObject Type", GH_ParamAccess.item);
+            pManager.AddMeshParameter("Mesh", "M", "Collision Mesh in AssemblyObject", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -49,8 +49,10 @@ namespace Assembler
 
             AO = GH_AO.Value;
 
-            int type = AO.type;
-            DA.SetData(0, type);
+            Mesh m = new Mesh();
+            m.CopyFrom(AO.collisionMesh);
+            m.Unweld(0, true);
+            DA.SetData(0, m);
         }
 
         /// <summary>
@@ -62,17 +64,17 @@ namespace Assembler
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.Extract_Type;
+                return Resources.Extract_CollisionMesh;
             }
         }
 
         /// <summary>
-        /// Exposure override for position in the SUbcategory (options primary to septenary)
+        /// Exposure override for position in the Subcategory (options primary to septenary)
         /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
         /// </summary>
         public override GH_Exposure Exposure
         {
-            get { return GH_Exposure.quarternary; }
+            get { return GH_Exposure.secondary; }
         }
 
         /// <summary>
@@ -80,7 +82,7 @@ namespace Assembler
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("5ae51d82-2ee3-4cf3-ae44-3454bfbafd32"); }
+            get { return new Guid("492e8dd2-67a4-4b3a-8bda-bdd962da826c"); }
         }
     }
 }

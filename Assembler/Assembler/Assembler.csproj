@@ -69,13 +69,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\SetSupports.cs" />
-    <Compile Include="Components\ExtractSupports.cs" />
+    <Compile Include="Post Processing\ExtractSupports.cs" />
     <Compile Include="DeconstructRule.cs" />
     <Compile Include="D_AssCustomPreview.cs" />
     <Compile Include="Engine\AssemblerEngine_Attributes.cs" />
     <Compile Include="I-O\AssemblyObjectsFromJSON.cs" />
     <Compile Include="I-O\AssemblyObjectsToJSON.cs" />
-    <Compile Include="Engine\AssemblerEngine_OLD.cs" />
+    <Compile Include="LEGACY-HIDDEN\L_AssemblerEngine.cs" />
     <Compile Include="Engine\AssemblerEngine.cs" />
     <Compile Include="AssemblerInfo.cs" />
     <Compile Include="IGH_TypeViewer.cs" />
@@ -106,11 +106,11 @@
     <Compile Include="Components\DisplayHandle.cs" />
     <Compile Include="Exogenous\ExogenousSettingsComponent.cs" />
     <Compile Include="Post Processing\ExtractAOSet.cs" />
-    <Compile Include="Components\ExtractCollisionMesh.cs" />
-    <Compile Include="Components\ExtractReferencePlane.cs" />
-    <Compile Include="Components\ExtractSenderHandlesPlanes.cs" />
+    <Compile Include="Post Processing\ExtractCollisionMesh.cs" />
+    <Compile Include="Post Processing\ExtractReferencePlane.cs" />
+    <Compile Include="Post Processing\ExtractSenderHandlesPlanes.cs" />
     <Compile Include="Post Processing\ExtractTopology.cs" />
-    <Compile Include="Components\ExtractType.cs" />
+    <Compile Include="Post Processing\ExtractType.cs" />
     <Compile Include="LEGACY-HIDDEN\L_HeuristicsDisplay.cs" />
     <Compile Include="LEGACY-HIDDEN\L_HeuristicsDisplayEx.cs" />
     <Compile Include="Heuristics\HeuristicsSettingsComponent.cs" />
@@ -125,7 +125,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Components\TransformAssemblyObject.cs" />
+    <Compile Include="LEGACY-HIDDEN\L_TransformAssemblyObject.cs" />
     <Compile Include="Components\TransformXData.cs" />
     <Compile Include="Heuristics\WeighHeuristics.cs" />
     <Compile Include="RemoveAssemblyObjects.cs" />

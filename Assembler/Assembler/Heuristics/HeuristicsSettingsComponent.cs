@@ -36,15 +36,15 @@ namespace Assembler
                 "\n1 - Field driven - via Field iWeights",
                 GH_ParamAccess.item, 0);
             // criteria selectors
-            pManager.AddIntegerParameter("Receiver Selection Mode", "rOS",
-                "Receiver Object selection criteria" +
+            pManager.AddIntegerParameter("Receiver Selection Mode", "RsM",
+                "Receiver selection criteria" +
                 "\n0 - random" +
                 "\n1 - scalar field nearest" +
                 "\n2 - scalar field interpolated" +
                 "\n3 - dense packing - minimum sum of connected objects' weights",
                 GH_ParamAccess.item, 0);
-            pManager.AddIntegerParameter("Rule Selection Mode", "rRS",
-                "Rule selection criteria" +
+            pManager.AddIntegerParameter("Sender (Rule) Selection Mode", "SsM",
+                "Sender (Rule) selection criteria" +
                 "\n0 - random" +
                 "\n1 - scalar field nearest" +
                 "\n2 - scalar field interpolated" +
@@ -96,11 +96,11 @@ namespace Assembler
             DA.GetData("Heuristics Mode", ref HeM);
 
             // criteria selectors
-            int rOS = 0, rRS = 0;
-            DA.GetData("Receiver Selection Mode", ref rOS);
-            DA.GetData("Rule Selection Mode", ref rRS);
+            int Rsm = 0, Ssm = 0;
+            DA.GetData("Receiver Selection Mode", ref Rsm);
+            DA.GetData("Sender (Rule) Selection Mode", ref Ssm);
 
-            HeuristicsSettings HS = new HeuristicsSettings(HeS, cH, HeM, rOS, rRS);
+            HeuristicsSettings HS = new HeuristicsSettings(HeS, cH, HeM, Rsm, Ssm);
 
             DA.SetData(0, HS);
         }

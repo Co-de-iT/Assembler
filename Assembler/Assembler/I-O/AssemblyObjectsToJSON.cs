@@ -29,7 +29,7 @@ namespace Assembler
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("AssemblyObjects", "AO", "The list of AssemblyObjects", GH_ParamAccess.list);
-            pManager.AddIntegerParameter("Start index", "i", "When supplied, only AssemblyObjects from this index on will be saved", GH_ParamAccess.item, 0);
+            //pManager.AddIntegerParameter("Start index", "i", "When supplied, only AssemblyObjects from this index on will be saved", GH_ParamAccess.item, 0);
             pManager.AddTextParameter("Directory", "D", "Path to the save directory", GH_ParamAccess.item);
             pManager.AddTextParameter("File name", "F", "Filename (without extension)", GH_ParamAccess.item);
             pManager.AddBooleanParameter("Save", "S", "Save file (trigger)\nAttach a button and press once to save file", GH_ParamAccess.item, false);
@@ -65,18 +65,19 @@ namespace Assembler
             if (!DA.GetData("File name", ref name)) return;
             AOs = GH_AOs.Select(ao => ao.Value).ToList();
             DA.GetData("Save", ref save);
-            int i = 0;
-            DA.GetData("Start index", ref i);
+            //int i = 0;
+            //DA.GetData("Start index", ref i);
 
             if (AOs == null) return;
-            if (i == 0)
-                AOSelect = AOs;
-            else
-                for (int j = i; j < AOs.Count; j++)
-                    AOSelect.Add(AOs[j]);
+            //if (i == 0)
+            //AOSelect = AOs;
+            //else
+            //    for (int j = i; j < AOs.Count; j++)
+            //        AOSelect.Add(AOs[j]);
 
             if (save)
-                info = "Last assemblage saved as " + Utilities.AssemblageToJSONdump(AOSelect, path, name);
+                info = "Last assemblage saved as " + Utilities.AssemblageToJSONdump(AOs, path, name);
+            //info = "Last assemblage saved as " + Utilities.AssemblageToJSONdump(AOSelect, path, name);
 
 
             DA.SetData("info", info);

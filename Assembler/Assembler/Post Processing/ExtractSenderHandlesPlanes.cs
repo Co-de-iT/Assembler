@@ -18,7 +18,7 @@ namespace Assembler
         public ExtractSenderHandlesPlanes()
           : base("Extract Sender Handles Planes", "AOSP",
               "Extract the plane for each of the AssemblyObject Sender Handles",
-             "Assembler", "Components")
+             "Assembler", "Post Processing")
         {
         }
 
@@ -74,7 +74,7 @@ namespace Assembler
         /// </summary>
         public override GH_Exposure Exposure
         {
-            get { return GH_Exposure.quarternary; }
+            get { return GH_Exposure.secondary; }
         }
 
         /// <summary>

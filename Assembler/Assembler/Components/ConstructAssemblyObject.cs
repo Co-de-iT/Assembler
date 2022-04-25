@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
@@ -94,13 +93,29 @@ namespace Assembler
             if (!DA.GetDataList(5, h)) return;
 
             // if collision mesh is null return
-            if (cm == null) return;
+            if (cm == null || !cm.IsValid || !cm.IsClosed)
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Collision Mesh is null, open or invalid");
+                return;
+            }
             // if reference plane is null return
-            if (rp == null) return;
+            if (rp == null)
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Reference plane is null");
+                return;
+            }
             // if direction is null or zero return
-            if (d == null || d == Vector3d.Zero) return;
+            if (d == null || d == Vector3d.Zero)
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Direction vector is zero or invalid");
+                return;
+            }
             // if Handles are empty return
-            if (h.Count == 0) return;
+            if (h.Count == 0)
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "No Handles supplied");
+                return;
+            }
 
             // cast Handles to array
             Handle[] handles = h.ToArray();

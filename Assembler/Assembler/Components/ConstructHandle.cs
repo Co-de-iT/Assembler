@@ -65,35 +65,40 @@ namespace Assembler
             if (!DA.GetDataList(0, pCurves)) return;
             if (!DA.GetDataTree(1, out rot)) return;
             if (!DA.GetDataList(2, type)) return;
-            if (!DA.GetDataList(3, w) || w.Count==0)
+            if (!DA.GetDataList(3, w) || w.Count == 0)
                 // if weights are not given as input, set them to a defalult of 1.0 for each handle
                 w = pCurves.Select(c => 1.0).ToList();
 
             if (pCurves == null || pCurves.Count == 0)
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Please provide one or more polylines");
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Please provide one or more L-shaped polylines");
 
             if (rot == null || rot.IsEmpty || pCurves.Count != rot.Branches.Count)
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Please specify a set of one or more rotations for each polyline");
 
             if (type == null || pCurves.Count != type.Count)
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Please specify a type for each polyline");
-            
+
             if (w == null || pCurves.Count != w.Count)
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Please specify a weight for each polyline");
 
             foreach (Curve po in pCurves)
             {
-                if (!po.TryGetPolyline(out p))
+                if (po == null)
                 {
-                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Please feed a polyline");
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Null polyline detected");
                     return;
                 }
-                else if (p.Count != 3)
+                if (!po.TryGetPolyline(out p))
+                {
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Please feed a L-shaped polyline");
+                    return;
+                }
+                if (p.Count != 3)
                 {
                     AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Polyline must have 3 points and be L-shaped");
                     return;
                 }
-                else poly.Add(p);
+                poly.Add(p);
             }
 
             // create handles
@@ -130,7 +135,7 @@ namespace Assembler
         }
 
         /// <summary>
-        /// Exposure override for position in the SUbcategory (options primary to septenary)
+        /// Exposure override for position in the Subcategory (options primary to septenary)
         /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
         /// </summary>
         public override GH_Exposure Exposure

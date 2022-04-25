@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-
+﻿using Assembler.Properties;
+using AssemblerLib;
+using GH_IO.Serialization;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using AssemblerLib;
-using Assembler.Properties;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Assembler
@@ -50,7 +50,7 @@ namespace Assembler
                 "\n2 - use objects - container inclusion",
                 GH_ParamAccess.item, 1);
             pManager.AddGenericParameter("Field", "F", "Field", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Field scalar Threshold", "fT", "Threshold value for scalar field based criteria - normalized range (0-1)", GH_ParamAccess.item, 0.5);
+            pManager.AddNumberParameter("Field Scalar threshold", "Ft", "Threshold value (in normalized 0-1 range) for scalar Field based criteria", GH_ParamAccess.item, 0.5);
             pManager.AddBoxParameter("Sandbox", "sB", "Sandbox for focused assemblages (NOT IMPLEMENTED YET)\nif present, Assemblage will grow only inside the Box", GH_ParamAccess.item, Box.Empty);
 
             pManager[1].Optional = true;
@@ -74,42 +74,18 @@ namespace Assembler
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            // refactor this: since there can only be 1 container, make it the first mesh of the list
-            // any other eventual mesh is treated as obstacle (simpler and clearer)
-            // just check if its normals are inverted (negative volume)
-            // then, refactor ExogenousSettings Struct to make EnvronmentMeshes directly
             // exogenous
             List<Mesh> ME = new List<Mesh>();
             if (!DA.GetDataList("Environment Meshes", ME)) return;
+
             // check environment meshes and remove nulls and invalids
             int meshCount = ME.Count;
-            //int countContainers = 0;
+
             for (int i = ME.Count - 1; i >= 0; i--)
-            {
                 if (ME[i] == null || !ME[i].IsValid) ME.RemoveAt(i);
-                //if (ME[i].Volume() < 0)
-                //{
-                //    if (countContainers == 0)
-                //    {
-                //        _container = ME[i];
-                //        countContainers++;
-                //    }
-                //    else
-                //    {
-                //        countContainers++;
-                //        break;
-                //    }
-                //}
-                //else _obstacles.Add(ME[i]);
-
-
-            }
 
             if (ME.Count == 0)
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "All input Meshes are null or invalid");
-
-            //if (countContainers > 1)
-            //    AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "More than one container detected - use only one container mesh\nOnly the first container mesh was retained");
 
             if (ME.Count != meshCount)
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Some Environment Meshes are null or invalid and have been removed from the list");
@@ -170,6 +146,19 @@ namespace Assembler
             // set component message
             UpdateMessage();
             ExpireSolution(true);
+        }
+
+        public override bool Write(GH_IWriter writer)
+        {
+            writer.SetBoolean("HasContainer", hasContainer);
+            return base.Write(writer);
+        }
+
+        public override bool Read(GH_IReader reader)
+        {
+            reader.TryGetBoolean("HasContainer", ref hasContainer);
+            UpdateMessage();
+            return base.Read(reader);
         }
 
         private void UpdateMessage()

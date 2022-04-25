@@ -1,13 +1,12 @@
-﻿using System;
-using System.Linq;
-
+﻿using Assembler.Properties;
+using AssemblerLib;
 using Grasshopper;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
-using AssemblerLib;
-using Assembler.Properties;
+using System;
+using System.Linq;
 
 namespace Assembler
 {
@@ -52,9 +51,9 @@ namespace Assembler
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             Field f = null, fPop;
-            GH_Structure<GH_Number> scalars;// = null;
-            GH_Structure<GH_Vector> vectors;// = null;
-            GH_Structure<GH_Integer> iWeights;// = null;
+            GH_Structure<GH_Number> scalars;
+            GH_Structure<GH_Vector> vectors;
+            GH_Structure<GH_Integer> iWeights;
 
             if (!DA.GetData(0, ref f)) return;
             DA.GetDataTree(1, out scalars);
@@ -120,7 +119,7 @@ namespace Assembler
         }
 
         /// <summary>
-        /// Exposure override for position in the SUbcategory (options primary to septenary)
+        /// Exposure override for position in the Subcategory (options primary to septenary)
         /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
         /// </summary>
         public override GH_Exposure Exposure

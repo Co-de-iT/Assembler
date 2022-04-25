@@ -44,7 +44,10 @@ namespace Assembler
             AssemblyObject ao = null;
             if (!DA.GetData(0, ref ao)) return;
 
-            Mesh m = ao.offsetMesh;
+            Mesh m = new Mesh();
+            m.CopyFrom(ao.offsetMesh);
+            m.Unweld(0, true);
+
             DA.SetData(0, m);
         }
 

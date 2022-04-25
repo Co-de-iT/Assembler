@@ -5,7 +5,7 @@ using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 
-namespace Assembler.Components
+namespace Assembler
 {
     public class SetSupports : GH_Component
     {
@@ -78,7 +78,7 @@ namespace Assembler.Components
         }
 
         /// <summary>
-        /// Exposure override for position in the SUbcategory (options primary to septenary)
+        /// Exposure override for position in the Subcategory (options primary to septenary)
         /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
         /// </summary>
         public override GH_Exposure Exposure

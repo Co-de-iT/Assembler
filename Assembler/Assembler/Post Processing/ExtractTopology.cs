@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
+﻿using Assembler.Properties;
+using AssemblerLib;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
-
-using AssemblerLib;
-using Assembler.Properties;
+using System;
+using System.Collections.Generic;
 
 namespace Assembler
 {
@@ -37,8 +34,8 @@ namespace Assembler
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddIntegerParameter("Handle Occupancy", "hO", "Handle Occupancy status\n-1 occluded\n0 available\n1 connected", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("Neighbour Object index", "nO", "Neighbour Object\nindex of neighbour AssemblyObject\n-1 if Handle is available", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("Neighbour Handle index", "nH", "Neighbour Handle\nindex of neighbour AssemblyObject's Handle\n-1 if Handle is available or occluded", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Neighbour Object index", "nO", "Neighbour Object\nindex of neighbour AssemblyObject (connected or occluding)\n-1 if Handle is available", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Neighbour Handle index", "nH", "Neighbour Handle\nindex of neighbour AssemblyObject's connected Handle\n-1 if Handle is available or occluded", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -55,7 +52,7 @@ namespace Assembler
             if (AOa == null) return;
 
             // cast input to AssemblyObject type
-            AO = AOa.assemblyObjects;
+            AO = AOa.assemblyObjects.AllData();
 
             GH_Structure<GH_Integer> hOTree = new GH_Structure<GH_Integer>();
             GH_Structure<GH_Integer> nOTree = new GH_Structure<GH_Integer>();
@@ -64,7 +61,7 @@ namespace Assembler
             GH_Path p;
             for (int i = 0; i < AO.Count; i++)
             {
-                p = new GH_Path(0, i);
+                p = new GH_Path(0, AO[i].AInd);//topology main path is the object AInd
                 foreach (Handle h in AO[i].handles)
                 {
                     hOTree.Append(new GH_Integer(h.occupancy), p);

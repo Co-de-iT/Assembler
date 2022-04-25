@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Delegate Assemblage.EnvironmentCheckMethod
+    <title>Delegate Assemblage.ComputeCandidatesValuesMethod&lt;T&gt;
    </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Delegate Assemblage.EnvironmentCheckMethod
+    <meta name="title" content="Delegate Assemblage.ComputeCandidatesValuesMethod&lt;T&gt;
    ">
     <meta name="generator" content="docfx 2.57.2.0">
     
@@ -68,19 +68,19 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="AssemblerLib.Assemblage.EnvironmentCheckMethod">
+            <article class="content wrap" id="_content" data-uid="AssemblerLib.Assemblage.ComputeCandidatesValuesMethod`1">
   
   
-  <h1 id="AssemblerLib_Assemblage_EnvironmentCheckMethod" data-uid="AssemblerLib.Assemblage.EnvironmentCheckMethod" class="text-break">Delegate Assemblage.EnvironmentCheckMethod
+  <h1 id="AssemblerLib_Assemblage_ComputeCandidatesValuesMethod_1" data-uid="AssemblerLib.Assemblage.ComputeCandidatesValuesMethod`1" class="text-break">Delegate Assemblage.ComputeCandidatesValuesMethod&lt;T&gt;
   </h1>
-  <div class="markdown level0 summary"><p>Delegate type for environment contaier behavior (collision or inclusion)</p>
+  <div class="markdown level0 summary"><p>Delegate type for computing candidates (sender) values</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <h6><strong>Namespace</strong>: <a class="xref" href="AssemblerLib.html">AssemblerLib</a></h6>
   <h6><strong>Assembly</strong>: AssemblerLib.dll</h6>
-  <h5 id="AssemblerLib_Assemblage_EnvironmentCheckMethod_syntax">Syntax</h5>
+  <h5 id="AssemblerLib_Assemblage_ComputeCandidatesValuesMethod_1_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public delegate bool EnvironmentCheckMethod(AssemblyObject sO);</code></pre>
+    <pre><code class="lang-csharp hljs">public delegate T[] ComputeCandidatesValuesMethod&lt;T&gt;(AssemblyObject[] candidates);</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -93,8 +93,8 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a></td>
-        <td><span class="parametername">sO</span></td>
+        <td><a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>[]</td>
+        <td><span class="parametername">candidates</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -109,9 +109,24 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td><p>True if an <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> is invalid (clash detected or other invalidating condition), False if valid</p>
+        <td>T[]</td>
+        <td><p>array of values associated with the candidates</p>
 </td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
       </tr>
     </tbody>
   </table>

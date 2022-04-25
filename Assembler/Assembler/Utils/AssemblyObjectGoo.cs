@@ -1,5 +1,4 @@
 ﻿using AssemblerLib;
-using GH_IO;
 using GH_IO.Serialization;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
@@ -19,7 +18,7 @@ namespace Assembler.Utils
     https://gist.github.com/petrasvestartas/352e7e948411a9145ab7e1575505c2d1
      
      */
-    public class AssemblyObjectGoo : GH_GeometricGoo<AssemblyObject>, IGH_PreviewData//, IGH_BakeAwareObject
+    public class AssemblyObjectGoo : GH_GeometricGoo<AssemblyObject>, IGH_PreviewData, IGH_BakeAwareObject
     {
 
         #region constructors
@@ -224,7 +223,6 @@ namespace Assembler.Utils
         // [w] name
         // [w] aInd
         // [w] occludedNeighbours
-        // [w] collisionRadius
         // [w] weight
         // [w] iWeight
         // [w] supports
@@ -252,7 +250,6 @@ namespace Assembler.Utils
         private const string IoNameKey = "Name";
         private const string IoaIndKey = "AInd";
         private const string IoOccludedNeighboursKey = "OccludedNeighbours";
-        private const string IoCollisionRadiusKey = "CollisionRadius";
         private const string IoWeightKey = "Weight";
         private const string IoIWeightKey = "IWeight";
 
@@ -322,9 +319,6 @@ namespace Assembler.Utils
             // occludedNeighbours
             string occludedNeighbours = OccludeNeighboursToString(m_value.occludedNeighbours);
             writer.SetString(IoOccludedNeighboursKey,occludedNeighbours);
-
-            // collisionRadius
-            writer.SetDouble(IoCollisionRadiusKey, Value.collisionRadius);
 
             // weight
             writer.SetDouble(IoWeightKey, Value.weight);
@@ -447,9 +441,6 @@ namespace Assembler.Utils
             // deserialize occludedNeighbours
             m_value.occludedNeighbours = OccludedNeighboursFromString(reader.GetString(IoOccludedNeighboursKey));
 
-            // deserialize collisionRadius
-            m_value.collisionRadius = reader.GetDouble(IoCollisionRadiusKey);
-
             // deserialize weight
             m_value.weight = reader.GetDouble(IoWeightKey);
 
@@ -539,34 +530,34 @@ namespace Assembler.Utils
 
         #region bake methods
 
-        //public bool IsBakeCapable
-        //{
-        //    get { return Value != null; }
-        //}
+        public bool IsBakeCapable
+        {
+            get { return m_value != null; }
+        }
 
-        //public void BakeGeometry(RhinoDoc doc, List<Guid> obj_ids)
-        //{
-        //    BakeGeometry(doc, new ObjectAttributes(), obj_ids);
-        //}
+        public void BakeGeometry(RhinoDoc doc, List<Guid> obj_ids)
+        {
+            BakeGeometry(doc, new ObjectAttributes(), obj_ids);
+        }
 
-        //public void BakeGeometry(RhinoDoc doc, ObjectAttributes att, List<Guid> obj_ids)
-        //{
-        //    // bakes collisionMesh 
-        //    obj_ids.Add(doc.Objects.AddMesh(Value.collisionMesh));
-        //    // bake  Handles as L polylines
-        //    for (int i = 0; i < Value.handles.Length; i++)
-        //        obj_ids.Add(doc.Objects.AddPolyline(PlaneToPoints(Value.handles[i].sender)));
-        //}
+        public void BakeGeometry(RhinoDoc doc, ObjectAttributes att, List<Guid> obj_ids)
+        {
+            // bakes collisionMesh 
+            obj_ids.Add(doc.Objects.AddMesh(m_value.collisionMesh));
+            // bake  Handles as L polylines
+            for (int i = 0; i < m_value.handles.Length; i++)
+                obj_ids.Add(doc.Objects.AddPolyline(PlaneToPoints(m_value.handles[i].sender)));
+        }
 
-        //Point3d[] PlaneToPoints(Plane p)
-        //{
-        //    Point3d[] points = new Point3d[3];
-        //    points[0] = p.Origin + p.XAxis;
-        //    points[1] = p.Origin;
-        //    points[2] = p.Origin + p.YAxis;
+        Point3d[] PlaneToPoints(Plane p)
+        {
+            Point3d[] points = new Point3d[3];
+            points[0] = p.Origin + p.XAxis;
+            points[1] = p.Origin;
+            points[2] = p.Origin + p.YAxis;
 
-        //    return points;
-        //}
+            return points;
+        }
 
         #endregion
 

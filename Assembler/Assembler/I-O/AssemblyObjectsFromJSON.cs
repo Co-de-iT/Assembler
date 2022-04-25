@@ -30,7 +30,7 @@ namespace Assembler
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddTextParameter("File Path", "F", "File to read (full absolute path)", GH_ParamAccess.item);
-            pManager.AddBooleanParameter("Load", "L", "Load file (toggle)\nAttach a toggle - file stays loaded on true", GH_ParamAccess.item, false);
+            //pManager.AddBooleanParameter("Load", "L", "Load file (toggle)\nAttach a toggle - file stays loaded on true", GH_ParamAccess.item, false);
         }
 
         /// <summary>
@@ -48,11 +48,11 @@ namespace Assembler
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             string Path = "";
-            bool load = false;
+            //bool load = false;
 
             // sanity check input data
             if (!DA.GetData("File Path", ref Path)) return;
-            DA.GetData("Load", ref load);
+            //DA.GetData("Load", ref load);
 
             if (!System.IO.File.Exists(Path))
             {
@@ -61,7 +61,7 @@ namespace Assembler
             }
 
             // load if trigger is pressed
-            if (!load) return;
+            // if (!load) return;
             AOs = Utilities.AssemblageFromJSONdump(Path);
 
 

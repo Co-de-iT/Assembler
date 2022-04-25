@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Rhino.Geometry;
+using System;
 using System.Collections.Generic;
-using Rhino.Geometry;
 
 namespace AssemblerLib
 {
@@ -46,7 +46,7 @@ namespace AssemblerLib
         /// Neighbour object index
         /// <list type="bullet">
         /// <item>-1 - when handle is available</item>
-        /// <item>index of connected neighbour object - when handle is connected or occluded</item>
+        /// <item>index of connected neighbour object - when handle is connected or occluded by another <see cref="AssemblyObject"/></item>
         /// </list>
         /// </summary>
         public int neighbourObject;
@@ -108,7 +108,7 @@ namespace AssemblerLib
         public void Transform(Transform Xform)
         {
             sender.Transform(Xform);
-            //foreach (Plane rh in r) rh.Transform(Xform); // foreach does not work
+            // DO NOT use foreach - it does not work (you cannot change parts of a looping variable)
             for (int i = 0; i < receivers.Length; i++) receivers[i].Transform(Xform);
         }
 

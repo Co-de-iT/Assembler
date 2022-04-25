@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-using Grasshopper.Kernel;
-using Rhino.Geometry;
-using Grasshopper;
+﻿using Assembler.Properties;
 using AssemblerLib;
-using Assembler.Properties;
+using Grasshopper;
+using Grasshopper.Kernel;
+using Grasshopper.Kernel.Data;
+using Rhino.Geometry;
+using System;
+using System.Collections.Generic;
 
 namespace Assembler
 {
@@ -56,9 +55,11 @@ namespace Assembler
             //if (!DA.GetDataList(0, AO)) return;
             if (!DA.GetDataList(1, xD)) return;
 
-            AO = AOa.assemblyObjects;
+            DataTree<XData> XDataTree = new DataTree<XData>();
 
-            XData[][] assemblageXD = new XData[AO.Count][];
+            AO = AOa.assemblyObjects.AllData();
+
+            //XData[][] assemblageXD = new XData[AO.Count][];
 
             XData xdC;
             Transform orient;
@@ -79,11 +80,12 @@ namespace Assembler
                     orientedXData.Add(xdC);
                     
                 }
-                assemblageXD[i] = orientedXData.ToArray();
+                //assemblageXD[i] = orientedXData.ToArray();
+                XDataTree.AddRange(orientedXData, new GH_Path(AO[i].AInd));
             }
 
             // the output is a Tree as there might be multiple XData associated with the same AssemblyObject type
-            DataTree<XData> XDataTree = Utilities.ToDataTree(assemblageXD);
+            //XDataTree = Utilities.ToDataTree(assemblageXD);
 
             DA.SetDataTree(0, XDataTree);
         }

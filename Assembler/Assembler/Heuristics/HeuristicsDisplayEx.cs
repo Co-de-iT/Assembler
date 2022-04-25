@@ -103,7 +103,7 @@ namespace Assembler
             AssemblyObject[] components = AOs.ToArray();
 
             // build Component catalog
-            catalog = Utilities.BuildDictionary(components, true);
+            catalog = Utilities.BuildDictionary(components);
 
             // build Heuristics Tree
             DataTree<string> HeSTree = new DataTree<string>(); // heuristics string in tree format for manual selection in GH
@@ -338,7 +338,7 @@ namespace Assembler
         }
 
         /// <summary>
-        /// Exposure override for position in the SUbcategory (options primary to septenary)
+        /// Exposure override for position in the Subcategory (options primary to septenary)
         /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
         /// </summary>
         public override GH_Exposure Exposure

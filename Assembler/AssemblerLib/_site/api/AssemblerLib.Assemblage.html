@@ -73,8 +73,7 @@
   
   <h1 id="AssemblerLib_Assemblage" data-uid="AssemblerLib.Assemblage" class="text-break">Class Assemblage
   </h1>
-  <div class="markdown level0 summary"><p>Assemblage class - A Class that manages Assemblages
-refactor Assemblage class to embed settings structs as part of it (variables used directly from the structs)</p>
+  <div class="markdown level0 summary"><p>Assemblage class - A Class that manages Assemblages</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
@@ -181,8 +180,33 @@ refactor Assemblage class to embed settings structs as part of it (variables use
   </h3>
   
   
+  <h4 id="AssemblerLib_Assemblage_AOIndexesMap" data-uid="AssemblerLib.Assemblage.AOIndexesMap">AOIndexesMap</h4>
+  <div class="markdown level1 summary"><p>List of AInd of the corresponding AssemblyObject in <a class="xref" href="AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_assemblyObjects">assemblyObjects</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;int&gt; AOIndexesMap</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
   <h4 id="AssemblerLib_Assemblage_AOSet" data-uid="AssemblerLib.Assemblage.AOSet">AOSet</h4>
-  <div class="markdown level1 summary"><p>The set of unique <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> types</p>
+  <div class="markdown level1 summary"><p>The set of unique <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> kinds</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -206,8 +230,33 @@ refactor Assemblage class to embed settings structs as part of it (variables use
   </table>
   
   
+  <h4 id="AssemblerLib_Assemblage_AOSetDictionary" data-uid="AssemblerLib.Assemblage.AOSetDictionary">AOSetDictionary</h4>
+  <div class="markdown level1 summary"><p>The (name, type) Dictionary built from the AOSet</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Dictionary&lt;string, int&gt; AOSetDictionary</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Int32</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
   <h4 id="AssemblerLib_Assemblage_assemblageRules" data-uid="AssemblerLib.Assemblage.assemblageRules">assemblageRules</h4>
-  <div class="markdown level1 summary"><p>List of Heuristics used during the assemblage</p>
+  <div class="markdown level1 summary"><p>List of Heuristics used during the assemblage - uses sequential indexing</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -232,12 +281,13 @@ refactor Assemblage class to embed settings structs as part of it (variables use
   
   
   <h4 id="AssemblerLib_Assemblage_assemblyObjects" data-uid="AssemblerLib.Assemblage.assemblyObjects">assemblyObjects</h4>
-  <div class="markdown level1 summary"><p>The list of <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>s in the assemblage</p>
+  <div class="markdown level1 summary"><p>The sequential list of <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>s in the assemblage
+convert to DataTree in which each Branch Path is the AInd</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public List&lt;AssemblyObject&gt; assemblyObjects</code></pre>
+    <pre><code class="lang-csharp hljs">public DataTree&lt;AssemblyObject&gt; assemblyObjects</code></pre>
   </div>
   <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -249,7 +299,7 @@ refactor Assemblage class to embed settings structs as part of it (variables use
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>&gt;</td>
+        <td><span class="xref">Grasshopper.DataTree</span>&lt;<a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -306,6 +356,82 @@ refactor Assemblage class to embed settings structs as part of it (variables use
   </table>
   
   
+  <h4 id="AssemblerLib_Assemblage_collisionRadius" data-uid="AssemblerLib.Assemblage.collisionRadius">collisionRadius</h4>
+  <div class="markdown level1 summary"><p>Collision radius for collision checks with neighbour AssemblyObjects
+based on the largest object in AOSet (largest Bounding Box diagonal)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double collisionRadius</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Double</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="AssemblerLib_Assemblage_computeReceiverValue" data-uid="AssemblerLib.Assemblage.computeReceiverValue">computeReceiverValue</h4>
+  <div class="markdown level1 summary"><p>Delegate variable for computing receiver value</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Assemblage.ComputeReceiverMethod&lt;double&gt; computeReceiverValue</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="AssemblerLib.Assemblage.ComputeReceiverMethod-1.html">Assemblage.ComputeReceiverMethod</a>&lt;<span class="xref">System.Double</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="AssemblerLib_Assemblage_computeSendersValues" data-uid="AssemblerLib.Assemblage.computeSendersValues">computeSendersValues</h4>
+  <div class="markdown level1 summary"><p>Delegate variable for computing sender values</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Assemblage.ComputeCandidatesValuesMethod&lt;double&gt; computeSendersValues</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="AssemblerLib.Assemblage.ComputeCandidatesValuesMethod-1.html">Assemblage.ComputeCandidatesValuesMethod</a>&lt;<span class="xref">System.Double</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
   <h4 id="AssemblerLib_Assemblage_currentHeuristics" data-uid="AssemblerLib.Assemblage.currentHeuristics">currentHeuristics</h4>
   <div class="markdown level1 summary"><p>Index of currently used heuristics</p>
 </div>
@@ -350,6 +476,31 @@ refactor Assemblage class to embed settings structs as part of it (variables use
     <tbody>
       <tr>
         <td><span class="xref">Rhino.Geometry.Box</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="AssemblerLib_Assemblage_environmentCheck" data-uid="AssemblerLib.Assemblage.environmentCheck">environmentCheck</h4>
+  <div class="markdown level1 summary"><p>Delegate variable for environment check mode</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Assemblage.EnvironmentCheckMethod environmentCheck</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="AssemblerLib.Assemblage.EnvironmentCheckMethod.html">Assemblage.EnvironmentCheckMethod</a></td>
         <td></td>
       </tr>
     </tbody>
@@ -406,33 +557,8 @@ refactor Assemblage class to embed settings structs as part of it (variables use
   </table>
   
   
-  <h4 id="AssemblerLib_Assemblage_objectsDictionary" data-uid="AssemblerLib.Assemblage.objectsDictionary">objectsDictionary</h4>
-  <div class="markdown level1 summary"><p>The objects Dictionary built from the set</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Dictionary&lt;string, int&gt; objectsDictionary</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Int32</span>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
   <h4 id="AssemblerLib_Assemblage_receiverIndex" data-uid="AssemblerLib.Assemblage.receiverIndex">receiverIndex</h4>
-  <div class="markdown level1 summary"><p>stores selected receiver index at each Assemblage iteration</p>
+  <div class="markdown level1 summary"><p>stores selected receiver AInd at each Assemblage iteration</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -457,7 +583,7 @@ refactor Assemblage class to embed settings structs as part of it (variables use
   
   
   <h4 id="AssemblerLib_Assemblage_receiverIndexes" data-uid="AssemblerLib.Assemblage.receiverIndexes">receiverIndexes</h4>
-  <div class="markdown level1 summary"><p>List of Receivers indexes used in the assemblage</p>
+  <div class="markdown level1 summary"><p>List of Receivers Aind indexes used in the assemblage - uses sequential indexing</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -500,6 +626,81 @@ refactor Assemblage class to embed settings structs as part of it (variables use
     <tbody>
       <tr>
         <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AssemblerLib.Rule.html">Rule</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="AssemblerLib_Assemblage_selectReceiver" data-uid="AssemblerLib.Assemblage.selectReceiver">selectReceiver</h4>
+  <div class="markdown level1 summary"><p>Delegate variable for selecting a receiver from available ones (based on their values)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Assemblage.SelectWinnerMethod&lt;double&gt; selectReceiver</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="AssemblerLib.Assemblage.SelectWinnerMethod-1.html">Assemblage.SelectWinnerMethod</a>&lt;<span class="xref">System.Double</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="AssemblerLib_Assemblage_selectSender" data-uid="AssemblerLib.Assemblage.selectSender">selectSender</h4>
+  <div class="markdown level1 summary"><p>Delegate variable for selecting a sender from candidates (based on their values)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Assemblage.SelectWinnerMethod&lt;double&gt; selectSender</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="AssemblerLib.Assemblage.SelectWinnerMethod-1.html">Assemblage.SelectWinnerMethod</a>&lt;<span class="xref">System.Double</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="AssemblerLib_Assemblage_useSupports" data-uid="AssemblerLib.Assemblage.useSupports">useSupports</h4>
+  <div class="markdown level1 summary"><p>if True, AssemblyObjects with supports will be added if they pass support check</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool useSupports</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -613,7 +814,7 @@ refactor Assemblage class to embed settings structs as part of it (variables use
     <tbody>
       <tr>
         <td><span class="xref">Grasshopper.Kernel.Types.GH_Integer</span>[]</td>
-        <td><p>An array of indices of available objects in the Assemblage</p>
+        <td><p>An array of AInd of available objects in the Assemblage</p>
 </td>
       </tr>
     </tbody>
@@ -640,8 +841,61 @@ refactor Assemblage class to embed settings structs as part of it (variables use
     <tbody>
       <tr>
         <td><span class="xref">Grasshopper.Kernel.Types.GH_Integer</span>[]</td>
-        <td><p>An array of indices of unreachable objects in the Assemblage</p>
+        <td><p>An array of AInd of unreachable objects in the Assemblage</p>
 </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="AssemblerLib_Assemblage_Initialize_" data-uid="AssemblerLib.Assemblage.Initialize*"></a>
+  <h4 id="AssemblerLib_Assemblage_Initialize" data-uid="AssemblerLib.Assemblage.Initialize">Initialize()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Initialize()</code></pre>
+  </div>
+  
+  
+  <a id="AssemblerLib_Assemblage_RemoveObject_" data-uid="AssemblerLib.Assemblage.RemoveObject*"></a>
+  <h4 id="AssemblerLib_Assemblage_RemoveObject_System_Int32_" data-uid="AssemblerLib.Assemblage.RemoveObject(System.Int32)">RemoveObject(Int32)</h4>
+  <div class="markdown level1 summary"><p>Remove an <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> from the Assemblage, updating topology</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool RemoveObject(int AInd)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">AInd</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
       </tr>
     </tbody>
   </table>
@@ -729,7 +983,7 @@ refactor Assemblage class to embed settings structs as part of it (variables use
     <tbody>
       <tr>
         <td><span class="xref">System.Int32</span></td>
-        <td><p>The index of the available <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> selected as a receiver</p>
+        <td><p>The sequential index of the <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> selected as a receiver in the availableObjects list</p>
 </td>
       </tr>
     </tbody>

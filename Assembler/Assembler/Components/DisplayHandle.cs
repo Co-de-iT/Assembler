@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-
+﻿using Assembler.Properties;
+using AssemblerLib;
+using GH_IO.Serialization;
 using Grasshopper;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
-using AssemblerLib;
-using Assembler.Properties;
-using GH_IO.Serialization;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Assembler
@@ -18,9 +17,8 @@ namespace Assembler
     {
         private bool absoluteTextSize;
         private List<Handle> handles;
-        double offset;
+        double offset, planeOffset, lineOffset;
         double absSize;
-        //bool model;
         private BoundingBox _clip;
         private List<Line> _curve = new List<Line>();
         private List<Line> _dotCurve = new List<Line>();
@@ -28,17 +26,22 @@ namespace Assembler
         private List<int> _width = new List<int>();
         private DataTree<double> _rotations = new DataTree<double>();
         private DataTree<Plane> _textLocations = new DataTree<Plane>();
+        private Color xAxis = Color.Red;
+        private Color yAxis = Color.Green;
+        private Color xGhost = Color.Firebrick;//IndianRed;//LightSalmon
+        private Color yGhost = Color.LimeGreen; //LightGreen
+        private Color handleTextColor = Color.Black;
+        private Color rotationColor = Color.FromArgb(72, 79, 79);//DarkSlateGray;//72, 79, 79
 
         /// <summary>
         /// Initializes a new instance of the DisplayHandle class.
         /// </summary>
         public DisplayHandle()
-          : base("DisplayHandle", "HandDisp",
-              "Displays a Handle Type, weight, sender and receiver planes",
+          : base("DisplayHandles", "HandDisp",
+              "Displays Handle Type, weight, sender and receiver planes with rotations for all Handles in the input list",
               "Assembler", "Components")
         {
             absoluteTextSize = GetValue("absHTextSize", false);
-            //UpdateMessage();
             ExpireSolution(true);
         }
 
@@ -69,7 +72,7 @@ namespace Assembler
             handles = new List<Handle>();
             List<Curve> pCurves = new List<Curve>();
             List<Polyline> poly = new List<Polyline>();
-            //Polyline p;
+
             GH_Structure<GH_Number> rot = new GH_Structure<GH_Number>();
             List<int> type = new List<int>();
             List<double> w = new List<double>();
@@ -93,6 +96,8 @@ namespace Assembler
             {
                 absSize = size;
                 offset = size * 2;
+                planeOffset = size * 3;
+                lineOffset = offset * 2;
             }
 
             // set display data
@@ -104,41 +109,41 @@ namespace Assembler
             Transform move;
             Handle hand;
 
-
             for (int i = 0; i < handles.Count; i++)
             {
                 hand = handles[i];
                 Line rZ = new Line(hand.sender.Origin, hand.sender.Origin + (hand.sender.ZAxis * offset * (_rotations.Branches[i].Count + 1)));
                 _dotCurve.Add(rZ);
                 _clip.Union(rZ.BoundingBox);
-                //_color.Add(Color.Black);
-                Line rX = new Line(hand.sender.Origin, hand.sender.Origin + (hand.sender.XAxis * offset * 2));//1.2
-                Line rY = new Line(hand.sender.Origin, hand.sender.Origin + (hand.sender.YAxis * offset * 2));
+
+                Line rX = new Line(hand.sender.Origin, hand.sender.Origin + (hand.sender.XAxis * lineOffset));//1.2
+                Line rY = new Line(hand.sender.Origin, hand.sender.Origin + (hand.sender.YAxis * lineOffset));
                 _curve.Add(rX);
-                _color.Add(Color.Red);
+                _color.Add(xAxis);
                 _curve.Add(rY);
-                _color.Add(Color.Green);
+                _color.Add(yAxis);
                 _clip.Union(rX.BoundingBox);
                 _clip.Union(rY.BoundingBox);
                 Plane textLoc = hand.sender;
-                //textLoc.Translate(hand.s.YAxis * absSize * -0.25);
+                
                 _textLocations.Add(textLoc, new GH_Path(0, i));
 
                 for (int j = 0; j < _rotations.Branches[i].Count; j++)
                 {
-                    move = Transform.Translation(hand.receivers[j].ZAxis * -(j * offset + offset));
-                    rX = new Line(hand.receivers[j].Origin, hand.receivers[j].Origin + (hand.receivers[j].XAxis * offset * 2));
-                    rY = new Line(hand.receivers[j].Origin, hand.receivers[j].Origin + (hand.receivers[j].YAxis * offset * 2));
+                    double transformAmount = j * planeOffset + planeOffset;
+                    move = Transform.Translation(hand.receivers[j].ZAxis * - transformAmount);
+                    rX = new Line(hand.receivers[j].Origin, hand.receivers[j].Origin + (hand.receivers[j].XAxis * lineOffset));
+                    rY = new Line(hand.receivers[j].Origin, hand.receivers[j].Origin + (hand.receivers[j].YAxis * lineOffset));
                     rX.Transform(move);
                     rY.Transform(move);
                     _curve.Add(rX);
-                    _color.Add(Color.LightSalmon);
+                    _color.Add(xGhost);
                     _curve.Add(rY);
-                    _color.Add(Color.LightGreen);
+                    _color.Add(yGhost);
                     _clip.Union(rX.BoundingBox);
                     _clip.Union(rY.BoundingBox);
 
-                    textLoc.Origin = hand.sender.Origin + hand.sender.ZAxis * (j * offset + offset);
+                    textLoc.Origin = hand.sender.Origin + hand.sender.ZAxis * transformAmount;
                     _textLocations.Add(textLoc, new GH_Path(0, i));
                 }
             }
@@ -197,7 +202,7 @@ namespace Assembler
                     Rhino.Display.Text3d drawText = new Rhino.Display.Text3d(string.Format("h {0} | type {1} | w {2}", i, handles[i].type, handles[i].weight), textLoc, size);
                     drawText.HorizontalAlignment = Rhino.DocObjects.TextHorizontalAlignment.Left;
                     drawText.VerticalAlignment = Rhino.DocObjects.TextVerticalAlignment.Top;
-                    args.Display.Draw3dText(drawText, Color.Black);
+                    args.Display.Draw3dText(drawText, handleTextColor);
                     drawText.Dispose();
                     for (int j = 1; j < _textLocations.Branches[i].Count; j++)
                     {
@@ -206,7 +211,7 @@ namespace Assembler
                         drawText = new Rhino.Display.Text3d(string.Format("r{0} {1}", j - 1, _rotations.Branches[i][j - 1]), textLoc, size);
                         drawText.HorizontalAlignment = Rhino.DocObjects.TextHorizontalAlignment.Center;
                         drawText.VerticalAlignment = Rhino.DocObjects.TextVerticalAlignment.Top;
-                        args.Display.Draw3dText(drawText, Color.SlateGray);
+                        args.Display.Draw3dText(drawText, rotationColor);
                         drawText.Dispose();
                     }
                 }
@@ -221,7 +226,7 @@ namespace Assembler
                     Rhino.Display.Text3d drawText = new Rhino.Display.Text3d(string.Format("h {0} | type {1} | w {2}", i, handles[i].type, handles[i].weight), textLoc, size);
                     drawText.HorizontalAlignment = Rhino.DocObjects.TextHorizontalAlignment.Left;
                     drawText.VerticalAlignment = Rhino.DocObjects.TextVerticalAlignment.Top;
-                    args.Display.Draw3dText(drawText, Color.Black);
+                    args.Display.Draw3dText(drawText, handleTextColor);
                     drawText.Dispose();
                     for (int j = 1; j < _textLocations.Branches[i].Count; j++)
                     {
@@ -232,7 +237,7 @@ namespace Assembler
                         drawText = new Rhino.Display.Text3d(string.Format("r{0} {1}", j - 1, _rotations.Branches[i][j - 1]), textLoc, size);
                         drawText.HorizontalAlignment = Rhino.DocObjects.TextHorizontalAlignment.Center;
                         drawText.VerticalAlignment = Rhino.DocObjects.TextVerticalAlignment.Top;
-                        args.Display.Draw3dText(drawText, Color.SlateGray);
+                        args.Display.Draw3dText(drawText, rotationColor);
                         drawText.Dispose();
                     }
                 }
@@ -242,7 +247,7 @@ namespace Assembler
         {
             Menu_AppendSeparator(menu);
             ToolStripMenuItem toolStripMenuItem = Menu_AppendItem(menu, "Absolute text size", AbsT_Click, true, absoluteTextSize);
-            toolStripMenuItem.ToolTipText = "Prevents an AssemblyObject from connecting with itself";
+            toolStripMenuItem.ToolTipText = "Displays text in absolute (view independent) size";
             Menu_AppendSeparator(menu);
         }
 
@@ -251,8 +256,6 @@ namespace Assembler
             RecordUndoEvent("Absolute text size");
             absoluteTextSize = !GetValue("absHTextSize", false);
             SetValue("absHTextSize", absoluteTextSize);
-            // set component message
-            //UpdateMessage();
             ExpireSolution(true);
         }
 
@@ -265,18 +268,8 @@ namespace Assembler
         public override bool Read(GH_IReader reader)
         {
             reader.TryGetBoolean("absHTextSize", ref absoluteTextSize);
-            //UpdateMessage();
             return base.Read(reader);
         }
-
-        //private void UpdateMessage()
-        //{
-        //    string message = "";
-        //    if (absoluteTextSize)
-        //        message += "absolute";
-
-        //    Message = message;
-        //}
 
         /// <summary>
         /// Exposure override for position in the Subcategory (options primary to septenary)

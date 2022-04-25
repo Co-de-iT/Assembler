@@ -187,6 +187,30 @@
   </table>
   
   
+  <h4 id="AssemblerLib_Utilities_discoGradient" data-uid="AssemblerLib.Utilities.discoGradient">discoGradient</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly GH_Gradient discoGradient</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Grasshopper.GUI.Gradient.GH_Gradient</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
   <h4 id="AssemblerLib_Utilities_historyGradient" data-uid="AssemblerLib.Utilities.historyGradient">historyGradient</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
@@ -644,13 +668,13 @@ Useful for Vertex normal calculations</p>
   
   
   <a id="AssemblerLib_Utilities_BuildDictionary_" data-uid="AssemblerLib.Utilities.BuildDictionary*"></a>
-  <h4 id="AssemblerLib_Utilities_BuildDictionary_AssemblerLib_AssemblyObject___System_Boolean_" data-uid="AssemblerLib.Utilities.BuildDictionary(AssemblerLib.AssemblyObject[],System.Boolean)">BuildDictionary(AssemblyObject[], Boolean)</h4>
+  <h4 id="AssemblerLib_Utilities_BuildDictionary_AssemblerLib_AssemblyObject___" data-uid="AssemblerLib.Utilities.BuildDictionary(AssemblerLib.AssemblyObject[])">BuildDictionary(AssemblyObject[])</h4>
   <div class="markdown level1 summary"><p>Builds the dictionary of AssemblyObjects</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Dictionary&lt;string, int&gt; BuildDictionary(AssemblyObject[] AOset, bool forceOrder)</code></pre>
+    <pre><code class="lang-csharp hljs">public static Dictionary&lt;string, int&gt; BuildDictionary(AssemblyObject[] AOset)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -668,12 +692,6 @@ Useful for Vertex normal calculations</p>
         <td><p>the array of unique <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>s constituting the set</p>
 </td>
       </tr>
-      <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td><span class="parametername">forceOrder</span></td>
-        <td><p>forces the <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>s types to follow the array order</p>
-</td>
-      </tr>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
@@ -687,7 +705,8 @@ Useful for Vertex normal calculations</p>
     <tbody>
       <tr>
         <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Int32</span>&gt;</td>
-        <td></td>
+        <td><p>The (name, type) Dictionary built from the AOSet</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1167,57 +1186,6 @@ Useful for Vertex normal calculations</p>
   </table>
   
   
-  <a id="AssemblerLib_Utilities_CollisionCheckAssemblageParallel_" data-uid="AssemblerLib.Utilities.CollisionCheckAssemblageParallel*"></a>
-  <h4 id="AssemblerLib_Utilities_CollisionCheckAssemblageParallel_AssemblerLib_Assemblage_AssemblerLib_AssemblyObject_" data-uid="AssemblerLib.Utilities.CollisionCheckAssemblageParallel(AssemblerLib.Assemblage,AssemblerLib.AssemblyObject)">CollisionCheckAssemblageParallel(Assemblage, AssemblyObject)</h4>
-  <div class="markdown level1 summary"><p>Collision Check in the assemblage for a given <a class="xref" href="AssemblerLib.Assemblage.html">Assemblage</a> and <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> - Parallel version
-Works but PAINFULLY SLOW - probably too many overhangs</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static bool CollisionCheckAssemblageParallel(Assemblage AOa, AssemblyObject sO)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="AssemblerLib.Assemblage.html">Assemblage</a></td>
-        <td><span class="parametername">AOa</span></td>
-        <td><p>The <a class="xref" href="AssemblerLib.Assemblage.html">Assemblage</a> to check</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a></td>
-        <td><span class="parametername">sO</span></td>
-        <td><p>The sender <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a></p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
   <a id="AssemblerLib_Utilities_CollisionCheckMeshes_" data-uid="AssemblerLib.Utilities.CollisionCheckMeshes*"></a>
   <h4 id="AssemblerLib_Utilities_CollisionCheckMeshes_Rhino_Geometry_Mesh_Rhino_Geometry_Mesh_" data-uid="AssemblerLib.Utilities.CollisionCheckMeshes(Rhino.Geometry.Mesh,Rhino.Geometry.Mesh)">CollisionCheckMeshes(Mesh, Mesh)</h4>
   <div class="markdown level1 summary"><p>Collision Check between 2 Meshes</p>
@@ -1367,7 +1335,7 @@ Works but PAINFULLY SLOW - probably too many overhangs</p>
   <a id="AssemblerLib_Utilities_ComputeWeightedNormals_" data-uid="AssemblerLib.Utilities.ComputeWeightedNormals*"></a>
   <h4 id="AssemblerLib_Utilities_ComputeWeightedNormals_Rhino_Geometry_Mesh_" data-uid="AssemblerLib.Utilities.ComputeWeightedNormals(Rhino.Geometry.Mesh)">ComputeWeightedNormals(Mesh)</h4>
   <div class="markdown level1 summary"><p>Computes Mesh normals weighted by the face angle at each vertex
-Mesh weighted normals implemented from the tips at the folowing pages:
+Mesh weighted normals implemented from the tips at the following pages:
 <a href="https://stackoverflow.com/questions/25100120/how-does-blender-calculate-vertex-normals">https://stackoverflow.com/questions/25100120/how-does-blender-calculate-vertex-normals</a>
 <a href="http://www.bytehazard.com/articles/vertnorm.html">http://www.bytehazard.com/articles/vertnorm.html</a></p>
 </div>
@@ -2088,7 +2056,7 @@ and: <a href="http://www.bytehazard.com/articles/vertnorm.html">http://www.byteh
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static bool ObstructionCheckAssemblage(Assemblage AOa, int AOindex)</code></pre>
+    <pre><code class="lang-csharp hljs">public static bool ObstructionCheckAssemblage(Assemblage AOa, int AO_AInd)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -2107,7 +2075,7 @@ and: <a href="http://www.bytehazard.com/articles/vertnorm.html">http://www.byteh
       </tr>
       <tr>
         <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">AOindex</span></td>
+        <td><span class="parametername">AO_AInd</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -2992,7 +2960,7 @@ and: <a href="http://www.bytehazard.com/articles/vertnorm.html">http://www.byteh
   
   <a id="AssemblerLib_Utilities_Triangulate_" data-uid="AssemblerLib.Utilities.Triangulate*"></a>
   <h4 id="AssemblerLib_Utilities_Triangulate_Rhino_Geometry_Mesh_" data-uid="AssemblerLib.Utilities.Triangulate(Rhino.Geometry.Mesh)">Triangulate(Mesh)</h4>
-  <div class="markdown level1 summary"><p>Trinagulate a Mesh splitting quad faces along the shortest diagonal</p>
+  <div class="markdown level1 summary"><p>Triangulate a Mesh splitting quad faces along the shortest diagonal</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>

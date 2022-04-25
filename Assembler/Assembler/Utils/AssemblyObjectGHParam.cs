@@ -1,19 +1,14 @@
-﻿using AssemblerLib;
+﻿using Assembler.Properties;
 using Grasshopper.Kernel;
-using Rhino.Geometry;
-using Rhino.Input.Custom;
 using Rhino;
 using Rhino.DocObjects;
+using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using Grasshopper.Kernel.Types;
-using Assembler.Properties;
 
 namespace Assembler.Utils
 {
-    public class AssemblyObjectGHParam : GH_PersistentParam<AssemblyObjectGoo>, IGH_PreviewObject//, IGH_BakeAwareObject
+    public class AssemblyObjectGHParam : GH_PersistentParam<AssemblyObjectGoo>, IGH_PreviewObject, IGH_BakeAwareObject
     {
         /// <summary>
         /// Initializes a new instance of the AssemblyObjectGHParam class.
@@ -83,42 +78,44 @@ namespace Assembler.Utils
 
         #endregion
 
-        //public bool IsBakeCapable
-        //{
-        //    get { return !m_data.IsEmpty; }
-        //}
+        #region bake methods
+        public bool IsBakeCapable
+        {
+            get { return !m_data.IsEmpty; }
+        }
 
-        //protected override AssemblyObjectGoo InstantiateT()
-        //{
-        //    //return base.InstantiateT();
-        //    return new AssemblyObjectGoo();
-        //}
+        protected override AssemblyObjectGoo InstantiateT()
+        {
+            //return base.InstantiateT();
+            return new AssemblyObjectGoo();
+        }
 
-        //public void BakeGeometry(RhinoDoc doc, List<Guid> obj_ids)
-        //{
-        //    BakeGeometry(doc, null, obj_ids);
-        //}
+        public void BakeGeometry(RhinoDoc doc, List<Guid> obj_ids)
+        {
+            BakeGeometry(doc, null, obj_ids);
+        }
 
-        //public void BakeGeometry(RhinoDoc doc, ObjectAttributes att, List<Guid> obj_ids)
-        //{
-        //    if (att == null)
-        //    {
-        //        att = doc.CreateDefaultAttributes();
-        //    }
-        //    foreach (IGH_BakeAwareObject item in m_data)
-        //    {
-        //        if (item != null)
-        //        {
-        //            List<Guid> idsOut = new List<Guid>();
-        //            item.BakeGeometry(doc, att, idsOut);
-        //            obj_ids.AddRange(idsOut);
-        //        }
-        //    }
-        //}
+        public void BakeGeometry(RhinoDoc doc, ObjectAttributes att, List<Guid> obj_ids)
+        {
+            if (att == null)
+            {
+                att = doc.CreateDefaultAttributes();
+            }
+            foreach (IGH_BakeAwareObject item in m_data)
+            {
+                if (item != null)
+                {
+                    List<Guid> idsOut = new List<Guid>();
+                    item.BakeGeometry(doc, att, idsOut);
+                    obj_ids.AddRange(idsOut);
+                }
+            }
+        }
 
+        #endregion
 
         /// <summary>
-        /// Exposure override for position in the SUbcategory (options primary to septenary)
+        /// Exposure override for position in the Subcategory (options primary to septenary)
         /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
         /// </summary>
         public override GH_Exposure Exposure

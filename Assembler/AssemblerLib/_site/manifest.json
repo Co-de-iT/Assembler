@@ -53,11 +53,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/AssemblerLib.Assemblage.ComputeCandidatesValuesMethod.yml",
+      "source_relative_path": "obj/api/AssemblerLib.Assemblage.ComputeCandidatesValuesMethod-1.yml",
       "output": {
         ".html": {
-          "relative_path": "api/AssemblerLib.Assemblage.ComputeCandidatesValuesMethod.html",
-          "hash": "d27eK4QybjP4Czcc+uKnCs1IXS9ZmA5n+c68qyIf3B4="
+          "relative_path": "api/AssemblerLib.Assemblage.ComputeCandidatesValuesMethod-1.html",
+          "hash": "z65uI8iygeGxnZvL/a3nyeFE6yNsZhd3dVSZPbNz6Ik="
         }
       },
       "is_incremental": true,
@@ -65,11 +65,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/AssemblerLib.Assemblage.ComputeReceiverMethod.yml",
+      "source_relative_path": "obj/api/AssemblerLib.Assemblage.ComputeReceiverMethod-1.yml",
       "output": {
         ".html": {
-          "relative_path": "api/AssemblerLib.Assemblage.ComputeReceiverMethod.html",
-          "hash": "F+YMTrcj/sFmR1Mr5ZUcPzog9/fClQLDDkRoNkrT2UI="
+          "relative_path": "api/AssemblerLib.Assemblage.ComputeReceiverMethod-1.html",
+          "hash": "arWfaEArwckZgXXM7wLGMIVcQPi7G7U7LbCPXrl8FQc="
         }
       },
       "is_incremental": true,
@@ -81,7 +81,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.Assemblage.EnvironmentCheckMethod.html",
-          "hash": "2M73UtbaH3gCb0U9ZxcA4610kjS+LSZE4U+B6JuMtpg="
+          "hash": "jzbIXA04Z7Y357/kO1bCpRTB9X9DVVVMsAi3VlCB0mY="
         }
       },
       "is_incremental": true,
@@ -89,11 +89,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/AssemblerLib.Assemblage.SelectWinnerMethod.yml",
+      "source_relative_path": "obj/api/AssemblerLib.Assemblage.SelectWinnerMethod-1.yml",
       "output": {
         ".html": {
-          "relative_path": "api/AssemblerLib.Assemblage.SelectWinnerMethod.html",
-          "hash": "XlhSrtYCPANQaKFu/Bc8140nucDTKI0MZv39o9TrMos="
+          "relative_path": "api/AssemblerLib.Assemblage.SelectWinnerMethod-1.html",
+          "hash": "xs5cF5xvGy4WVGle3qIRUoXGWmwKkNukF8vMpCIsbVQ="
         }
       },
       "is_incremental": true,
@@ -105,7 +105,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.Assemblage.html",
-          "hash": "tvi1ZfnufH7pyTgPCfnk/wK4lnXB5No8lWllJaS5qL4="
+          "hash": "ciWs4+Ko7itJeEs6MKCqDY2jPZuBO1wScce2lZqauHw="
         }
       },
       "is_incremental": false,
@@ -117,7 +117,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.AssemblyObject.html",
-          "hash": "ZujECaacR6y8pZFZXtni3Jr36y4r8L9Miqh/QU4lqmc="
+          "hash": "tj4GgprCBaogjqXiWG5ncMChOjm4yjyK7qwQkZrQn+w="
         }
       },
       "is_incremental": true,
@@ -213,7 +213,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.Support.html",
-          "hash": "5U36ZN4v4Z8byN+IV/kdVfvQ3JSd3mQSb4eSYdKApqQ="
+          "hash": "90yRmwcTNPZ3VUAHq/pFYcJlEg2WwBXTAYJRVogNGvk="
         }
       },
       "is_incremental": true,
@@ -237,7 +237,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.Utilities.html",
-          "hash": "3zbAYmOj3nC9GFn8Iue7gaayeEJ6Vhv17Hdsfg5SZ8Y="
+          "hash": "O22kVPLusoD8DrMWfeqclbmhSDpBEMqcfX2qXO1VTFs="
         }
       },
       "is_incremental": false,
@@ -261,7 +261,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.html",
-          "hash": "or9Yj5cfVqLjnp2/FfzXAepVWKeRQ/ogOtldcAYppYI="
+          "hash": "GQyNTO2+vvHl422dViPGhVW04MfcNBhOHmbBu8s/uDs="
         }
       },
       "is_incremental": false,
@@ -273,7 +273,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "Uze3iDaattb3gASn7HWDhTBUACrNAODAmMft9ruz6Mg="
+          "hash": "jtn5J8Zs604jqLR+8AXwullR+jBMjafe7uy8PhFvDm0="
         }
       },
       "is_incremental": false,

@@ -11,7 +11,7 @@ using Assembler.Utils;
 namespace Assembler
 {
     [Obsolete]
-    public class AssemblerEngine_OLD : GH_Component
+    public class L_AssemblerEngine : GH_Component
     {
         Assemblage AOa;
         private bool pending = false;
@@ -24,7 +24,7 @@ namespace Assembler
         /// <summary>
         /// Initializes a new instance of the AssemblerEngine class.
         /// </summary>
-        public AssemblerEngine_OLD()
+        public L_AssemblerEngine()
           : base("Assembler Engine Simple", "AOEngS",
               "Assembler Engine Simpe - OBSOLETE\nDo not use this anymore",
               "Assembler", "Engine")
@@ -164,7 +164,7 @@ namespace Assembler
                 return;
             }
 
-            if ((go || (step && pending)) && AOa.assemblyObjects.Count < maxObj)
+            if ((go || (step && pending)) && AOa.assemblyObjects.BranchCount < maxObj)
             {
                 for (int i = 0; i < nInt; i++)
                     AOa.Update();
@@ -178,7 +178,7 @@ namespace Assembler
             }
 
             DA.SetData("Assemblage", AOa);
-            DA.SetData("Assemblage Count", AOa.assemblyObjects.Count);
+            DA.SetData("Assemblage Count", AOa.assemblyObjects.BranchCount);
 
             // DIAGNOSTICS
             // stopwatch.Restart();
@@ -194,12 +194,12 @@ namespace Assembler
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.Assembler_Engine;
+                return Resources.Assembler_Engine_X;
             }
         }
 
         /// <summary>
-        /// Exposure override for position in the SUbcategory (options primary to septenary)
+        /// Exposure override for position in the Subcategory (options primary to septenary)
         /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
         /// </summary>
         public override GH_Exposure Exposure

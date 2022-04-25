@@ -63,13 +63,9 @@ namespace AssemblerLib
         { get { return aInd; } set { aInd = value; } }
         private int aInd;
         /// <summary>
-        /// List of 2 indices containing object index and handle index occluded by this object
+        /// List of 2 indices (AInd, handle index) occluded by this object
         /// </summary>
         public List<int[]> occludedNeighbours;
-        /// <summary>
-        /// Collision radius for collision checks with neighbour AssemblyObjects
-        /// </summary>
-        public double collisionRadius;
         /// <summary>
         /// Scalar value for density evaluation or scalar field generation/interaction
         /// </summary>
@@ -127,7 +123,6 @@ namespace AssemblerLib
         /// <param name="direction"></param>
         /// <param name="aInd"></param>
         /// <param name="occludedNeighbours"></param>
-        /// <param name="collisionRadius"></param>
         /// <param name="name"></param>
         /// <param name="type"></param>
         /// <param name="weight"></param>
@@ -142,7 +137,7 @@ namespace AssemblerLib
         /// <param name="senderValue"></param>
         [JsonConstructor]
         public AssemblyObject(Mesh collisionMesh, Mesh offsetMesh, Handle[] handles, Plane referencePlane, Vector3d direction, int aInd, List<int[]> occludedNeighbours,
-            double collisionRadius, string name, int type, double weight, int iWeight, List<Support> supports, int minSupports,
+            string name, int type, double weight, int iWeight, List<Support> supports, int minSupports,
             bool supported, bool worldZLock, List<AssemblyObject> children, List<int[]> handleMap, double receiverValue, double senderValue)
         {
             this.collisionMesh = collisionMesh;
@@ -152,7 +147,6 @@ namespace AssemblerLib
             this.handles = handles;
             this.aInd = aInd;
             this.occludedNeighbours = occludedNeighbours;
-            this.collisionRadius = collisionRadius;
             this.name = name;
             this.type = type;
             this.weight = weight;
@@ -177,7 +171,7 @@ namespace AssemblerLib
         /// <param name="name">object type name</param>
         /// <param name="type">object type id</param>
         /// <param name="weight">scalar for density operations or field interactions</param>
-        /// <param name="iWeight">integer Weight for Weighted Random choice</param>
+        /// <param name="iWeight">integer Weight for Weighted Random choice during assemblage</param>
         /// <param name="supports">list of supports</param>
         /// <param name="minSupports">minimum n. of supports required</param>
         /// <param name="worldZLock">lock orientation of Z axis to World Z axis</param>
@@ -202,7 +196,6 @@ namespace AssemblerLib
             this.handles = handles.Select(h => Utilities.Clone(ref h)).ToArray();
             //this.handles = handles.Select(h => new Handle(h)).ToArray(); // do NOT use this formula
             occludedNeighbours = new List<int[]>();
-            collisionRadius = this.collisionMesh.GetBoundingBox(false).Diagonal.Length * 2.5;
 
             // ID and other non-geometry data
             this.name = name;
@@ -225,6 +218,7 @@ namespace AssemblerLib
             // "in Assemblage" values
             receiverValue = double.NaN;
             senderValue = double.NaN;
+            aInd = -1;
         }
 
         #endregion

@@ -48,7 +48,7 @@ namespace Assembler
             List<int> indexes = new List<int>();
             if (!DA.GetDataList(1, indexes)) return;
 
-            AOa = RemoveObjectAtIndexes(AOa, indexes);
+            //AOa = RemoveObjectAtIndexes(AOa, indexes);
 
             DA.SetData(0, AOa);
 
@@ -56,57 +56,57 @@ namespace Assembler
         // PROBLEM: still buggy - after removal the connection indexes will not correspond anymore
         // with the actual indexes in the assemblage list
         // SOLUTION: AssemblyObject class must have a unique assemblage index or id assigned while assembling
-        Assemblage RemoveObjectAtIndexes(Assemblage AOa, List<int> indexes)
-        {
-            List<AssemblyObject> removed = new List<AssemblyObject>();
-            // first: update all connection/occupancy statuses
-            // and keep track of AssemblyObjects to remove
-            for (int i = 0; i < indexes.Count; i++)
-            {
-                // continue if an index is out of range
-                if (indexes[i] < 0 || indexes[i] >= AOa.assemblyObjects.Count) continue;
+        //Assemblage RemoveObjectAtIndexes(Assemblage AOa, List<int> seqIndexes)
+        //{
+        //    List<AssemblyObject> removed = new List<AssemblyObject>();
+        //    // first: update all connection/occupancy statuses
+        //    // and keep track of AssemblyObjects to remove
+        //    for (int i = 0; i < seqIndexes.Count; i++)
+        //    {
+        //        // continue if an index is out of range
+        //        if (seqIndexes[i] < 0 || seqIndexes[i] >= AOa.assemblyObjects.Count) continue;
 
-                AssemblyObject rem = AOa.assemblyObjects[indexes[i]];
+        //        AssemblyObject rem = AOa.assemblyObjects[seqIndexes[i]];
 
-                // parse occluded neighbour objects
-                if (rem.occludedNeighbours.Count != 0)
-                    for (int k = 0; k < rem.occludedNeighbours.Count; k++)
-                    {
-                        int nO = rem.occludedNeighbours[k][0]; // neighbour object index
-                        int nH = rem.occludedNeighbours[k][1]; // neighbour handle index
+        //        // parse occluded neighbour objects
+        //        if (rem.occludedNeighbours.Count != 0)
+        //            for (int k = 0; k < rem.occludedNeighbours.Count; k++)
+        //            {
+        //                int nO = AOa.AOIndexesMap.IndexOf(rem.occludedNeighbours[k][0]); // neighbour object squential Index
+        //                int nH = rem.occludedNeighbours[k][1]; // neighbour handle index
 
-                        // reset connectivity data
-                        AOa.assemblyObjects[nO].handles[nH].occupancy = 0;
-                        AOa.assemblyObjects[nO].handles[nH].neighbourObject = -1;
-                    }
+        //                // reset connectivity data
+        //                AOa.assemblyObjects[nO].handles[nH].occupancy = 0;
+        //                AOa.assemblyObjects[nO].handles[nH].neighbourObject = -1;
+        //            }
 
-                // parse connected handles
-                for (int j = 0; j < rem.handles.Length; j++)
-                    // case of connected handle - reset connectivity data on connected component's handle
-                    if (rem.handles[j].occupancy == 1)
-                    {
-                        int nO = rem.handles[j].neighbourObject;
-                        int nH = rem.handles[j].neighbourHandle;
-                        AOa.assemblyObjects[nO].handles[nH].occupancy = 0;
-                        AOa.assemblyObjects[nO].handles[nH].neighbourObject = -1;
-                        AOa.assemblyObjects[nO].handles[nH].neighbourHandle = -1;
-                    }
-                    // case of occluded handle - remove object-handle index tuple from neighbour occluded list
-                    else if (rem.handles[j].occupancy == 1)
-                    {
-                        int[] occluded = new int[] { i, j };
-                        int nO = rem.handles[j].neighbourObject;
-                        AOa.assemblyObjects[nO].occludedNeighbours.Remove(occluded);
-                    }
+        //        // parse connected handles
+        //        for (int j = 0; j < rem.handles.Length; j++)
+        //            // case of connected handle - reset connectivity data on connected component's handle
+        //            if (rem.handles[j].occupancy == 1)
+        //            {
+        //                int nO = AOa.AOIndexesMap.IndexOf(rem.handles[j].neighbourObject); // neighbour object squential Index
+        //                int nH = rem.handles[j].neighbourHandle;
+        //                AOa.assemblyObjects[nO].handles[nH].occupancy = 0;
+        //                AOa.assemblyObjects[nO].handles[nH].neighbourObject = -1;
+        //                AOa.assemblyObjects[nO].handles[nH].neighbourHandle = -1;
+        //            }
+        //            // case of occluded handle - remove object-handle index tuple from neighbour occluded list
+        //            else if (rem.handles[j].occupancy == 1)
+        //            {
+        //                int[] occluded = new int[] { AOa.AOIndexesMap[i], j };
+        //                int nO = AOa.AOIndexesMap.IndexOf(rem.handles[j].neighbourObject); // neighbour object squential Index
+        //                AOa.assemblyObjects[nO].occludedNeighbours.Remove(occluded);
+        //            }
 
-                removed.Add(rem);
-            }
+        //        removed.Add(rem);
+        //    }
 
-            // then: perform the removal
-            foreach (AssemblyObject rem in removed)
-                AOa.assemblyObjects.Remove(rem);
-            return AOa;
-        }
+        //    // then: perform the removal
+        //    foreach (AssemblyObject rem in removed)
+        //        AOa.assemblyObjects.Remove(rem);
+        //    return AOa;
+        //}
 
         /// <summary>
         /// Exposure override for position in the Subcategory (options primary to septenary)

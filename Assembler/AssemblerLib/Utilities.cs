@@ -11,7 +11,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace AssemblerLib
@@ -39,6 +38,8 @@ namespace AssemblerLib
             new Color[] { Color.White, Color.SlateGray, Color.DarkSlateGray });
         public static readonly GH_Gradient receiverValuesGradient = new GH_Gradient(new double[] { 0.0, 0.5, 1.0 },
             new Color[] { Color.White, Color.Red, Color.DarkRed });
+        public static readonly GH_Gradient discoGradient = new GH_Gradient(new double[] { 0.0, 1.0 },
+            new Color[] { Color.FromArgb(255, 0, 255), Color.FromArgb(0, 255, 255) });
 
         // AssemblyObject Type palette has a max of 24 colors - which is already WAY TOO MANY!!!
         public static readonly Color[] AOTypePalette = new Color[] {
@@ -49,9 +50,10 @@ namespace AssemblerLib
         Color.FromArgb(243,156,31), Color.FromArgb(41,128,190), Color.FromArgb(35,38,41), Color.FromArgb(252,252,252),
         Color.FromArgb(218,68,83), Color.FromArgb(22,160,133), Color.FromArgb(149,165,166), Color.FromArgb(44,62,80)};
 
-        public static readonly Color[] srPalette = new Color[] { Color.SlateGray, Color.FromArgb(229, 229, 220) }; // receiver, sender
-                                                                                                                   //public static readonly Color[] objPalette_OLD = new Color[] {  Color.Goldenrod, Color.HotPink, Color.YellowGreen, Color.Blue, Color.DarkKhaki, Color.CadetBlue,
-                                                                                                                   //    Color.Plum, Color.LightSteelBlue, Color.PaleTurquoise, Color.Olive, Color.Violet, Color.DimGray, Color.Snow, Color.DarkSlateGray, Color.DarkGoldenrod, Color.DarkOliveGreen};
+        // receiver, sender (in this order)
+        public static readonly Color[] srPalette = new Color[] { Color.SlateGray, Color.FromArgb(229, 229, 220) };
+        //public static readonly Color[] objPalette_OLD = new Color[] {  Color.Goldenrod, Color.HotPink, Color.YellowGreen, Color.Blue, Color.DarkKhaki, Color.CadetBlue,
+        //    Color.Plum, Color.LightSteelBlue, Color.PaleTurquoise, Color.Olive, Color.Violet, Color.DimGray, Color.Snow, Color.DarkSlateGray, Color.DarkGoldenrod, Color.DarkOliveGreen};
 
         // get System Color in a List
         // from https://www.codeproject.com/Questions/826358/How-to-choose-a-random-color-from-System-Drawing-C
@@ -74,9 +76,9 @@ namespace AssemblerLib
             // find neighbours in Assemblage 
             List<int> neighList = new List<int>();
             // collision radius is a field of AssemblyObject
-            AOa.centroidsTree.Search(new Sphere(sO.referencePlane.Origin, sO.collisionRadius), (sender, args) =>
+            AOa.centroidsTree.Search(new Sphere(sO.referencePlane.Origin, AOa.collisionRadius), (sender, args) =>
             {
-                // recover the AssemblyObject index related to the found centroid
+                // recover the AssemblyObject AInd related to the found centroid
                 neighList.Add(AOa.centroidsAO[args.Id]);
             });
 
@@ -86,73 +88,24 @@ namespace AssemblerLib
             // check for collisions + inclusion (sender in receiver, receiver in sender)
             foreach (int index in neighList)
             {
+                GH_Path neighPath = new GH_Path(index);
                 // check Bounding Box intersection first - if no intersection continue to the next loop iteration
                 if (!BoundingBoxIntersect(sO.collisionMesh.GetBoundingBox(false),
-                    AOa.assemblyObjects[index].collisionMesh.GetBoundingBox(false)))
+                    AOa.assemblyObjects[neighPath, 0].collisionMesh.GetBoundingBox(false)))
                     continue;
                 // check Mesh intersection
-                if (Intersection.MeshMeshFast(sO.offsetMesh, AOa.assemblyObjects[index].collisionMesh).Length > 0)
+                if (Intersection.MeshMeshFast(sO.offsetMesh, AOa.assemblyObjects[neighPath, 0].collisionMesh).Length > 0)
                     return true;
                 // check if sender object is inside neighbour
-                if (AOa.assemblyObjects[index].collisionMesh.IsPointInside(sOfirstVertex, RhinoAbsoluteTolerance, true))
+                if (AOa.assemblyObjects[neighPath, 0].collisionMesh.IsPointInside(sOfirstVertex, RhinoAbsoluteTolerance, true))
                     return true;
                 // check if neighbour is inside sender object
                 // get neighbour's OffsetMesh first vertex & check if it's inside
-                neighFirstVertex = AOa.assemblyObjects[index].offsetMesh.Vertices[0];
+                neighFirstVertex = AOa.assemblyObjects[neighPath, 0].offsetMesh.Vertices[0];
                 if (sO.collisionMesh.IsPointInside(neighFirstVertex, RhinoAbsoluteTolerance, true))
                     return true;
             }
             return false;
-        }
-
-        /// <summary>
-        /// Collision Check in the assemblage for a given <see cref="Assemblage"/> and <see cref="AssemblyObject"/> - Parallel version
-        /// Works but PAINFULLY SLOW - probably too many overhangs
-        /// </summary>
-        /// <param name="AOa">The <see cref="Assemblage"/> to check</param>
-        /// <param name="sO">The sender <see cref="AssemblyObject"/></param>
-        /// <returns></returns>
-        public static bool CollisionCheckAssemblageParallel(Assemblage AOa, AssemblyObject sO)
-        {
-
-            // get first vertex as Point3d for inclusion check
-            Point3d sOfirstVertex = sO.offsetMesh.Vertices[0];
-
-            // find neighbours in Assemblage 
-            List<int> neighList = new List<int>();
-            // collision radius is a field of AssemblyObjects
-            AOa.centroidsTree.Search(new Sphere(sO.referencePlane.Origin, sO.collisionRadius), (sender, args) =>
-            {
-                // recover the AssemblyObject index related to the found centroid
-                neighList.Add(AOa.centroidsAO[args.Id]);
-            });
-
-            // check for no neighbours
-            if (neighList.Count == 0)
-                return false;
-            bool intersectionFound = false;
-            // check for collisions + inclusion (sender in receiver, receiver in sender)
-            // see https://docs.microsoft.com/en-us/dotnet/standard/parallel-programming/how-to-write-a-parallel-foreach-loop-with-partition-local-variables
-            // works but it's PAINFULLY slow
-            Parallel.ForEach<int, bool>(neighList, () => false, (index, loop, result) =>
-            //foreach (int index in neighList)
-            {
-                if (result) return true;
-                if (Intersection.MeshMeshFast(sO.offsetMesh, AOa.assemblyObjects[index].collisionMesh).Length > 0)
-                    return true;
-                // check if sender object is inside neighbour
-                if (AOa.assemblyObjects[index].collisionMesh.IsPointInside(sOfirstVertex, RhinoAbsoluteTolerance, true))
-                    return true;
-                // check if neighbour is inside sender object
-                // get neighbour's OffsetMesh first vertex & check if it's inside
-                Point3d neighFirstVertex = AOa.assemblyObjects[index].offsetMesh.Vertices[0];
-                if (sO.collisionMesh.IsPointInside(neighFirstVertex, RhinoAbsoluteTolerance, true))
-                    return true;
-                return false;
-            },
-            (finalresult) => { intersectionFound = intersectionFound || finalresult; });
-
-            return intersectionFound;
         }
 
         /// <summary>
@@ -245,40 +198,42 @@ namespace AssemblerLib
         /// Check obstruction status for an <see cref="AssemblyObject"/> in the <see cref="Assemblage"/>
         /// </summary>
         /// <param name="AOa"></param>
-        /// <param name="AOindex"></param>
+        /// <param name="AO_AInd"></param>
         /// <returns></returns>
-        public static bool ObstructionCheckAssemblage(Assemblage AOa, int AOindex)
+        public static bool ObstructionCheckAssemblage(Assemblage AOa, int AO_AInd)
         {
-            AssemblyObject AO = AOa.assemblyObjects[AOindex];
+            AssemblyObject AO = AOa.assemblyObjects[new GH_Path(AO_AInd), 0];
             bool obstruct = false;
             Line ray;
             int[] faceIDs;
 
-            // find neighbours in Assemblage
-            List<int> neighList = new List<int>();
+            // list of neighbours AInd in Assemblage
+            List<int> neighAIndList = new List<int>();
             // collision radius is a field of AssemblyObjects
-            AOa.centroidsTree.Search(new Sphere(AO.referencePlane.Origin, AO.collisionRadius), (sender, args) =>
+            AOa.centroidsTree.Search(new Sphere(AO.referencePlane.Origin, AOa.collisionRadius), (sender, args) =>
             {
                 // check and recover the AssemblyObject index related to the found centroid
-                if (AOa.centroidsAO[args.Id] != AOindex) neighList.Add(AOa.centroidsAO[args.Id]);
+                if (AOa.centroidsAO[args.Id] != AO_AInd) neighAIndList.Add(AOa.centroidsAO[args.Id]);
             });
 
             // if there are no neighbours return
-            if (neighList.Count == 0)
+            if (neighAIndList.Count == 0)
                 return obstruct;
 
             // check two-way: 
             // 1. object handles connected or obstructed by neighbours
             // 2. neighbour handles obstructed by object
 
+            GH_Path neighPath;
             // scan neighbours
-            foreach (int index in neighList)
+            foreach (int neighAInd in neighAIndList)
             {
+                neighPath = new GH_Path(neighAInd);
                 // scan neighbour's handles
-                for (int j = 0; j < AOa.assemblyObjects[index].handles.Length; j++)
+                for (int j = 0; j < AOa.assemblyObjects[neighPath, 0].handles.Length; j++)
                 {
                     // if the handle is not available continue
-                    if (AOa.assemblyObjects[index].handles[j].occupancy != 0) continue;
+                    if (AOa.assemblyObjects[neighPath, 0].handles[j].occupancy != 0) continue;
 
                     // check for accidental handle connection
                     bool connect = false;
@@ -294,12 +249,12 @@ namespace AssemblerLib
                         // if handles are of the same type...
                         // if (AO.handles[k].type == AOa.assemblyObjects[index].handles[j].type)
                         // ...and their distance is below absolute tolerance...
-                        if (AOa.assemblyObjects[index].handles[j].sender.Origin.DistanceToSquared(AO.handles[k].sender.Origin) < RhinoAbsoluteToleranceSquared)
+                        if (AOa.assemblyObjects[neighPath, 0].handles[j].sender.Origin.DistanceToSquared(AO.handles[k].sender.Origin) < RhinoAbsoluteToleranceSquared)
                         {
                             // ...update handles
                             double sOHWeight = AO.handles[k].weight;
-                            AO.UpdateHandle(k, 1, index, j, AOa.assemblyObjects[index].handles[j].weight);
-                            AOa.assemblyObjects[index].UpdateHandle(j, 1, AOindex, k, sOHWeight);
+                            AO.UpdateHandle(k, 1, neighAInd, j, AOa.assemblyObjects[neighPath, 0].handles[j].weight);
+                            AOa.assemblyObjects[neighPath, 0].UpdateHandle(j, 1, AO_AInd, k, sOHWeight);
                             connect = true;
                             break;
                         }
@@ -309,16 +264,18 @@ namespace AssemblerLib
 
                     // CHECK OBSTRUCTION OF NEIGHBOUR HANDLES BY sO
                     // shoot a line from the handle
-                    ray = new Line(AOa.assemblyObjects[index].handles[j].sender.Origin - (AOa.assemblyObjects[index].handles[j].sender.ZAxis * RhinoAbsoluteTolerance * 5), AOa.assemblyObjects[index].handles[j].sender.ZAxis * 1.5);
+                    ray = new Line(AOa.assemblyObjects[neighPath, 0].handles[j].sender.Origin -
+                        (AOa.assemblyObjects[neighPath, 0].handles[j].sender.ZAxis * RhinoAbsoluteTolerance * 5),
+                        AOa.assemblyObjects[neighPath, 0].handles[j].sender.ZAxis * 1.5);
 
                     // if it intercepts the last added object
                     if (Intersection.MeshLine(AO.collisionMesh, ray, out faceIDs).Length != 0)
                     {
                         // change handle occupancy to -1 (occluded) and add Object index to occluded handle neighbourObject
-                        AOa.assemblyObjects[index].handles[j].occupancy = -1;
-                        AOa.assemblyObjects[index].handles[j].neighbourObject = AOindex;
+                        AOa.assemblyObjects[neighPath, 0].handles[j].occupancy = -1;
+                        AOa.assemblyObjects[neighPath, 0].handles[j].neighbourObject = AO_AInd;
                         // update Object OccludedNeighbours status
-                        AOa.assemblyObjects[AOindex].occludedNeighbours.Add(new int[] { index, j });
+                        AOa.assemblyObjects[new GH_Path(AO_AInd), 0].occludedNeighbours.Add(new int[] { neighAInd, j });
                         // change obstruct variable status
                         obstruct = true;
                     }
@@ -335,13 +292,13 @@ namespace AssemblerLib
                     ray = new Line(AO.handles[k].sender.Origin - (AO.handles[k].sender.ZAxis * Utilities.RhinoAbsoluteTolerance * 5), AO.handles[k].sender.ZAxis * 1.5);
 
                     // if it intercepts the neighbour object
-                    if (Intersection.MeshLine(AOa.assemblyObjects[index].collisionMesh, ray, out faceIDs).Length != 0)
+                    if (Intersection.MeshLine(AOa.assemblyObjects[neighPath, 0].collisionMesh, ray, out faceIDs).Length != 0)
                     {
                         // change handle occupancy to -1 (occluded) and add neighbour Object index to occluded handle neighbourObject
                         AO.handles[k].occupancy = -1;
-                        AO.handles[k].neighbourObject = index;
+                        AO.handles[k].neighbourObject = neighAInd;
                         // update neighbourObject OccludedNeighbours status
-                        AOa.assemblyObjects[index].occludedNeighbours.Add(new int[] { AOindex, k });
+                        AOa.assemblyObjects[neighPath, 0].occludedNeighbours.Add(new int[] { AO_AInd, k });
                         // change obstruct variable status
                         obstruct = true;
                     }
@@ -452,15 +409,15 @@ namespace AssemblerLib
         {
             Assemblage cAss = new Assemblage();
             // clone AssemblyObjects
-            cAss.assemblyObjects = new List<AssemblyObject>();
-            for (int i = 0; i < ass.assemblyObjects.Count; i++)
-                cAss.assemblyObjects.Add(CloneWithConnectivity(ass.assemblyObjects[i]));
+            cAss.assemblyObjects = new DataTree<AssemblyObject>();
+            for (int i = 0; i < ass.assemblyObjects.BranchCount; i++)
+                cAss.assemblyObjects.Add(CloneWithConnectivity(ass.assemblyObjects.Branches[i][0]), ass.assemblyObjects.Paths[i]);
             // clone AOSet
             cAss.AOSet = new AssemblyObject[ass.AOSet.Length];
             for (int i = 0; i < ass.AOSet.Length; i++)
                 cAss.AOSet[i] = Clone(ass.AOSet[i]);
             // clone dictionary
-            cAss.objectsDictionary = new Dictionary<string, int>(ass.objectsDictionary);
+            cAss.AOSetDictionary = new Dictionary<string, int>(ass.AOSetDictionary);
             // clone settings
             cAss.HeuristicsSettings = ass.HeuristicsSettings;
             cAss.ExogenousSettings = ass.ExogenousSettings;
@@ -488,19 +445,16 @@ namespace AssemblerLib
         /// Builds the dictionary of AssemblyObjects
         /// </summary>
         /// <param name="AOset">the array of unique <see cref="AssemblyObject"/>s constituting the set</param>
-        /// <param name="forceOrder">forces the <see cref="AssemblyObject"/>s types to follow the array order</param>
-        /// <returns></returns>
-        public static Dictionary<string, int> BuildDictionary(AssemblyObject[] AOset, bool forceOrder)
+        /// <returns>The (name, type) Dictionary built from the AOSet</returns>
+        public static Dictionary<string, int> BuildDictionary(AssemblyObject[] AOset)
         {
             Dictionary<string, int> dict = new Dictionary<string, int>();
 
-            if (forceOrder)
-                for (int i = 0; i < AOset.Length; i++)
-                    AOset[i].type = i;
-
-            foreach (AssemblyObject ao in AOset)
-                dict.Add(ao.name, ao.type);
-
+            for (int i = 0; i < AOset.Length; i++)
+            {
+                AOset[i].type = i;
+                dict.Add(AOset[i].name, AOset[i].type);
+            }
             return dict;
         }
 
@@ -558,7 +512,7 @@ namespace AssemblerLib
                 supports = AO.supports.Select(s => new Support(s)).ToList();
 
             // clone AssemblyObject
-            AssemblyObject AOclone = new AssemblyObject(collisionMesh, offsetMesh, handles, AO.referencePlane, AO.direction, AO.AInd, occludedNeighbours, AO.collisionRadius,
+            AssemblyObject AOclone = new AssemblyObject(collisionMesh, offsetMesh, handles, AO.referencePlane, AO.direction, AO.AInd, occludedNeighbours,
                 AO.name, AO.type, AO.weight, AO.iWeight, supports, AO.minSupports, AO.supported, AO.worldZLock, children, handleMap, AO.receiverValue, AO.senderValue);
 
             return AOclone;
@@ -574,7 +528,7 @@ namespace AssemblerLib
             AssemblyObject AOcloneConnect = Clone(AO); // new AssemblyObject(AO);
 
             for (int i = 0; i < AOcloneConnect.handles.Length; i++)
-                AOcloneConnect.handles[i] = CloneWithConnectivity(ref AO.handles[i]);//AO.handles[i].DuplicateWithConnectivity();
+                AOcloneConnect.handles[i] = CloneWithConnectivity(ref AO.handles[i]);
 
             AOcloneConnect.occludedNeighbours = AO.occludedNeighbours;
 
@@ -592,7 +546,6 @@ namespace AssemblerLib
             AO.collisionMesh.CopyFrom(newCollisionMesh);
             double offsetTol = RhinoAbsoluteTolerance * 2.5;
             AO.offsetMesh = MeshOffsetWeightedAngle(AO.collisionMesh, offsetTol); // do NOT use the standard Mesh Offset method
-            AO.collisionRadius = AO.collisionMesh.GetBoundingBox(false).Diagonal.Length * 2.5;
         }
 
         /// <summary>
@@ -1200,7 +1153,7 @@ namespace AssemblerLib
 
         /// <summary>
         /// Computes Mesh normals weighted by the face angle at each vertex
-        /// Mesh weighted normals implemented from the tips at the folowing pages:
+        /// Mesh weighted normals implemented from the tips at the following pages:
         /// https://stackoverflow.com/questions/25100120/how-does-blender-calculate-vertex-normals
         /// http://www.bytehazard.com/articles/vertnorm.html
         /// </summary>
@@ -1304,12 +1257,12 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// Trinagulate a Mesh splitting quad faces along the shortest diagonal
+        /// Triangulate a Mesh splitting quad faces along the shortest diagonal
         /// </summary>
         /// <param name="inputMesh"></param>
         /// <returns>a Mesh with triangular faces only</returns>
         public static Mesh Triangulate(Mesh inputMesh)
-        { 
+        {
             Mesh triMesh = new Mesh();
             int facecount = inputMesh.Faces.Count;
             for (int i = 0; i < facecount; i++)

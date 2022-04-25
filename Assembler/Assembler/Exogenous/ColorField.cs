@@ -27,7 +27,7 @@ namespace Assembler
               "Generates Field Point colors by scalar values",
               "Assembler", "Exogenous")
         {
-            blend = GetValue("FieldValueBlend", false);
+            blend = GetValue("FieldColorBlend", false);
             UpdateMessage();
             ExpireSolution(true);
         }
@@ -40,8 +40,7 @@ namespace Assembler
             pManager.AddGenericParameter("Field", "F", "Field", GH_ParamAccess.item);
             pManager.AddColourParameter("Colors", "C", "List of Colors for scalars\nonly 2 colors are needed", GH_ParamAccess.list);
             pManager.AddIntegerParameter("Index", "i", "Index of scalar value to sample\n0 (default) for single scalar value per Field point", GH_ParamAccess.item, 0);
-            pManager.AddNumberParameter("Threshold", "T", "Threshold for Allocation\nif Blend option is true this value is ingored", GH_ParamAccess.item, 0.5);
-            //pManager.AddBooleanParameter("Blend", "B", "Blends weight values or assigns them according to the threshold", GH_ParamAccess.item, false);
+            pManager.AddNumberParameter("Threshold", "T", "Threshold for Allocation\nif Blend colors option is true this value is ingored", GH_ParamAccess.item, 0.5);
         }
 
         /// <summary>
@@ -84,9 +83,6 @@ namespace Assembler
             double thres = 0.5;
             DA.GetData("Threshold", ref thres);
 
-            //bool blend = false;
-            //DA.GetData("Blend", ref blend);
-
             fCol.GenerateScalarColors(C[0], C[1], ind, thres, blend);
 
             _cloud = new PointCloud();
@@ -125,16 +121,16 @@ namespace Assembler
         public override void AppendAdditionalMenuItems(ToolStripDropDown menu)
         {
             Menu_AppendSeparator(menu);
-            ToolStripMenuItem toolStripMenuItem = Menu_AppendItem(menu, "Blend values", Blend_Click, true, blend);
-            toolStripMenuItem.ToolTipText = "Blends (interpolates) values";
+            ToolStripMenuItem toolStripMenuItem = Menu_AppendItem(menu, "Blend colors", Blend_Click, true, blend);
+            toolStripMenuItem.ToolTipText = "Blends (interpolates) colors";
             Menu_AppendSeparator(menu);
         }
 
         private void Blend_Click(object sender, EventArgs e)
         {
-            RecordUndoEvent("Blend values");
-            blend = !GetValue("FieldValueBlend", false);
-            SetValue("FieldValueBlend", blend);
+            RecordUndoEvent("Blend colors");
+            blend = !GetValue("FieldColorBlend", false);
+            SetValue("FieldColorBlend", blend);
             // set component message
             UpdateMessage();
             ExpireSolution(true);
@@ -142,13 +138,13 @@ namespace Assembler
 
         public override bool Write(GH_IWriter writer)
         {
-            writer.SetBoolean("FieldValueBlend", blend);
+            writer.SetBoolean("FieldColorBlend", blend);
             return base.Write(writer);
         }
 
         public override bool Read(GH_IReader reader)
         {
-            reader.TryGetBoolean("FieldValueBlend", ref blend);
+            reader.TryGetBoolean("FieldColorBlend", ref blend);
             UpdateMessage();
             return base.Read(reader);
         }
@@ -176,7 +172,7 @@ namespace Assembler
         }
 
         /// <summary>
-        /// Exposure override for position in the SUbcategory (options primary to septenary)
+        /// Exposure override for position in the Subcategory (options primary to septenary)
         /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
         /// </summary>
         public override GH_Exposure Exposure

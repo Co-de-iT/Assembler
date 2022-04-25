@@ -17,7 +17,7 @@ namespace Assembler
         /// </summary>
         public ConstructXData()
           : base("Construct XData", "XDCon",
-              "Construct an XData instance\r\nXData can be any kind of Xtended/Xtra data (Geometry, String, Numbers, ...) to be associated to an AssemblyObject Type",
+              "Construct an XData instance\r\nXData can be any kind of Xtended/Xtra data (Geometry, String, Numbers, ...) associated to an AssemblyObject Type",
               "Assembler", "Components")
         {
         }
@@ -65,7 +65,7 @@ namespace Assembler
         }
 
         /// <summary>
-        /// Converts IGH_Goo into generic object type - otherwise data is by reference (desired is by type) and Transform won't work
+        /// Converts IGH_Goo into generic object type - otherwise Transform won't work
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
@@ -99,7 +99,7 @@ namespace Assembler
         }
 
         /// <summary>
-        /// Exposure override for position in the SUbcategory (options primary to septenary)
+        /// Exposure override for position in the Subcategory (options primary to septenary)
         /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
         /// </summary>
         public override GH_Exposure Exposure

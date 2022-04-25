@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
@@ -9,12 +8,13 @@ using Assembler.Utils;
 
 namespace Assembler
 {
-    public class TransformAssemblyObject : GH_Component
+    [Obsolete]
+    public class L_TransformAssemblyObject : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the TransformAssemblyObject class.
         /// </summary>
-        public TransformAssemblyObject()
+        public L_TransformAssemblyObject()
           : base("TransformAssemblyObject", "AOXform",
               "Apply a Transformation to an AssemblyObject",
               "Assembler", "Components")
@@ -74,12 +74,12 @@ namespace Assembler
         }
 
         /// <summary>
-        /// Exposure override for position in the SUbcategory (options primary to septenary)
+        /// Exposure override for position in the Subcategory (options primary to septenary)
         /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
         /// </summary>
         public override GH_Exposure Exposure
         {
-            get { return GH_Exposure.primary; }
+            get { return GH_Exposure.hidden; }
         }
 
         /// <summary>

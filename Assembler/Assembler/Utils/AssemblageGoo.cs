@@ -56,7 +56,7 @@ namespace Assembler
 
         public override string ToString()
         {
-            return "Assemblage containing " + Value.assemblyObjects.Count + " AssemblyObjects of " + Value.AOSet.Length + " different types";
+            return "Assemblage containing " + Value.assemblyObjects.BranchCount + " AssemblyObjects of " + Value.AOSet.Length + " different types";
         }
 
         public override IGH_GeometricGoo DuplicateGeometry()

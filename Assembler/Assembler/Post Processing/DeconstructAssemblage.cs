@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Assembler.Properties;
+using Assembler.Utils;
+using AssemblerLib;
+using Grasshopper.Kernel;
+using Grasshopper.Kernel.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using Grasshopper.Kernel;
-using Rhino.Geometry;
-using AssemblerLib;
-using Assembler.Properties;
-using Assembler.Utils;
 
 namespace Assembler
 {
@@ -35,7 +34,7 @@ namespace Assembler
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Assemblage Objects", "AO", "The list of AssemblyObjects in the Assemblage", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Assemblage Objects", "AO", "The tree of AssemblyObjects in the Assemblage", GH_ParamAccess.tree);
             pManager.AddGenericParameter("Assemblage Rules", "AOr", "The sequential list of Rules in the Assemblage", GH_ParamAccess.list);
             pManager.AddIntegerParameter("Receiver Objects Indexes", "rOi", "The sequential list of receiver Objects indexes in the Assemblage", GH_ParamAccess.list);
             pManager.AddIntegerParameter("Available Object indexes", "avO", "List of indexes for AssemblyObjects with available Handles", GH_ParamAccess.list);
@@ -51,9 +50,15 @@ namespace Assembler
             Assemblage AOa = null;
             if (!DA.GetData(0, ref AOa)) return;
 
-            List<AssemblyObjectGoo> GH_AOs = AOa.assemblyObjects.Select(ao => new AssemblyObjectGoo(ao)).ToList();
+            List<AssemblyObjectGoo> GH_AOs = AOa.assemblyObjects.AllData().Select(ao => new AssemblyObjectGoo(ao)).ToList();
+            GH_Structure<AssemblyObjectGoo> AOGooTree = new GH_Structure<AssemblyObjectGoo>();
+            for(int i = 0; i < AOa.assemblyObjects.BranchCount; i++)
+            {
+                AOGooTree.Append(new AssemblyObjectGoo(AOa.assemblyObjects.Branches[i][0]), AOa.assemblyObjects.Paths[i]);
+            }
 
-            DA.SetDataList(0, GH_AOs);
+            DA.SetDataTree(0, AOGooTree);
+            //DA.SetDataList(0, GH_AOs);
             DA.SetDataList("Assemblage Rules", AOa.assemblageRules);
             DA.SetDataList("Receiver Objects Indexes", AOa.receiverIndexes);
             DA.SetDataList("Available Object indexes", AOa.ExtractAvailableObjects());

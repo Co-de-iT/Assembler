@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-using Grasshopper.Kernel;
-using Rhino.Geometry;
-using Grasshopper;
-using AssemblerLib;
-using Assembler.Properties;
+﻿using Assembler.Properties;
 using Assembler.Utils;
+using AssemblerLib;
+using Grasshopper;
+using Grasshopper.Kernel;
+using Grasshopper.Kernel.Data;
+using Rhino.Geometry;
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace Assembler
 {
@@ -55,38 +54,27 @@ namespace Assembler
             if (!DA.GetDataList(0, GH_AOs)) return;
             if (!DA.GetDataList(1, xD)) return;
 
-            //if (GH_AOs == null)
-            //{
-            //    AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "No AssemblyObject provided");
-            //    return;
-            //}
-            //if (xD == null)
-            //{
-            //    AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "No XData provided");
-            //    return;
-            //}
-
             AOs = GH_AOs.Select(ao => ao.Value).ToList();
+
+            DataTree<XData> XDataTree = new DataTree<XData>();
+
 
             XData[][] assemblageXD = new XData[AOs.Count][];
 
             // compare all AssemblyObjects with the list of XData ad orient any time a match is found
-            Parallel.For(0, AOs.Count, i=>
+            // Cannot do concurrent writing on a Data Tree in a Parallel Loop 
+            Parallel.For(0, AOs.Count, i =>
             //for (int i = 0; i < AOs.Count; i++)
             {
-                // if AssemblyObject is null assign a null and continue
+                // if AssemblyObject is not null
                 if (AOs[i] == null)
-                {
                     assemblageXD[i] = new XData[0];
-                    //continue;
-                }
                 else
                 {
                     List<XData> orientedXData = new List<XData>();
 
                     for (int j = 0; j < xD.Count; j++)
                     {
-
                         // if the object does not match XData associated type go on
                         if (!String.Equals(AOs[i].name, xD[j].AOName)) continue;
 
@@ -94,14 +82,16 @@ namespace Assembler
                         Transform orient = Transform.PlaneToPlane(xdC.refPlane, AOs[i].referencePlane);
                         xdC.Transform(orient);
                         orientedXData.Add(xdC);
-
                     }
+                    //XDataTree.AddRange(orientedXData, new GH_Path(AOs[i].AInd));
                     assemblageXD[i] = orientedXData.ToArray();
                 }
             });
 
             // the output is a Tree as there might be multiple XData associated with the same AssemblyObject type
-            DataTree<XData> XDataTree = Utilities.ToDataTree(assemblageXD);
+            // The Branch Path is the AssemblyObject AInd
+            for(int i = 0; i < assemblageXD.Length; i++)
+                XDataTree.AddRange(assemblageXD[i], new GH_Path(0, AOs[i].AInd));
 
             DA.SetDataTree(0, XDataTree);
         }

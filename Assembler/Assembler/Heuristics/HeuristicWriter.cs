@@ -39,9 +39,6 @@ namespace Assembler
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("AssemblyObjects Set", "AOs", "List of Assembly Objects in the set", GH_ParamAccess.list);
-            //pManager.AddBooleanParameter("Allow Self-Object connections", "sO", "Allows an AssemblyObject to connect with itself\ndefault is true", GH_ParamAccess.item, true);
-            //pManager.AddBooleanParameter("Allow Self-Handle connections", "sH", "Allows an AssemblyObject Handle to connect with itself\ndefault is true", GH_ParamAccess.item, true);
-            //pManager.AddBooleanParameter("Allow Cross-Type connections", "cT", "Allows an AssemblyObject Handle connections with different Handle types\ndefault is false", GH_ParamAccess.item, false);
             pManager.AddTextParameter("Handle Compatibility", "Hc", "Set of Handle type possible relations\nex. 1<2 means type 1 Handles can receive type 2 Handles\nif this input is used, Self-Handle and Cross-Type options will be ignored", GH_ParamAccess.list);
 
             pManager[1].Optional = true;
@@ -66,12 +63,13 @@ namespace Assembler
             // sanity check on inputs
             if (!DA.GetDataList("AssemblyObjects Set", GH_AOs)) return;
 
+            if (GH_AOs == null || GH_AOs.Count == 0)
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Please provide at least one valid AssemblyObject");
+
             AOs = GH_AOs.Select(ao => ao.Value).ToList();
 
             List<string> Hc = new List<string>();
-            //DA.GetData(1, ref selfObject);
-            //DA.GetData(2, ref selfHandle);
-            //DA.GetData(3, ref crossType);
+
             if (!DA.GetDataList(1, Hc)) Hc = null;
 
             List<string> Heuristics;
@@ -152,13 +150,11 @@ namespace Assembler
                     {
                         // exclude self if selfObject is False
                         if (rOi == sOi && noSelfObject) continue;
-                        //if (rOi == sOi && !selfObject) continue;
                         // scan potential sender handles
                         for (int sHi = 0; sHi < components[sOi].handles.Length; sHi++)
                         {
                             // exclude handles attaching to self if selfHType is False
                             if (rOi == sOi && rHi == sHi && noSelfHandle) continue;
-                            //if (rOi == sOi && rHi == sHi && !selfHType) continue;
                             // if handle types match or cross type is True generate heuristic
                             if (components[rOi].handles[rHi].type == components[sOi].handles[sHi].type || crossType)
                             {
@@ -200,7 +196,6 @@ namespace Assembler
                     {
                         // exclude self if selfObject is False
                         if (rOi == sOi && noSelfObject) continue;
-                        //if (rOi == sOi && !selfObject) continue;
                         // scan potential sender handles
                         for (int sHi = 0; sHi < components[sOi].handles.Length; sHi++)
                         {
@@ -296,7 +291,7 @@ namespace Assembler
         }
 
         /// <summary>
-        /// Exposure override for position in the SUbcategory (options primary to septenary)
+        /// Exposure override for position in the Subcategory (options primary to septenary)
         /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
         /// </summary>
         public override GH_Exposure Exposure

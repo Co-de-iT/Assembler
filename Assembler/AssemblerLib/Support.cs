@@ -1,7 +1,4 @@
 ﻿using Rhino.Geometry;
-using Rhino.Geometry.Intersect;
-using System;
-using System.Collections.Generic;
 
 namespace AssemblerLib
 {
@@ -28,7 +25,7 @@ namespace AssemblerLib
 
         /// <summary>
         /// Index of neighbour AssemblyObject connected by the support
-        /// -1 if free, -2 if connected to other entities (i.e. an external object)
+        /// -1 if free, -2 if connected to an <see cref="MeshEnvironment"/> obstacle
         /// </summary>
         public int neighbourObject;
 
@@ -89,95 +86,5 @@ namespace AssemblerLib
         {
             line.Transform(xForm);
         }
-
-        // MOVED TO UTILITIES
-
-        ///// <summary>
-        ///// Check intersection with a list of Meshes
-        ///// </summary>
-        ///// <param name="meshes"></param>
-        ///// <returns></returns>
-        //public bool Intersect(List<Mesh> meshes)
-        //{
-        //    int[] faceIds;
-        //    Point3d[] intPts;
-        //    Vector3d dir = line.UnitTangent;
-        //    double minD;
-        //    foreach (Mesh m in meshes)
-        //    {
-        //        intPts = Intersection.MeshLine(m, line, out faceIds);
-        //        // if intersections are found resize support line to intersection point and return true
-        //        if (intPts.Length > 0)
-        //        {
-        //            minD = double.MaxValue;
-        //            for (int i = 0; i < intPts.Length; i++)
-        //                minD = Math.Min(minD, line.From.DistanceToSquared(intPts[i]));
-        //            dir *= minD;
-        //            line = new Line(line.From, line.From + dir);
-        //            return true;
-        //        }
-        //    }
-        //    return false;
-        //}
-
-        ///// <summary>
-        ///// Check intersection with a list of AssemblyObjects
-        ///// </summary>
-        ///// <param name="neighbours"></param>
-        ///// <returns></returns>
-        //public bool Intersect(List<AssemblyObject> neighbours)
-        //{
-        //    int[] faceIds;
-        //    Point3d[] intPts;
-        //    Vector3d dir = line.Direction;
-        //    dir.Unitize();
-        //    double minD;
-        //    foreach (AssemblyObject AO in neighbours)
-        //    {
-        //        intPts = Intersection.MeshLine(AO.collisionMesh, line, out faceIds);
-        //        // if intersections are found resize support line to intersection point and return true
-        //        if (intPts.Length > 0)
-        //        {
-        //            minD = double.MaxValue;
-        //            for (int i = 0; i < intPts.Length; i++)
-        //                minD = Math.Min(minD, line.From.DistanceToSquared(intPts[i]));
-        //            dir *= minD;
-        //            line = new Line(line.From, line.From + dir);
-        //            neighbourObject = AO.AInd;
-        //            return true;
-        //        }
-        //    }
-        //    return false;
-        //}
-
-        ///// <summary>
-        ///// Check intersection with a list of EnvMeshes
-        ///// </summary>
-        ///// <param name="envMeshes"></param>
-        ///// <returns></returns>
-        //public bool Intersect(List<MeshEnvironment> envMeshes)
-        //{
-        //    int[] faceIds;
-        //    Point3d[] intPts;
-        //    Vector3d dir = line.Direction;
-        //    dir.Unitize();
-        //    double minD;
-        //    foreach (MeshEnvironment mE in envMeshes)
-        //    {
-        //        intPts = Intersection.MeshLine(mE.mesh, line, out faceIds);
-        //        // if intersections are found resize support line to intersection point and return true
-        //        if (intPts.Length > 0)
-        //        {
-        //            minD = double.MaxValue;
-        //            for (int i = 0; i < intPts.Length; i++)
-        //                minD = Math.Min(minD, line.From.DistanceToSquared(intPts[i]));
-        //            dir *= minD;
-        //            line = new Line(line.From, line.From + dir);
-        //            neighbourObject = -2;
-        //            return true;
-        //        }
-        //    }
-        //    return false;
-        //}
     }
 }
