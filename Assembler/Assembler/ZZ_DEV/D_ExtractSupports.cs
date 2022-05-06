@@ -1,24 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
+﻿using Assembler.Utils;
+using AssemblerLib;
+using GH_IO.Types;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using AssemblerLib;
-using Assembler.Properties;
-using Assembler.Utils;
+using System;
+using System.Collections.Generic;
 
 namespace Assembler
 {
-    public class ExtractSenderHandlesPlanes : GH_Component
+    public class D_ExtractSupports : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the ExtractSenderHandlesPlanes class.
+        /// Initializes a new instance of the ExtractSupports class.
         /// </summary>
-        public ExtractSenderHandlesPlanes()
-          : base("Extract Sender Handles Planes", "AOSP",
-              "Extract the plane for each of the AssemblyObject Sender Handles",
-             "Assembler", "Post Processing")
+        public D_ExtractSupports()
+          : base("ExtractSupports", "AOXtrSup",
+              "Extract Supports from an AssemblyObject",
+              "Assembler", "Post Processing")
         {
         }
 
@@ -27,7 +25,7 @@ namespace Assembler
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("AssemblyObject", "AO", "input AssemblyObject", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Assembly Object", "AO", "The newly created Assembly Object", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -35,7 +33,8 @@ namespace Assembler
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddPlaneParameter("Sender Handles Planes", "SP", "Planes for each sender Handle in the AssemblyObject", GH_ParamAccess.list);
+            pManager.AddLineParameter("Support Lines", "S", "Lines representing AssemblyObject's Supports", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("Minimum suport number", "n", "Minimun number of connected supports to consider the object stable", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -50,9 +49,14 @@ namespace Assembler
 
             AO = GH_AO.Value;
 
-            Plane[] sPlanes = AO.handles.Select(h => h.sender).ToArray();
 
-            DA.SetDataList(0, sPlanes);
+            List<Line> lines = new List<Line>();
+
+            foreach (Support s in AO.supports)
+                lines.Add(s.line);
+
+            DA.SetDataList(0, lines);
+            DA.SetData(1, AO.minSupports);
         }
 
         /// <summary>
@@ -64,7 +68,7 @@ namespace Assembler
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.Extract_Sender_Handles_Planes;
+                return null;
             }
         }
 
@@ -74,7 +78,8 @@ namespace Assembler
         /// </summary>
         public override GH_Exposure Exposure
         {
-            get { return GH_Exposure.secondary; }
+            get { return GH_Exposure.hidden; }
+            //get { return GH_Exposure.secondary; }
         }
 
         /// <summary>
@@ -82,7 +87,7 @@ namespace Assembler
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("8f3c72d5-1256-4798-b28f-2703cefb7ffc"); }
+            get { return new Guid("6a84f29a-d24a-4f24-a819-744acec607c5"); }
         }
     }
 }

@@ -45,7 +45,7 @@ namespace Assembler
             pManager.AddPointParameter("Origin Point", "P", "Origin Point for Display", GH_ParamAccess.item, new Point3d());
             pManager.AddGenericParameter("AssemblyObjects Set", "AOs", "List of Assembly Objects in the set", GH_ParamAccess.list);
             pManager.AddGenericParameter("XData", "XD", "Xdata associated with the AssemblyObject in the catalog", GH_ParamAccess.list);
-            pManager.AddTextParameter("Heuristics String", "HeS", "Heuristics String", GH_ParamAccess.list);
+            pManager.AddTextParameter("Heuristics Set", "HeS", "Heuristics Set", GH_ParamAccess.list);
             pManager.AddNumberParameter("X size", "Xs", "Cell size along X direction as % of Bounding Box", GH_ParamAccess.item, 1.0);
             pManager.AddNumberParameter("Y size", "Ys", "Cell size along Y direction as % of Bounding Box", GH_ParamAccess.item, 1.0);
             pManager.AddIntegerParameter("n. Rows", "nR", "number of rows", GH_ParamAccess.item, 10);
@@ -58,8 +58,8 @@ namespace Assembler
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("AssemblyObject pairs", "AO", "Receiver/Sender pairs", GH_ParamAccess.tree);
+            pManager.AddTextParameter("Heuristics Set Tree", "HeT", "Heuristics rules Set Tree", GH_ParamAccess.tree);
             pManager.AddBooleanParameter("Coherence Pattern", "cP", "Pattern of valid/invalid combinations", GH_ParamAccess.tree);
-            pManager.AddTextParameter("Heuristics String Tree", "HeT", "Heuristics rules string tree", GH_ParamAccess.tree);
             pManager.AddPointParameter("Text base points", "tP", "Locations for text placement", GH_ParamAccess.tree);
             pManager.AddGenericParameter("XData", "XD", "Xdata associated with the AssemblyObject in the catalog", GH_ParamAccess.tree);
         }
@@ -79,7 +79,7 @@ namespace Assembler
             AOs = GH_AOs.Select(ao => ao.Value).ToList();
 
             List<string> HeS = new List<string>();
-            if (!DA.GetDataList("Heuristics String", HeS)) return;
+            if (!DA.GetDataList("Heuristics Set", HeS)) return;
 
             // get XData catalog
             xDCatalog = new List<XData>();
@@ -118,45 +118,11 @@ namespace Assembler
 
             // output data
             DA.SetDataTree(0, AOoutput);
-            DA.SetDataTree(1, coherencePattern);
-            DA.SetDataTree(2, HeSTree);
+            DA.SetDataTree(1, HeSTree);
+            DA.SetDataTree(2, coherencePattern);
             DA.SetDataTree(3, textLocations);
             DA.SetDataTree(4, xData);
         }
-
-        //List<Rule> HeuristicsRulesFromString(List<AssemblyObject> AOset, List<string> heu, out DataTree<string> heS)
-        //{
-        //    List<Rule> heuList = new List<Rule>();
-        //    heS = new DataTree<string>();
-
-        //    string[] rComp = heu.ToArray();
-
-        //    int rT, rH, rR, sT, sH;
-        //    double rRA;
-        //    int w;
-        //    for (int i = 0; i < rComp.Length; i++)
-        //    {
-        //        string[] rule = rComp[i].Split(new[] { '<', '%' });
-        //        string[] rec = rule[0].Split(new[] { '|' });
-        //        string[] sen = rule[1].Split(new[] { '|' });
-        //        // sender and receiver component types
-        //        sT = catalog[sen[0]];
-        //        rT = catalog[rec[0]];
-        //        // sender handle index
-        //        sH = Convert.ToInt32(sen[1]);
-        //        // weight
-        //        w = Convert.ToInt32(rule[2]);
-        //        string[] rRot = rec[1].Split(new[] { '=' });
-        //        // receiver handle index and rotation
-        //        rH = Convert.ToInt32(rRot[0]);
-        //        rRA = Convert.ToDouble(rRot[1]);
-        //        rR = AOset[rT].handles[rH].rDictionary[rRA]; // using rotations
-
-        //        heuList.Add(new Rule(rec[0], rT, rH, rR, rRA, sen[0], sT, sH, w));
-        //        heS.Add(rComp[i], new GH_Path(i));
-        //    }
-        //    return heuList;
-        //}
 
         private DataTree<AssemblyObject> GeneratePairs(AssemblyObject[] AO, List<Rule> Hr, Point3d O, double padX, double padY, int nR)
         {

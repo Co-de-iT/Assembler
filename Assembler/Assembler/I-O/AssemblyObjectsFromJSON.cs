@@ -1,12 +1,10 @@
-﻿using System;
+﻿using Assembler.Properties;
+using Assembler.Utils;
+using AssemblerLib;
+using Grasshopper.Kernel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using Grasshopper.Kernel;
-using Rhino.Geometry;
-using AssemblerLib;
-using Assembler.Properties;
-using Assembler.Utils;
 
 namespace Assembler
 {
@@ -18,7 +16,7 @@ namespace Assembler
         /// Initializes a new instance of the AssemblageFromJSON class.
         /// </summary>
         public AssemblyObjectsFromJSON()
-          : base("AssemblyObjects From JSON", "JSON2AO",
+          : base("AssemblyObjects From JSON", "JSON>AO",
               "Load a list of AssemblyObjects from a JSON file saved with brute force method",
               "Assembler", "I/O")
         {
@@ -30,7 +28,6 @@ namespace Assembler
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddTextParameter("File Path", "F", "File to read (full absolute path)", GH_ParamAccess.item);
-            //pManager.AddBooleanParameter("Load", "L", "Load file (toggle)\nAttach a toggle - file stays loaded on true", GH_ParamAccess.item, false);
         }
 
         /// <summary>
@@ -48,11 +45,9 @@ namespace Assembler
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             string Path = "";
-            //bool load = false;
 
             // sanity check input data
             if (!DA.GetData("File Path", ref Path)) return;
-            //DA.GetData("Load", ref load);
 
             if (!System.IO.File.Exists(Path))
             {
@@ -60,10 +55,7 @@ namespace Assembler
                 return;
             }
 
-            // load if trigger is pressed
-            // if (!load) return;
             AOs = Utilities.AssemblageFromJSONdump(Path);
-
 
             List<AssemblyObjectGoo> GH_AOs = AOs.Select(ao => new AssemblyObjectGoo(ao)).ToList();
 

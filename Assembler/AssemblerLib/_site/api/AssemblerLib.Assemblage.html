@@ -73,7 +73,7 @@
   
   <h1 id="AssemblerLib_Assemblage" data-uid="AssemblerLib.Assemblage" class="text-break">Class Assemblage
   </h1>
-  <div class="markdown level0 summary"><p>Assemblage class - A Class that manages Assemblages</p>
+  <div class="markdown level0 summary"><p>Assemblage class - A class that manages Assemblages</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
@@ -83,9 +83,6 @@
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
-    <div>
-      <span class="xref">System.Object.ToString()</span>
-    </div>
     <div>
       <span class="xref">System.Object.Equals(System.Object)</span>
     </div>
@@ -117,7 +114,8 @@
   
   <a id="AssemblerLib_Assemblage__ctor_" data-uid="AssemblerLib.Assemblage.#ctor*"></a>
   <h4 id="AssemblerLib_Assemblage__ctor" data-uid="AssemblerLib.Assemblage.#ctor">Assemblage()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Empty constructor</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -180,106 +178,6 @@
   </h3>
   
   
-  <h4 id="AssemblerLib_Assemblage_AOIndexesMap" data-uid="AssemblerLib.Assemblage.AOIndexesMap">AOIndexesMap</h4>
-  <div class="markdown level1 summary"><p>List of AInd of the corresponding AssemblyObject in <a class="xref" href="AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_assemblyObjects">assemblyObjects</a></p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public List&lt;int&gt; AOIndexesMap</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <h4 id="AssemblerLib_Assemblage_AOSet" data-uid="AssemblerLib.Assemblage.AOSet">AOSet</h4>
-  <div class="markdown level1 summary"><p>The set of unique <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> kinds</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public AssemblyObject[] AOSet</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>[]</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <h4 id="AssemblerLib_Assemblage_AOSetDictionary" data-uid="AssemblerLib.Assemblage.AOSetDictionary">AOSetDictionary</h4>
-  <div class="markdown level1 summary"><p>The (name, type) Dictionary built from the AOSet</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Dictionary&lt;string, int&gt; AOSetDictionary</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Int32</span>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <h4 id="AssemblerLib_Assemblage_assemblageRules" data-uid="AssemblerLib.Assemblage.assemblageRules">assemblageRules</h4>
-  <div class="markdown level1 summary"><p>List of Heuristics used during the assemblage - uses sequential indexing</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public List&lt;string&gt; assemblageRules</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.String</span>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
   <h4 id="AssemblerLib_Assemblage_assemblyObjects" data-uid="AssemblerLib.Assemblage.assemblyObjects">assemblyObjects</h4>
   <div class="markdown level1 summary"><p>The sequential list of <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>s in the assemblage
 convert to DataTree in which each Branch Path is the AInd</p>
@@ -306,31 +204,6 @@ convert to DataTree in which each Branch Path is the AInd</p>
   </table>
   
   
-  <h4 id="AssemblerLib_Assemblage_candidateObjects" data-uid="AssemblerLib.Assemblage.candidateObjects">candidateObjects</h4>
-  <div class="markdown level1 summary"><p>Candidate sender objects at each iteration</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public List&lt;AssemblyObject&gt; candidateObjects</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
   <h4 id="AssemblerLib_Assemblage_checkWorldZLock" data-uid="AssemblerLib.Assemblage.checkWorldZLock">checkWorldZLock</h4>
   <div class="markdown level1 summary"><p>if True, forces candidates to have their own Z axis parallel to the World Z axis (fixed up direction)</p>
 </div>
@@ -350,32 +223,6 @@ convert to DataTree in which each Branch Path is the AInd</p>
     <tbody>
       <tr>
         <td><span class="xref">System.Boolean</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <h4 id="AssemblerLib_Assemblage_collisionRadius" data-uid="AssemblerLib.Assemblage.collisionRadius">collisionRadius</h4>
-  <div class="markdown level1 summary"><p>Collision radius for collision checks with neighbour AssemblyObjects
-based on the largest object in AOSet (largest Bounding Box diagonal)</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public double collisionRadius</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Double</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -432,56 +279,6 @@ based on the largest object in AOSet (largest Bounding Box diagonal)</p>
   </table>
   
   
-  <h4 id="AssemblerLib_Assemblage_currentHeuristics" data-uid="AssemblerLib.Assemblage.currentHeuristics">currentHeuristics</h4>
-  <div class="markdown level1 summary"><p>Index of currently used heuristics</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int currentHeuristics</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <h4 id="AssemblerLib_Assemblage_E_sandbox" data-uid="AssemblerLib.Assemblage.E_sandbox">E_sandbox</h4>
-  <div class="markdown level1 summary"><p>Sandbox for focused assemblage growth - EXPERIMENTAL - NOT IMPLEMENTED YET</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Box E_sandbox</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Rhino.Geometry.Box</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
   <h4 id="AssemblerLib_Assemblage_environmentCheck" data-uid="AssemblerLib.Assemblage.environmentCheck">environmentCheck</h4>
   <div class="markdown level1 summary"><p>Delegate variable for environment check mode</p>
 </div>
@@ -501,131 +298,6 @@ based on the largest object in AOSet (largest Bounding Box diagonal)</p>
     <tbody>
       <tr>
         <td><a class="xref" href="AssemblerLib.Assemblage.EnvironmentCheckMethod.html">Assemblage.EnvironmentCheckMethod</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <h4 id="AssemblerLib_Assemblage_ExogenousSettings" data-uid="AssemblerLib.Assemblage.ExogenousSettings">ExogenousSettings</h4>
-  <div class="markdown level1 summary"><p>Exogenous settings (external influences)</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ExogenousSettings ExogenousSettings</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="AssemblerLib.ExogenousSettings.html">ExogenousSettings</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <h4 id="AssemblerLib_Assemblage_HeuristicsSettings" data-uid="AssemblerLib.Assemblage.HeuristicsSettings">HeuristicsSettings</h4>
-  <div class="markdown level1 summary"><p>Heuristics settings (rules + selection criteria)</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public HeuristicsSettings HeuristicsSettings</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="AssemblerLib.HeuristicsSettings.html">HeuristicsSettings</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <h4 id="AssemblerLib_Assemblage_receiverIndex" data-uid="AssemblerLib.Assemblage.receiverIndex">receiverIndex</h4>
-  <div class="markdown level1 summary"><p>stores selected receiver AInd at each Assemblage iteration</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int receiverIndex</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <h4 id="AssemblerLib_Assemblage_receiverIndexes" data-uid="AssemblerLib.Assemblage.receiverIndexes">receiverIndexes</h4>
-  <div class="markdown level1 summary"><p>List of Receivers Aind indexes used in the assemblage - uses sequential indexing</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public List&lt;int&gt; receiverIndexes</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <h4 id="AssemblerLib_Assemblage_receiverRules" data-uid="AssemblerLib.Assemblage.receiverRules">receiverRules</h4>
-  <div class="markdown level1 summary"><p>stores <a class="xref" href="AssemblerLib.Rule.html">Rule</a>s pertaining the selected receiver at each Assemblage iteration</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public List&lt;Rule&gt; receiverRules</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AssemblerLib.Rule.html">Rule</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -705,17 +377,20 @@ based on the largest object in AOSet (largest Bounding Box diagonal)</p>
       </tr>
     </tbody>
   </table>
+  <h3 id="properties">Properties
+  </h3>
   
   
-  <h4 id="AssemblerLib_Assemblage_validRulesIndexes" data-uid="AssemblerLib.Assemblage.validRulesIndexes">validRulesIndexes</h4>
-  <div class="markdown level1 summary"><p>stores indexes of filtered valid rules from <a class="xref" href="AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_receiverRules">receiverRules</a> at each Assemblage iteration</p>
+  <a id="AssemblerLib_Assemblage_AOSet_" data-uid="AssemblerLib.Assemblage.AOSet*"></a>
+  <h4 id="AssemblerLib_Assemblage_AOSet" data-uid="AssemblerLib.Assemblage.AOSet">AOSet</h4>
+  <div class="markdown level1 summary"><p>The set of unique <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> kinds</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public List&lt;int&gt; validRulesIndexes</code></pre>
+    <pre><code class="lang-csharp hljs">public AssemblyObject[] AOSet { get; }</code></pre>
   </div>
-  <h5 class="fieldValue">Field Value</h5>
+  <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
@@ -725,13 +400,168 @@ based on the largest object in AOSet (largest Bounding Box diagonal)</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+        <td><a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>[]</td>
         <td></td>
       </tr>
     </tbody>
   </table>
-  <h3 id="properties">Properties
-  </h3>
+  
+  
+  <a id="AssemblerLib_Assemblage_AssemblageRules_" data-uid="AssemblerLib.Assemblage.AssemblageRules*"></a>
+  <h4 id="AssemblerLib_Assemblage_AssemblageRules" data-uid="AssemblerLib.Assemblage.AssemblageRules">AssemblageRules</h4>
+  <div class="markdown level1 summary"><p>Data Tree of Heuristics used during the assemblage</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DataTree&lt;string&gt; AssemblageRules { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Grasshopper.DataTree</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="AssemblerLib_Assemblage_CandidateObjects_" data-uid="AssemblerLib.Assemblage.CandidateObjects*"></a>
+  <h4 id="AssemblerLib_Assemblage_CandidateObjects" data-uid="AssemblerLib.Assemblage.CandidateObjects">CandidateObjects</h4>
+  <div class="markdown level1 summary"><p>Candidate sender objects at each iteration</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;AssemblyObject&gt; CandidateObjects { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="AssemblerLib_Assemblage_CollisionRadius_" data-uid="AssemblerLib.Assemblage.CollisionRadius*"></a>
+  <h4 id="AssemblerLib_Assemblage_CollisionRadius" data-uid="AssemblerLib.Assemblage.CollisionRadius">CollisionRadius</h4>
+  <div class="markdown level1 summary"><p>Collision radius for collision checks with neighbour AssemblyObjects
+based on the largest object in AOSet (largest Bounding Box diagonal)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double CollisionRadius { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Double</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="AssemblerLib_Assemblage_ExogenousSettings_" data-uid="AssemblerLib.Assemblage.ExogenousSettings*"></a>
+  <h4 id="AssemblerLib_Assemblage_ExogenousSettings" data-uid="AssemblerLib.Assemblage.ExogenousSettings">ExogenousSettings</h4>
+  <div class="markdown level1 summary"><p>Exogenous settings (external influences)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ExogenousSettings ExogenousSettings { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="AssemblerLib.ExogenousSettings.html">ExogenousSettings</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="AssemblerLib_Assemblage_HeuristicsSettings_" data-uid="AssemblerLib.Assemblage.HeuristicsSettings*"></a>
+  <h4 id="AssemblerLib_Assemblage_HeuristicsSettings" data-uid="AssemblerLib.Assemblage.HeuristicsSettings">HeuristicsSettings</h4>
+  <div class="markdown level1 summary"><p>Heuristics settings (rules + selection criteria)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public HeuristicsSettings HeuristicsSettings { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="AssemblerLib.HeuristicsSettings.html">HeuristicsSettings</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="AssemblerLib_Assemblage_ReceiverAIndexes_" data-uid="AssemblerLib.Assemblage.ReceiverAIndexes*"></a>
+  <h4 id="AssemblerLib_Assemblage_ReceiverAIndexes" data-uid="AssemblerLib.Assemblage.ReceiverAIndexes">ReceiverAIndexes</h4>
+  <div class="markdown level1 summary"><p>Data Tree of Receivers AInd indexes used in the assemblage</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DataTree&lt;int&gt; ReceiverAIndexes { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Grasshopper.DataTree</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   
   
   <a id="AssemblerLib_Assemblage_RulesCount_" data-uid="AssemblerLib.Assemblage.RulesCount*"></a>
@@ -850,7 +680,8 @@ based on the largest object in AOSet (largest Bounding Box diagonal)</p>
   
   <a id="AssemblerLib_Assemblage_Initialize_" data-uid="AssemblerLib.Assemblage.Initialize*"></a>
   <h4 id="AssemblerLib_Assemblage_Initialize" data-uid="AssemblerLib.Assemblage.Initialize">Initialize()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Initialize Assemblage</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -858,52 +689,9 @@ based on the largest object in AOSet (largest Bounding Box diagonal)</p>
   </div>
   
   
-  <a id="AssemblerLib_Assemblage_RemoveObject_" data-uid="AssemblerLib.Assemblage.RemoveObject*"></a>
-  <h4 id="AssemblerLib_Assemblage_RemoveObject_System_Int32_" data-uid="AssemblerLib.Assemblage.RemoveObject(System.Int32)">RemoveObject(Int32)</h4>
-  <div class="markdown level1 summary"><p>Remove an <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> from the Assemblage, updating topology</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool RemoveObject(int AInd)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">AInd</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
   <a id="AssemblerLib_Assemblage_ResetSettings_" data-uid="AssemblerLib.Assemblage.ResetSettings*"></a>
   <h4 id="AssemblerLib_Assemblage_ResetSettings_AssemblerLib_HeuristicsSettings_AssemblerLib_ExogenousSettings_" data-uid="AssemblerLib.Assemblage.ResetSettings(AssemblerLib.HeuristicsSettings,AssemblerLib.ExogenousSettings)">ResetSettings(HeuristicsSettings, ExogenousSettings)</h4>
-  <div class="markdown level1 summary"><p>Reset Heuristics Settings and Exogenous Settings</p>
+  <div class="markdown level1 summary"><p>Reset Heuristics and Exogenous Settings</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -963,33 +751,6 @@ based on the largest object in AOSet (largest Bounding Box diagonal)</p>
   </table>
   
   
-  <a id="AssemblerLib_Assemblage_SelectReceiver_" data-uid="AssemblerLib.Assemblage.SelectReceiver*"></a>
-  <h4 id="AssemblerLib_Assemblage_SelectReceiver" data-uid="AssemblerLib.Assemblage.SelectReceiver">SelectReceiver()</h4>
-  <div class="markdown level1 summary"><p>Receiver Selection</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public virtual int SelectReceiver()</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><p>The sequential index of the <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> selected as a receiver in the availableObjects list</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
   <a id="AssemblerLib_Assemblage_SelectRule_" data-uid="AssemblerLib.Assemblage.SelectRule*"></a>
   <h4 id="AssemblerLib_Assemblage_SelectRule_System_Collections_Generic_List_AssemblerLib_AssemblyObject__AssemblerLib_AssemblyObject__" data-uid="AssemblerLib.Assemblage.SelectRule(System.Collections.Generic.List{AssemblerLib.AssemblyObject},AssemblerLib.AssemblyObject@)">SelectRule(List&lt;AssemblyObject&gt;, out AssemblyObject)</h4>
   <div class="markdown level1 summary"><p>A virtual method for <a class="xref" href="AssemblerLib.Rule.html">Rule</a> selection - default version uses internally predefined criteria</p>
@@ -1042,6 +803,33 @@ based on the largest object in AOSet (largest Bounding Box diagonal)</p>
   <h5 id="AssemblerLib_Assemblage_SelectRule_System_Collections_Generic_List_AssemblerLib_AssemblyObject__AssemblerLib_AssemblyObject___remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>The method is virtual, so it can be customized with an override</p>
 </div>
+  
+  
+  <a id="AssemblerLib_Assemblage_ToString_" data-uid="AssemblerLib.Assemblage.ToString*"></a>
+  <h4 id="AssemblerLib_Assemblage_ToString" data-uid="AssemblerLib.Assemblage.ToString">ToString()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Object.ToString()</span></div>
   
   
   <a id="AssemblerLib_Assemblage_Update_" data-uid="AssemblerLib.Assemblage.Update*"></a>

@@ -128,7 +128,7 @@
   
   <a id="AssemblerLib_AssemblyObject__ctor_" data-uid="AssemblerLib.AssemblyObject.#ctor*"></a>
   <h4 id="AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_AssemblerLib_Handle___Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_String_System_Int32_System_Double_System_Boolean_System_Collections_Generic_List_AssemblerLib_AssemblyObject__" data-uid="AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.String,System.Int32,System.Double,System.Boolean,System.Collections.Generic.List{AssemblerLib.AssemblyObject})">AssemblyObject(Mesh, Handle[], Plane, Vector3d, String, Int32, Double, Boolean, List&lt;AssemblyObject&gt;)</h4>
-  <div class="markdown level1 summary"><p>Builds a composite AssemblyObject from a list of children, a custom collisionMesh, and a custom set of Handles</p>
+  <div class="markdown level1 summary"><p>Builds a composite AssemblyObject from a list of children, a custom collisionMesh, and a custom set of Handles - Children objects are NOT IMPLEMENTED YET</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -195,13 +195,13 @@
   
   
   <a id="AssemblerLib_AssemblyObject__ctor_" data-uid="AssemblerLib.AssemblyObject.#ctor*"></a>
-  <h4 id="AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_AssemblerLib_Handle___Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_String_System_Int32_System_Double_System_Int32_System_Collections_Generic_List_AssemblerLib_Support__System_Int32_System_Boolean_" data-uid="AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.String,System.Int32,System.Double,System.Int32,System.Collections.Generic.List{AssemblerLib.Support},System.Int32,System.Boolean)">AssemblyObject(Mesh, Handle[], Plane, Vector3d, String, Int32, Double, Int32, List&lt;Support&gt;, Int32, Boolean)</h4>
+  <h4 id="AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_AssemblerLib_Handle___Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_String_System_Int32_System_Double_System_Int32_System_Boolean_" data-uid="AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.String,System.Int32,System.Double,System.Int32,System.Boolean)">AssemblyObject(Mesh, Handle[], Plane, Vector3d, String, Int32, Double, Int32, Boolean)</h4>
   <div class="markdown level1 summary"><p>Builds an AssemblyObject from all required parameters</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public AssemblyObject(Mesh collisionMesh, Handle[] handles, Plane referencePlane, Vector3d direction, string name, int type, double weight, int iWeight, List&lt;Support&gt; supports, int minSupports, bool worldZLock)</code></pre>
+    <pre><code class="lang-csharp hljs">public AssemblyObject(Mesh collisionMesh, Handle[] handles, Plane referencePlane, Vector3d direction, string name, int type, double weight, int iWeight, bool worldZLock)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -259,18 +259,6 @@
         <td><span class="xref">System.Int32</span></td>
         <td><span class="parametername">iWeight</span></td>
         <td><p>integer Weight for Weighted Random choice during assemblage</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AssemblerLib.Support.html">Support</a>&gt;</td>
-        <td><span class="parametername">supports</span></td>
-        <td><p>list of supports</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">minSupports</span></td>
-        <td><p>minimum n. of supports required</p>
 </td>
       </tr>
       <tr>
@@ -407,7 +395,7 @@ public AssemblyObject(Mesh collisionMesh, Mesh offsetMesh, Handle[] handles, Pla
   
   <a id="AssemblerLib_AssemblyObject__ctor_" data-uid="AssemblerLib.AssemblyObject.#ctor*"></a>
   <h4 id="AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_String_System_Int32_System_Double_System_Boolean_System_Collections_Generic_List_AssemblerLib_AssemblyObject__" data-uid="AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.String,System.Int32,System.Double,System.Boolean,System.Collections.Generic.List{AssemblerLib.AssemblyObject})">AssemblyObject(Mesh, Plane, Vector3d, String, Int32, Double, Boolean, List&lt;AssemblyObject&gt;)</h4>
-  <div class="markdown level1 summary"><p>Builds a composite AssemblyObject from a list of children and a custom collisionMesh</p>
+  <div class="markdown level1 summary"><p>Builds a composite AssemblyObject from a list of children and a custom collisionMesh - Children objects are NOT IMPLEMENTED YET</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -468,31 +456,6 @@ public AssemblyObject(Mesh collisionMesh, Mesh offsetMesh, Handle[] handles, Pla
   </table>
   <h3 id="fields">Fields
   </h3>
-  
-  
-  <h4 id="AssemblerLib_AssemblyObject_children" data-uid="AssemblerLib.AssemblyObject.children">children</h4>
-  <div class="markdown level1 summary"><p>List of optional children objects (for composite object)</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public List&lt;AssemblyObject&gt; children</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
   
   
   <h4 id="AssemblerLib_AssemblyObject_collisionMesh" data-uid="AssemblerLib.AssemblyObject.collisionMesh">collisionMesh</h4>
@@ -596,7 +559,7 @@ public AssemblyObject(Mesh collisionMesh, Mesh offsetMesh, Handle[] handles, Pla
   
   
   <h4 id="AssemblerLib_AssemblyObject_minSupports" data-uid="AssemblerLib.AssemblyObject.minSupports">minSupports</h4>
-  <div class="markdown level1 summary"><p>n. of minimum connected Supports to consider the object supported</p>
+  <div class="markdown level1 summary"><p>n. of minimum connected Supports to consider the object supported - NOT IMPLEMENTED YET</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -773,7 +736,7 @@ this value depends on the active <a class="xref" href="AssemblerLib.HeuristicsSe
   
   
   <h4 id="AssemblerLib_AssemblyObject_supported" data-uid="AssemblerLib.AssemblyObject.supported">supported</h4>
-  <div class="markdown level1 summary"><p>True if minimum amount of required supports are connected</p>
+  <div class="markdown level1 summary"><p>True if minimum amount of required supports are connected - NOT IMPLEMENTED YET</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -798,7 +761,7 @@ this value depends on the active <a class="xref" href="AssemblerLib.HeuristicsSe
   
   
   <h4 id="AssemblerLib_AssemblyObject_supports" data-uid="AssemblerLib.AssemblyObject.supports">supports</h4>
-  <div class="markdown level1 summary"><p>Supports</p>
+  <div class="markdown level1 summary"><p>Supports - NOT IMPLEMENTED YET</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -901,7 +864,7 @@ this value depends on the active <a class="xref" href="AssemblerLib.HeuristicsSe
   
   <a id="AssemblerLib_AssemblyObject_AInd_" data-uid="AssemblerLib.AssemblyObject.AInd*"></a>
   <h4 id="AssemblerLib_AssemblyObject_AInd" data-uid="AssemblerLib.AssemblyObject.AInd">AInd</h4>
-  <div class="markdown level1 summary"><p>AssemblyObject unique index in an assemblage - NOT IMPLEMENTED YET</p>
+  <div class="markdown level1 summary"><p>AssemblyObject unique index in an assemblage</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -951,53 +914,6 @@ this value depends on the active <a class="xref" href="AssemblerLib.HeuristicsSe
         <td><span class="parametername">xForm</span></td>
         <td><p>The Transformation to apply</p>
 </td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="AssemblerLib_AssemblyObject_UpdateHandle_" data-uid="AssemblerLib.AssemblyObject.UpdateHandle*"></a>
-  <h4 id="AssemblerLib_AssemblyObject_UpdateHandle_System_Int32_System_Int32_System_Int32_System_Int32_System_Double_" data-uid="AssemblerLib.AssemblyObject.UpdateHandle(System.Int32,System.Int32,System.Int32,System.Int32,System.Double)">UpdateHandle(Int32, Int32, Int32, Int32, Double)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void UpdateHandle(int handleIndex, int occupancy, int neighbourObject, int neighbourHandle, double weight)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">handleIndex</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">occupancy</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">neighbourObject</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">neighbourHandle</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Double</span></td>
-        <td><span class="parametername">weight</span></td>
-        <td></td>
       </tr>
     </tbody>
   </table>

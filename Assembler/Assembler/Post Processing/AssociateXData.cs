@@ -18,8 +18,8 @@ namespace Assembler
         /// Initializes a new instance of the AssociateXData class.
         /// </summary>
         public AssociateXData()
-          : base("Associate XData", "AOXD",
-              "Associates XData to a list of AssemblyObjects\nMake sure the XData matches the corresponding AssemblyObject types present in the list",
+          : base("Associate XData", "AO<>XD",
+              "Associates XData to a list of AssemblyObjects\nMake sure the XData matches the corresponding AssemblyObject kinds present in the list",
               "Assembler", "Post Processing")
         {
         }

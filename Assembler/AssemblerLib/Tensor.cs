@@ -8,19 +8,21 @@ namespace AssemblerLib
     /// </summary>
     public class Tensor
     {
-        //internal Point3d point;
         /// <summary>
         /// Array of scalar values
         /// </summary>
-        public double[] scalar;
+        public double[] Scalars
+        { get; set; }
         /// <summary>
         /// Array of Vector values
         /// </summary>
-        public Vector3d[] vector;
+        public Vector3d[] Vectors
+        { get; set; }
         /// <summary>
         /// Array of integer weights
         /// </summary>
-        public int[] iWeights;
+        public int[] IWeights
+        { get; set; }
 
         /*
          FUTURE IMPLEMENTATION
@@ -29,139 +31,81 @@ namespace AssemblerLib
          */
 
         /// <summary>
-        /// Constructs a Tensor from constituting parameters
+        /// Constructs a Tensor from constituting parameters (scalars, vectors, integers)
         /// </summary>
-        /// <param name="scalar"></param>
-        /// <param name="vector"></param>
-        /// <param name="iWeights"></param>
-        public Tensor(double[] scalar, Vector3d[] vector, int[] iWeights)
+        /// <param name="Scalars">IEnumerable scalar values</param>
+        /// <param name="Vectors">IEnumerable vector values</param>
+        /// <param name="IWeights">IEnumerable integer values</param>
+        public Tensor(IEnumerable<double> Scalars, IEnumerable<Vector3d> Vectors, IEnumerable<int> IWeights)
         {
-            this.scalar = scalar;
-            this.vector = vector;
-            this.iWeights = iWeights;
+            this.Scalars = (double[])Scalars;
+            this.Vectors = (Vector3d[])Vectors;
+            this.IWeights = (int[])IWeights;
         }
 
         /// <summary>
-        /// 
+        /// Constructs a Tensor from constituting parameters (scalars, vectors)
         /// </summary>
-        /// <param name="scalar"></param>
-        /// <param name="vector"></param>
-        /// <param name="iWeights"></param>
-        public Tensor(List<double> scalar, List<Vector3d> vector, int[] iWeights) : this(scalar.ToArray(), vector.ToArray(), iWeights)
-        { }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="scalar"></param>
-        /// <param name="vector"></param>
-        /// <param name="iWeights"></param>
-        public Tensor(List<double> scalar, List<Vector3d> vector, List<int> iWeights) : this(scalar.ToArray(), vector.ToArray(), iWeights.ToArray())
-        { }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="scalar"></param>
-        /// <param name="vector"></param>
-        public Tensor(double[] scalar, Vector3d[] vector)
+        /// <param name="Scalars">IEnumerable scalar values</param>
+        /// <param name="Vectors">IEnumerable vector values</param>
+        public Tensor(IEnumerable<double> Scalars, IEnumerable<Vector3d> Vectors)
         {
-            this.scalar = scalar;
-            this.vector = vector;
+            this.Scalars = (double[])Scalars;
+            this.Vectors = (Vector3d[])Vectors;
         }
 
         /// <summary>
-        /// 
+        /// Constructs a Tensor from scalars
         /// </summary>
-        /// <param name="scalar"></param>
-        /// <param name="vector"></param>
-        public Tensor(List<double> scalar, List<Vector3d> vector) : this(scalar.ToArray(), vector.ToArray())
-        { }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="scalar"></param>
-        public Tensor(double[] scalar)
+        /// <param name="Scalars">IEnumerable scalar values</param>
+        public Tensor(IEnumerable<double> Scalars)
         {
-            this.scalar = scalar;
+            this.Scalars = (double[])Scalars;
         }
 
         /// <summary>
-        /// 
+        /// Constructs a Tensor from vectors
         /// </summary>
-        /// <param name="scalar"></param>
-        public Tensor(List<double> scalar) : this(scalar.ToArray())
-        { }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="vector"></param>
-        public Tensor(Vector3d[] vector)
+        /// <param name="Vectors">IEnumerable vector values</param>
+        public Tensor(IEnumerable<Vector3d> Vectors)
         {
-            this.vector = vector;
+            this.Vectors = (Vector3d[])Vectors;
         }
 
         /// <summary>
-        /// 
+        /// Constructs a Tensor from integer values
         /// </summary>
-        /// <param name="vector"></param>
-        public Tensor(List<Vector3d> vector) : this(vector.ToArray())
-        { }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="iWeights"></param>
-        public Tensor(List<int> iWeights)
+        /// <param name="IWeights">IEnumerable integer values</param>
+        public Tensor(IEnumerable<int> IWeights)
         {
-            this.iWeights = iWeights.ToArray();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="iWeights"></param>
-        public Tensor(int[] iWeights)
-        {
-            this.iWeights = iWeights;
+            this.IWeights = (int[])IWeights;
         }
 
         /// <summary>
         /// Gets first scalar value
         /// </summary>
-        /// <returns></returns>
+        /// <returns>scalar value at index 0</returns>
         public double GetScalar()
         {
-            return scalar[0];
+            return Scalars[0];
         }
 
         /// <summary>
         /// Gets first Vector value
         /// </summary>
-        /// <returns></returns>
+        /// <returns>vector value at index 0</returns>
         public Vector3d GetVector()
         {
-            return vector[0];
+            return Vectors[0];
         }
 
         /// <summary>
-        /// 
+        /// Gets first iWeight value
         /// </summary>
-        /// <returns></returns>
-        public double[] GetScalars()
+        /// <returns>iWeight value at index 0</returns>
+        public int GetiWeight()
         {
-            return scalar;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public Vector3d[] GetVectors()
-        {
-            return vector;
+            return IWeights[0];
         }
 
         /// <summary>
@@ -172,23 +116,23 @@ namespace AssemblerLib
         /// <returns>Tensor which is the sum of the two Tensor operands</returns>
         static public Tensor operator +(Tensor a, Tensor b)
         {
-            if (a.scalar.Length != b.scalar.Length) return null;
-            if (a.vector.Length != b.vector.Length) return null;
-            if (a.iWeights.Length != b.iWeights.Length) return null;
+            if (a.Scalars.Length != b.Scalars.Length) return null;
+            if (a.Vectors.Length != b.Vectors.Length) return null;
+            if (a.IWeights.Length != b.IWeights.Length) return null;
 
             Tensor sum;
-            double[] sSum = new double[a.scalar.Length];
-            Vector3d[] vSum = new Vector3d[a.vector.Length];
-            int[] iWsum = new int[a.iWeights.Length];
+            double[] sSum = new double[a.Scalars.Length];
+            Vector3d[] vSum = new Vector3d[a.Vectors.Length];
+            int[] iWsum = new int[a.IWeights.Length];
 
-            for (int i = 0; i < a.scalar.Length; i++)
-                sSum[i] = a.scalar[i] + b.scalar[i];
+            for (int i = 0; i < a.Scalars.Length; i++)
+                sSum[i] = a.Scalars[i] + b.Scalars[i];
 
-            for (int i = 0; i < a.vector.Length; i++)
-                vSum[i] = a.vector[i] + b.vector[i];
+            for (int i = 0; i < a.Vectors.Length; i++)
+                vSum[i] = a.Vectors[i] + b.Vectors[i];
 
-            for (int i = 0; i < a.iWeights.Length; i++)
-                iWsum[i] = a.iWeights[i] + b.iWeights[i];
+            for (int i = 0; i < a.IWeights.Length; i++)
+                iWsum[i] = a.IWeights[i] + b.IWeights[i];
 
             sum = new Tensor(sSum, vSum, iWsum);
 
@@ -203,28 +147,27 @@ namespace AssemblerLib
         /// <returns>Tensor which is the difference of the two Tensor operands</returns>
         static public Tensor operator -(Tensor a, Tensor b)
         {
-            if (a.scalar.Length != b.scalar.Length) return null;
-            if (a.vector.Length != b.vector.Length) return null;
-            if (a.iWeights.Length != b.iWeights.Length) return null;
+            if (a.Scalars.Length != b.Scalars.Length) return null;
+            if (a.Vectors.Length != b.Vectors.Length) return null;
+            if (a.IWeights.Length != b.IWeights.Length) return null;
 
             Tensor diff;
-            double[] sDiff = new double[a.scalar.Length];
-            Vector3d[] vDiff = new Vector3d[a.vector.Length];
-            int[] iWDiff = new int[a.iWeights.Length];
+            double[] sDiff = new double[a.Scalars.Length];
+            Vector3d[] vDiff = new Vector3d[a.Vectors.Length];
+            int[] iWDiff = new int[a.IWeights.Length];
 
-            for (int i = 0; i < a.scalar.Length; i++)
-                sDiff[i] = a.scalar[i] - b.scalar[i];
+            for (int i = 0; i < a.Scalars.Length; i++)
+                sDiff[i] = a.Scalars[i] - b.Scalars[i];
 
-            for (int i = 0; i < a.vector.Length; i++)
-                vDiff[i] = a.vector[i] - b.vector[i];
+            for (int i = 0; i < a.Vectors.Length; i++)
+                vDiff[i] = a.Vectors[i] - b.Vectors[i];
 
-            for (int i = 0; i < a.iWeights.Length; i++)
-                iWDiff[i] = a.iWeights[i] - b.iWeights[i];
+            for (int i = 0; i < a.IWeights.Length; i++)
+                iWDiff[i] = a.IWeights[i] - b.IWeights[i];
 
             diff = new Tensor(sDiff, vDiff, iWDiff);
 
             return diff;
         }
-
     }
 }

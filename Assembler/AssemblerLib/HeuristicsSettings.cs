@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 
 namespace AssemblerLib
@@ -7,9 +6,9 @@ namespace AssemblerLib
     public struct HeuristicsSettings
     {
         /// <summary>
-        /// List of heuristics - each item in the list is a set of rules in text format, to be interpreted by the <see cref="Assemblage"/> class
+        /// List of Heuristics Sets - each item in the list is a set of rules in text format, to be interpreted by the <see cref="Assemblage"/> class
         /// </summary>
-        public List<string> heuristicsString;
+        public List<string> heuSetsString;
         /// <summary>
         /// Index of the current heuristic set used during an Assemblage
         /// </summary>
@@ -48,7 +47,7 @@ namespace AssemblerLib
 
         public HeuristicsSettings(List<string> heuristicsString, int currentHeuristics, int heuristicsMode, int receiverSelectionMode, int ruleSelectionMode)
         {
-            this.heuristicsString = heuristicsString;
+            this.heuSetsString = heuristicsString;
             this.currentHeuristics = currentHeuristics % heuristicsString.Count; // this makes the index coherent from the get go
             this.heuristicsMode = heuristicsMode;
             this.receiverSelectionMode = receiverSelectionMode;

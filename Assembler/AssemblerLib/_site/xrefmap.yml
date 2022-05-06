@@ -48,54 +48,70 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Assemblage.AddValidObject
   nameWithType: Assemblage.AddValidObject
-- uid: AssemblerLib.Assemblage.AOIndexesMap
-  name: AOIndexesMap
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_AOIndexesMap
-  commentId: F:AssemblerLib.Assemblage.AOIndexesMap
-  fullName: AssemblerLib.Assemblage.AOIndexesMap
-  nameWithType: Assemblage.AOIndexesMap
 - uid: AssemblerLib.Assemblage.AOSet
   name: AOSet
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_AOSet
-  commentId: F:AssemblerLib.Assemblage.AOSet
+  commentId: P:AssemblerLib.Assemblage.AOSet
   fullName: AssemblerLib.Assemblage.AOSet
   nameWithType: Assemblage.AOSet
-- uid: AssemblerLib.Assemblage.AOSetDictionary
-  name: AOSetDictionary
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_AOSetDictionary
-  commentId: F:AssemblerLib.Assemblage.AOSetDictionary
-  fullName: AssemblerLib.Assemblage.AOSetDictionary
-  nameWithType: Assemblage.AOSetDictionary
-- uid: AssemblerLib.Assemblage.assemblageRules
-  name: assemblageRules
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_assemblageRules
-  commentId: F:AssemblerLib.Assemblage.assemblageRules
-  fullName: AssemblerLib.Assemblage.assemblageRules
-  nameWithType: Assemblage.assemblageRules
+- uid: AssemblerLib.Assemblage.AOSet*
+  name: AOSet
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_AOSet_
+  commentId: Overload:AssemblerLib.Assemblage.AOSet
+  isSpec: "True"
+  fullName: AssemblerLib.Assemblage.AOSet
+  nameWithType: Assemblage.AOSet
+- uid: AssemblerLib.Assemblage.AssemblageRules
+  name: AssemblageRules
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_AssemblageRules
+  commentId: P:AssemblerLib.Assemblage.AssemblageRules
+  fullName: AssemblerLib.Assemblage.AssemblageRules
+  nameWithType: Assemblage.AssemblageRules
+- uid: AssemblerLib.Assemblage.AssemblageRules*
+  name: AssemblageRules
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_AssemblageRules_
+  commentId: Overload:AssemblerLib.Assemblage.AssemblageRules
+  isSpec: "True"
+  fullName: AssemblerLib.Assemblage.AssemblageRules
+  nameWithType: Assemblage.AssemblageRules
 - uid: AssemblerLib.Assemblage.assemblyObjects
   name: assemblyObjects
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_assemblyObjects
   commentId: F:AssemblerLib.Assemblage.assemblyObjects
   fullName: AssemblerLib.Assemblage.assemblyObjects
   nameWithType: Assemblage.assemblyObjects
-- uid: AssemblerLib.Assemblage.candidateObjects
-  name: candidateObjects
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_candidateObjects
-  commentId: F:AssemblerLib.Assemblage.candidateObjects
-  fullName: AssemblerLib.Assemblage.candidateObjects
-  nameWithType: Assemblage.candidateObjects
+- uid: AssemblerLib.Assemblage.CandidateObjects
+  name: CandidateObjects
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_CandidateObjects
+  commentId: P:AssemblerLib.Assemblage.CandidateObjects
+  fullName: AssemblerLib.Assemblage.CandidateObjects
+  nameWithType: Assemblage.CandidateObjects
+- uid: AssemblerLib.Assemblage.CandidateObjects*
+  name: CandidateObjects
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_CandidateObjects_
+  commentId: Overload:AssemblerLib.Assemblage.CandidateObjects
+  isSpec: "True"
+  fullName: AssemblerLib.Assemblage.CandidateObjects
+  nameWithType: Assemblage.CandidateObjects
 - uid: AssemblerLib.Assemblage.checkWorldZLock
   name: checkWorldZLock
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_checkWorldZLock
   commentId: F:AssemblerLib.Assemblage.checkWorldZLock
   fullName: AssemblerLib.Assemblage.checkWorldZLock
   nameWithType: Assemblage.checkWorldZLock
-- uid: AssemblerLib.Assemblage.collisionRadius
-  name: collisionRadius
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_collisionRadius
-  commentId: F:AssemblerLib.Assemblage.collisionRadius
-  fullName: AssemblerLib.Assemblage.collisionRadius
-  nameWithType: Assemblage.collisionRadius
+- uid: AssemblerLib.Assemblage.CollisionRadius
+  name: CollisionRadius
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_CollisionRadius
+  commentId: P:AssemblerLib.Assemblage.CollisionRadius
+  fullName: AssemblerLib.Assemblage.CollisionRadius
+  nameWithType: Assemblage.CollisionRadius
+- uid: AssemblerLib.Assemblage.CollisionRadius*
+  name: CollisionRadius
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_CollisionRadius_
+  commentId: Overload:AssemblerLib.Assemblage.CollisionRadius
+  isSpec: "True"
+  fullName: AssemblerLib.Assemblage.CollisionRadius
+  nameWithType: Assemblage.CollisionRadius
 - uid: AssemblerLib.Assemblage.ComputeCandidatesValuesMethod`1
   name: Assemblage.ComputeCandidatesValuesMethod<T>
   href: api/AssemblerLib.Assemblage.ComputeCandidatesValuesMethod-1.html
@@ -126,18 +142,6 @@ references:
   commentId: F:AssemblerLib.Assemblage.computeSendersValues
   fullName: AssemblerLib.Assemblage.computeSendersValues
   nameWithType: Assemblage.computeSendersValues
-- uid: AssemblerLib.Assemblage.currentHeuristics
-  name: currentHeuristics
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_currentHeuristics
-  commentId: F:AssemblerLib.Assemblage.currentHeuristics
-  fullName: AssemblerLib.Assemblage.currentHeuristics
-  nameWithType: Assemblage.currentHeuristics
-- uid: AssemblerLib.Assemblage.E_sandbox
-  name: E_sandbox
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_E_sandbox
-  commentId: F:AssemblerLib.Assemblage.E_sandbox
-  fullName: AssemblerLib.Assemblage.E_sandbox
-  nameWithType: Assemblage.E_sandbox
 - uid: AssemblerLib.Assemblage.environmentCheck
   name: environmentCheck
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_environmentCheck
@@ -153,7 +157,14 @@ references:
 - uid: AssemblerLib.Assemblage.ExogenousSettings
   name: ExogenousSettings
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_ExogenousSettings
-  commentId: F:AssemblerLib.Assemblage.ExogenousSettings
+  commentId: P:AssemblerLib.Assemblage.ExogenousSettings
+  fullName: AssemblerLib.Assemblage.ExogenousSettings
+  nameWithType: Assemblage.ExogenousSettings
+- uid: AssemblerLib.Assemblage.ExogenousSettings*
+  name: ExogenousSettings
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_ExogenousSettings_
+  commentId: Overload:AssemblerLib.Assemblage.ExogenousSettings
+  isSpec: "True"
   fullName: AssemblerLib.Assemblage.ExogenousSettings
   nameWithType: Assemblage.ExogenousSettings
 - uid: AssemblerLib.Assemblage.ExtractAvailableObjects
@@ -185,7 +196,14 @@ references:
 - uid: AssemblerLib.Assemblage.HeuristicsSettings
   name: HeuristicsSettings
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_HeuristicsSettings
-  commentId: F:AssemblerLib.Assemblage.HeuristicsSettings
+  commentId: P:AssemblerLib.Assemblage.HeuristicsSettings
+  fullName: AssemblerLib.Assemblage.HeuristicsSettings
+  nameWithType: Assemblage.HeuristicsSettings
+- uid: AssemblerLib.Assemblage.HeuristicsSettings*
+  name: HeuristicsSettings
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_HeuristicsSettings_
+  commentId: Overload:AssemblerLib.Assemblage.HeuristicsSettings
+  isSpec: "True"
   fullName: AssemblerLib.Assemblage.HeuristicsSettings
   nameWithType: Assemblage.HeuristicsSettings
 - uid: AssemblerLib.Assemblage.Initialize
@@ -201,37 +219,19 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Assemblage.Initialize
   nameWithType: Assemblage.Initialize
-- uid: AssemblerLib.Assemblage.receiverIndex
-  name: receiverIndex
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_receiverIndex
-  commentId: F:AssemblerLib.Assemblage.receiverIndex
-  fullName: AssemblerLib.Assemblage.receiverIndex
-  nameWithType: Assemblage.receiverIndex
-- uid: AssemblerLib.Assemblage.receiverIndexes
-  name: receiverIndexes
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_receiverIndexes
-  commentId: F:AssemblerLib.Assemblage.receiverIndexes
-  fullName: AssemblerLib.Assemblage.receiverIndexes
-  nameWithType: Assemblage.receiverIndexes
-- uid: AssemblerLib.Assemblage.receiverRules
-  name: receiverRules
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_receiverRules
-  commentId: F:AssemblerLib.Assemblage.receiverRules
-  fullName: AssemblerLib.Assemblage.receiverRules
-  nameWithType: Assemblage.receiverRules
-- uid: AssemblerLib.Assemblage.RemoveObject(System.Int32)
-  name: RemoveObject(Int32)
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_RemoveObject_System_Int32_
-  commentId: M:AssemblerLib.Assemblage.RemoveObject(System.Int32)
-  fullName: AssemblerLib.Assemblage.RemoveObject(System.Int32)
-  nameWithType: Assemblage.RemoveObject(Int32)
-- uid: AssemblerLib.Assemblage.RemoveObject*
-  name: RemoveObject
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_RemoveObject_
-  commentId: Overload:AssemblerLib.Assemblage.RemoveObject
+- uid: AssemblerLib.Assemblage.ReceiverAIndexes
+  name: ReceiverAIndexes
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_ReceiverAIndexes
+  commentId: P:AssemblerLib.Assemblage.ReceiverAIndexes
+  fullName: AssemblerLib.Assemblage.ReceiverAIndexes
+  nameWithType: Assemblage.ReceiverAIndexes
+- uid: AssemblerLib.Assemblage.ReceiverAIndexes*
+  name: ReceiverAIndexes
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_ReceiverAIndexes_
+  commentId: Overload:AssemblerLib.Assemblage.ReceiverAIndexes
   isSpec: "True"
-  fullName: AssemblerLib.Assemblage.RemoveObject
-  nameWithType: Assemblage.RemoveObject
+  fullName: AssemblerLib.Assemblage.ReceiverAIndexes
+  nameWithType: Assemblage.ReceiverAIndexes
 - uid: AssemblerLib.Assemblage.ResetSettings(AssemblerLib.HeuristicsSettings,AssemblerLib.ExogenousSettings)
   name: ResetSettings(HeuristicsSettings, ExogenousSettings)
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_ResetSettings_AssemblerLib_HeuristicsSettings_AssemblerLib_ExogenousSettings_
@@ -277,19 +277,6 @@ references:
   commentId: F:AssemblerLib.Assemblage.selectReceiver
   fullName: AssemblerLib.Assemblage.selectReceiver
   nameWithType: Assemblage.selectReceiver
-- uid: AssemblerLib.Assemblage.SelectReceiver
-  name: SelectReceiver()
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_SelectReceiver
-  commentId: M:AssemblerLib.Assemblage.SelectReceiver
-  fullName: AssemblerLib.Assemblage.SelectReceiver()
-  nameWithType: Assemblage.SelectReceiver()
-- uid: AssemblerLib.Assemblage.SelectReceiver*
-  name: SelectReceiver
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_SelectReceiver_
-  commentId: Overload:AssemblerLib.Assemblage.SelectReceiver
-  isSpec: "True"
-  fullName: AssemblerLib.Assemblage.SelectReceiver
-  nameWithType: Assemblage.SelectReceiver
 - uid: AssemblerLib.Assemblage.SelectRule(System.Collections.Generic.List{AssemblerLib.AssemblyObject},AssemblerLib.AssemblyObject@)
   name: SelectRule(List<AssemblyObject>, out AssemblyObject)
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_SelectRule_System_Collections_Generic_List_AssemblerLib_AssemblyObject__AssemblerLib_AssemblyObject__
@@ -321,6 +308,19 @@ references:
   fullName.vb: AssemblerLib.Assemblage.SelectWinnerMethod(Of T)
   nameWithType: Assemblage.SelectWinnerMethod<T>
   nameWithType.vb: Assemblage.SelectWinnerMethod(Of T)
+- uid: AssemblerLib.Assemblage.ToString
+  name: ToString()
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_ToString
+  commentId: M:AssemblerLib.Assemblage.ToString
+  fullName: AssemblerLib.Assemblage.ToString()
+  nameWithType: Assemblage.ToString()
+- uid: AssemblerLib.Assemblage.ToString*
+  name: ToString
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_ToString_
+  commentId: Overload:AssemblerLib.Assemblage.ToString
+  isSpec: "True"
+  fullName: AssemblerLib.Assemblage.ToString
+  nameWithType: Assemblage.ToString
 - uid: AssemblerLib.Assemblage.Update
   name: Update()
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_Update
@@ -340,12 +340,6 @@ references:
   commentId: F:AssemblerLib.Assemblage.useSupports
   fullName: AssemblerLib.Assemblage.useSupports
   nameWithType: Assemblage.useSupports
-- uid: AssemblerLib.Assemblage.validRulesIndexes
-  name: validRulesIndexes
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_validRulesIndexes
-  commentId: F:AssemblerLib.Assemblage.validRulesIndexes
-  fullName: AssemblerLib.Assemblage.validRulesIndexes
-  nameWithType: Assemblage.validRulesIndexes
 - uid: AssemblerLib.AssemblyObject
   name: AssemblyObject
   href: api/AssemblerLib.AssemblyObject.html
@@ -367,15 +361,15 @@ references:
   fullName.vb: AssemblerLib.AssemblyObject.AssemblyObject(Rhino.Geometry.Mesh, AssemblerLib.Handle(), Rhino.Geometry.Plane, Rhino.Geometry.Vector3d, System.String, System.Int32, System.Double, System.Boolean, System.Collections.Generic.List(Of AssemblerLib.AssemblyObject))
   nameWithType: AssemblyObject.AssemblyObject(Mesh, Handle[], Plane, Vector3d, String, Int32, Double, Boolean, List<AssemblyObject>)
   nameWithType.vb: AssemblyObject.AssemblyObject(Mesh, Handle(), Plane, Vector3d, String, Int32, Double, Boolean, List(Of AssemblyObject))
-- uid: AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.String,System.Int32,System.Double,System.Int32,System.Collections.Generic.List{AssemblerLib.Support},System.Int32,System.Boolean)
-  name: AssemblyObject(Mesh, Handle[], Plane, Vector3d, String, Int32, Double, Int32, List<Support>, Int32, Boolean)
-  href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_AssemblerLib_Handle___Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_String_System_Int32_System_Double_System_Int32_System_Collections_Generic_List_AssemblerLib_Support__System_Int32_System_Boolean_
-  commentId: M:AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.String,System.Int32,System.Double,System.Int32,System.Collections.Generic.List{AssemblerLib.Support},System.Int32,System.Boolean)
-  name.vb: AssemblyObject(Mesh, Handle(), Plane, Vector3d, String, Int32, Double, Int32, List(Of Support), Int32, Boolean)
-  fullName: AssemblerLib.AssemblyObject.AssemblyObject(Rhino.Geometry.Mesh, AssemblerLib.Handle[], Rhino.Geometry.Plane, Rhino.Geometry.Vector3d, System.String, System.Int32, System.Double, System.Int32, System.Collections.Generic.List<AssemblerLib.Support>, System.Int32, System.Boolean)
-  fullName.vb: AssemblerLib.AssemblyObject.AssemblyObject(Rhino.Geometry.Mesh, AssemblerLib.Handle(), Rhino.Geometry.Plane, Rhino.Geometry.Vector3d, System.String, System.Int32, System.Double, System.Int32, System.Collections.Generic.List(Of AssemblerLib.Support), System.Int32, System.Boolean)
-  nameWithType: AssemblyObject.AssemblyObject(Mesh, Handle[], Plane, Vector3d, String, Int32, Double, Int32, List<Support>, Int32, Boolean)
-  nameWithType.vb: AssemblyObject.AssemblyObject(Mesh, Handle(), Plane, Vector3d, String, Int32, Double, Int32, List(Of Support), Int32, Boolean)
+- uid: AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.String,System.Int32,System.Double,System.Int32,System.Boolean)
+  name: AssemblyObject(Mesh, Handle[], Plane, Vector3d, String, Int32, Double, Int32, Boolean)
+  href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_AssemblerLib_Handle___Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_String_System_Int32_System_Double_System_Int32_System_Boolean_
+  commentId: M:AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.String,System.Int32,System.Double,System.Int32,System.Boolean)
+  name.vb: AssemblyObject(Mesh, Handle(), Plane, Vector3d, String, Int32, Double, Int32, Boolean)
+  fullName: AssemblerLib.AssemblyObject.AssemblyObject(Rhino.Geometry.Mesh, AssemblerLib.Handle[], Rhino.Geometry.Plane, Rhino.Geometry.Vector3d, System.String, System.Int32, System.Double, System.Int32, System.Boolean)
+  fullName.vb: AssemblerLib.AssemblyObject.AssemblyObject(Rhino.Geometry.Mesh, AssemblerLib.Handle(), Rhino.Geometry.Plane, Rhino.Geometry.Vector3d, System.String, System.Int32, System.Double, System.Int32, System.Boolean)
+  nameWithType: AssemblyObject.AssemblyObject(Mesh, Handle[], Plane, Vector3d, String, Int32, Double, Int32, Boolean)
+  nameWithType.vb: AssemblyObject.AssemblyObject(Mesh, Handle(), Plane, Vector3d, String, Int32, Double, Int32, Boolean)
 - uid: AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.Int32,System.Collections.Generic.List{System.Int32[]},System.String,System.Int32,System.Double,System.Int32,System.Collections.Generic.List{AssemblerLib.Support},System.Int32,System.Boolean,System.Boolean,System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.List{System.Int32[]},System.Double,System.Double)
   name: AssemblyObject(Mesh, Mesh, Handle[], Plane, Vector3d, Int32, List<Int32[]>, String, Int32, Double, Int32, List<Support>, Int32, Boolean, Boolean, List<AssemblyObject>, List<Int32[]>, Double, Double)
   href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_Rhino_Geometry_Mesh_AssemblerLib_Handle___Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_Int32_System_Collections_Generic_List_System_Int32____System_String_System_Int32_System_Double_System_Int32_System_Collections_Generic_List_AssemblerLib_Support__System_Int32_System_Boolean_System_Boolean_System_Collections_Generic_List_AssemblerLib_AssemblyObject__System_Collections_Generic_List_System_Int32____System_Double_System_Double_
@@ -414,12 +408,6 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.AssemblyObject.AInd
   nameWithType: AssemblyObject.AInd
-- uid: AssemblerLib.AssemblyObject.children
-  name: children
-  href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject_children
-  commentId: F:AssemblerLib.AssemblyObject.children
-  fullName: AssemblerLib.AssemblyObject.children
-  nameWithType: AssemblyObject.children
 - uid: AssemblerLib.AssemblyObject.collisionMesh
   name: collisionMesh
   href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject_collisionMesh
@@ -517,19 +505,6 @@ references:
   commentId: F:AssemblerLib.AssemblyObject.type
   fullName: AssemblerLib.AssemblyObject.type
   nameWithType: AssemblyObject.type
-- uid: AssemblerLib.AssemblyObject.UpdateHandle(System.Int32,System.Int32,System.Int32,System.Int32,System.Double)
-  name: UpdateHandle(Int32, Int32, Int32, Int32, Double)
-  href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject_UpdateHandle_System_Int32_System_Int32_System_Int32_System_Int32_System_Double_
-  commentId: M:AssemblerLib.AssemblyObject.UpdateHandle(System.Int32,System.Int32,System.Int32,System.Int32,System.Double)
-  fullName: AssemblerLib.AssemblyObject.UpdateHandle(System.Int32, System.Int32, System.Int32, System.Int32, System.Double)
-  nameWithType: AssemblyObject.UpdateHandle(Int32, Int32, Int32, Int32, Double)
-- uid: AssemblerLib.AssemblyObject.UpdateHandle*
-  name: UpdateHandle
-  href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject_UpdateHandle_
-  commentId: Overload:AssemblerLib.AssemblyObject.UpdateHandle
-  isSpec: "True"
-  fullName: AssemblerLib.AssemblyObject.UpdateHandle
-  nameWithType: AssemblyObject.UpdateHandle
 - uid: AssemblerLib.AssemblyObject.weight
   name: weight
   href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject_weight
@@ -606,12 +581,6 @@ references:
   commentId: M:AssemblerLib.Field.#ctor(AssemblerLib.Field)
   fullName: AssemblerLib.Field.Field(AssemblerLib.Field)
   nameWithType: Field.Field(Field)
-- uid: AssemblerLib.Field.#ctor(Rhino.Geometry.Box,System.Double)
-  name: Field(Box, Double)
-  href: api/AssemblerLib.Field.html#AssemblerLib_Field__ctor_Rhino_Geometry_Box_System_Double_
-  commentId: M:AssemblerLib.Field.#ctor(Rhino.Geometry.Box,System.Double)
-  fullName: AssemblerLib.Field.Field(Rhino.Geometry.Box, System.Double)
-  nameWithType: Field.Field(Box, Double)
 - uid: AssemblerLib.Field.#ctor(Rhino.Geometry.Box,System.Double,System.Double,System.Double)
   name: Field(Box, Double, Double, Double)
   href: api/AssemblerLib.Field.html#AssemblerLib_Field__ctor_Rhino_Geometry_Box_System_Double_System_Double_System_Double_
@@ -639,15 +608,24 @@ references:
   fullName.vb: AssemblerLib.Field.Field(System.Collections.Generic.List(Of Rhino.Geometry.Point3d), Grasshopper.DataTree(Of System.Double), Grasshopper.DataTree(Of Rhino.Geometry.Vector3d))
   nameWithType: Field.Field(List<Point3d>, DataTree<Double>, DataTree<Vector3d>)
   nameWithType.vb: Field.Field(List(Of Point3d), DataTree(Of Double), DataTree(Of Vector3d))
-- uid: AssemblerLib.Field.#ctor(System.Collections.Generic.List{Rhino.Geometry.Point3d},Grasshopper.DataTree{System.Double},Grasshopper.DataTree{Rhino.Geometry.Vector3d},Grasshopper.DataTree{System.Int32})
-  name: Field(List<Point3d>, DataTree<Double>, DataTree<Vector3d>, DataTree<Int32>)
-  href: api/AssemblerLib.Field.html#AssemblerLib_Field__ctor_System_Collections_Generic_List_Rhino_Geometry_Point3d__Grasshopper_DataTree_System_Double__Grasshopper_DataTree_Rhino_Geometry_Vector3d__Grasshopper_DataTree_System_Int32__
-  commentId: M:AssemblerLib.Field.#ctor(System.Collections.Generic.List{Rhino.Geometry.Point3d},Grasshopper.DataTree{System.Double},Grasshopper.DataTree{Rhino.Geometry.Vector3d},Grasshopper.DataTree{System.Int32})
-  name.vb: Field(List(Of Point3d), DataTree(Of Double), DataTree(Of Vector3d), DataTree(Of Int32))
-  fullName: AssemblerLib.Field.Field(System.Collections.Generic.List<Rhino.Geometry.Point3d>, Grasshopper.DataTree<System.Double>, Grasshopper.DataTree<Rhino.Geometry.Vector3d>, Grasshopper.DataTree<System.Int32>)
-  fullName.vb: AssemblerLib.Field.Field(System.Collections.Generic.List(Of Rhino.Geometry.Point3d), Grasshopper.DataTree(Of System.Double), Grasshopper.DataTree(Of Rhino.Geometry.Vector3d), Grasshopper.DataTree(Of System.Int32))
-  nameWithType: Field.Field(List<Point3d>, DataTree<Double>, DataTree<Vector3d>, DataTree<Int32>)
-  nameWithType.vb: Field.Field(List(Of Point3d), DataTree(Of Double), DataTree(Of Vector3d), DataTree(Of Int32))
+- uid: AssemblerLib.Field.#ctor(System.Collections.Generic.List{Rhino.Geometry.Point3d},Grasshopper.DataTree{System.Double},Grasshopper.DataTree{Rhino.Geometry.Vector3d},Grasshopper.DataTree{System.Int32},Grasshopper.DataTree{System.Int32},Grasshopper.DataTree{System.Double})
+  name: Field(List<Point3d>, DataTree<Double>, DataTree<Vector3d>, DataTree<Int32>, DataTree<Int32>, DataTree<Double>)
+  href: api/AssemblerLib.Field.html#AssemblerLib_Field__ctor_System_Collections_Generic_List_Rhino_Geometry_Point3d__Grasshopper_DataTree_System_Double__Grasshopper_DataTree_Rhino_Geometry_Vector3d__Grasshopper_DataTree_System_Int32__Grasshopper_DataTree_System_Int32__Grasshopper_DataTree_System_Double__
+  commentId: M:AssemblerLib.Field.#ctor(System.Collections.Generic.List{Rhino.Geometry.Point3d},Grasshopper.DataTree{System.Double},Grasshopper.DataTree{Rhino.Geometry.Vector3d},Grasshopper.DataTree{System.Int32},Grasshopper.DataTree{System.Int32},Grasshopper.DataTree{System.Double})
+  name.vb: Field(List(Of Point3d), DataTree(Of Double), DataTree(Of Vector3d), DataTree(Of Int32), DataTree(Of Int32), DataTree(Of Double))
+  fullName: AssemblerLib.Field.Field(System.Collections.Generic.List<Rhino.Geometry.Point3d>, Grasshopper.DataTree<System.Double>, Grasshopper.DataTree<Rhino.Geometry.Vector3d>, Grasshopper.DataTree<System.Int32>, Grasshopper.DataTree<System.Int32>, Grasshopper.DataTree<System.Double>)
+  fullName.vb: AssemblerLib.Field.Field(System.Collections.Generic.List(Of Rhino.Geometry.Point3d), Grasshopper.DataTree(Of System.Double), Grasshopper.DataTree(Of Rhino.Geometry.Vector3d), Grasshopper.DataTree(Of System.Int32), Grasshopper.DataTree(Of System.Int32), Grasshopper.DataTree(Of System.Double))
+  nameWithType: Field.Field(List<Point3d>, DataTree<Double>, DataTree<Vector3d>, DataTree<Int32>, DataTree<Int32>, DataTree<Double>)
+  nameWithType.vb: Field.Field(List(Of Point3d), DataTree(Of Double), DataTree(Of Vector3d), DataTree(Of Int32), DataTree(Of Int32), DataTree(Of Double))
+- uid: AssemblerLib.Field.#ctor(System.Collections.Generic.List{Rhino.Geometry.Point3d},Grasshopper.DataTree{System.Int32},Grasshopper.DataTree{System.Double})
+  name: Field(List<Point3d>, DataTree<Int32>, DataTree<Double>)
+  href: api/AssemblerLib.Field.html#AssemblerLib_Field__ctor_System_Collections_Generic_List_Rhino_Geometry_Point3d__Grasshopper_DataTree_System_Int32__Grasshopper_DataTree_System_Double__
+  commentId: M:AssemblerLib.Field.#ctor(System.Collections.Generic.List{Rhino.Geometry.Point3d},Grasshopper.DataTree{System.Int32},Grasshopper.DataTree{System.Double})
+  name.vb: Field(List(Of Point3d), DataTree(Of Int32), DataTree(Of Double))
+  fullName: AssemblerLib.Field.Field(System.Collections.Generic.List<Rhino.Geometry.Point3d>, Grasshopper.DataTree<System.Int32>, Grasshopper.DataTree<System.Double>)
+  fullName.vb: AssemblerLib.Field.Field(System.Collections.Generic.List(Of Rhino.Geometry.Point3d), Grasshopper.DataTree(Of System.Int32), Grasshopper.DataTree(Of System.Double))
+  nameWithType: Field.Field(List<Point3d>, DataTree<Int32>, DataTree<Double>)
+  nameWithType.vb: Field.Field(List(Of Point3d), DataTree(Of Int32), DataTree(Of Double))
 - uid: AssemblerLib.Field.#ctor(System.Collections.Generic.List{Rhino.Geometry.Point3d},System.Collections.Generic.List{System.Double},System.Collections.Generic.List{Rhino.Geometry.Vector3d})
   name: Field(List<Point3d>, List<Double>, List<Vector3d>)
   href: api/AssemblerLib.Field.html#AssemblerLib_Field__ctor_System_Collections_Generic_List_Rhino_Geometry_Point3d__System_Collections_Generic_List_System_Double__System_Collections_Generic_List_Rhino_Geometry_Vector3d__
@@ -657,15 +635,15 @@ references:
   fullName.vb: AssemblerLib.Field.Field(System.Collections.Generic.List(Of Rhino.Geometry.Point3d), System.Collections.Generic.List(Of System.Double), System.Collections.Generic.List(Of Rhino.Geometry.Vector3d))
   nameWithType: Field.Field(List<Point3d>, List<Double>, List<Vector3d>)
   nameWithType.vb: Field.Field(List(Of Point3d), List(Of Double), List(Of Vector3d))
-- uid: AssemblerLib.Field.#ctor(System.Collections.Generic.List{Rhino.Geometry.Point3d},System.Collections.Generic.List{System.Double},System.Collections.Generic.List{Rhino.Geometry.Vector3d},Grasshopper.DataTree{System.Int32})
-  name: Field(List<Point3d>, List<Double>, List<Vector3d>, DataTree<Int32>)
-  href: api/AssemblerLib.Field.html#AssemblerLib_Field__ctor_System_Collections_Generic_List_Rhino_Geometry_Point3d__System_Collections_Generic_List_System_Double__System_Collections_Generic_List_Rhino_Geometry_Vector3d__Grasshopper_DataTree_System_Int32__
-  commentId: M:AssemblerLib.Field.#ctor(System.Collections.Generic.List{Rhino.Geometry.Point3d},System.Collections.Generic.List{System.Double},System.Collections.Generic.List{Rhino.Geometry.Vector3d},Grasshopper.DataTree{System.Int32})
-  name.vb: Field(List(Of Point3d), List(Of Double), List(Of Vector3d), DataTree(Of Int32))
-  fullName: AssemblerLib.Field.Field(System.Collections.Generic.List<Rhino.Geometry.Point3d>, System.Collections.Generic.List<System.Double>, System.Collections.Generic.List<Rhino.Geometry.Vector3d>, Grasshopper.DataTree<System.Int32>)
-  fullName.vb: AssemblerLib.Field.Field(System.Collections.Generic.List(Of Rhino.Geometry.Point3d), System.Collections.Generic.List(Of System.Double), System.Collections.Generic.List(Of Rhino.Geometry.Vector3d), Grasshopper.DataTree(Of System.Int32))
-  nameWithType: Field.Field(List<Point3d>, List<Double>, List<Vector3d>, DataTree<Int32>)
-  nameWithType.vb: Field.Field(List(Of Point3d), List(Of Double), List(Of Vector3d), DataTree(Of Int32))
+- uid: AssemblerLib.Field.#ctor(System.Collections.Generic.List{Rhino.Geometry.Point3d},System.Collections.Generic.List{System.Double},System.Collections.Generic.List{Rhino.Geometry.Vector3d},System.Collections.Generic.List{System.Int32},Grasshopper.DataTree{System.Int32},Grasshopper.DataTree{System.Double})
+  name: Field(List<Point3d>, List<Double>, List<Vector3d>, List<Int32>, DataTree<Int32>, DataTree<Double>)
+  href: api/AssemblerLib.Field.html#AssemblerLib_Field__ctor_System_Collections_Generic_List_Rhino_Geometry_Point3d__System_Collections_Generic_List_System_Double__System_Collections_Generic_List_Rhino_Geometry_Vector3d__System_Collections_Generic_List_System_Int32__Grasshopper_DataTree_System_Int32__Grasshopper_DataTree_System_Double__
+  commentId: M:AssemblerLib.Field.#ctor(System.Collections.Generic.List{Rhino.Geometry.Point3d},System.Collections.Generic.List{System.Double},System.Collections.Generic.List{Rhino.Geometry.Vector3d},System.Collections.Generic.List{System.Int32},Grasshopper.DataTree{System.Int32},Grasshopper.DataTree{System.Double})
+  name.vb: Field(List(Of Point3d), List(Of Double), List(Of Vector3d), List(Of Int32), DataTree(Of Int32), DataTree(Of Double))
+  fullName: AssemblerLib.Field.Field(System.Collections.Generic.List<Rhino.Geometry.Point3d>, System.Collections.Generic.List<System.Double>, System.Collections.Generic.List<Rhino.Geometry.Vector3d>, System.Collections.Generic.List<System.Int32>, Grasshopper.DataTree<System.Int32>, Grasshopper.DataTree<System.Double>)
+  fullName.vb: AssemblerLib.Field.Field(System.Collections.Generic.List(Of Rhino.Geometry.Point3d), System.Collections.Generic.List(Of System.Double), System.Collections.Generic.List(Of Rhino.Geometry.Vector3d), System.Collections.Generic.List(Of System.Int32), Grasshopper.DataTree(Of System.Int32), Grasshopper.DataTree(Of System.Double))
+  nameWithType: Field.Field(List<Point3d>, List<Double>, List<Vector3d>, List<Int32>, DataTree<Int32>, DataTree<Double>)
+  nameWithType.vb: Field.Field(List(Of Point3d), List(Of Double), List(Of Vector3d), List(Of Int32), DataTree(Of Int32), DataTree(Of Double))
 - uid: AssemblerLib.Field.#ctor*
   name: Field
   href: api/AssemblerLib.Field.html#AssemblerLib_Field__ctor_
@@ -711,28 +689,15 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Field.DistributeiWeightsScalar
   nameWithType: Field.DistributeiWeightsScalar
-- uid: AssemblerLib.Field.GenerateColorsByAttractors(System.Collections.Generic.List{System.Drawing.Color},System.Collections.Generic.List{Rhino.Geometry.Point3d},System.Boolean)
-  name: GenerateColorsByAttractors(List<Color>, List<Point3d>, Boolean)
-  href: api/AssemblerLib.Field.html#AssemblerLib_Field_GenerateColorsByAttractors_System_Collections_Generic_List_System_Drawing_Color__System_Collections_Generic_List_Rhino_Geometry_Point3d__System_Boolean_
-  commentId: M:AssemblerLib.Field.GenerateColorsByAttractors(System.Collections.Generic.List{System.Drawing.Color},System.Collections.Generic.List{Rhino.Geometry.Point3d},System.Boolean)
-  name.vb: GenerateColorsByAttractors(List(Of Color), List(Of Point3d), Boolean)
-  fullName: AssemblerLib.Field.GenerateColorsByAttractors(System.Collections.Generic.List<System.Drawing.Color>, System.Collections.Generic.List<Rhino.Geometry.Point3d>, System.Boolean)
-  fullName.vb: AssemblerLib.Field.GenerateColorsByAttractors(System.Collections.Generic.List(Of System.Drawing.Color), System.Collections.Generic.List(Of Rhino.Geometry.Point3d), System.Boolean)
-  nameWithType: Field.GenerateColorsByAttractors(List<Color>, List<Point3d>, Boolean)
-  nameWithType.vb: Field.GenerateColorsByAttractors(List(Of Color), List(Of Point3d), Boolean)
-- uid: AssemblerLib.Field.GenerateColorsByAttractors*
-  name: GenerateColorsByAttractors
-  href: api/AssemblerLib.Field.html#AssemblerLib_Field_GenerateColorsByAttractors_
-  commentId: Overload:AssemblerLib.Field.GenerateColorsByAttractors
-  isSpec: "True"
-  fullName: AssemblerLib.Field.GenerateColorsByAttractors
-  nameWithType: Field.GenerateColorsByAttractors
-- uid: AssemblerLib.Field.GenerateScalarColors(System.Drawing.Color,System.Drawing.Color,System.Int32,System.Double,System.Boolean)
-  name: GenerateScalarColors(Color, Color, Int32, Double, Boolean)
-  href: api/AssemblerLib.Field.html#AssemblerLib_Field_GenerateScalarColors_System_Drawing_Color_System_Drawing_Color_System_Int32_System_Double_System_Boolean_
-  commentId: M:AssemblerLib.Field.GenerateScalarColors(System.Drawing.Color,System.Drawing.Color,System.Int32,System.Double,System.Boolean)
-  fullName: AssemblerLib.Field.GenerateScalarColors(System.Drawing.Color, System.Drawing.Color, System.Int32, System.Double, System.Boolean)
-  nameWithType: Field.GenerateScalarColors(Color, Color, Int32, Double, Boolean)
+- uid: AssemblerLib.Field.GenerateScalarColors(System.Collections.Generic.List{System.Drawing.Color},System.Int32,System.Double,System.Boolean)
+  name: GenerateScalarColors(List<Color>, Int32, Double, Boolean)
+  href: api/AssemblerLib.Field.html#AssemblerLib_Field_GenerateScalarColors_System_Collections_Generic_List_System_Drawing_Color__System_Int32_System_Double_System_Boolean_
+  commentId: M:AssemblerLib.Field.GenerateScalarColors(System.Collections.Generic.List{System.Drawing.Color},System.Int32,System.Double,System.Boolean)
+  name.vb: GenerateScalarColors(List(Of Color), Int32, Double, Boolean)
+  fullName: AssemblerLib.Field.GenerateScalarColors(System.Collections.Generic.List<System.Drawing.Color>, System.Int32, System.Double, System.Boolean)
+  fullName.vb: AssemblerLib.Field.GenerateScalarColors(System.Collections.Generic.List(Of System.Drawing.Color), System.Int32, System.Double, System.Boolean)
+  nameWithType: Field.GenerateScalarColors(List<Color>, Int32, Double, Boolean)
+  nameWithType.vb: Field.GenerateScalarColors(List(Of Color), Int32, Double, Boolean)
 - uid: AssemblerLib.Field.GenerateScalarColors*
   name: GenerateScalarColors
   href: api/AssemblerLib.Field.html#AssemblerLib_Field_GenerateScalarColors_
@@ -1031,6 +996,19 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Field.GetVectors
   nameWithType: Field.GetVectors
+- uid: AssemblerLib.Field.InitStigmergy
+  name: InitStigmergy()
+  href: api/AssemblerLib.Field.html#AssemblerLib_Field_InitStigmergy
+  commentId: M:AssemblerLib.Field.InitStigmergy
+  fullName: AssemblerLib.Field.InitStigmergy()
+  nameWithType: Field.InitStigmergy()
+- uid: AssemblerLib.Field.InitStigmergy*
+  name: InitStigmergy
+  href: api/AssemblerLib.Field.html#AssemblerLib_Field_InitStigmergy_
+  commentId: Overload:AssemblerLib.Field.InitStigmergy
+  isSpec: "True"
+  fullName: AssemblerLib.Field.InitStigmergy
+  nameWithType: Field.InitStigmergy
 - uid: AssemblerLib.Field.PopulateField(Grasshopper.DataTree{System.Double},Grasshopper.DataTree{Rhino.Geometry.Vector3d})
   name: PopulateField(DataTree<Double>, DataTree<Vector3d>)
   href: api/AssemblerLib.Field.html#AssemblerLib_Field_PopulateField_Grasshopper_DataTree_System_Double__Grasshopper_DataTree_Rhino_Geometry_Vector3d__
@@ -1067,6 +1045,15 @@ references:
   fullName.vb: AssemblerLib.Field.PopulateField(System.Collections.Generic.List(Of System.Double), System.Collections.Generic.List(Of Rhino.Geometry.Vector3d), Grasshopper.DataTree(Of System.Int32))
   nameWithType: Field.PopulateField(List<Double>, List<Vector3d>, DataTree<Int32>)
   nameWithType.vb: Field.PopulateField(List(Of Double), List(Of Vector3d), DataTree(Of Int32))
+- uid: AssemblerLib.Field.PopulateField(System.Collections.Generic.List{System.Double},System.Collections.Generic.List{Rhino.Geometry.Vector3d},System.Collections.Generic.List{System.Int32})
+  name: PopulateField(List<Double>, List<Vector3d>, List<Int32>)
+  href: api/AssemblerLib.Field.html#AssemblerLib_Field_PopulateField_System_Collections_Generic_List_System_Double__System_Collections_Generic_List_Rhino_Geometry_Vector3d__System_Collections_Generic_List_System_Int32__
+  commentId: M:AssemblerLib.Field.PopulateField(System.Collections.Generic.List{System.Double},System.Collections.Generic.List{Rhino.Geometry.Vector3d},System.Collections.Generic.List{System.Int32})
+  name.vb: PopulateField(List(Of Double), List(Of Vector3d), List(Of Int32))
+  fullName: AssemblerLib.Field.PopulateField(System.Collections.Generic.List<System.Double>, System.Collections.Generic.List<Rhino.Geometry.Vector3d>, System.Collections.Generic.List<System.Int32>)
+  fullName.vb: AssemblerLib.Field.PopulateField(System.Collections.Generic.List(Of System.Double), System.Collections.Generic.List(Of Rhino.Geometry.Vector3d), System.Collections.Generic.List(Of System.Int32))
+  nameWithType: Field.PopulateField(List<Double>, List<Vector3d>, List<Int32>)
+  nameWithType.vb: Field.PopulateField(List(Of Double), List(Of Vector3d), List(Of Int32))
 - uid: AssemblerLib.Field.PopulateField*
   name: PopulateField
   href: api/AssemblerLib.Field.html#AssemblerLib_Field_PopulateField_
@@ -1149,6 +1136,12 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Field.PopulateVectors
   nameWithType: Field.PopulateVectors
+- uid: AssemblerLib.Field.stigValues
+  name: stigValues
+  href: api/AssemblerLib.Field.html#AssemblerLib_Field_stigValues
+  commentId: F:AssemblerLib.Field.stigValues
+  fullName: AssemblerLib.Field.stigValues
+  nameWithType: Field.stigValues
 - uid: AssemblerLib.Field.tensors
   name: tensors
   href: api/AssemblerLib.Field.html#AssemblerLib_Field_tensors
@@ -1174,6 +1167,25 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Field.ToString
   nameWithType: Field.ToString
+- uid: AssemblerLib.Field.transCoeff
+  name: transCoeff
+  href: api/AssemblerLib.Field.html#AssemblerLib_Field_transCoeff
+  commentId: F:AssemblerLib.Field.transCoeff
+  fullName: AssemblerLib.Field.transCoeff
+  nameWithType: Field.transCoeff
+- uid: AssemblerLib.Field.UpdateStigmergy(System.Double,System.Double,System.Double)
+  name: UpdateStigmergy(Double, Double, Double)
+  href: api/AssemblerLib.Field.html#AssemblerLib_Field_UpdateStigmergy_System_Double_System_Double_System_Double_
+  commentId: M:AssemblerLib.Field.UpdateStigmergy(System.Double,System.Double,System.Double)
+  fullName: AssemblerLib.Field.UpdateStigmergy(System.Double, System.Double, System.Double)
+  nameWithType: Field.UpdateStigmergy(Double, Double, Double)
+- uid: AssemblerLib.Field.UpdateStigmergy*
+  name: UpdateStigmergy
+  href: api/AssemblerLib.Field.html#AssemblerLib_Field_UpdateStigmergy_
+  commentId: Overload:AssemblerLib.Field.UpdateStigmergy
+  isSpec: "True"
+  fullName: AssemblerLib.Field.UpdateStigmergy
+  nameWithType: Field.UpdateStigmergy
 - uid: AssemblerLib.Handle
   name: Handle
   href: api/AssemblerLib.Handle.html
@@ -1205,6 +1217,19 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Handle.Handle
   nameWithType: Handle.Handle
+- uid: AssemblerLib.Handle.HandleStatus
+  name: HandleStatus()
+  href: api/AssemblerLib.Handle.html#AssemblerLib_Handle_HandleStatus
+  commentId: M:AssemblerLib.Handle.HandleStatus
+  fullName: AssemblerLib.Handle.HandleStatus()
+  nameWithType: Handle.HandleStatus()
+- uid: AssemblerLib.Handle.HandleStatus*
+  name: HandleStatus
+  href: api/AssemblerLib.Handle.html#AssemblerLib_Handle_HandleStatus_
+  commentId: Overload:AssemblerLib.Handle.HandleStatus
+  isSpec: "True"
+  fullName: AssemblerLib.Handle.HandleStatus
+  nameWithType: Handle.HandleStatus
 - uid: AssemblerLib.Handle.neighbourHandle
   name: neighbourHandle
   href: api/AssemblerLib.Handle.html#AssemblerLib_Handle_neighbourHandle
@@ -1319,12 +1344,12 @@ references:
   commentId: F:AssemblerLib.HeuristicsSettings.heuristicsMode
   fullName: AssemblerLib.HeuristicsSettings.heuristicsMode
   nameWithType: HeuristicsSettings.heuristicsMode
-- uid: AssemblerLib.HeuristicsSettings.heuristicsString
-  name: heuristicsString
-  href: api/AssemblerLib.HeuristicsSettings.html#AssemblerLib_HeuristicsSettings_heuristicsString
-  commentId: F:AssemblerLib.HeuristicsSettings.heuristicsString
-  fullName: AssemblerLib.HeuristicsSettings.heuristicsString
-  nameWithType: HeuristicsSettings.heuristicsString
+- uid: AssemblerLib.HeuristicsSettings.heuSetsString
+  name: heuSetsString
+  href: api/AssemblerLib.HeuristicsSettings.html#AssemblerLib_HeuristicsSettings_heuSetsString
+  commentId: F:AssemblerLib.HeuristicsSettings.heuSetsString
+  fullName: AssemblerLib.HeuristicsSettings.heuSetsString
+  nameWithType: HeuristicsSettings.heuSetsString
 - uid: AssemblerLib.HeuristicsSettings.receiverSelectionMode
   name: receiverSelectionMode
   href: api/AssemblerLib.HeuristicsSettings.html#AssemblerLib_HeuristicsSettings_receiverSelectionMode
@@ -1625,105 +1650,51 @@ references:
   commentId: T:AssemblerLib.Tensor
   fullName: AssemblerLib.Tensor
   nameWithType: Tensor
-- uid: AssemblerLib.Tensor.#ctor(Rhino.Geometry.Vector3d[])
-  name: Tensor(Vector3d[])
-  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor__ctor_Rhino_Geometry_Vector3d___
-  commentId: M:AssemblerLib.Tensor.#ctor(Rhino.Geometry.Vector3d[])
-  name.vb: Tensor(Vector3d())
-  fullName: AssemblerLib.Tensor.Tensor(Rhino.Geometry.Vector3d[])
-  fullName.vb: AssemblerLib.Tensor.Tensor(Rhino.Geometry.Vector3d())
-  nameWithType: Tensor.Tensor(Vector3d[])
-  nameWithType.vb: Tensor.Tensor(Vector3d())
-- uid: AssemblerLib.Tensor.#ctor(System.Collections.Generic.List{Rhino.Geometry.Vector3d})
-  name: Tensor(List<Vector3d>)
-  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor__ctor_System_Collections_Generic_List_Rhino_Geometry_Vector3d__
-  commentId: M:AssemblerLib.Tensor.#ctor(System.Collections.Generic.List{Rhino.Geometry.Vector3d})
-  name.vb: Tensor(List(Of Vector3d))
-  fullName: AssemblerLib.Tensor.Tensor(System.Collections.Generic.List<Rhino.Geometry.Vector3d>)
-  fullName.vb: AssemblerLib.Tensor.Tensor(System.Collections.Generic.List(Of Rhino.Geometry.Vector3d))
-  nameWithType: Tensor.Tensor(List<Vector3d>)
-  nameWithType.vb: Tensor.Tensor(List(Of Vector3d))
-- uid: AssemblerLib.Tensor.#ctor(System.Collections.Generic.List{System.Double})
-  name: Tensor(List<Double>)
-  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor__ctor_System_Collections_Generic_List_System_Double__
-  commentId: M:AssemblerLib.Tensor.#ctor(System.Collections.Generic.List{System.Double})
-  name.vb: Tensor(List(Of Double))
-  fullName: AssemblerLib.Tensor.Tensor(System.Collections.Generic.List<System.Double>)
-  fullName.vb: AssemblerLib.Tensor.Tensor(System.Collections.Generic.List(Of System.Double))
-  nameWithType: Tensor.Tensor(List<Double>)
-  nameWithType.vb: Tensor.Tensor(List(Of Double))
-- uid: AssemblerLib.Tensor.#ctor(System.Collections.Generic.List{System.Double},System.Collections.Generic.List{Rhino.Geometry.Vector3d})
-  name: Tensor(List<Double>, List<Vector3d>)
-  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor__ctor_System_Collections_Generic_List_System_Double__System_Collections_Generic_List_Rhino_Geometry_Vector3d__
-  commentId: M:AssemblerLib.Tensor.#ctor(System.Collections.Generic.List{System.Double},System.Collections.Generic.List{Rhino.Geometry.Vector3d})
-  name.vb: Tensor(List(Of Double), List(Of Vector3d))
-  fullName: AssemblerLib.Tensor.Tensor(System.Collections.Generic.List<System.Double>, System.Collections.Generic.List<Rhino.Geometry.Vector3d>)
-  fullName.vb: AssemblerLib.Tensor.Tensor(System.Collections.Generic.List(Of System.Double), System.Collections.Generic.List(Of Rhino.Geometry.Vector3d))
-  nameWithType: Tensor.Tensor(List<Double>, List<Vector3d>)
-  nameWithType.vb: Tensor.Tensor(List(Of Double), List(Of Vector3d))
-- uid: AssemblerLib.Tensor.#ctor(System.Collections.Generic.List{System.Double},System.Collections.Generic.List{Rhino.Geometry.Vector3d},System.Collections.Generic.List{System.Int32})
-  name: Tensor(List<Double>, List<Vector3d>, List<Int32>)
-  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor__ctor_System_Collections_Generic_List_System_Double__System_Collections_Generic_List_Rhino_Geometry_Vector3d__System_Collections_Generic_List_System_Int32__
-  commentId: M:AssemblerLib.Tensor.#ctor(System.Collections.Generic.List{System.Double},System.Collections.Generic.List{Rhino.Geometry.Vector3d},System.Collections.Generic.List{System.Int32})
-  name.vb: Tensor(List(Of Double), List(Of Vector3d), List(Of Int32))
-  fullName: AssemblerLib.Tensor.Tensor(System.Collections.Generic.List<System.Double>, System.Collections.Generic.List<Rhino.Geometry.Vector3d>, System.Collections.Generic.List<System.Int32>)
-  fullName.vb: AssemblerLib.Tensor.Tensor(System.Collections.Generic.List(Of System.Double), System.Collections.Generic.List(Of Rhino.Geometry.Vector3d), System.Collections.Generic.List(Of System.Int32))
-  nameWithType: Tensor.Tensor(List<Double>, List<Vector3d>, List<Int32>)
-  nameWithType.vb: Tensor.Tensor(List(Of Double), List(Of Vector3d), List(Of Int32))
-- uid: AssemblerLib.Tensor.#ctor(System.Collections.Generic.List{System.Double},System.Collections.Generic.List{Rhino.Geometry.Vector3d},System.Int32[])
-  name: Tensor(List<Double>, List<Vector3d>, Int32[])
-  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor__ctor_System_Collections_Generic_List_System_Double__System_Collections_Generic_List_Rhino_Geometry_Vector3d__System_Int32___
-  commentId: M:AssemblerLib.Tensor.#ctor(System.Collections.Generic.List{System.Double},System.Collections.Generic.List{Rhino.Geometry.Vector3d},System.Int32[])
-  name.vb: Tensor(List(Of Double), List(Of Vector3d), Int32())
-  fullName: AssemblerLib.Tensor.Tensor(System.Collections.Generic.List<System.Double>, System.Collections.Generic.List<Rhino.Geometry.Vector3d>, System.Int32[])
-  fullName.vb: AssemblerLib.Tensor.Tensor(System.Collections.Generic.List(Of System.Double), System.Collections.Generic.List(Of Rhino.Geometry.Vector3d), System.Int32())
-  nameWithType: Tensor.Tensor(List<Double>, List<Vector3d>, Int32[])
-  nameWithType.vb: Tensor.Tensor(List(Of Double), List(Of Vector3d), Int32())
-- uid: AssemblerLib.Tensor.#ctor(System.Collections.Generic.List{System.Int32})
-  name: Tensor(List<Int32>)
-  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor__ctor_System_Collections_Generic_List_System_Int32__
-  commentId: M:AssemblerLib.Tensor.#ctor(System.Collections.Generic.List{System.Int32})
-  name.vb: Tensor(List(Of Int32))
-  fullName: AssemblerLib.Tensor.Tensor(System.Collections.Generic.List<System.Int32>)
-  fullName.vb: AssemblerLib.Tensor.Tensor(System.Collections.Generic.List(Of System.Int32))
-  nameWithType: Tensor.Tensor(List<Int32>)
-  nameWithType.vb: Tensor.Tensor(List(Of Int32))
-- uid: AssemblerLib.Tensor.#ctor(System.Double[])
-  name: Tensor(Double[])
-  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor__ctor_System_Double___
-  commentId: M:AssemblerLib.Tensor.#ctor(System.Double[])
-  name.vb: Tensor(Double())
-  fullName: AssemblerLib.Tensor.Tensor(System.Double[])
-  fullName.vb: AssemblerLib.Tensor.Tensor(System.Double())
-  nameWithType: Tensor.Tensor(Double[])
-  nameWithType.vb: Tensor.Tensor(Double())
-- uid: AssemblerLib.Tensor.#ctor(System.Double[],Rhino.Geometry.Vector3d[])
-  name: Tensor(Double[], Vector3d[])
-  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor__ctor_System_Double___Rhino_Geometry_Vector3d___
-  commentId: M:AssemblerLib.Tensor.#ctor(System.Double[],Rhino.Geometry.Vector3d[])
-  name.vb: Tensor(Double(), Vector3d())
-  fullName: AssemblerLib.Tensor.Tensor(System.Double[], Rhino.Geometry.Vector3d[])
-  fullName.vb: AssemblerLib.Tensor.Tensor(System.Double(), Rhino.Geometry.Vector3d())
-  nameWithType: Tensor.Tensor(Double[], Vector3d[])
-  nameWithType.vb: Tensor.Tensor(Double(), Vector3d())
-- uid: AssemblerLib.Tensor.#ctor(System.Double[],Rhino.Geometry.Vector3d[],System.Int32[])
-  name: Tensor(Double[], Vector3d[], Int32[])
-  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor__ctor_System_Double___Rhino_Geometry_Vector3d___System_Int32___
-  commentId: M:AssemblerLib.Tensor.#ctor(System.Double[],Rhino.Geometry.Vector3d[],System.Int32[])
-  name.vb: Tensor(Double(), Vector3d(), Int32())
-  fullName: AssemblerLib.Tensor.Tensor(System.Double[], Rhino.Geometry.Vector3d[], System.Int32[])
-  fullName.vb: AssemblerLib.Tensor.Tensor(System.Double(), Rhino.Geometry.Vector3d(), System.Int32())
-  nameWithType: Tensor.Tensor(Double[], Vector3d[], Int32[])
-  nameWithType.vb: Tensor.Tensor(Double(), Vector3d(), Int32())
-- uid: AssemblerLib.Tensor.#ctor(System.Int32[])
-  name: Tensor(Int32[])
-  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor__ctor_System_Int32___
-  commentId: M:AssemblerLib.Tensor.#ctor(System.Int32[])
-  name.vb: Tensor(Int32())
-  fullName: AssemblerLib.Tensor.Tensor(System.Int32[])
-  fullName.vb: AssemblerLib.Tensor.Tensor(System.Int32())
-  nameWithType: Tensor.Tensor(Int32[])
-  nameWithType.vb: Tensor.Tensor(Int32())
+- uid: AssemblerLib.Tensor.#ctor(System.Collections.Generic.IEnumerable{Rhino.Geometry.Vector3d})
+  name: Tensor(IEnumerable<Vector3d>)
+  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor__ctor_System_Collections_Generic_IEnumerable_Rhino_Geometry_Vector3d__
+  commentId: M:AssemblerLib.Tensor.#ctor(System.Collections.Generic.IEnumerable{Rhino.Geometry.Vector3d})
+  name.vb: Tensor(IEnumerable(Of Vector3d))
+  fullName: AssemblerLib.Tensor.Tensor(System.Collections.Generic.IEnumerable<Rhino.Geometry.Vector3d>)
+  fullName.vb: AssemblerLib.Tensor.Tensor(System.Collections.Generic.IEnumerable(Of Rhino.Geometry.Vector3d))
+  nameWithType: Tensor.Tensor(IEnumerable<Vector3d>)
+  nameWithType.vb: Tensor.Tensor(IEnumerable(Of Vector3d))
+- uid: AssemblerLib.Tensor.#ctor(System.Collections.Generic.IEnumerable{System.Double})
+  name: Tensor(IEnumerable<Double>)
+  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor__ctor_System_Collections_Generic_IEnumerable_System_Double__
+  commentId: M:AssemblerLib.Tensor.#ctor(System.Collections.Generic.IEnumerable{System.Double})
+  name.vb: Tensor(IEnumerable(Of Double))
+  fullName: AssemblerLib.Tensor.Tensor(System.Collections.Generic.IEnumerable<System.Double>)
+  fullName.vb: AssemblerLib.Tensor.Tensor(System.Collections.Generic.IEnumerable(Of System.Double))
+  nameWithType: Tensor.Tensor(IEnumerable<Double>)
+  nameWithType.vb: Tensor.Tensor(IEnumerable(Of Double))
+- uid: AssemblerLib.Tensor.#ctor(System.Collections.Generic.IEnumerable{System.Double},System.Collections.Generic.IEnumerable{Rhino.Geometry.Vector3d})
+  name: Tensor(IEnumerable<Double>, IEnumerable<Vector3d>)
+  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor__ctor_System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_Rhino_Geometry_Vector3d__
+  commentId: M:AssemblerLib.Tensor.#ctor(System.Collections.Generic.IEnumerable{System.Double},System.Collections.Generic.IEnumerable{Rhino.Geometry.Vector3d})
+  name.vb: Tensor(IEnumerable(Of Double), IEnumerable(Of Vector3d))
+  fullName: AssemblerLib.Tensor.Tensor(System.Collections.Generic.IEnumerable<System.Double>, System.Collections.Generic.IEnumerable<Rhino.Geometry.Vector3d>)
+  fullName.vb: AssemblerLib.Tensor.Tensor(System.Collections.Generic.IEnumerable(Of System.Double), System.Collections.Generic.IEnumerable(Of Rhino.Geometry.Vector3d))
+  nameWithType: Tensor.Tensor(IEnumerable<Double>, IEnumerable<Vector3d>)
+  nameWithType.vb: Tensor.Tensor(IEnumerable(Of Double), IEnumerable(Of Vector3d))
+- uid: AssemblerLib.Tensor.#ctor(System.Collections.Generic.IEnumerable{System.Double},System.Collections.Generic.IEnumerable{Rhino.Geometry.Vector3d},System.Collections.Generic.IEnumerable{System.Int32})
+  name: Tensor(IEnumerable<Double>, IEnumerable<Vector3d>, IEnumerable<Int32>)
+  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor__ctor_System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_Rhino_Geometry_Vector3d__System_Collections_Generic_IEnumerable_System_Int32__
+  commentId: M:AssemblerLib.Tensor.#ctor(System.Collections.Generic.IEnumerable{System.Double},System.Collections.Generic.IEnumerable{Rhino.Geometry.Vector3d},System.Collections.Generic.IEnumerable{System.Int32})
+  name.vb: Tensor(IEnumerable(Of Double), IEnumerable(Of Vector3d), IEnumerable(Of Int32))
+  fullName: AssemblerLib.Tensor.Tensor(System.Collections.Generic.IEnumerable<System.Double>, System.Collections.Generic.IEnumerable<Rhino.Geometry.Vector3d>, System.Collections.Generic.IEnumerable<System.Int32>)
+  fullName.vb: AssemblerLib.Tensor.Tensor(System.Collections.Generic.IEnumerable(Of System.Double), System.Collections.Generic.IEnumerable(Of Rhino.Geometry.Vector3d), System.Collections.Generic.IEnumerable(Of System.Int32))
+  nameWithType: Tensor.Tensor(IEnumerable<Double>, IEnumerable<Vector3d>, IEnumerable<Int32>)
+  nameWithType.vb: Tensor.Tensor(IEnumerable(Of Double), IEnumerable(Of Vector3d), IEnumerable(Of Int32))
+- uid: AssemblerLib.Tensor.#ctor(System.Collections.Generic.IEnumerable{System.Int32})
+  name: Tensor(IEnumerable<Int32>)
+  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor__ctor_System_Collections_Generic_IEnumerable_System_Int32__
+  commentId: M:AssemblerLib.Tensor.#ctor(System.Collections.Generic.IEnumerable{System.Int32})
+  name.vb: Tensor(IEnumerable(Of Int32))
+  fullName: AssemblerLib.Tensor.Tensor(System.Collections.Generic.IEnumerable<System.Int32>)
+  fullName.vb: AssemblerLib.Tensor.Tensor(System.Collections.Generic.IEnumerable(Of System.Int32))
+  nameWithType: Tensor.Tensor(IEnumerable<Int32>)
+  nameWithType.vb: Tensor.Tensor(IEnumerable(Of Int32))
 - uid: AssemblerLib.Tensor.#ctor*
   name: Tensor
   href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor__ctor_
@@ -1731,6 +1702,19 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Tensor.Tensor
   nameWithType: Tensor.Tensor
+- uid: AssemblerLib.Tensor.GetiWeight
+  name: GetiWeight()
+  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor_GetiWeight
+  commentId: M:AssemblerLib.Tensor.GetiWeight
+  fullName: AssemblerLib.Tensor.GetiWeight()
+  nameWithType: Tensor.GetiWeight()
+- uid: AssemblerLib.Tensor.GetiWeight*
+  name: GetiWeight
+  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor_GetiWeight_
+  commentId: Overload:AssemblerLib.Tensor.GetiWeight
+  isSpec: "True"
+  fullName: AssemblerLib.Tensor.GetiWeight
+  nameWithType: Tensor.GetiWeight
 - uid: AssemblerLib.Tensor.GetScalar
   name: GetScalar()
   href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor_GetScalar
@@ -1744,19 +1728,6 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Tensor.GetScalar
   nameWithType: Tensor.GetScalar
-- uid: AssemblerLib.Tensor.GetScalars
-  name: GetScalars()
-  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor_GetScalars
-  commentId: M:AssemblerLib.Tensor.GetScalars
-  fullName: AssemblerLib.Tensor.GetScalars()
-  nameWithType: Tensor.GetScalars()
-- uid: AssemblerLib.Tensor.GetScalars*
-  name: GetScalars
-  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor_GetScalars_
-  commentId: Overload:AssemblerLib.Tensor.GetScalars
-  isSpec: "True"
-  fullName: AssemblerLib.Tensor.GetScalars
-  nameWithType: Tensor.GetScalars
 - uid: AssemblerLib.Tensor.GetVector
   name: GetVector()
   href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor_GetVector
@@ -1770,25 +1741,19 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Tensor.GetVector
   nameWithType: Tensor.GetVector
-- uid: AssemblerLib.Tensor.GetVectors
-  name: GetVectors()
-  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor_GetVectors
-  commentId: M:AssemblerLib.Tensor.GetVectors
-  fullName: AssemblerLib.Tensor.GetVectors()
-  nameWithType: Tensor.GetVectors()
-- uid: AssemblerLib.Tensor.GetVectors*
-  name: GetVectors
-  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor_GetVectors_
-  commentId: Overload:AssemblerLib.Tensor.GetVectors
+- uid: AssemblerLib.Tensor.IWeights
+  name: IWeights
+  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor_IWeights
+  commentId: P:AssemblerLib.Tensor.IWeights
+  fullName: AssemblerLib.Tensor.IWeights
+  nameWithType: Tensor.IWeights
+- uid: AssemblerLib.Tensor.IWeights*
+  name: IWeights
+  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor_IWeights_
+  commentId: Overload:AssemblerLib.Tensor.IWeights
   isSpec: "True"
-  fullName: AssemblerLib.Tensor.GetVectors
-  nameWithType: Tensor.GetVectors
-- uid: AssemblerLib.Tensor.iWeights
-  name: iWeights
-  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor_iWeights
-  commentId: F:AssemblerLib.Tensor.iWeights
-  fullName: AssemblerLib.Tensor.iWeights
-  nameWithType: Tensor.iWeights
+  fullName: AssemblerLib.Tensor.IWeights
+  nameWithType: Tensor.IWeights
 - uid: AssemblerLib.Tensor.op_Addition(AssemblerLib.Tensor,AssemblerLib.Tensor)
   name: Addition(Tensor, Tensor)
   href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor_op_Addition_AssemblerLib_Tensor_AssemblerLib_Tensor_
@@ -1815,18 +1780,32 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Tensor.Subtraction
   nameWithType: Tensor.Subtraction
-- uid: AssemblerLib.Tensor.scalar
-  name: scalar
-  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor_scalar
-  commentId: F:AssemblerLib.Tensor.scalar
-  fullName: AssemblerLib.Tensor.scalar
-  nameWithType: Tensor.scalar
-- uid: AssemblerLib.Tensor.vector
-  name: vector
-  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor_vector
-  commentId: F:AssemblerLib.Tensor.vector
-  fullName: AssemblerLib.Tensor.vector
-  nameWithType: Tensor.vector
+- uid: AssemblerLib.Tensor.Scalars
+  name: Scalars
+  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor_Scalars
+  commentId: P:AssemblerLib.Tensor.Scalars
+  fullName: AssemblerLib.Tensor.Scalars
+  nameWithType: Tensor.Scalars
+- uid: AssemblerLib.Tensor.Scalars*
+  name: Scalars
+  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor_Scalars_
+  commentId: Overload:AssemblerLib.Tensor.Scalars
+  isSpec: "True"
+  fullName: AssemblerLib.Tensor.Scalars
+  nameWithType: Tensor.Scalars
+- uid: AssemblerLib.Tensor.Vectors
+  name: Vectors
+  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor_Vectors
+  commentId: P:AssemblerLib.Tensor.Vectors
+  fullName: AssemblerLib.Tensor.Vectors
+  nameWithType: Tensor.Vectors
+- uid: AssemblerLib.Tensor.Vectors*
+  name: Vectors
+  href: api/AssemblerLib.Tensor.html#AssemblerLib_Tensor_Vectors_
+  commentId: Overload:AssemblerLib.Tensor.Vectors
+  isSpec: "True"
+  fullName: AssemblerLib.Tensor.Vectors
+  nameWithType: Tensor.Vectors
 - uid: AssemblerLib.Utilities
   name: Utilities
   href: api/AssemblerLib.Utilities.html
@@ -1839,6 +1818,12 @@ references:
   commentId: M:AssemblerLib.Utilities.AbsoluteZCheck(AssemblerLib.AssemblyObject)
   fullName: AssemblerLib.Utilities.AbsoluteZCheck(AssemblerLib.AssemblyObject)
   nameWithType: Utilities.AbsoluteZCheck(AssemblyObject)
+- uid: AssemblerLib.Utilities.AbsoluteZCheck(AssemblerLib.AssemblyObject,System.Double)
+  name: AbsoluteZCheck(AssemblyObject, Double)
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_AbsoluteZCheck_AssemblerLib_AssemblyObject_System_Double_
+  commentId: M:AssemblerLib.Utilities.AbsoluteZCheck(AssemblerLib.AssemblyObject,System.Double)
+  fullName: AssemblerLib.Utilities.AbsoluteZCheck(AssemblerLib.AssemblyObject, System.Double)
+  nameWithType: Utilities.AbsoluteZCheck(AssemblyObject, Double)
 - uid: AssemblerLib.Utilities.AbsoluteZCheck*
   name: AbsoluteZCheck
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_AbsoluteZCheck_
@@ -2058,19 +2043,22 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Utilities.CloneWithConnectivity
   nameWithType: Utilities.CloneWithConnectivity
-- uid: AssemblerLib.Utilities.CollisionCheckAssemblage(AssemblerLib.Assemblage,AssemblerLib.AssemblyObject)
-  name: CollisionCheckAssemblage(Assemblage, AssemblyObject)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_CollisionCheckAssemblage_AssemblerLib_Assemblage_AssemblerLib_AssemblyObject_
-  commentId: M:AssemblerLib.Utilities.CollisionCheckAssemblage(AssemblerLib.Assemblage,AssemblerLib.AssemblyObject)
-  fullName: AssemblerLib.Utilities.CollisionCheckAssemblage(AssemblerLib.Assemblage, AssemblerLib.AssemblyObject)
-  nameWithType: Utilities.CollisionCheckAssemblage(Assemblage, AssemblyObject)
-- uid: AssemblerLib.Utilities.CollisionCheckAssemblage*
-  name: CollisionCheckAssemblage
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_CollisionCheckAssemblage_
-  commentId: Overload:AssemblerLib.Utilities.CollisionCheckAssemblage
+- uid: AssemblerLib.Utilities.CollisionCheckInAssemblage(AssemblerLib.Assemblage,AssemblerLib.AssemblyObject,System.Int32[]@)
+  name: CollisionCheckInAssemblage(Assemblage, AssemblyObject, out Int32[])
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_CollisionCheckInAssemblage_AssemblerLib_Assemblage_AssemblerLib_AssemblyObject_System_Int32____
+  commentId: M:AssemblerLib.Utilities.CollisionCheckInAssemblage(AssemblerLib.Assemblage,AssemblerLib.AssemblyObject,System.Int32[]@)
+  name.vb: CollisionCheckInAssemblage(Assemblage, AssemblyObject, ByRef Int32())
+  fullName: AssemblerLib.Utilities.CollisionCheckInAssemblage(AssemblerLib.Assemblage, AssemblerLib.AssemblyObject, out System.Int32[])
+  fullName.vb: AssemblerLib.Utilities.CollisionCheckInAssemblage(AssemblerLib.Assemblage, AssemblerLib.AssemblyObject, ByRef System.Int32())
+  nameWithType: Utilities.CollisionCheckInAssemblage(Assemblage, AssemblyObject, out Int32[])
+  nameWithType.vb: Utilities.CollisionCheckInAssemblage(Assemblage, AssemblyObject, ByRef Int32())
+- uid: AssemblerLib.Utilities.CollisionCheckInAssemblage*
+  name: CollisionCheckInAssemblage
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_CollisionCheckInAssemblage_
+  commentId: Overload:AssemblerLib.Utilities.CollisionCheckInAssemblage
   isSpec: "True"
-  fullName: AssemblerLib.Utilities.CollisionCheckAssemblage
-  nameWithType: Utilities.CollisionCheckAssemblage
+  fullName: AssemblerLib.Utilities.CollisionCheckInAssemblage
+  nameWithType: Utilities.CollisionCheckInAssemblage
 - uid: AssemblerLib.Utilities.CollisionCheckMeshes(Rhino.Geometry.Mesh,Rhino.Geometry.Mesh)
   name: CollisionCheckMeshes(Mesh, Mesh)
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_CollisionCheckMeshes_Rhino_Geometry_Mesh_Rhino_Geometry_Mesh_
@@ -2215,6 +2203,54 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Utilities.GetUniqueVectors
   nameWithType: Utilities.GetUniqueVectors
+- uid: AssemblerLib.Utilities.GH2TreeDoubles(Grasshopper.Kernel.Data.GH_Structure{Grasshopper.Kernel.Types.GH_Number})
+  name: GH2TreeDoubles(GH_Structure<GH_Number>)
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GH2TreeDoubles_Grasshopper_Kernel_Data_GH_Structure_Grasshopper_Kernel_Types_GH_Number__
+  commentId: M:AssemblerLib.Utilities.GH2TreeDoubles(Grasshopper.Kernel.Data.GH_Structure{Grasshopper.Kernel.Types.GH_Number})
+  name.vb: GH2TreeDoubles(GH_Structure(Of GH_Number))
+  fullName: AssemblerLib.Utilities.GH2TreeDoubles(Grasshopper.Kernel.Data.GH_Structure<Grasshopper.Kernel.Types.GH_Number>)
+  fullName.vb: AssemblerLib.Utilities.GH2TreeDoubles(Grasshopper.Kernel.Data.GH_Structure(Of Grasshopper.Kernel.Types.GH_Number))
+  nameWithType: Utilities.GH2TreeDoubles(GH_Structure<GH_Number>)
+  nameWithType.vb: Utilities.GH2TreeDoubles(GH_Structure(Of GH_Number))
+- uid: AssemblerLib.Utilities.GH2TreeDoubles*
+  name: GH2TreeDoubles
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GH2TreeDoubles_
+  commentId: Overload:AssemblerLib.Utilities.GH2TreeDoubles
+  isSpec: "True"
+  fullName: AssemblerLib.Utilities.GH2TreeDoubles
+  nameWithType: Utilities.GH2TreeDoubles
+- uid: AssemblerLib.Utilities.GH2TreeIntegers(Grasshopper.Kernel.Data.GH_Structure{Grasshopper.Kernel.Types.GH_Integer})
+  name: GH2TreeIntegers(GH_Structure<GH_Integer>)
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GH2TreeIntegers_Grasshopper_Kernel_Data_GH_Structure_Grasshopper_Kernel_Types_GH_Integer__
+  commentId: M:AssemblerLib.Utilities.GH2TreeIntegers(Grasshopper.Kernel.Data.GH_Structure{Grasshopper.Kernel.Types.GH_Integer})
+  name.vb: GH2TreeIntegers(GH_Structure(Of GH_Integer))
+  fullName: AssemblerLib.Utilities.GH2TreeIntegers(Grasshopper.Kernel.Data.GH_Structure<Grasshopper.Kernel.Types.GH_Integer>)
+  fullName.vb: AssemblerLib.Utilities.GH2TreeIntegers(Grasshopper.Kernel.Data.GH_Structure(Of Grasshopper.Kernel.Types.GH_Integer))
+  nameWithType: Utilities.GH2TreeIntegers(GH_Structure<GH_Integer>)
+  nameWithType.vb: Utilities.GH2TreeIntegers(GH_Structure(Of GH_Integer))
+- uid: AssemblerLib.Utilities.GH2TreeIntegers*
+  name: GH2TreeIntegers
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GH2TreeIntegers_
+  commentId: Overload:AssemblerLib.Utilities.GH2TreeIntegers
+  isSpec: "True"
+  fullName: AssemblerLib.Utilities.GH2TreeIntegers
+  nameWithType: Utilities.GH2TreeIntegers
+- uid: AssemblerLib.Utilities.GH2TreeVectors(Grasshopper.Kernel.Data.GH_Structure{Grasshopper.Kernel.Types.GH_Vector})
+  name: GH2TreeVectors(GH_Structure<GH_Vector>)
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GH2TreeVectors_Grasshopper_Kernel_Data_GH_Structure_Grasshopper_Kernel_Types_GH_Vector__
+  commentId: M:AssemblerLib.Utilities.GH2TreeVectors(Grasshopper.Kernel.Data.GH_Structure{Grasshopper.Kernel.Types.GH_Vector})
+  name.vb: GH2TreeVectors(GH_Structure(Of GH_Vector))
+  fullName: AssemblerLib.Utilities.GH2TreeVectors(Grasshopper.Kernel.Data.GH_Structure<Grasshopper.Kernel.Types.GH_Vector>)
+  fullName.vb: AssemblerLib.Utilities.GH2TreeVectors(Grasshopper.Kernel.Data.GH_Structure(Of Grasshopper.Kernel.Types.GH_Vector))
+  nameWithType: Utilities.GH2TreeVectors(GH_Structure<GH_Vector>)
+  nameWithType.vb: Utilities.GH2TreeVectors(GH_Structure(Of GH_Vector))
+- uid: AssemblerLib.Utilities.GH2TreeVectors*
+  name: GH2TreeVectors
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GH2TreeVectors_
+  commentId: Overload:AssemblerLib.Utilities.GH2TreeVectors
+  isSpec: "True"
+  fullName: AssemblerLib.Utilities.GH2TreeVectors
+  nameWithType: Utilities.GH2TreeVectors
 - uid: AssemblerLib.Utilities.HeuristicsRulesFromString(System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.Dictionary{System.String,System.Int32},System.Collections.Generic.List{System.String})
   name: HeuristicsRulesFromString(List<AssemblyObject>, Dictionary<String, Int32>, List<String>)
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_HeuristicsRulesFromString_System_Collections_Generic_List_AssemblerLib_AssemblyObject__System_Collections_Generic_Dictionary_System_String_System_Int32__System_Collections_Generic_List_System_String__
@@ -2335,12 +2371,15 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Utilities.NormalizeRanges
   nameWithType: Utilities.NormalizeRanges
-- uid: AssemblerLib.Utilities.ObstructionCheckAssemblage(AssemblerLib.Assemblage,System.Int32)
-  name: ObstructionCheckAssemblage(Assemblage, Int32)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_ObstructionCheckAssemblage_AssemblerLib_Assemblage_System_Int32_
-  commentId: M:AssemblerLib.Utilities.ObstructionCheckAssemblage(AssemblerLib.Assemblage,System.Int32)
-  fullName: AssemblerLib.Utilities.ObstructionCheckAssemblage(AssemblerLib.Assemblage, System.Int32)
-  nameWithType: Utilities.ObstructionCheckAssemblage(Assemblage, Int32)
+- uid: AssemblerLib.Utilities.ObstructionCheckAssemblage(AssemblerLib.Assemblage,System.Int32,System.Int32[])
+  name: ObstructionCheckAssemblage(Assemblage, Int32, Int32[])
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_ObstructionCheckAssemblage_AssemblerLib_Assemblage_System_Int32_System_Int32___
+  commentId: M:AssemblerLib.Utilities.ObstructionCheckAssemblage(AssemblerLib.Assemblage,System.Int32,System.Int32[])
+  name.vb: ObstructionCheckAssemblage(Assemblage, Int32, Int32())
+  fullName: AssemblerLib.Utilities.ObstructionCheckAssemblage(AssemblerLib.Assemblage, System.Int32, System.Int32[])
+  fullName.vb: AssemblerLib.Utilities.ObstructionCheckAssemblage(AssemblerLib.Assemblage, System.Int32, System.Int32())
+  nameWithType: Utilities.ObstructionCheckAssemblage(Assemblage, Int32, Int32[])
+  nameWithType.vb: Utilities.ObstructionCheckAssemblage(Assemblage, Int32, Int32())
 - uid: AssemblerLib.Utilities.ObstructionCheckAssemblage*
   name: ObstructionCheckAssemblage
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_ObstructionCheckAssemblage_
@@ -2409,6 +2448,19 @@ references:
   commentId: F:AssemblerLib.Utilities.receiverValuesGradient
   fullName: AssemblerLib.Utilities.receiverValuesGradient
   nameWithType: Utilities.receiverValuesGradient
+- uid: AssemblerLib.Utilities.RemoveAssemblyObject(AssemblerLib.Assemblage,System.Int32)
+  name: RemoveAssemblyObject(Assemblage, Int32)
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_RemoveAssemblyObject_AssemblerLib_Assemblage_System_Int32_
+  commentId: M:AssemblerLib.Utilities.RemoveAssemblyObject(AssemblerLib.Assemblage,System.Int32)
+  fullName: AssemblerLib.Utilities.RemoveAssemblyObject(AssemblerLib.Assemblage, System.Int32)
+  nameWithType: Utilities.RemoveAssemblyObject(Assemblage, Int32)
+- uid: AssemblerLib.Utilities.RemoveAssemblyObject*
+  name: RemoveAssemblyObject
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_RemoveAssemblyObject_
+  commentId: Overload:AssemblerLib.Utilities.RemoveAssemblyObject
+  isSpec: "True"
+  fullName: AssemblerLib.Utilities.RemoveAssemblyObject
+  nameWithType: Utilities.RemoveAssemblyObject
 - uid: AssemblerLib.Utilities.RenameKey*
   name: RenameKey
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_RenameKey_
@@ -2517,19 +2569,6 @@ references:
   commentId: F:AssemblerLib.Utilities.srPalette
   fullName: AssemblerLib.Utilities.srPalette
   nameWithType: Utilities.srPalette
-- uid: AssemblerLib.Utilities.StartWatch(System.Diagnostics.Stopwatch)
-  name: StartWatch(Stopwatch)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_StartWatch_System_Diagnostics_Stopwatch_
-  commentId: M:AssemblerLib.Utilities.StartWatch(System.Diagnostics.Stopwatch)
-  fullName: AssemblerLib.Utilities.StartWatch(System.Diagnostics.Stopwatch)
-  nameWithType: Utilities.StartWatch(Stopwatch)
-- uid: AssemblerLib.Utilities.StartWatch*
-  name: StartWatch
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_StartWatch_
-  commentId: Overload:AssemblerLib.Utilities.StartWatch
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.StartWatch
-  nameWithType: Utilities.StartWatch
 - uid: AssemblerLib.Utilities.SupportIntersect(AssemblerLib.Support,System.Collections.Generic.List{AssemblerLib.AssemblyObject})
   name: SupportIntersect(Support, List<AssemblyObject>)
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_SupportIntersect_AssemblerLib_Support_System_Collections_Generic_List_AssemblerLib_AssemblyObject__
@@ -2621,6 +2660,19 @@ references:
   fullName.vb: AssemblerLib.Utilities.ToListOfArrays(Of T)(Grasshopper.DataTree(Of T))
   nameWithType: Utilities.ToListOfArrays<T>(DataTree<T>)
   nameWithType.vb: Utilities.ToListOfArrays(Of T)(DataTree(Of T))
+- uid: AssemblerLib.Utilities.Transform(AssemblerLib.AssemblyObject,Rhino.Geometry.Transform)
+  name: Transform(AssemblyObject, Transform)
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_Transform_AssemblerLib_AssemblyObject_Rhino_Geometry_Transform_
+  commentId: M:AssemblerLib.Utilities.Transform(AssemblerLib.AssemblyObject,Rhino.Geometry.Transform)
+  fullName: AssemblerLib.Utilities.Transform(AssemblerLib.AssemblyObject, Rhino.Geometry.Transform)
+  nameWithType: Utilities.Transform(AssemblyObject, Transform)
+- uid: AssemblerLib.Utilities.Transform*
+  name: Transform
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_Transform_
+  commentId: Overload:AssemblerLib.Utilities.Transform
+  isSpec: "True"
+  fullName: AssemblerLib.Utilities.Transform
+  nameWithType: Utilities.Transform
 - uid: AssemblerLib.Utilities.Triangulate(Rhino.Geometry.Mesh)
   name: Triangulate(Mesh)
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_Triangulate_Rhino_Geometry_Mesh_
@@ -2634,6 +2686,19 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Utilities.Triangulate
   nameWithType: Utilities.Triangulate
+- uid: AssemblerLib.Utilities.UpdateConnectedHandles(AssemblerLib.AssemblyObject,System.Int32,AssemblerLib.AssemblyObject,System.Int32)
+  name: UpdateConnectedHandles(AssemblyObject, Int32, AssemblyObject, Int32)
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_UpdateConnectedHandles_AssemblerLib_AssemblyObject_System_Int32_AssemblerLib_AssemblyObject_System_Int32_
+  commentId: M:AssemblerLib.Utilities.UpdateConnectedHandles(AssemblerLib.AssemblyObject,System.Int32,AssemblerLib.AssemblyObject,System.Int32)
+  fullName: AssemblerLib.Utilities.UpdateConnectedHandles(AssemblerLib.AssemblyObject, System.Int32, AssemblerLib.AssemblyObject, System.Int32)
+  nameWithType: Utilities.UpdateConnectedHandles(AssemblyObject, Int32, AssemblyObject, Int32)
+- uid: AssemblerLib.Utilities.UpdateConnectedHandles*
+  name: UpdateConnectedHandles
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_UpdateConnectedHandles_
+  commentId: Overload:AssemblerLib.Utilities.UpdateConnectedHandles
+  isSpec: "True"
+  fullName: AssemblerLib.Utilities.UpdateConnectedHandles
+  nameWithType: Utilities.UpdateConnectedHandles
 - uid: AssemblerLib.Utilities.zHeightGradient
   name: zHeightGradient
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_zHeightGradient
@@ -2692,6 +2757,19 @@ references:
   commentId: F:AssemblerLib.XData.refPlane
   fullName: AssemblerLib.XData.refPlane
   nameWithType: XData.refPlane
+- uid: AssemblerLib.XData.ToString
+  name: ToString()
+  href: api/AssemblerLib.XData.html#AssemblerLib_XData_ToString
+  commentId: M:AssemblerLib.XData.ToString
+  fullName: AssemblerLib.XData.ToString()
+  nameWithType: XData.ToString()
+- uid: AssemblerLib.XData.ToString*
+  name: ToString
+  href: api/AssemblerLib.XData.html#AssemblerLib_XData_ToString_
+  commentId: Overload:AssemblerLib.XData.ToString
+  isSpec: "True"
+  fullName: AssemblerLib.XData.ToString
+  nameWithType: XData.ToString
 - uid: AssemblerLib.XData.Transform(Rhino.Geometry.Transform)
   name: Transform(Transform)
   href: api/AssemblerLib.XData.html#AssemblerLib_XData_Transform_Rhino_Geometry_Transform_
@@ -2705,16 +2783,3 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.XData.Transform
   nameWithType: XData.Transform
-- uid: AssemblerLib.XData.XCopy(AssemblerLib.XData)
-  name: XCopy(XData)
-  href: api/AssemblerLib.XData.html#AssemblerLib_XData_XCopy_AssemblerLib_XData_
-  commentId: M:AssemblerLib.XData.XCopy(AssemblerLib.XData)
-  fullName: AssemblerLib.XData.XCopy(AssemblerLib.XData)
-  nameWithType: XData.XCopy(XData)
-- uid: AssemblerLib.XData.XCopy*
-  name: XCopy
-  href: api/AssemblerLib.XData.html#AssemblerLib_XData_XCopy_
-  commentId: Overload:AssemblerLib.XData.XCopy
-  isSpec: "True"
-  fullName: AssemblerLib.XData.XCopy
-  nameWithType: XData.XCopy

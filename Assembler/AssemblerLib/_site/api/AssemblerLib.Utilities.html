@@ -116,7 +116,8 @@
   
   
   <h4 id="AssemblerLib_Utilities_AOTypePalette" data-uid="AssemblerLib.Utilities.AOTypePalette">AOTypePalette</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>AssemblyObject Type palette, with up to 24 colors - which is already WAY TOO MANY!!!</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -140,7 +141,8 @@
   
   
   <h4 id="AssemblerLib_Utilities_colorlist" data-uid="AssemblerLib.Utilities.colorlist">colorlist</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Known Colors into a List</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -161,6 +163,9 @@
       </tr>
     </tbody>
   </table>
+  <h5 id="AssemblerLib_Utilities_colorlist_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>see: <a href="https://www.codeproject.com/Questions/826358/How-to-choose-a-random-color-from-System-Drawing-C">https://www.codeproject.com/Questions/826358/How-to-choose-a-random-color-from-System-Drawing-C</a></p>
+</div>
   
   
   <h4 id="AssemblerLib_Utilities_densityGradient" data-uid="AssemblerLib.Utilities.densityGradient">densityGradient</h4>
@@ -310,7 +315,8 @@
   
   
   <h4 id="AssemblerLib_Utilities_srPalette" data-uid="AssemblerLib.Utilities.srPalette">srPalette</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Palette for receiver, sender (in this order)</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -398,6 +404,57 @@
       <tr>
         <td><span class="xref">System.Boolean</span></td>
         <td><p>true if the Z axis of the object Reference Plane is oriented along the World Z</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="AssemblerLib_Utilities_AbsoluteZCheck_" data-uid="AssemblerLib.Utilities.AbsoluteZCheck*"></a>
+  <h4 id="AssemblerLib_Utilities_AbsoluteZCheck_AssemblerLib_AssemblyObject_System_Double_" data-uid="AssemblerLib.Utilities.AbsoluteZCheck(AssemblerLib.AssemblyObject,System.Double)">AbsoluteZCheck(AssemblyObject, Double)</h4>
+  <div class="markdown level1 summary"><p>Performs a check for World Z-Axis orientation of the AssemblyObject, with a tolerance</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool AbsoluteZCheck(AssemblyObject AO, double tol)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a></td>
+        <td><span class="parametername">AO</span></td>
+        <td><p>the <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> to check</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Double</span></td>
+        <td><span class="parametername">tol</span></td>
+        <td><p>the tolerance to respect</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>true if the Z axis of the object Reference Plane is oriented along the World Z under the given tolerance</p>
 </td>
       </tr>
     </tbody>
@@ -669,7 +726,7 @@ Useful for Vertex normal calculations</p>
   
   <a id="AssemblerLib_Utilities_BuildDictionary_" data-uid="AssemblerLib.Utilities.BuildDictionary*"></a>
   <h4 id="AssemblerLib_Utilities_BuildDictionary_AssemblerLib_AssemblyObject___" data-uid="AssemblerLib.Utilities.BuildDictionary(AssemblerLib.AssemblyObject[])">BuildDictionary(AssemblyObject[])</h4>
-  <div class="markdown level1 summary"><p>Builds the dictionary of AssemblyObjects</p>
+  <div class="markdown level1 summary"><p>Builds the Dictionary of AssemblyObjects</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -856,11 +913,12 @@ Useful for Vertex normal calculations</p>
   
   <a id="AssemblerLib_Utilities_Clone_" data-uid="AssemblerLib.Utilities.Clone*"></a>
   <h4 id="AssemblerLib_Utilities_Clone_AssemblerLib_Assemblage_" data-uid="AssemblerLib.Utilities.Clone(AssemblerLib.Assemblage)">Clone(Assemblage)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Clone an Assemblage</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Assemblage Clone(Assemblage ass)</code></pre>
+    <pre><code class="lang-csharp hljs">public static Assemblage Clone(Assemblage AOa)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -874,8 +932,9 @@ Useful for Vertex normal calculations</p>
     <tbody>
       <tr>
         <td><a class="xref" href="AssemblerLib.Assemblage.html">Assemblage</a></td>
-        <td><span class="parametername">ass</span></td>
-        <td></td>
+        <td><span class="parametername">AOa</span></td>
+        <td><p>Assemblage to clone</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -890,7 +949,8 @@ Useful for Vertex normal calculations</p>
     <tbody>
       <tr>
         <td><a class="xref" href="AssemblerLib.Assemblage.html">Assemblage</a></td>
-        <td></td>
+        <td><p>A cloned Assemblage</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -898,7 +958,7 @@ Useful for Vertex normal calculations</p>
   
   <a id="AssemblerLib_Utilities_Clone_" data-uid="AssemblerLib.Utilities.Clone*"></a>
   <h4 id="AssemblerLib_Utilities_Clone_AssemblerLib_AssemblyObject_" data-uid="AssemblerLib.Utilities.Clone(AssemblerLib.AssemblyObject)">Clone(AssemblyObject)</h4>
-  <div class="markdown level1 summary"><p>Clones an AssemblyObject as an asset, without the connectivity information</p>
+  <div class="markdown level1 summary"><p>Clones an <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> as an asset, resetting connectivity information</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -933,7 +993,7 @@ Useful for Vertex normal calculations</p>
     <tbody>
       <tr>
         <td><a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a></td>
-        <td><p>a cloned AssemblyObejct</p>
+        <td><p>a cloned AssemblyObejct asset</p>
 </td>
       </tr>
     </tbody>
@@ -1048,7 +1108,7 @@ Useful for Vertex normal calculations</p>
   
   <a id="AssemblerLib_Utilities_CloneWithConnectivity_" data-uid="AssemblerLib.Utilities.CloneWithConnectivity*"></a>
   <h4 id="AssemblerLib_Utilities_CloneWithConnectivity_AssemblerLib_AssemblyObject_" data-uid="AssemblerLib.Utilities.CloneWithConnectivity(AssemblerLib.AssemblyObject)">CloneWithConnectivity(AssemblyObject)</h4>
-  <div class="markdown level1 summary"><p>Duplicates an AssemblyObject preserving connectivity information. Useful for previous assemblages and the Goo wrapper.</p>
+  <div class="markdown level1 summary"><p>Duplicates an <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> preserving connectivity information</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -1068,7 +1128,7 @@ Useful for Vertex normal calculations</p>
       <tr>
         <td><a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a></td>
         <td><span class="parametername">AO</span></td>
-        <td><p>The Original AssemblyObject</p>
+        <td><p>The Original <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a></p>
 </td>
       </tr>
     </tbody>
@@ -1089,6 +1149,9 @@ Useful for Vertex normal calculations</p>
       </tr>
     </tbody>
   </table>
+  <h5 id="AssemblerLib_Utilities_CloneWithConnectivity_AssemblerLib_AssemblyObject__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Useful for previous assemblages and the Goo wrapper</p>
+</div>
   
   
   <a id="AssemblerLib_Utilities_CloneWithConnectivity_" data-uid="AssemblerLib.Utilities.CloneWithConnectivity*"></a>
@@ -1135,14 +1198,14 @@ Useful for Vertex normal calculations</p>
   </table>
   
   
-  <a id="AssemblerLib_Utilities_CollisionCheckAssemblage_" data-uid="AssemblerLib.Utilities.CollisionCheckAssemblage*"></a>
-  <h4 id="AssemblerLib_Utilities_CollisionCheckAssemblage_AssemblerLib_Assemblage_AssemblerLib_AssemblyObject_" data-uid="AssemblerLib.Utilities.CollisionCheckAssemblage(AssemblerLib.Assemblage,AssemblerLib.AssemblyObject)">CollisionCheckAssemblage(Assemblage, AssemblyObject)</h4>
-  <div class="markdown level1 summary"><p>Collision Check in the assemblage for a given <a class="xref" href="AssemblerLib.Assemblage.html">Assemblage</a> and <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a></p>
+  <a id="AssemblerLib_Utilities_CollisionCheckInAssemblage_" data-uid="AssemblerLib.Utilities.CollisionCheckInAssemblage*"></a>
+  <h4 id="AssemblerLib_Utilities_CollisionCheckInAssemblage_AssemblerLib_Assemblage_AssemblerLib_AssemblyObject_System_Int32____" data-uid="AssemblerLib.Utilities.CollisionCheckInAssemblage(AssemblerLib.Assemblage,AssemblerLib.AssemblyObject,System.Int32[]@)">CollisionCheckInAssemblage(Assemblage, AssemblyObject, out Int32[])</h4>
+  <div class="markdown level1 summary"><p>Collision check for a given <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> in an <a class="xref" href="AssemblerLib.Assemblage.html">Assemblage</a></p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static bool CollisionCheckAssemblage(Assemblage AOa, AssemblyObject sO)</code></pre>
+    <pre><code class="lang-csharp hljs">public static bool CollisionCheckInAssemblage(Assemblage AOa, AssemblyObject sO, out int[] neighbourIndexes)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1157,13 +1220,19 @@ Useful for Vertex normal calculations</p>
       <tr>
         <td><a class="xref" href="AssemblerLib.Assemblage.html">Assemblage</a></td>
         <td><span class="parametername">AOa</span></td>
-        <td><p>The <a class="xref" href="AssemblerLib.Assemblage.html">Assemblage</a> to check</p>
+        <td><p>The <a class="xref" href="AssemblerLib.Assemblage.html">Assemblage</a> for checking</p>
 </td>
       </tr>
       <tr>
         <td><a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a></td>
         <td><span class="parametername">sO</span></td>
-        <td><p>The sender <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a></p>
+        <td><p>The sender <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> to check</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">neighbourIndexes</span></td>
+        <td><p>array of neighbour AssemblyObjects Aind</p>
 </td>
       </tr>
     </tbody>
@@ -1595,6 +1664,132 @@ Mesh weighted normals implemented from the tips at the following pages:
         <td><span class="xref">Rhino.Geometry.Vector3d</span>[]</td>
         <td><p>Array of unique vectors</p>
 </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="AssemblerLib_Utilities_GH2TreeDoubles_" data-uid="AssemblerLib.Utilities.GH2TreeDoubles*"></a>
+  <h4 id="AssemblerLib_Utilities_GH2TreeDoubles_Grasshopper_Kernel_Data_GH_Structure_Grasshopper_Kernel_Types_GH_Number__" data-uid="AssemblerLib.Utilities.GH2TreeDoubles(Grasshopper.Kernel.Data.GH_Structure{Grasshopper.Kernel.Types.GH_Number})">GH2TreeDoubles(GH_Structure&lt;GH_Number&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static DataTree&lt;double&gt; GH2TreeDoubles(GH_Structure&lt;GH_Number&gt; scalars)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Grasshopper.Kernel.Data.GH_Structure</span>&lt;<span class="xref">Grasshopper.Kernel.Types.GH_Number</span>&gt;</td>
+        <td><span class="parametername">scalars</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Grasshopper.DataTree</span>&lt;<span class="xref">System.Double</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="AssemblerLib_Utilities_GH2TreeIntegers_" data-uid="AssemblerLib.Utilities.GH2TreeIntegers*"></a>
+  <h4 id="AssemblerLib_Utilities_GH2TreeIntegers_Grasshopper_Kernel_Data_GH_Structure_Grasshopper_Kernel_Types_GH_Integer__" data-uid="AssemblerLib.Utilities.GH2TreeIntegers(Grasshopper.Kernel.Data.GH_Structure{Grasshopper.Kernel.Types.GH_Integer})">GH2TreeIntegers(GH_Structure&lt;GH_Integer&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static DataTree&lt;int&gt; GH2TreeIntegers(GH_Structure&lt;GH_Integer&gt; iWeights)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Grasshopper.Kernel.Data.GH_Structure</span>&lt;<span class="xref">Grasshopper.Kernel.Types.GH_Integer</span>&gt;</td>
+        <td><span class="parametername">iWeights</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Grasshopper.DataTree</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="AssemblerLib_Utilities_GH2TreeVectors_" data-uid="AssemblerLib.Utilities.GH2TreeVectors*"></a>
+  <h4 id="AssemblerLib_Utilities_GH2TreeVectors_Grasshopper_Kernel_Data_GH_Structure_Grasshopper_Kernel_Types_GH_Vector__" data-uid="AssemblerLib.Utilities.GH2TreeVectors(Grasshopper.Kernel.Data.GH_Structure{Grasshopper.Kernel.Types.GH_Vector})">GH2TreeVectors(GH_Structure&lt;GH_Vector&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static DataTree&lt;Vector3d&gt; GH2TreeVectors(GH_Structure&lt;GH_Vector&gt; vectors)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Grasshopper.Kernel.Data.GH_Structure</span>&lt;<span class="xref">Grasshopper.Kernel.Types.GH_Vector</span>&gt;</td>
+        <td><span class="parametername">vectors</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Grasshopper.DataTree</span>&lt;<span class="xref">Rhino.Geometry.Vector3d</span>&gt;</td>
+        <td></td>
       </tr>
     </tbody>
   </table>
@@ -2050,13 +2245,13 @@ and: <a href="http://www.bytehazard.com/articles/vertnorm.html">http://www.byteh
   
   
   <a id="AssemblerLib_Utilities_ObstructionCheckAssemblage_" data-uid="AssemblerLib.Utilities.ObstructionCheckAssemblage*"></a>
-  <h4 id="AssemblerLib_Utilities_ObstructionCheckAssemblage_AssemblerLib_Assemblage_System_Int32_" data-uid="AssemblerLib.Utilities.ObstructionCheckAssemblage(AssemblerLib.Assemblage,System.Int32)">ObstructionCheckAssemblage(Assemblage, Int32)</h4>
+  <h4 id="AssemblerLib_Utilities_ObstructionCheckAssemblage_AssemblerLib_Assemblage_System_Int32_System_Int32___" data-uid="AssemblerLib.Utilities.ObstructionCheckAssemblage(AssemblerLib.Assemblage,System.Int32,System.Int32[])">ObstructionCheckAssemblage(Assemblage, Int32, Int32[])</h4>
   <div class="markdown level1 summary"><p>Check obstruction status for an <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> in the <a class="xref" href="AssemblerLib.Assemblage.html">Assemblage</a></p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static bool ObstructionCheckAssemblage(Assemblage AOa, int AO_AInd)</code></pre>
+    <pre><code class="lang-csharp hljs">public static bool ObstructionCheckAssemblage(Assemblage AOa, int AO_AInd, int[] neighbourAIndexes)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -2076,6 +2271,11 @@ and: <a href="http://www.bytehazard.com/articles/vertnorm.html">http://www.byteh
       <tr>
         <td><span class="xref">System.Int32</span></td>
         <td><span class="parametername">AO_AInd</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">neighbourAIndexes</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -2266,6 +2466,57 @@ and: <a href="http://www.bytehazard.com/articles/vertnorm.html">http://www.byteh
       <tr>
         <td><span class="xref">System.String</span></td>
         <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="AssemblerLib_Utilities_RemoveAssemblyObject_" data-uid="AssemblerLib.Utilities.RemoveAssemblyObject*"></a>
+  <h4 id="AssemblerLib_Utilities_RemoveAssemblyObject_AssemblerLib_Assemblage_System_Int32_" data-uid="AssemblerLib.Utilities.RemoveAssemblyObject(AssemblerLib.Assemblage,System.Int32)">RemoveAssemblyObject(Assemblage, Int32)</h4>
+  <div class="markdown level1 summary"><p>Remove an <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a> from an <a class="xref" href="AssemblerLib.Assemblage.html">Assemblage</a>, updating topology information</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool RemoveAssemblyObject(Assemblage AOa, int AInd)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="AssemblerLib.Assemblage.html">Assemblage</a></td>
+        <td><span class="parametername">AOa</span></td>
+        <td><p>The Assemblage to remove from</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">AInd</span></td>
+        <td><p>the Assemblage Index of the AssemblyObject to remove</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>true if successful, false otherwise</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -2535,48 +2786,6 @@ and: <a href="http://www.bytehazard.com/articles/vertnorm.html">http://www.byteh
         <td><span class="xref">System.Boolean</span></td>
         <td><p>true if successful</p>
 </td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="AssemblerLib_Utilities_StartWatch_" data-uid="AssemblerLib.Utilities.StartWatch*"></a>
-  <h4 id="AssemblerLib_Utilities_StartWatch_System_Diagnostics_Stopwatch_" data-uid="AssemblerLib.Utilities.StartWatch(System.Diagnostics.Stopwatch)">StartWatch(Stopwatch)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static long StartWatch(Stopwatch stopWatch)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Diagnostics.Stopwatch</span></td>
-        <td><span class="parametername">stopWatch</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int64</span></td>
-        <td></td>
       </tr>
     </tbody>
   </table>
@@ -2958,6 +3167,39 @@ and: <a href="http://www.bytehazard.com/articles/vertnorm.html">http://www.byteh
   </table>
   
   
+  <a id="AssemblerLib_Utilities_Transform_" data-uid="AssemblerLib.Utilities.Transform*"></a>
+  <h4 id="AssemblerLib_Utilities_Transform_AssemblerLib_AssemblyObject_Rhino_Geometry_Transform_" data-uid="AssemblerLib.Utilities.Transform(AssemblerLib.AssemblyObject,Rhino.Geometry.Transform)">Transform(AssemblyObject, Transform)</h4>
+  <div class="markdown level1 summary"><p>Transform AssemblyObject using a generic Transformation</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void Transform(AssemblyObject AO, Transform xForm)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a></td>
+        <td><span class="parametername">AO</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">Rhino.Geometry.Transform</span></td>
+        <td><span class="parametername">xForm</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
   <a id="AssemblerLib_Utilities_Triangulate_" data-uid="AssemblerLib.Utilities.Triangulate*"></a>
   <h4 id="AssemblerLib_Utilities_Triangulate_Rhino_Geometry_Mesh_" data-uid="AssemblerLib.Utilities.Triangulate(Rhino.Geometry.Mesh)">Triangulate(Mesh)</h4>
   <div class="markdown level1 summary"><p>Triangulate a Mesh splitting quad faces along the shortest diagonal</p>
@@ -2997,6 +3239,48 @@ and: <a href="http://www.bytehazard.com/articles/vertnorm.html">http://www.byteh
         <td><span class="xref">Rhino.Geometry.Mesh</span></td>
         <td><p>a Mesh with triangular faces only</p>
 </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="AssemblerLib_Utilities_UpdateConnectedHandles_" data-uid="AssemblerLib.Utilities.UpdateConnectedHandles*"></a>
+  <h4 id="AssemblerLib_Utilities_UpdateConnectedHandles_AssemblerLib_AssemblyObject_System_Int32_AssemblerLib_AssemblyObject_System_Int32_" data-uid="AssemblerLib.Utilities.UpdateConnectedHandles(AssemblerLib.AssemblyObject,System.Int32,AssemblerLib.AssemblyObject,System.Int32)">UpdateConnectedHandles(AssemblyObject, Int32, AssemblyObject, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void UpdateConnectedHandles(AssemblyObject AO1, int handle1, AssemblyObject AO2, int handle2)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a></td>
+        <td><span class="parametername">AO1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">handle1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a></td>
+        <td><span class="parametername">AO2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">handle2</span></td>
+        <td></td>
       </tr>
     </tbody>
   </table>

@@ -2,6 +2,7 @@
 using AssemblerLib;
 using GH_IO.Serialization;
 using Grasshopper.Kernel;
+using Grasshopper.Kernel.Special;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
@@ -47,7 +48,9 @@ namespace Assembler
                 "Environment interaction mode" +
                 "\n0 - ignore environmental objects" +
                 "\n1 - use objects - container collision" +
-                "\n2 - use objects - container inclusion",
+                "\n2 - use objects - container inclusion" +
+                "\n" +
+                "\nattach a Value List for automatic list generation",
                 GH_ParamAccess.item, 1);
             pManager.AddGenericParameter("Field", "F", "Field", GH_ParamAccess.item);
             pManager.AddNumberParameter("Field Scalar threshold", "Ft", "Threshold value (in normalized 0-1 range) for scalar Field based criteria", GH_ParamAccess.item, 0.5);
@@ -95,7 +98,7 @@ namespace Assembler
             Field F = null;
             if (!DA.GetData("Field", ref F)) F = null;
             double fT = 0;
-            DA.GetData("Field scalar Threshold", ref fT);
+            DA.GetData("Field Scalar threshold", ref fT);
             Box sandbox = Box.Empty;
             if (DA.GetData("Sandbox", ref sandbox))
                 if (!sandbox.IsValid)
@@ -103,6 +106,35 @@ namespace Assembler
                     AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Sandbox is invalid and it will be ignored");
                     sandbox = Box.Empty;
                 }
+
+
+            // __________________ autoList __________________
+
+            // variable for the list
+            GH_ValueList vList;
+
+            // tries to cast input as list
+            try
+            {
+                vList = (GH_ValueList)Params.Input[1].Sources[0];
+
+                if (!vList.NickName.Equals("Environment Mode"))
+                {
+                    vList.ClearData();
+                    vList.ListItems.Clear();
+                    vList.NickName = "Environment Mode";
+
+                    vList.ListItems.Add(new GH_ValueListItem("ignore", "0"));
+                    vList.ListItems.Add(new GH_ValueListItem("container collision", "1"));
+                    vList.ListItems.Add(new GH_ValueListItem("container inclusion", "2"));
+
+                    vList.ListItems[0].Value.CastTo(out eM);
+                }
+            }
+            catch
+            {
+                // handles anything that is not a value list
+            }
 
             ExogenousSettings ES = new ExogenousSettings(ME, eM, F, fT, sandbox, hasContainer);
 
@@ -197,26 +229,8 @@ namespace Assembler
             else
             {
                 args.Display.DrawMeshWires(_container, containerColor, 1);
-                //for (int i = 0; i < _container.Faces.Count; i++)
-                //{
-                //    args.Display.DrawArrow(new Line(_container.Faces.GetFaceCenter(i), _container.FaceNormals[i], 1.0), containerColor);
-                //}
-                foreach (Mesh mOb in _solids)
-                {
-                    args.Display.DrawMeshWires(mOb, solidColor, 2);
-                    //for (int i = 0; i < mOb.Faces.Count; i++)
-                    //{
-                    //    args.Display.DrawArrow(new Line(mOb.Faces.GetFaceCenter(i), mOb.FaceNormals[i], 1.0), solidColor);
-                    //}
-                }
-                foreach (Mesh mVoid in _voids)
-                {
-                    args.Display.DrawMeshWires(mVoid, voidColor, 2);
-                    //for (int i = 0; i < mVoid.Faces.Count; i++)
-                    //{
-                    //    args.Display.DrawArrow(new Line(mVoid.Faces.GetFaceCenter(i), mVoid.FaceNormals[i], 1.0), voidColor);
-                    //}
-                }
+                foreach (Mesh mOb in _solids) args.Display.DrawMeshWires(mOb, solidColor, 2);
+                foreach (Mesh mVoid in _voids) args.Display.DrawMeshWires(mVoid, voidColor, 2);
             }
         }
 

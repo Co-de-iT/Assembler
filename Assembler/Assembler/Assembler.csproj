@@ -68,34 +68,35 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\SetSupports.cs" />
-    <Compile Include="Post Processing\ExtractSupports.cs" />
-    <Compile Include="DeconstructRule.cs" />
-    <Compile Include="D_AssCustomPreview.cs" />
+    <Compile Include="Components\ConstructHandle.cs" />
+    <Compile Include="Components\DisplayHandles.cs" />
+    <Compile Include="Exogenous\ConstructFieldSparse.cs" />
+    <Compile Include="ZZ_DEV\D_SetSupports.cs" />
+    <Compile Include="ZZ_DEV\D_ExtractSupports.cs" />
+    <Compile Include="ZZ_DEV\DeconstructRule.cs" />
+    <Compile Include="ZZ_DEV\D_AssCustomPreview.cs" />
     <Compile Include="Engine\AssemblerEngine_Attributes.cs" />
     <Compile Include="I-O\AssemblyObjectsFromJSON.cs" />
     <Compile Include="I-O\AssemblyObjectsToJSON.cs" />
     <Compile Include="LEGACY-HIDDEN\L_AssemblerEngine.cs" />
     <Compile Include="Engine\AssemblerEngine.cs" />
     <Compile Include="AssemblerInfo.cs" />
-    <Compile Include="IGH_TypeViewer.cs" />
-    <Compile Include="D_InspectAOValues.cs" />
+    <Compile Include="ZZ_DEV\IGH_TypeViewer.cs" />
+    <Compile Include="ZZ_DEV\D_InspectAOValues.cs" />
     <Compile Include="Post Processing\AssociateXData.cs" />
-    <Compile Include="D_ConstructHandle_tree.cs" />
     <Compile Include="Post Processing\DisplayAssemblage.cs" />
-    <Compile Include="D_ExtractOffsetMesh.cs" />
+    <Compile Include="ZZ_DEV\D_ExtractOffsetMesh.cs" />
     <Compile Include="Heuristics\HeuristicsDisplay.cs" />
     <Compile Include="Heuristics\HeuristicsDisplayEx.cs" />
     <Compile Include="LEGACY-HIDDEN\L_AssociateXData.cs" />
-    <Compile Include="LEGACY-HIDDEN\H_ColorFieldbyAttractors.cs" />
     <Compile Include="Exogenous\ColorField.cs" />
     <Compile Include="Components\ConstructAssemblyObject.cs" />
-    <Compile Include="Components\ConstructCompositeAO.cs" />
+    <Compile Include="LEGACY-HIDDEN\H_ConstructCompositeAO.cs" />
     <Compile Include="LEGACY-HIDDEN\L_ConstructFieldMeshN.cs" />
     <Compile Include="LEGACY-HIDDEN\L_ConstructFieldMeshXYZ.cs" />
     <Compile Include="Exogenous\ConstructFieldN.cs" />
     <Compile Include="Exogenous\ConstructFieldXYZ.cs" />
-    <Compile Include="Components\ConstructHandle.cs" />
+    <Compile Include="LEGACY-HIDDEN\L_ConstructHandles.cs" />
     <Compile Include="Components\ConstructXData.cs" />
     <Compile Include="Post Processing\DeconstructAssemblage.cs" />
     <Compile Include="Components\DeconstructAssemblyObject.cs" />
@@ -103,12 +104,12 @@
     <Compile Include="Components\DeconstructHandle.cs" />
     <Compile Include="Components\DeconstructXData.cs" />
     <Compile Include="Post Processing\DisplayCandidates.cs" />
-    <Compile Include="Components\DisplayHandle.cs" />
+    <Compile Include="LEGACY-HIDDEN\L_DisplayHandle.cs" />
     <Compile Include="Exogenous\ExogenousSettingsComponent.cs" />
     <Compile Include="Post Processing\ExtractAOSet.cs" />
     <Compile Include="Post Processing\ExtractCollisionMesh.cs" />
     <Compile Include="Post Processing\ExtractReferencePlane.cs" />
-    <Compile Include="Post Processing\ExtractSenderHandlesPlanes.cs" />
+    <Compile Include="Post Processing\ExtractHandles.cs" />
     <Compile Include="Post Processing\ExtractTopology.cs" />
     <Compile Include="Post Processing\ExtractType.cs" />
     <Compile Include="LEGACY-HIDDEN\L_HeuristicsDisplay.cs" />
@@ -117,8 +118,6 @@
     <Compile Include="Heuristics\HeuristicWriter.cs" />
     <Compile Include="LEGACY-HIDDEN\L_HeuristicsWriter.cs" />
     <Compile Include="Exogenous\PopulateField.cs" />
-    <Compile Include="LEGACY-HIDDEN\H_PopulateFieldiWeightsAtt.cs" />
-    <Compile Include="LEGACY-HIDDEN\H_PopulateFieldiWeightsSc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -128,7 +127,7 @@
     <Compile Include="LEGACY-HIDDEN\L_TransformAssemblyObject.cs" />
     <Compile Include="Components\TransformXData.cs" />
     <Compile Include="Heuristics\WeighHeuristics.cs" />
-    <Compile Include="RemoveAssemblyObjects.cs" />
+    <Compile Include="Post Processing\RemoveAssemblyObjects.cs" />
     <Compile Include="Utils\AssemblyObjectGHParam.cs" />
     <Compile Include="Utils\AssemblageGoo.cs" />
     <Compile Include="Utils\AssemblyObjectGoo.cs" />
@@ -144,7 +143,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="Resources\Heuristics Writer.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Populate Field iW attractors.png" />
@@ -153,82 +151,16 @@
     <None Include="Resources\Populate Field iW scalars.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Populate Field.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Transform AO.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Transform XData.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Assemblage From JSON.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Assemblage To JSON.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Assembler Engine X.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Assembler Engine.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Associate XData.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Color Field attractors.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Color Field scalars.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Construct AO.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Construct compositeAO.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Construct Handle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Construct XData.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Deconstruct AO.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Deconstruct Assemblage.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Deconstruct Field.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Deconstruct Handle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Deconstruct XData.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Exogenous settings.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Extract CollisionMesh.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Extract Reference Plane.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Extract Sender Handles Planes.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Extract Topology.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Field from Box N.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Field from Box XYZ.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Field from Mesh N.png" />
@@ -237,28 +169,10 @@
     <None Include="Resources\Field from Mesh XYZ.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Heuristics Dispay X.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Heuristics Dispay.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Heuristics Settings.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\FlamIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Assembler Icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Display Handle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Extract Candidates.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Extract Type.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Etract AOSet.png" />
@@ -279,10 +193,25 @@
     <None Include="Resources\Construct Handle_OLD.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Display Assemblage.png" />
+    <None Include="Resources\Weigh Rules_2.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Weigh Rules_2.png" />
+    <None Include="Resources\Field N_OLD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Field XYZ_OLD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Heuristics Writer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Populate Field.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Remove AssemblyObject.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Transform XData.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Weigh Rules.png" />
@@ -291,10 +220,91 @@
     <None Include="Resources\AO_param.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Field N_OLD.png" />
+    <None Include="Resources\Assemblage From JSON.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Field XYZ_OLD.png" />
+    <None Include="Resources\Assemblage To JSON.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Assembler Engine.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Associate XData.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Color Field scalars.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Construct AO.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Construct Handle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Construct XData.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Deconstruct AO.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Deconstruct Assemblage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Deconstruct Field.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Deconstruct XData.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Display Assemblage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Display Handle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Exogenous settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Extract AOSet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Extract Candidates.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Extract CollisionMesh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Extract Reference Plane.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Extract Sender Handles Planes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Extract Topology.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Extract Type.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Field from Box N.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Field from Box XYZ.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Heuristics Dispay X.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Heuristics Dispay.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Heuristics Settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Field Sparse.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Deconstruct Handle.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

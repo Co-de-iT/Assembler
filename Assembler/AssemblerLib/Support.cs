@@ -2,6 +2,8 @@
 
 namespace AssemblerLib
 {
+    // NOT IMPLEMENTED YET
+
     /// <summary>
     /// Support class for embedded structural consistency
     /// </summary>

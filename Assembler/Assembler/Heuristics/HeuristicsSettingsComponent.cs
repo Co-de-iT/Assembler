@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Grasshopper.Kernel;
+﻿using Assembler.Properties;
 using AssemblerLib;
-using Assembler.Properties;
-using Grasshopper.Kernel.Types;
+using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
+using Grasshopper.Kernel.Types;
+using Grasshopper.Kernel.Special;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Assembler
 {
-    // it's named HeuristicsSettingsComponent to avoid conflict with HeuristicsSettings class in AssemblerLib
     public class HeuristicsSettingsComponent : GH_Component
     {
         /// <summary>
@@ -29,8 +28,12 @@ namespace Assembler
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             // heuristics
-            pManager.AddTextParameter("Heuristics String", "HeS", "Heuristics String", GH_ParamAccess.tree);
-            pManager.AddIntegerParameter("Current Heuristics", "cH", "index of current Heuristics String to use from the list above", GH_ParamAccess.item, 0);
+            pManager.AddTextParameter("Heuristics Set", "HeS", "Heuristics Set\n" +
+                "If you plan to use more than one Heuristics Set, use an Entwine component" +
+                "\nThe branch used is decided by the current Heuristics parameter" +
+                "\nor by a Field with iWeights when Field mode is activated",
+                GH_ParamAccess.tree);
+            pManager.AddIntegerParameter("Current Heuristics", "cH", "index of current Heuristics Set branch to use from the Tree above", GH_ParamAccess.item, 0);
             pManager.AddIntegerParameter("Heuristics Mode", "HeM", "Heuristics Mode selector" +
                 "\n0 - manual - via cH parameter" +
                 "\n1 - Field driven - via Field iWeights",
@@ -41,7 +44,9 @@ namespace Assembler
                 "\n0 - random" +
                 "\n1 - scalar field nearest" +
                 "\n2 - scalar field interpolated" +
-                "\n3 - dense packing - minimum sum of connected objects' weights",
+                "\n3 - dense packing - minimum sum of connected AssemblyObjects' weights" +
+                "\n" +
+                "\nattach a Value List for automatic list generation",
                 GH_ParamAccess.item, 0);
             pManager.AddIntegerParameter("Sender (Rule) Selection Mode", "SsM",
                 "Sender (Rule) selection criteria" +
@@ -50,9 +55,13 @@ namespace Assembler
                 "\n2 - scalar field interpolated" +
                 "\n3 - vector field nearest" +
                 "\n4 - vector field interpolated" +
-                "\n5 - minimum local bounding box volume" +
-                "\n6 - minimum local bounding box diagonal"+
-                "\n7 - weighted random choice",
+                "\n5 - vector field bidirectional nearest" +
+                "\n6 - vector field bidirectional interpolated" +
+                "\n7 - minimum local bounding box volume" +
+                "\n8 - minimum local bounding box diagonal" +
+                "\n9 - weighted random choice" + 
+                "\n" +
+                "\nattach a Value List for automatic list generation",
                 GH_ParamAccess.item, 0);
 
             pManager[1].Optional = true;
@@ -77,17 +86,17 @@ namespace Assembler
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             // heuristics
-            GH_Structure<GH_String> HeuStrings;// = new GH_Structure<GH_String>();
-            if (!DA.GetDataTree(0, out HeuStrings)) return;
-            if (HeuStrings.IsEmpty || HeuStrings == null || HeuStrings.Branches[0].Count == 0)
+            GH_Structure<GH_String> HeuSets;
+            if (!DA.GetDataTree(0, out HeuSets)) return;
+            if (HeuSets.IsEmpty || HeuSets == null || HeuSets.Branches[0].Count == 0)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Please provide at least one Heuristic string");
                 return;
             }
             List<string> HeS = new List<string>();
-            for (int i = 0; i < HeuStrings.Branches.Count; i++)
+            for (int i = 0; i < HeuSets.Branches.Count; i++)
             {
-                HeS.Add(string.Join(",", HeuStrings.Branches[i].Select(s => s.Value).ToList()));
+                HeS.Add(string.Join(",", HeuSets.Branches[i].Select(s => s.Value).ToList()));
             }
 
             int cH = 0;
@@ -99,6 +108,69 @@ namespace Assembler
             int Rsm = 0, Ssm = 0;
             DA.GetData("Receiver Selection Mode", ref Rsm);
             DA.GetData("Sender (Rule) Selection Mode", ref Ssm);
+
+            // __________________ autoList - Receiver Selection Mode __________________
+
+            // variable for the list
+            GH_ValueList vListRec;
+            // tries to cast input as list
+            try
+            {
+                vListRec = (GH_ValueList)Params.Input[3].Sources[0];
+
+                if (!vListRec.NickName.Equals("Receiver selection mode"))
+                {
+                    vListRec.ClearData();
+                    vListRec.ListItems.Clear();
+                    vListRec.NickName = "Receiver selection mode";
+
+                    vListRec.ListItems.Add(new GH_ValueListItem("Random", "0"));
+                    vListRec.ListItems.Add(new GH_ValueListItem("Scalar Field nearest", "1"));
+                    vListRec.ListItems.Add(new GH_ValueListItem("Scalar Field interpolated", "2"));
+                    vListRec.ListItems.Add(new GH_ValueListItem("Dense Packing", "3"));
+
+                    vListRec.ListItems[0].Value.CastTo(out Rsm);
+                }
+            }
+            catch
+            {
+                // handles anything that is not a value list
+            }
+
+            // __________________ autoList - Sender (rule) Selection Mode __________________
+
+            // variable for the list
+            GH_ValueList vListSen;
+            // tries to cast input as list
+            try
+            {
+
+                vListSen = (GH_ValueList)Params.Input[4].Sources[0];
+
+                if (!vListSen.NickName.Equals("Sender selection mode"))
+                {
+                    vListSen.ClearData();
+                    vListSen.ListItems.Clear();
+                    vListSen.NickName = "Sender selection mode";
+
+                    vListSen.ListItems.Add(new GH_ValueListItem("Random", "0"));
+                    vListSen.ListItems.Add(new GH_ValueListItem("Scalar Field nearest", "1"));
+                    vListSen.ListItems.Add(new GH_ValueListItem("Scalar Field interpolated", "2"));
+                    vListSen.ListItems.Add(new GH_ValueListItem("Vector Field > nearest", "3"));
+                    vListSen.ListItems.Add(new GH_ValueListItem("Vector Field > interpolated", "4"));
+                    vListSen.ListItems.Add(new GH_ValueListItem("Vector Field <> nearest", "5"));
+                    vListSen.ListItems.Add(new GH_ValueListItem("Vector Field <> interpolated", "6"));
+                    vListSen.ListItems.Add(new GH_ValueListItem("Minimum local AABB volume", "7"));
+                    vListSen.ListItems.Add(new GH_ValueListItem("Minimum local AABB diagonal", "8"));
+                    vListSen.ListItems.Add(new GH_ValueListItem("Weighted Random Choice", "9"));
+
+                    vListSen.ListItems[0].Value.CastTo(out Ssm);
+                }
+            }
+            catch
+            {
+                // handles anything that is not a value list
+            }
 
             HeuristicsSettings HS = new HeuristicsSettings(HeS, cH, HeM, Rsm, Ssm);
 

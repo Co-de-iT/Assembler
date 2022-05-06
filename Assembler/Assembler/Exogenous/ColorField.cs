@@ -38,7 +38,7 @@ namespace Assembler
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Field", "F", "Field", GH_ParamAccess.item);
-            pManager.AddColourParameter("Colors", "C", "List of Colors for scalars\nonly 2 colors are needed", GH_ParamAccess.list);
+            pManager.AddColourParameter("Colors", "C", "List of Colors for scalars\nat least 2 colors are needed", GH_ParamAccess.list);
             pManager.AddIntegerParameter("Index", "i", "Index of scalar value to sample\n0 (default) for single scalar value per Field point", GH_ParamAccess.item, 0);
             pManager.AddNumberParameter("Threshold", "T", "Threshold for Allocation\nif Blend colors option is true this value is ingored", GH_ParamAccess.item, 0.5);
         }
@@ -66,15 +66,15 @@ namespace Assembler
 
             List<Color> C = new List<Color>();
             if (!DA.GetDataList(1, C)) return;
-            if (C.Count != 2)
+            if (C.Count < 2)
             {
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "You must provide 2 Colors");
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "You must provide at least 2 Colors");
                 return;
             }
             int ind = 0;
             DA.GetData("Index", ref ind);
 
-            if (fCol.tensors[0].scalar == null || ind > fCol.tensors[0].scalar.Length)
+            if (fCol.tensors[0].Scalars == null || ind > fCol.tensors[0].Scalars.Length)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Field does not have scalar values at specified index");
                 return;
@@ -83,7 +83,8 @@ namespace Assembler
             double thres = 0.5;
             DA.GetData("Threshold", ref thres);
 
-            fCol.GenerateScalarColors(C[0], C[1], ind, thres, blend);
+            fCol.GenerateScalarColors(C, ind, thres, blend);
+            //fCol.GenerateScalarColors(C[0], C[1], ind, thres, blend);
 
             _cloud = new PointCloud();
             _cloud.AddRange(fCol.GetPoints(), fCol.colors);

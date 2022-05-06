@@ -28,7 +28,6 @@ namespace Assembler
             pManager.AddGeometryParameter("Geometry", "G", "Geometry for Field generation\nInput any geometry that has a 3D Bounding Box", GH_ParamAccess.item);
             pManager.AddPlaneParameter("Plane", "P", "Reference plane for Bounding Box Orientation\n" +
                 "if the geometry is a Box, its orientation will be taken and this input will be ignored", GH_ParamAccess.item, Plane.WorldXY);
-            //pManager.AddBoxParameter("Box", "B", "Box that contains the Field", GH_ParamAccess.item);
             pManager.AddIntegerParameter("N Cells", "N", "Number of cells along largest dimension", GH_ParamAccess.item, 10);
 
             pManager[1].Optional = true;

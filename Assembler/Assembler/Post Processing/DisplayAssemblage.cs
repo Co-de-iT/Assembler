@@ -42,8 +42,8 @@ namespace Assembler
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Assemblage", "AOa", "The Assemblage", GH_ParamAccess.item);
-            //pManager.AddBooleanParameter("Bypass", "B", "If true, just the untouched collision meshes will output", GH_ParamAccess.item, false);
-            //pManager[1].Optional = true; // bypass is optional
+            pManager.AddBooleanParameter("Colors only", "C", "If true, just the Colors will output", GH_ParamAccess.item, false);
+            pManager[1].Optional = true; // Colors only is optional
 
         }
 
@@ -66,15 +66,15 @@ namespace Assembler
             Assemblage AOa = null;
             if (!DA.GetData(0, ref AOa)) return;
 
-            //bool byPass = false;
-            //DA.GetData(1, ref byPass);
+            bool colOnly = false;
+            DA.GetData(1, ref colOnly);
 
-            meshes = new Mesh[AOa.assemblyObjects.BranchCount];
+            meshes = colOnly? null : new Mesh[AOa.assemblyObjects.BranchCount];
             edges = null;
             colors = new Color[AOa.assemblyObjects.BranchCount];
 
             //if (!byPass)
-            SetPreviewData(AOa, displayMode);
+            SetPreviewData(AOa, displayMode, colOnly);
             //else
             //    meshes = AOa.assemblyObjects.AsParallel().Select(ao => ao.collisionMesh).ToArray();
 
@@ -83,7 +83,7 @@ namespace Assembler
             DA.SetDataList(2, colors);
         }
 
-        public void SetPreviewData(Assemblage AOa, string displayMode)
+        public void SetPreviewData(Assemblage AOa, string displayMode, bool colOnly)
         {
             Mesh joined;
             //Color[] colors = new Color[AOa.assemblyObjects.BranchCount];
@@ -98,7 +98,7 @@ namespace Assembler
                     break;
                 case "AO Types": // by type
                     // use type palette if number of types is smaller than the number of colors in the palette
-                    if (AOa.AOSetDictionary.Count() <= Utilities.AOTypePalette.Length)
+                    if (AOa.AOSet.Length <= Utilities.AOTypePalette.Length)
                         Parallel.For(0, colors.Length, i =>
                         {
                             colors[i] = Utilities.AOTypePalette[AOa.assemblyObjects.Branches[i][0].type];
@@ -241,6 +241,8 @@ namespace Assembler
                     goto case "Objects";
             }
 
+            if (colOnly) return;
+
             // assign colors to meshes
             Parallel.For(0, AOa.assemblyObjects.BranchCount, i =>
            {
@@ -381,7 +383,7 @@ namespace Assembler
 
         public override bool Write(GH_IWriter writer)
         {
-            // NOTE: the value in between "" is shared AMONG ALL COMPONENTS of a librbary!
+            // NOTE: the value in between "" is shared AMONG ALL COMPONENTS of a library!
             // OutputType is accessible (and modifyable) by other components!
             writer.SetString("OutputType", displayMode);
             return base.Write(writer);
@@ -398,6 +400,15 @@ namespace Assembler
         private void UpdateMessage()
         {
             Message = displayMode;
+        }
+
+        /// <summary>
+        /// Exposure override for position in the Subcategory (options primary to septenary)
+        /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
+        /// </summary>
+        public override GH_Exposure Exposure
+        {
+            get { return GH_Exposure.secondary; }
         }
 
         /// <summary>

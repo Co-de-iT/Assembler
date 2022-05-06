@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿using Assembler.Properties;
+using Assembler.Utils;
+using AssemblerLib;
+using GH_IO.Types;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using AssemblerLib;
-using Assembler.Properties;
-using Assembler.Utils;
+using System;
 
 namespace Assembler
 {
@@ -15,7 +14,7 @@ namespace Assembler
         /// Initializes a new instance of the ExtractReferencePlane class.
         /// </summary>
         public ExtractReferencePlane()
-          : base("Extract Reference Plane", "AOPlane",
+          : base("Extract Reference Plane", "AOeRPlane",
               "Extract AssemblyObject Reference Plane",
               "Assembler", "Post Processing")
         {
@@ -73,7 +72,7 @@ namespace Assembler
         /// </summary>
         public override GH_Exposure Exposure
         {
-            get { return GH_Exposure.secondary; }
+            get { return GH_Exposure.quarternary; }
         }
 
         /// <summary>

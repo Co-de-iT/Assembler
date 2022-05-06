@@ -121,7 +121,7 @@ namespace Assembler
             Handle[] handles = h.ToArray();
 
             // construct the AssemblyObject                                                                        v Zlock
-            AssemblyObject AO = new AssemblyObject(cm, handles, rp, d, name, type, w, -1, new List<Support>(), 0, worldZLock);
+            AssemblyObject AO = new AssemblyObject(cm, handles, rp, d, name, type, w, -1, worldZLock);
 
             DA.SetData("Assembly Object", new AssemblyObjectGoo(AO));
 

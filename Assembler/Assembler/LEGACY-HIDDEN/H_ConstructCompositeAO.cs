@@ -11,14 +11,14 @@ using Rhino.Geometry;
 
 namespace Assembler
 {
-    public class ConstructCompositeAO : GH_Component
+    public class H_ConstructCompositeAO : GH_Component
     {
         private bool worldZLockComp;
 
         /// <summary>
         /// Initializes a new instance of the ConstructCompositeAO class.
         /// </summary>
-        public ConstructCompositeAO()
+        public H_ConstructCompositeAO()
           : base("Construct Composite AssemblyObject", "AOComCon",
               "Construct a composite Assembly Object",
               "Assembler", "Components")

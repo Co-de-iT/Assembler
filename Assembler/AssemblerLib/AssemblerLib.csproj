@@ -69,15 +69,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyObject.cs" />
-    <Compile Include="Connection.cs" />
+    <Compile Include="Graph\Connection.cs" />
     <Compile Include="ExogenousSettings.cs" />
     <Compile Include="Field.cs" />
-    <Compile Include="Graph.cs" />
+    <Compile Include="Graph\Graph.cs" />
     <Compile Include="Handle.cs" />
     <Compile Include="Assemblage.cs" />
     <Compile Include="HeuristicsSettings.cs" />
     <Compile Include="MeshEnvironment.cs" />
-    <Compile Include="Node.cs" />
+    <Compile Include="Graph\Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rule.cs" />
     <Compile Include="Support.cs" />

@@ -19,7 +19,7 @@ namespace Assembler.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -303,6 +303,16 @@ namespace Assembler.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Extract_AOSet {
+            get {
+                object obj = ResourceManager.GetObject("Extract_AOSet", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Extract_Candidates {
             get {
                 object obj = ResourceManager.GetObject("Extract_Candidates", resourceCulture);
@@ -406,6 +416,16 @@ namespace Assembler.Properties {
         internal static System.Drawing.Bitmap Field_N_OLD {
             get {
                 object obj = ResourceManager.GetObject("Field_N_OLD", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Field_Sparse {
+            get {
+                object obj = ResourceManager.GetObject("Field_Sparse", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -526,6 +546,16 @@ namespace Assembler.Properties {
         internal static System.Drawing.Bitmap Populate_Field_iW_scalars {
             get {
                 object obj = ResourceManager.GetObject("Populate_Field_iW_scalars", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Remove_AssemblyObject {
+            get {
+                object obj = ResourceManager.GetObject("Remove_AssemblyObject", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -37,6 +37,8 @@ namespace Assembler
             pManager.AddVectorParameter("Vectors", "V", "Vectors", GH_ParamAccess.tree);
             pManager.AddIntegerParameter("iWeights", "iW", "Integer Weights", GH_ParamAccess.tree);
             pManager.AddColourParameter("Colors", "C", "Field Colors", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("Topology", "T", "Field topology", GH_ParamAccess.tree);
+            pManager.AddNumberParameter("Topology Weights", "tW", "Topology transmission weights", GH_ParamAccess.tree);
         }
 
         /// <summary>
@@ -50,10 +52,15 @@ namespace Assembler
             if (!DA.GetData(0, ref f)) return;
 
             DA.SetDataList(0, f.GetGH_Points());
-            DA.SetDataTree(1, f.GetGH_Scalars());
-            DA.SetDataTree(2, f.GetGH_Vectors());
-            DA.SetDataTree(3, f.GetGH_iWeights());
+            if (f.tensors != null)
+            {
+                DA.SetDataTree(1, f.GetGH_Scalars());
+                DA.SetDataTree(2, f.GetGH_Vectors());
+                DA.SetDataTree(3, f.GetGH_iWeights());
+            }
             DA.SetDataList(4, f.colors);
+            DA.SetDataTree(5, Utilities.ToDataTree(f.topology));
+            DA.SetDataTree(6, Utilities.ToDataTree(f.transCoeff));
         }
 
         /// <summary>

@@ -5,7 +5,7 @@ using System.Linq;
 namespace AssemblerLib
 {
     /// <summary>
-    /// A simple Xtra/Xtended data container
+    /// A simple Xtra/Xtended Data container
     /// </summary>
     public class XData
     {
@@ -65,23 +65,9 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="otherXDataCopy"></param>
-        /// <returns></returns>
-        public XData XCopy(XData otherXDataCopy)
-        {
-            XData xd;
-            object[] dArray = new object[otherXDataCopy.data.Count];
-            otherXDataCopy.data.CopyTo(dArray);
-            xd = new XData(dArray.ToList(), otherXDataCopy.label, otherXDataCopy.refPlane, otherXDataCopy.AOName);
-            return xd;
-        }
-
-        /// <summary>
         /// Apply a transformation to the XData
         /// </summary>
-        /// <param name="xForm"></param>
+        /// <param name="xForm">Transformation to apply</param>
         public void Transform(Transform xForm)
         {
             refPlane.Transform(xForm);
@@ -128,6 +114,11 @@ namespace AssemblerLib
             }
 
             data = tData;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("XData {0} . AO {1} . {2} data object(s)", label, AOName, data.Count);
         }
     }
 }

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Grasshopper.Kernel;
-using Rhino.Geometry;
-using AssemblerLib;
-using Assembler.Properties;
+﻿using Assembler.Properties;
 using Assembler.Utils;
+using AssemblerLib;
+using Grasshopper.Kernel;
+using Grasshopper.Kernel.Types;
+using Rhino.Geometry;
+using System;
 
 namespace Assembler
 {
@@ -15,8 +14,8 @@ namespace Assembler
         /// Initializes a new instance of the ExtractMesh class.
         /// </summary>
         public ExtractCollisionMesh()
-          : base("Extract Collision Mesh", "AOCMesh",
-              "Extract collision mesh from AssemblyObject class",
+          : base("Extract Collision Mesh", "AOeCMesh",
+              "Extract the collision mesh of an AssemblyObject",
               "Assembler", "Post Processing")
         {
         }
@@ -52,7 +51,8 @@ namespace Assembler
             Mesh m = new Mesh();
             m.CopyFrom(AO.collisionMesh);
             m.Unweld(0, true);
-            DA.SetData(0, m);
+            GH_Mesh gm = new GH_Mesh(m);
+            DA.SetData(0, gm);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Assembler
         /// </summary>
         public override GH_Exposure Exposure
         {
-            get { return GH_Exposure.secondary; }
+            get { return GH_Exposure.quarternary; }
         }
 
         /// <summary>

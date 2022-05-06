@@ -16,7 +16,6 @@ namespace Assembler.Utils
      see these links to implement persistent parameter:
     https://gist.github.com/petrasvestartas/0d4bc6b8b2926f488ef36bd327f273ad
     https://gist.github.com/petrasvestartas/352e7e948411a9145ab7e1575505c2d1
-     
      */
     public class AssemblyObjectGoo : GH_GeometricGoo<AssemblyObject>, IGH_PreviewData, IGH_BakeAwareObject
     {
@@ -214,21 +213,21 @@ namespace Assembler.Utils
 
         // things that must be (de)serialized - [w] serialized - [r] deserialized
         //
-        // [w] collisionMesh
-        // [w] offsetMesh
-        // [w] referencePlane
-        // [w] handles
-        // [w] direction
-        // [w] type
-        // [w] name
-        // [w] aInd
-        // [w] occludedNeighbours
-        // [w] weight
-        // [w] iWeight
-        // [w] supports
-        // [w] minSupports
-        // [w] supported
-        // [w] absoluteZLock
+        // [w][r] collisionMesh
+        // [w][r] offsetMesh
+        // [w][r] referencePlane
+        // [w][r] handles
+        // [w][r] direction
+        // [w][r] type
+        // [w][r] name
+        // [w][r] aInd
+        // [w][r] occludedNeighbours
+        // [w][r] weight
+        // [w][r] iWeight
+        // [w][r] supports
+        // [w][r] minSupports
+        // [w][r] supported
+        // [w][r] absoluteZLock
 
         private const string IoCollisionMeshKey = "CollisionMesh";
         private const string IoOffsetMeshKey = "OffsetMesh";

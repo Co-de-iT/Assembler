@@ -1,22 +1,21 @@
-﻿using Assembler.Utils;
+﻿using Assembler.Properties;
+using Assembler.Utils;
 using AssemblerLib;
-using GH_IO.Types;
 using Grasshopper.Kernel;
-using Rhino.Geometry;
+using Grasshopper.Kernel.Types;
 using System;
-using System.Collections.Generic;
 
 namespace Assembler
 {
-    public class ExtractSupports : GH_Component
+    public class ExtractHandles : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the ExtractSupports class.
+        /// Initializes a new instance of the ExtractSenderHandlesPlanes class.
         /// </summary>
-        public ExtractSupports()
-          : base("ExtractSupports", "AOXtrSup",
-              "Extract Supports from an AssemblyObject",
-              "Assembler", "Post Processing")
+        public ExtractHandles()
+          : base("Extract Handles", "AOeHandles",
+              "Extract essential Handle information for an AssemblyObject",
+             "Assembler", "Post Processing")
         {
         }
 
@@ -25,7 +24,7 @@ namespace Assembler
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Assembly Object", "AO", "The newly created Assembly Object", GH_ParamAccess.item);
+            pManager.AddGenericParameter("AssemblyObject", "AO", "input AssemblyObject", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -33,8 +32,9 @@ namespace Assembler
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddLineParameter("Support Lines", "S", "Lines representing AssemblyObject's Supports", GH_ParamAccess.list);
-            pManager.AddIntegerParameter("Minimum suport number", "n", "Minimun number of connected supports to consider the object stable", GH_ParamAccess.item);
+            pManager.AddPlaneParameter("Handles Sender Planes", "SP", "Sender Planes of each Handle in the AssemblyObject", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("Handles Types", "T", "Type of each Handle in the AssemblyObject", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Handles Weights", "W", "Weight of each Handle in the AssemblyObject", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -49,14 +49,20 @@ namespace Assembler
 
             AO = GH_AO.Value;
 
+            GH_Plane[] hSPlanes = new GH_Plane[AO.handles.Length];
+            GH_Integer[] hTypes = new GH_Integer[AO.handles.Length];
+            GH_Number[] hWeights = new GH_Number[AO.handles.Length];
 
-            List<Line> lines = new List<Line>();
+            for (int i = 0; i < AO.handles.Length; i++)
+            {
+                hSPlanes[i] = new GH_Plane(AO.handles[i].sender);
+                hTypes[i] = new GH_Integer(AO.handles[i].type);
+                hWeights[i] = new GH_Number(AO.handles[i].weight);
+            }
 
-            foreach (Support s in AO.supports)
-                lines.Add(s.line);
-
-            DA.SetDataList(0, lines);
-            DA.SetData(1, AO.minSupports);
+            DA.SetDataList(0, hSPlanes);
+            DA.SetDataList(1, hTypes);
+            DA.SetDataList(2, hWeights);
         }
 
         /// <summary>
@@ -68,7 +74,7 @@ namespace Assembler
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Resources.Extract_Sender_Handles_Planes;
             }
         }
 
@@ -78,8 +84,7 @@ namespace Assembler
         /// </summary>
         public override GH_Exposure Exposure
         {
-            get { return GH_Exposure.hidden; }
-            //get { return GH_Exposure.secondary; }
+            get { return GH_Exposure.quarternary; }
         }
 
         /// <summary>
@@ -87,7 +92,7 @@ namespace Assembler
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("6a84f29a-d24a-4f24-a819-744acec607c5"); }
+            get { return new Guid("8f3c72d5-1256-4798-b28f-2703cefb7ffc"); }
         }
     }
 }

@@ -60,9 +60,9 @@ namespace Assembler
             DA.GetDataTree(2, out vectors);
             DA.GetDataTree(3, out iWeights);
 
-            DataTree<double> scalarsTree = ScalarsToRhType(scalars);
-            DataTree<Vector3d> vectorsTree = VectorsToRhType(vectors);
-            DataTree<int> iWeightsTree = WeightsToRhType(iWeights);
+            DataTree<double> scalarsTree = Utilities.GH2TreeDoubles(scalars);
+            DataTree<Vector3d> vectorsTree = Utilities.GH2TreeVectors(vectors);
+            DataTree<int> iWeightsTree = Utilities.GH2TreeIntegers(iWeights);
 
             fPop = new Field(f);
 
@@ -85,46 +85,13 @@ namespace Assembler
             DA.SetData(0, fPop);
         }
 
-        DataTree<double> ScalarsToRhType(GH_Structure<GH_Number> scalars)
-        {
-            DataTree<double> scalarsRh = new DataTree<double>();
-
-            if (scalars != null)
-                for (int i = 0; i < scalars.Branches.Count; i++)
-                    scalarsRh.AddRange(scalars.Branches[i].Select(n => n.Value).ToList(), scalars.Paths[i]);
-
-            return scalarsRh;
-        }
-
-        DataTree<Vector3d> VectorsToRhType(GH_Structure<GH_Vector> vectors)
-        {
-            DataTree<Vector3d> vectorsRh = new DataTree<Vector3d>();
-
-            if (vectors != null)
-                for (int i = 0; i < vectors.Branches.Count; i++)
-                    vectorsRh.AddRange(vectors.Branches[i].Select(n => n.Value).ToList(), vectors.Paths[i]);
-
-            return vectorsRh;
-        }
-
-        DataTree<int> WeightsToRhType(GH_Structure<GH_Integer> iWeights)
-        {
-            DataTree<int> iWeightsRh = new DataTree<int>();
-
-            if (iWeights != null)
-                for (int i = 0; i < iWeights.Branches.Count; i++)
-                    iWeightsRh.AddRange(iWeights.Branches[i].Select(n => n.Value).ToList(), iWeights.Paths[i]);
-
-            return iWeightsRh;
-        }
-
         /// <summary>
         /// Exposure override for position in the Subcategory (options primary to septenary)
         /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
         /// </summary>
         public override GH_Exposure Exposure
         {
-            get { return GH_Exposure.primary; }
+            get { return GH_Exposure.secondary; }
         }
 
         /// <summary>
@@ -139,8 +106,6 @@ namespace Assembler
                 return Resources.Populate_Field;
             }
         }
-
-
 
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.

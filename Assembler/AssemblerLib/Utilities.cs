@@ -41,7 +41,9 @@ namespace AssemblerLib
         public static readonly GH_Gradient discoGradient = new GH_Gradient(new double[] { 0.0, 1.0 },
             new Color[] { Color.FromArgb(255, 0, 255), Color.FromArgb(0, 255, 255) });
 
-        // AssemblyObject Type palette has a max of 24 colors - which is already WAY TOO MANY!!!
+        /// <summary>
+        /// AssemblyObject Type palette, with up to 24 colors - which is already WAY TOO MANY!!!
+        /// </summary>
         public static readonly Color[] AOTypePalette = new Color[] {
         Color.FromArgb(192,57,43), Color.FromArgb(100,100,100), Color.FromArgb(52,152,219), Color.FromArgb(253,188,75),
         Color.FromArgb(155,89,182), Color.FromArgb(46,204,113), Color.FromArgb(49,54,59), Color.FromArgb(231,76,60),
@@ -50,33 +52,38 @@ namespace AssemblerLib
         Color.FromArgb(243,156,31), Color.FromArgb(41,128,190), Color.FromArgb(35,38,41), Color.FromArgb(252,252,252),
         Color.FromArgb(218,68,83), Color.FromArgb(22,160,133), Color.FromArgb(149,165,166), Color.FromArgb(44,62,80)};
 
-        // receiver, sender (in this order)
+        /// <summary>
+        /// Palette for receiver, sender (in this order)
+        /// </summary>
         public static readonly Color[] srPalette = new Color[] { Color.SlateGray, Color.FromArgb(229, 229, 220) };
-        //public static readonly Color[] objPalette_OLD = new Color[] {  Color.Goldenrod, Color.HotPink, Color.YellowGreen, Color.Blue, Color.DarkKhaki, Color.CadetBlue,
-        //    Color.Plum, Color.LightSteelBlue, Color.PaleTurquoise, Color.Olive, Color.Violet, Color.DimGray, Color.Snow, Color.DarkSlateGray, Color.DarkGoldenrod, Color.DarkOliveGreen};
 
-        // get System Color in a List
-        // from https://www.codeproject.com/Questions/826358/How-to-choose-a-random-color-from-System-Drawing-C
+        /// <summary>
+        /// Known Colors into a List
+        /// </summary>
+        /// <remarks>see: https://www.codeproject.com/Questions/826358/How-to-choose-a-random-color-from-System-Drawing-C</remarks>
         public static readonly List<KnownColor> colorlist = Enum.GetValues(typeof(KnownColor)).Cast<KnownColor>().ToList();
 
         #region Assemblage Utilities
 
         #region Collision Utilities
+
         /// <summary>
-        /// Collision Check in the assemblage for a given <see cref="Assemblage"/> and <see cref="AssemblyObject"/>
+        /// Collision check for a given <see cref="AssemblyObject"/> in an <see cref="Assemblage"/>
         /// </summary>
-        /// <param name="AOa">The <see cref="Assemblage"/> to check</param>
-        /// <param name="sO">The sender <see cref="AssemblyObject"/></param>
+        /// <param name="AOa">The <see cref="Assemblage"/> for checking</param>
+        /// <param name="sO">The sender <see cref="AssemblyObject"/> to check</param>
+        /// <param name="neighbourIndexes">array of neighbour AssemblyObjects Aind</param>
         /// <returns>true if a collision exists</returns>
-        public static bool CollisionCheckAssemblage(Assemblage AOa, AssemblyObject sO)
+        public static bool CollisionCheckInAssemblage(Assemblage AOa, AssemblyObject sO, out int[] neighbourIndexes)
         {
+            neighbourIndexes = null;
             // get first vertex as Point3d for inclusion check
             Point3d neighFirstVertex, sOfirstVertex = sO.offsetMesh.Vertices[0];
 
             // find neighbours in Assemblage 
             List<int> neighList = new List<int>();
             // collision radius is a field of AssemblyObject
-            AOa.centroidsTree.Search(new Sphere(sO.referencePlane.Origin, AOa.collisionRadius), (sender, args) =>
+            AOa.centroidsTree.Search(new Sphere(sO.referencePlane.Origin, AOa.CollisionRadius), (sender, args) =>
             {
                 // recover the AssemblyObject AInd related to the found centroid
                 neighList.Add(AOa.centroidsAO[args.Id]);
@@ -85,19 +92,23 @@ namespace AssemblerLib
             // check for no neighbours
             if (neighList.Count == 0) return false;
 
+            neighbourIndexes = neighList.ToArray();
             // check for collisions + inclusion (sender in receiver, receiver in sender)
-            foreach (int index in neighList)
+            //int pathIndex;
+            Mesh AOcollision;
+            foreach (int index in neighbourIndexes)
             {
                 GH_Path neighPath = new GH_Path(index);
+                AOcollision = AOa.assemblyObjects[neighPath, 0].collisionMesh;
                 // check Bounding Box intersection first - if no intersection continue to the next loop iteration
                 if (!BoundingBoxIntersect(sO.collisionMesh.GetBoundingBox(false),
-                    AOa.assemblyObjects[neighPath, 0].collisionMesh.GetBoundingBox(false)))
+                    AOcollision.GetBoundingBox(false)))
                     continue;
                 // check Mesh intersection
-                if (Intersection.MeshMeshFast(sO.offsetMesh, AOa.assemblyObjects[neighPath, 0].collisionMesh).Length > 0)
+                if (Intersection.MeshMeshFast(sO.offsetMesh, AOcollision).Length > 0)
                     return true;
                 // check if sender object is inside neighbour
-                if (AOa.assemblyObjects[neighPath, 0].collisionMesh.IsPointInside(sOfirstVertex, RhinoAbsoluteTolerance, true))
+                if (AOcollision.IsPointInside(sOfirstVertex, RhinoAbsoluteTolerance, true))
                     return true;
                 // check if neighbour is inside sender object
                 // get neighbour's OffsetMesh first vertex & check if it's inside
@@ -194,46 +205,39 @@ namespace AssemblerLib
         #endregion Collision Utilities
 
         #region Obstruction Utilities
+
         /// <summary>
         /// Check obstruction status for an <see cref="AssemblyObject"/> in the <see cref="Assemblage"/>
         /// </summary>
         /// <param name="AOa"></param>
         /// <param name="AO_AInd"></param>
         /// <returns></returns>
-        public static bool ObstructionCheckAssemblage(Assemblage AOa, int AO_AInd)
+        /// <param name="neighbourAIndexes"></param>
+        public static bool ObstructionCheckAssemblage(Assemblage AOa, int AO_AInd, int[] neighbourAIndexes)
         {
             AssemblyObject AO = AOa.assemblyObjects[new GH_Path(AO_AInd), 0];
             bool obstruct = false;
             Line ray;
             int[] faceIDs;
 
-            // list of neighbours AInd in Assemblage
-            List<int> neighAIndList = new List<int>();
-            // collision radius is a field of AssemblyObjects
-            AOa.centroidsTree.Search(new Sphere(AO.referencePlane.Origin, AOa.collisionRadius), (sender, args) =>
-            {
-                // check and recover the AssemblyObject index related to the found centroid
-                if (AOa.centroidsAO[args.Id] != AO_AInd) neighAIndList.Add(AOa.centroidsAO[args.Id]);
-            });
-
-            // if there are no neighbours return
-            if (neighAIndList.Count == 0)
-                return obstruct;
-
             // check two-way: 
             // 1. object handles connected or obstructed by neighbours
             // 2. neighbour handles obstructed by object
 
             GH_Path neighPath;
+            int neighSeqInd;
+
             // scan neighbours
-            foreach (int neighAInd in neighAIndList)
+            foreach (int neighAInd in neighbourAIndexes)
             {
+                // find neighbour sequential index (for faster tree access)
                 neighPath = new GH_Path(neighAInd);
+                neighSeqInd = AOa.assemblyObjects.Paths.IndexOf(neighPath);
                 // scan neighbour's handles
-                for (int j = 0; j < AOa.assemblyObjects[neighPath, 0].handles.Length; j++)
+                for (int j = 0; j < AOa.assemblyObjects.Branch(neighSeqInd)[0].handles.Length; j++)
                 {
                     // if the handle is not available continue
-                    if (AOa.assemblyObjects[neighPath, 0].handles[j].occupancy != 0) continue;
+                    if (AOa.assemblyObjects.Branch(neighSeqInd)[0].handles[j].occupancy != 0) continue;
 
                     // check for accidental handle connection
                     bool connect = false;
@@ -249,12 +253,10 @@ namespace AssemblerLib
                         // if handles are of the same type...
                         // if (AO.handles[k].type == AOa.assemblyObjects[index].handles[j].type)
                         // ...and their distance is below absolute tolerance...
-                        if (AOa.assemblyObjects[neighPath, 0].handles[j].sender.Origin.DistanceToSquared(AO.handles[k].sender.Origin) < RhinoAbsoluteToleranceSquared)
+                        if (AOa.assemblyObjects.Branch(neighSeqInd)[0].handles[j].sender.Origin.DistanceToSquared(AO.handles[k].sender.Origin) < RhinoAbsoluteToleranceSquared)
                         {
                             // ...update handles
-                            double sOHWeight = AO.handles[k].weight;
-                            AO.UpdateHandle(k, 1, neighAInd, j, AOa.assemblyObjects[neighPath, 0].handles[j].weight);
-                            AOa.assemblyObjects[neighPath, 0].UpdateHandle(j, 1, AO_AInd, k, sOHWeight);
+                            UpdateConnectedHandles(AO, k, AOa.assemblyObjects.Branch(neighSeqInd)[0], j);
                             connect = true;
                             break;
                         }
@@ -264,16 +266,15 @@ namespace AssemblerLib
 
                     // CHECK OBSTRUCTION OF NEIGHBOUR HANDLES BY sO
                     // shoot a line from the handle
-                    ray = new Line(AOa.assemblyObjects[neighPath, 0].handles[j].sender.Origin -
-                        (AOa.assemblyObjects[neighPath, 0].handles[j].sender.ZAxis * RhinoAbsoluteTolerance * 5),
-                        AOa.assemblyObjects[neighPath, 0].handles[j].sender.ZAxis * 1.5);
+                    Plane hSender = AOa.assemblyObjects.Branch(neighSeqInd)[0].handles[j].sender;
+                    ray = new Line(hSender.Origin - (hSender.ZAxis * RhinoAbsoluteTolerance * 5), hSender.ZAxis * 1.5);
 
                     // if it intercepts the last added object
                     if (Intersection.MeshLine(AO.collisionMesh, ray, out faceIDs).Length != 0)
                     {
                         // change handle occupancy to -1 (occluded) and add Object index to occluded handle neighbourObject
-                        AOa.assemblyObjects[neighPath, 0].handles[j].occupancy = -1;
-                        AOa.assemblyObjects[neighPath, 0].handles[j].neighbourObject = AO_AInd;
+                        AOa.assemblyObjects.Branch(neighSeqInd)[0].handles[j].occupancy = -1;
+                        AOa.assemblyObjects.Branch(neighSeqInd)[0].handles[j].neighbourObject = AO_AInd;
                         // update Object OccludedNeighbours status
                         AOa.assemblyObjects[new GH_Path(AO_AInd), 0].occludedNeighbours.Add(new int[] { neighAInd, j });
                         // change obstruct variable status
@@ -292,13 +293,13 @@ namespace AssemblerLib
                     ray = new Line(AO.handles[k].sender.Origin - (AO.handles[k].sender.ZAxis * Utilities.RhinoAbsoluteTolerance * 5), AO.handles[k].sender.ZAxis * 1.5);
 
                     // if it intercepts the neighbour object
-                    if (Intersection.MeshLine(AOa.assemblyObjects[neighPath, 0].collisionMesh, ray, out faceIDs).Length != 0)
+                    if (Intersection.MeshLine(AOa.assemblyObjects.Branch(neighSeqInd)[0].collisionMesh, ray, out faceIDs).Length != 0)
                     {
                         // change handle occupancy to -1 (occluded) and add neighbour Object index to occluded handle neighbourObject
                         AO.handles[k].occupancy = -1;
                         AO.handles[k].neighbourObject = neighAInd;
                         // update neighbourObject OccludedNeighbours status
-                        AOa.assemblyObjects[neighPath, 0].occludedNeighbours.Add(new int[] { AO_AInd, k });
+                        AOa.assemblyObjects.Branch(neighSeqInd)[0].occludedNeighbours.Add(new int[] { AO_AInd, k });
                         // change obstruct variable status
                         obstruct = true;
                     }
@@ -318,7 +319,6 @@ namespace AssemblerLib
             bool obstruct = false;
             Line ray;
             int[] faceIDs;
-
 
             // check two-way: 
             // 1. object handles connected or obstructed by neighbours
@@ -349,9 +349,7 @@ namespace AssemblerLib
                                 if (AOList[j].handles[k].sender.Origin.DistanceToSquared(AOList[i].handles[p].sender.Origin) < RhinoAbsoluteToleranceSquared)// Rhino.RhinoDoc.ActiveDoc.ModelAbsoluteTolerance)
                                 {
                                     // ...update handles
-                                    double sOHWeight = AOList[i].handles[p].weight;
-                                    AOList[i].UpdateHandle(p, 1, j, k, AOList[j].handles[k].weight);
-                                    AOList[j].UpdateHandle(k, 1, i, p, sOHWeight);
+                                    UpdateConnectedHandles(AOList[i], p, AOList[j], k);
                                     connect = true;
                                     break;
                                 }
@@ -405,44 +403,8 @@ namespace AssemblerLib
 
         #endregion Obstruction Utilities
 
-        public static Assemblage Clone(Assemblage ass)
-        {
-            Assemblage cAss = new Assemblage();
-            // clone AssemblyObjects
-            cAss.assemblyObjects = new DataTree<AssemblyObject>();
-            for (int i = 0; i < ass.assemblyObjects.BranchCount; i++)
-                cAss.assemblyObjects.Add(CloneWithConnectivity(ass.assemblyObjects.Branches[i][0]), ass.assemblyObjects.Paths[i]);
-            // clone AOSet
-            cAss.AOSet = new AssemblyObject[ass.AOSet.Length];
-            for (int i = 0; i < ass.AOSet.Length; i++)
-                cAss.AOSet[i] = Clone(ass.AOSet[i]);
-            // clone dictionary
-            cAss.AOSetDictionary = new Dictionary<string, int>(ass.AOSetDictionary);
-            // clone settings
-            cAss.HeuristicsSettings = ass.HeuristicsSettings;
-            cAss.ExogenousSettings = ass.ExogenousSettings;
-            // clone Sandbox
-            cAss.E_sandbox = ass.E_sandbox;
-            // duplicate others
-            cAss.currentHeuristics = ass.currentHeuristics;
-            cAss.heuristicsTree = ass.heuristicsTree;
-            // candidateObjects doesn't need duplication
-            cAss.assemblageRules = ass.assemblageRules;
-            cAss.receiverIndexes = ass.receiverIndexes;
-            cAss.checkWorldZLock = ass.checkWorldZLock;
-            cAss.centroidsAO = ass.centroidsAO;
-            cAss.centroidsTree = ass.centroidsTree;
-            cAss.availableObjects = ass.availableObjects;
-            cAss.unreachableObjects = ass.unreachableObjects;
-            return cAss;
-        }
-
-        #endregion Assemblage Utilities
-
-        #region Object Utilities
-
         /// <summary>
-        /// Builds the dictionary of AssemblyObjects
+        /// Builds the Dictionary of AssemblyObjects
         /// </summary>
         /// <param name="AOset">the array of unique <see cref="AssemblyObject"/>s constituting the set</param>
         /// <returns>The (name, type) Dictionary built from the AOSet</returns>
@@ -474,10 +436,137 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// Clones an AssemblyObject as an asset, without the connectivity information
+        /// Clone an Assemblage
+        /// </summary>
+        /// <param name="AOa">Assemblage to clone</param>
+        /// <returns>A cloned Assemblage</returns>
+        public static Assemblage Clone(Assemblage AOa)
+        {
+            Assemblage clonedAOa = new Assemblage();
+            // clone AssemblyObjects
+            clonedAOa.assemblyObjects = new DataTree<AssemblyObject>();
+            for (int i = 0; i < AOa.assemblyObjects.BranchCount; i++)
+                clonedAOa.assemblyObjects.Add(CloneWithConnectivity(AOa.assemblyObjects.Branches[i][0]), AOa.assemblyObjects.Paths[i]);
+            //cAss.AOIndexesMap = ass.AOIndexesMap;
+            // clone AOSet
+            clonedAOa.AOSet = new AssemblyObject[AOa.AOSet.Length];
+            for (int i = 0; i < AOa.AOSet.Length; i++)
+                clonedAOa.AOSet[i] = Clone(AOa.AOSet[i]);
+            // clone dictionary
+            clonedAOa.AOSetDictionary = new Dictionary<string, int>(AOa.AOSetDictionary);
+            // clone settings
+            clonedAOa.HeuristicsSettings = AOa.HeuristicsSettings;
+            clonedAOa.ExogenousSettings = AOa.ExogenousSettings;
+            // clone colliison radius
+            clonedAOa.CollisionRadius = AOa.CollisionRadius;
+            // clone Sandbox
+            clonedAOa.E_sandbox = AOa.E_sandbox;
+            // clone others
+            clonedAOa.currentHeuristics = AOa.currentHeuristics;
+            clonedAOa.heuristicsTree = AOa.heuristicsTree;
+            // candidateObjects doesn't need cloning
+            clonedAOa.AssemblageRules = AOa.AssemblageRules;
+            clonedAOa.ReceiverAIndexes = AOa.ReceiverAIndexes;
+            clonedAOa.checkWorldZLock = AOa.checkWorldZLock;
+            clonedAOa.centroidsAO = AOa.centroidsAO;
+            clonedAOa.centroidsTree = AOa.centroidsTree;
+            clonedAOa.availableObjects = AOa.availableObjects;
+            clonedAOa.unreachableObjects = AOa.unreachableObjects;
+            clonedAOa.availableReceiverValues = AOa.availableReceiverValues;
+            clonedAOa.handleTypes = AOa.handleTypes;
+            return clonedAOa;
+        }
+
+        /// <summary>
+        /// Remove an <see cref="AssemblyObject"/> from an <see cref="Assemblage"/>, updating topology information
+        /// </summary>
+        /// <param name="AOa">The Assemblage to remove from</param>
+        /// <param name="AInd">the Assemblage Index of the AssemblyObject to remove</param>
+        /// <returns>true if successful, false otherwise</returns>
+        public static bool RemoveAssemblyObject(Assemblage AOa, int AInd)
+        {
+            GH_Path AOPath = new GH_Path(AInd);
+            // if the index does not exist return
+            if (!AOa.assemblyObjects.PathExists(AOPath)) return false;
+
+            AssemblyObject AO = AOa.assemblyObjects[AOPath, 0];
+
+            // . . . Topology operations
+            // update connected AO Handles
+            for (int i = 0; i < AO.handles.Length; i++)
+            {
+                // AInd of neighbour object
+                int neighAInd = AO.handles[i].neighbourObject;
+                GH_Path neighPath = new GH_Path(neighAInd);
+
+                // free connected handles
+                if (AO.handles[i].occupancy == 1)
+                {
+                    AOa.assemblyObjects[neighPath, 0].handles[AO.handles[i].neighbourHandle].occupancy = 0;
+                    AOa.assemblyObjects[neighPath, 0].handles[AO.handles[i].neighbourHandle].neighbourObject = -1;
+                    AOa.assemblyObjects[neighPath, 0].handles[AO.handles[i].neighbourHandle].neighbourHandle = -1;
+                }
+                // update occluding objects
+                else if (AO.handles[i].occupancy == -1)
+                    AOa.assemblyObjects[neighPath, 0].occludedNeighbours.Remove(new int[] { AO.AInd, i });
+            }
+
+            // check its occluded objects
+            for (int i = 0; i < AO.occludedNeighbours.Count; i++)
+            {
+                GH_Path occludePath = new GH_Path(AO.occludedNeighbours[i][0]);
+                // free occluded handle
+                AOa.assemblyObjects[occludePath, 0].handles[AO.occludedNeighbours[i][1]].occupancy = 0;
+                AOa.assemblyObjects[occludePath, 0].handles[AO.occludedNeighbours[i][1]].neighbourObject = -1;
+            }
+
+            // remove from used rules
+            AOa.AssemblageRules.RemovePath(AO.AInd);
+            // remove from used receiver indexes
+            AOa.ReceiverAIndexes.RemovePath(AO.AInd);
+
+            // check if in available-unreachable objects and remove
+            if (AOa.availableObjects.Contains(AO.AInd))
+            {
+                int avSeq = AOa.availableObjects.IndexOf(AO.AInd);
+                AOa.availableObjects.Remove(AO.AInd);
+                AOa.availableReceiverValues.RemoveAt(avSeq);
+            }
+            else if (AOa.unreachableObjects.Contains(AO.AInd)) AOa.unreachableObjects.Remove(AO.AInd);
+
+            // remove from centroids tree
+            AOa.centroidsTree.Remove(AO.referencePlane.Origin, AO.AInd);
+
+            // remove from AssemblyObject list
+            AOa.assemblyObjects.RemovePath(AO.AInd);
+
+            return true;
+        }
+
+        #endregion Assemblage Utilities
+
+        #region Object Utilities
+
+        /// <summary>
+        /// Performs a check for World Z-Axis orientation of the AssemblyObject
+        /// </summary>
+        /// <param name="AO">the <see cref="AssemblyObject"/> to check</param>
+        /// <returns>true if the Z axis of the object Reference Plane is oriented along the World Z</returns>
+        public static bool AbsoluteZCheck(AssemblyObject AO) => AO.referencePlane.ZAxis * Vector3d.ZAxis == 1;
+
+        /// <summary>
+        /// Performs a check for World Z-Axis orientation of the AssemblyObject, with a tolerance
+        /// </summary>
+        /// <param name="AO">the <see cref="AssemblyObject"/> to check</param>
+        /// <param name="tol">the tolerance to respect</param>
+        /// <returns>true if the Z axis of the object Reference Plane is oriented along the World Z under the given tolerance</returns>
+        public static bool AbsoluteZCheck(AssemblyObject AO, double tol) => 1 - (AO.referencePlane.ZAxis * Vector3d.ZAxis) <= tol;
+
+        /// <summary>
+        /// Clones an <see cref="AssemblyObject"/> as an asset, resetting connectivity information
         /// </summary>
         /// <param name="AO"></param>
-        /// <returns>a cloned AssemblyObejct</returns>
+        /// <returns>a cloned AssemblyObejct asset</returns>
         public static AssemblyObject Clone(AssemblyObject AO)
         {
             // build deep copies of meshes
@@ -519,13 +608,14 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// Duplicates an AssemblyObject preserving connectivity information. Useful for previous assemblages and the Goo wrapper.
+        /// Duplicates an <see cref="AssemblyObject"/> preserving connectivity information
         /// </summary>
-        /// <param name="AO">The Original AssemblyObject</param>
+        /// <param name="AO">The Original <see cref="AssemblyObject"/></param>
         /// <returns>A duplicated AssemblyObject with the same connectivity of the source</returns>
+        /// <remarks>Useful for previous assemblages and the Goo wrapper</remarks>
         public static AssemblyObject CloneWithConnectivity(AssemblyObject AO)
         {
-            AssemblyObject AOcloneConnect = Clone(AO); // new AssemblyObject(AO);
+            AssemblyObject AOcloneConnect = Clone(AO);
 
             for (int i = 0; i < AOcloneConnect.handles.Length; i++)
                 AOcloneConnect.handles[i] = CloneWithConnectivity(ref AO.handles[i]);
@@ -549,16 +639,184 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// Performs a check for World Z-Axis orientation of the AssemblyObject
+        /// Transform AssemblyObject using a generic Transformation
         /// </summary>
-        /// <param name="AO">the <see cref="AssemblyObject"/> to check</param>
-        /// <returns>true if the Z axis of the object Reference Plane is oriented along the World Z</returns>
-        public static bool AbsoluteZCheck(AssemblyObject AO)
+        /// <param name="AO"></param>
+        /// <param name="xForm"></param>
+        public static void Transform(AssemblyObject AO, Transform xForm)
         {
-            return AO.referencePlane.ZAxis * Vector3d.ZAxis == 1;
+            // transform geometries
+            AO.collisionMesh.Transform(xForm);
+            AO.offsetMesh.Transform(xForm);
+            AO.referencePlane.Transform(xForm);
+            AO.direction.Transform(xForm);
+
+            // transform Handles (do not use a foreach loop)
+            for (int i = 0; i < AO.handles.Length; i++) AO.handles[i].Transform(xForm);
+
+            // transform children (if any)
+            if (AO.children != null)
+                for (int i = 0; i < AO.children.Count; i++) Transform(AO.children[i], xForm);
+
+            // transform Supports (if they exist)
+            if (AO.supports != null)
+                for (int i = 0; i < AO.supports.Count; i++) AO.supports[i].Transform(xForm);
         }
 
         #endregion Object Utilities
+
+        #region Handle Utilities
+
+        /// <summary>
+        /// Clones a Handle
+        /// </summary>
+        /// <param name="handle"></param>
+        /// <returns>a cloned Handle</returns>
+        public static Handle Clone(ref Handle handle)
+        {
+            Handle clone = new Handle();
+            clone.sender = handle.sender;
+            clone.rRotations = handle.rRotations;
+            clone.rDictionary = CloneDictionaryWithValues(handle.rDictionary);
+            // this is a shallow copy - not working
+            //r = other.r;
+            // deep array copy (from https://stackoverflow.com/questions/3464635/deep-copy-with-array)
+            clone.receivers = handle.receivers.Select(pl => pl.Clone()).ToArray();
+            clone.type = handle.type;
+            clone.weight = handle.weight;
+            clone.occupancy = 0;
+            clone.neighbourHandle = -1;
+            clone.neighbourObject = -1;
+
+            return clone;
+        }
+
+        /// <summary>
+        /// Duplicates a Handle preserving connectivity information
+        /// </summary>
+        /// <param name="handle"></param>
+        /// <returns>a duplicated Handle with the same connectivity</returns>
+        public static Handle CloneWithConnectivity(ref Handle handle)
+        {
+            Handle handleCloneConnect = new Handle();
+            handleCloneConnect.sender = handle.sender;
+            handleCloneConnect.rRotations = handle.rRotations;
+            handleCloneConnect.rDictionary = CloneDictionaryWithValues(handle.rDictionary);
+            // this is a shallow copy - not working
+            //r = other.r;
+            // deep array copy (from https://stackoverflow.com/questions/3464635/deep-copy-with-array)
+            handleCloneConnect.receivers = handle.receivers.Select(pl => pl.Clone()).ToArray();
+            handleCloneConnect.type = handle.type;
+            handleCloneConnect.weight = handle.weight;
+            handleCloneConnect.occupancy = handle.occupancy;
+            handleCloneConnect.neighbourHandle = handle.neighbourHandle;
+            handleCloneConnect.neighbourObject = handle.neighbourObject;
+
+            return handleCloneConnect;
+        }
+
+        public static void UpdateConnectedHandles(AssemblyObject AO1, int handle1, AssemblyObject AO2, int handle2)
+        {
+            AO1.handles[handle1].occupancy = 1;
+            AO2.handles[handle2].occupancy = 1;
+            AO1.handles[handle1].neighbourObject = AO2.AInd;
+            AO2.handles[handle2].neighbourObject = AO1.AInd;
+            AO1.handles[handle1].neighbourHandle = handle2;
+            AO2.handles[handle2].neighbourHandle = handle1;
+
+            double newWeight = 0.5 * (AO1.handles[handle1].weight + AO2.handles[handle2].weight);
+            AO1.handles[handle1].weight = newWeight;
+            AO2.handles[handle2].weight = newWeight;
+        }
+
+        #endregion Handle Utilities
+
+        #region Rule Utilities
+        /// <summary>
+        /// Returns a list of Rules from a heuristics string, outputs also a Data Tree of the rules strings
+        /// </summary>
+        /// <param name="AOset"></param>
+        /// <param name="AOCatalog"></param>
+        /// <param name="heuristics"></param>
+        /// <param name="heuristicsTree"></param>
+        /// <returns></returns>
+        public static List<Rule> HeuristicsRulesFromString(List<AssemblyObject> AOset, Dictionary<string, int> AOCatalog, List<string> heuristics, out DataTree<string> heuristicsTree)
+        {
+            List<Rule> heuList = HeuristicsRulesFromString(AOset, AOCatalog, heuristics);
+            heuristicsTree = new DataTree<string>();
+
+            for (int i = 0; i < heuristics.Count; i++)
+                heuristicsTree.Add(heuristics[i], new GH_Path(i));
+
+            return heuList;
+        }
+
+        /// <summary>
+        /// Returns a list of Rules from a heuristics string
+        /// </summary>
+        /// <param name="AOset"></param>
+        /// <param name="AOCatalog"></param>
+        /// <param name="heuristics"></param>
+        /// <returns></returns>
+        public static List<Rule> HeuristicsRulesFromString(List<AssemblyObject> AOset, Dictionary<string, int> AOCatalog, List<string> heuristics)
+        {
+            List<Rule> heuT = new List<Rule>();
+
+            string[] ruleStrings = heuristics.ToArray();
+
+            int rT, rH, rR, sT, sH;
+            double rRA;
+            int iWeight;
+            for (int i = 0; i < ruleStrings.Length; i++)
+            {
+                string[] ruleString = ruleStrings[i].Split(new[] { '<', '%' });
+                string[] rec = ruleString[0].Split(new[] { '|' });
+                string[] sen = ruleString[1].Split(new[] { '|' });
+                // sender and receiver component types
+                sT = AOCatalog[sen[0]];
+                rT = AOCatalog[rec[0]];
+                // sender handle index
+                sH = Convert.ToInt32(sen[1]);
+                // iWeight
+                iWeight = Convert.ToInt32(ruleString[2]);
+                string[] rRot = rec[1].Split(new[] { '=' });
+                // receiver handle index and rotation
+                rH = Convert.ToInt32(rRot[0]);
+                rRA = Convert.ToDouble(rRot[1]);
+                rR = AOset[rT].handles[rH].rDictionary[rRA]; // using rotations
+
+                heuT.Add(new Rule(rec[0], rT, rH, rR, rRA, sen[0], sT, sH, iWeight));
+            }
+            return heuT;
+        }
+
+        //private static bool RuleExist(Assemblage AOa, int sO, int rO, int sH, int rH)
+        //{
+        //    if (AOa.heuristicsTree.PathExists(AOa.currentHeuristics, AOa.assemblyObjects[rO].type))
+        //    // search for rInd rule
+        //    {
+        //        // scan rO rules
+        //        foreach (Rule r in AOa.heuristicsTree.Branch(AOa.currentHeuristics, AOa.assemblyObjects[rO].type))
+        //        {
+        //            if (r.sT != AOa.assemblyObjects[sO].type) continue;
+        //            else if (r.sH == sH && r.rH == rH) return true;
+        //        }
+        //    }
+        //    else if (AOa.heuristicsTree.PathExists(AOa.currentHeuristics, AOa.assemblyObjects[sO].type))
+        //    // search for sInd rule
+        //    {
+        //        // scan sO rules
+        //        foreach (Rule r in AOa.heuristicsTree.Branch(AOa.currentHeuristics, AOa.assemblyObjects[sO].type))
+        //        {
+        //            if (r.sT != AOa.assemblyObjects[rO].type) continue;
+        //            else if (r.sH == rH && r.rH == sH) return true;
+        //        }
+
+        //    }
+        //    return false; // there is no corresponding rule
+        //}
+
+        #endregion Rule Utilities
 
         #region Supports Utilities
 
@@ -678,7 +936,7 @@ namespace AssemblerLib
                 // if intersections are found resize support line to intersection point and return true
                 if (intPts.Length > 0)
                 {
-                    // move to Rhino 7 package since it has MeshLineSorted intersection
+                    // Rhino 7 has MeshLineSorted intersection
                     // consider the point at index 0 for the time being - correct if something's wrong
 
                     //minD = double.MaxValue;
@@ -760,148 +1018,7 @@ namespace AssemblerLib
             return false;
         }
 
-
-
         #endregion Supports Utilities
-
-        #region Handle Utilities
-
-        /// <summary>
-        /// Clones a Handle
-        /// </summary>
-        /// <param name="handle"></param>
-        /// <returns>a cloned Handle</returns>
-        public static Handle Clone(ref Handle handle)
-        {
-            Handle clone = new Handle();
-            clone.sender = handle.sender;
-            clone.rRotations = handle.rRotations;
-            clone.rDictionary = CloneDictionaryWithValues(handle.rDictionary);
-            // this is a shallow copy - not working
-            //r = other.r;
-            // deep array copy (from https://stackoverflow.com/questions/3464635/deep-copy-with-array)
-            clone.receivers = handle.receivers.Select(pl => pl.Clone()).ToArray();
-            clone.type = handle.type;
-            clone.weight = handle.weight;
-            clone.occupancy = 0;
-            clone.neighbourHandle = -1;
-            clone.neighbourObject = -1;
-
-            return clone;
-        }
-
-        /// <summary>
-        /// Duplicates a Handle preserving connectivity information
-        /// </summary>
-        /// <param name="handle"></param>
-        /// <returns>a duplicated Handle with the same connectivity</returns>
-        public static Handle CloneWithConnectivity(ref Handle handle)
-        {
-            Handle handleCloneConnect = new Handle();
-            handleCloneConnect.sender = handle.sender;
-            handleCloneConnect.rRotations = handle.rRotations;
-            handleCloneConnect.rDictionary = CloneDictionaryWithValues(handle.rDictionary);
-            // this is a shallow copy - not working
-            //r = other.r;
-            // deep array copy (from https://stackoverflow.com/questions/3464635/deep-copy-with-array)
-            handleCloneConnect.receivers = handle.receivers.Select(pl => pl.Clone()).ToArray();
-            handleCloneConnect.type = handle.type;
-            handleCloneConnect.weight = handle.weight;
-            handleCloneConnect.occupancy = handle.occupancy;
-            handleCloneConnect.neighbourHandle = handle.neighbourHandle;
-            handleCloneConnect.neighbourObject = handle.neighbourObject;
-
-            return handleCloneConnect;
-        }
-
-        #endregion Handle Utilities
-
-        #region Rule Utilities
-        /// <summary>
-        /// Returns a list of Rules from a heuristics string, outputs also a Data Tree of the rules strings
-        /// </summary>
-        /// <param name="AOset"></param>
-        /// <param name="AOCatalog"></param>
-        /// <param name="heuristics"></param>
-        /// <param name="heuristicsTree"></param>
-        /// <returns></returns>
-        public static List<Rule> HeuristicsRulesFromString(List<AssemblyObject> AOset, Dictionary<string, int> AOCatalog, List<string> heuristics, out DataTree<string> heuristicsTree)
-        {
-            List<Rule> heuList = HeuristicsRulesFromString(AOset, AOCatalog, heuristics);
-            heuristicsTree = new DataTree<string>();
-
-            for (int i = 0; i < heuristics.Count; i++)
-                heuristicsTree.Add(heuristics[i], new GH_Path(i));
-
-            return heuList;
-        }
-
-        /// <summary>
-        /// Returns a list of Rules from a heuristics string
-        /// </summary>
-        /// <param name="AOset"></param>
-        /// <param name="AOCatalog"></param>
-        /// <param name="heuristics"></param>
-        /// <returns></returns>
-        public static List<Rule> HeuristicsRulesFromString(List<AssemblyObject> AOset, Dictionary<string, int> AOCatalog, List<string> heuristics)
-        {
-            List<Rule> heuT = new List<Rule>();
-
-            string[] ruleStrings = heuristics.ToArray();
-
-            int rT, rH, rR, sT, sH;
-            double rRA;
-            int iWeight;
-            for (int i = 0; i < ruleStrings.Length; i++)
-            {
-                string[] ruleString = ruleStrings[i].Split(new[] { '<', '%' });
-                string[] rec = ruleString[0].Split(new[] { '|' });
-                string[] sen = ruleString[1].Split(new[] { '|' });
-                // sender and receiver component types
-                sT = AOCatalog[sen[0]];
-                rT = AOCatalog[rec[0]];
-                // sender handle index
-                sH = Convert.ToInt32(sen[1]);
-                // iWeight
-                iWeight = Convert.ToInt32(ruleString[2]);
-                string[] rRot = rec[1].Split(new[] { '=' });
-                // receiver handle index and rotation
-                rH = Convert.ToInt32(rRot[0]);
-                rRA = Convert.ToDouble(rRot[1]);
-                rR = AOset[rT].handles[rH].rDictionary[rRA]; // using rotations
-
-                heuT.Add(new Rule(rec[0], rT, rH, rR, rRA, sen[0], sT, sH, iWeight));
-            }
-            return heuT;
-        }
-
-        //private static bool RuleExist(Assemblage AOa, int sO, int rO, int sH, int rH)
-        //{
-        //    if (AOa.heuristicsTree.PathExists(AOa.currentHeuristics, AOa.assemblyObjects[rO].type))
-        //    // search for rInd rule
-        //    {
-        //        // scan rO rules
-        //        foreach (Rule r in AOa.heuristicsTree.Branch(AOa.currentHeuristics, AOa.assemblyObjects[rO].type))
-        //        {
-        //            if (r.sT != AOa.assemblyObjects[sO].type) continue;
-        //            else if (r.sH == sH && r.rH == rH) return true;
-        //        }
-        //    }
-        //    else if (AOa.heuristicsTree.PathExists(AOa.currentHeuristics, AOa.assemblyObjects[sO].type))
-        //    // search for sInd rule
-        //    {
-        //        // scan sO rules
-        //        foreach (Rule r in AOa.heuristicsTree.Branch(AOa.currentHeuristics, AOa.assemblyObjects[sO].type))
-        //        {
-        //            if (r.sT != AOa.assemblyObjects[rO].type) continue;
-        //            else if (r.sH == rH && r.rH == sH) return true;
-        //        }
-
-        //    }
-        //    return false; // there is no corresponding rule
-        //}
-
-        #endregion Rule Utilities
 
         #region File Utilities
 
@@ -1421,7 +1538,8 @@ namespace AssemblerLib
             double vMin = values.Min();
             double vMax = values.Max();
 
-            if (vMin > 0 && vMax < 1) return values;
+            // if scalars are identical, prevent division by 0
+            if (vMin == vMax) return values.Select(x => 0.5).ToArray();
 
             double den = 1 / (vMax - vMin);
 
@@ -1443,7 +1561,8 @@ namespace AssemblerLib
             double vMin = values.Min();
             double vMax = values.Max();
 
-            if (vMin > 0 && vMax < 1) return values;
+            // if scalars are identical, prevent division by 0
+            if (vMin == vMax) return values.Select(x => 0.5).ToList();
 
             double den = 1 / (vMax - vMin);
 
@@ -1490,9 +1609,10 @@ namespace AssemblerLib
 
             double[][] normVal = new double[values.Length][];
 
+            // recompute values, preventing division by 0
             for (int i = 0; i < values.Length; i++)
                 for (int j = 0; j < values[i].Length; j++)
-                    normVal[i][j] = (values[i][j] - vMin[j]) * den[j];
+                    normVal[i][j] = vMin[j] == vMax[j] ? 0.5 : (values[i][j] - vMin[j]) * den[j];
 
             return normVal;
         }
@@ -1575,7 +1695,7 @@ namespace AssemblerLib
         public static List<T[]> ToListOfArrays<T>(DataTree<T> tree)
         {
 
-            List<T[]> arraysList = new List<T[]>();//[tree.BranchCount][];
+            List<T[]> arraysList = new List<T[]>();
 
             for (int i = 0; i < tree.BranchCount; i++)
                 arraysList.Add(tree.Branches[i].ToArray());
@@ -1618,18 +1738,40 @@ namespace AssemblerLib
             return true;
         }
 
-        #endregion Data Utilities
-
-        #region Diagnostic Utilities
-
-        public static long StartWatch(System.Diagnostics.Stopwatch stopWatch)
+        public static DataTree<double> GH2TreeDoubles(GH_Structure<GH_Number> scalars)
         {
-            long elapsedTime = stopWatch.ElapsedMilliseconds;
-            stopWatch.Restart();
-            return elapsedTime;
+            DataTree<double> scalarsRh = new DataTree<double>();
+
+            if (scalars != null)
+                for (int i = 0; i < scalars.Branches.Count; i++)
+                    scalarsRh.AddRange(scalars.Branches[i].Select(n => n.Value).ToList(), scalars.Paths[i]);
+
+            return scalarsRh;
         }
 
-        #endregion Diagnostic Utilities
+        public static DataTree<Vector3d> GH2TreeVectors(GH_Structure<GH_Vector> vectors)
+        {
+            DataTree<Vector3d> vectorsRh = new DataTree<Vector3d>();
+
+            if (vectors != null)
+                for (int i = 0; i < vectors.Branches.Count; i++)
+                    vectorsRh.AddRange(vectors.Branches[i].Select(n => n.Value).ToList(), vectors.Paths[i]);
+
+            return vectorsRh;
+        }
+
+        public static DataTree<int> GH2TreeIntegers(GH_Structure<GH_Integer> iWeights)
+        {
+            DataTree<int> iWeightsRh = new DataTree<int>();
+
+            if (iWeights != null)
+                for (int i = 0; i < iWeights.Branches.Count; i++)
+                    iWeightsRh.AddRange(iWeights.Branches[i].Select(n => n.Value).ToList(), iWeights.Paths[i]);
+
+            return iWeightsRh;
+        }
+
+        #endregion Data Utilities
 
     }
 }

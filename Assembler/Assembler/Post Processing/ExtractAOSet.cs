@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Assembler.Properties;
+﻿using Assembler.Properties;
 using Assembler.Utils;
 using AssemblerLib;
 using Grasshopper.Kernel;
-using Rhino.Geometry;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Assembler
 {
@@ -15,8 +14,8 @@ namespace Assembler
         /// Initializes a new instance of the ExtractAOSet class.
         /// </summary>
         public ExtractAOSet()
-          : base("Extract AOSet", "AOSet",
-              "Extracts the set of AssemblyObjects used in an Assemblage",
+          : base("Extract AOSet", "AOaSet",
+              "Extracts the set of unique AssemblyObjects kinds used in an Assemblage",
               "Assembler", "Post Processing")
         {
         }
@@ -57,6 +56,15 @@ namespace Assembler
         }
 
         /// <summary>
+        /// Exposure override for position in the Subcategory (options primary to septenary)
+        /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
+        /// </summary>
+        public override GH_Exposure Exposure
+        {
+            get { return GH_Exposure.tertiary; }
+        }
+
+        /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
         protected override System.Drawing.Bitmap Icon
@@ -65,7 +73,7 @@ namespace Assembler
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.Etract_AOSet;
+                return Resources.Extract_AOSet;
             }
         }
 

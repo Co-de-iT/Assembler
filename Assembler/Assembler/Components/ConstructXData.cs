@@ -17,7 +17,7 @@ namespace Assembler
         /// </summary>
         public ConstructXData()
           : base("Construct XData", "XDCon",
-              "Construct an XData instance\r\nXData can be any kind of Xtended/Xtra data (Geometry, String, Numbers, ...) associated to an AssemblyObject Type",
+              "Construct an XData instance\nXData can be any kind of Xtended/Xtra data (Geometry, String, Numbers, ...) associated to an AssemblyObject Type",
               "Assembler", "Components")
         {
         }

@@ -1,20 +1,20 @@
 ﻿using Assembler.Properties;
+using AssemblerLib;
 using Grasshopper.Kernel;
-using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 
 namespace Assembler
 {
-    public class WeighHeuristics : GH_Component
+    public class RemoveAssemblyObjects : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the WeighRules class.
+        /// Initializes a new instance of the RemoveAssemblyObjects class.
         /// </summary>
-        public WeighHeuristics()
-          : base("Weigh Heuristics", "HeuWeigh",
-              "Assigns custom integer weights to the Heuristics rules",
-              "Assembler", "Heuristics")
+        public RemoveAssemblyObjects()
+          : base("Remove AssemblyObjects", "AORem",
+              "Removes AssemblyObjects from an Assemblage given their indexes - updating Topology",
+              "Assembler", "Post Processing")
         {
         }
 
@@ -23,8 +23,8 @@ namespace Assembler
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("Heuristics Set", "HeS", "Heuristics Set", GH_ParamAccess.list);
-            pManager.AddIntegerParameter("integer Weights", "iW", "Custom integer Weights", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Assemblage", "AOa", "The Assemblage", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Indexes", "i", "Indexes of AssemblyObjects to remove", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Assembler
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddTextParameter("Heuristics Set", "HeS", "Heuristics Set of weighted rules", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Assemblage", "AOa", "The modified Assemblage", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -41,24 +41,21 @@ namespace Assembler
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            List<string> rules = new List<string>();
-            if (!DA.GetDataList(0, rules)) return;
-            List<int> iWeights = new List<int>();
-            if (!DA.GetDataList(1, iWeights)) return;
+            Assemblage AOa = null;
+            if (!DA.GetData(0, ref AOa)) return;
 
-            if (rules.Count == 0 || iWeights.Count == 0) return;
-            if (rules.Count != iWeights.Count) return;
+            List<int> indexes = new List<int>();
+            if (!DA.GetDataList(1, indexes)) return;
 
-            List<string> weightedRules = new List<string>();
+            Assemblage AOaCopy = Utilities.Clone(AOa);
 
-            for (int i = 0; i < rules.Count; i++)
-            {
-                string[] rSplit = rules[i].Split('%');
-                weightedRules.Add(String.Concat(rSplit[0], "%", Convert.ToString(iWeights[i])));
-            }
+            for (int i = 0; i < indexes.Count; i++)
+                Utilities.RemoveAssemblyObject(AOaCopy, indexes[i]);
 
-            DA.SetDataList(0, weightedRules);
+            DA.SetData(0, AOaCopy);
+
         }
+
 
         /// <summary>
         /// Exposure override for position in the Subcategory (options primary to septenary)
@@ -66,7 +63,7 @@ namespace Assembler
         /// </summary>
         public override GH_Exposure Exposure
         {
-            get { return GH_Exposure.secondary; }
+            get { return GH_Exposure.quinary; }
         }
 
         /// <summary>
@@ -78,7 +75,7 @@ namespace Assembler
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.Weigh_Rules;
+                return Resources.Remove_AssemblyObject;
             }
         }
 
@@ -87,7 +84,7 @@ namespace Assembler
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("bc39912a-1d58-460a-8b9a-2ee7964fb0a0"); }
+            get { return new Guid("3e77b75a-2368-4d56-a310-e3cb97451844"); }
         }
     }
 }

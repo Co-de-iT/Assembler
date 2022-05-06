@@ -14,8 +14,8 @@ namespace Assembler
         /// Initializes a new instance of the ExtractTopology class.
         /// </summary>
         public ExtractTopology()
-          : base("ExtractTopology", "AOTopo",
-              "Extract connection data from an assemblage",
+          : base("ExtractTopology", "AOaTopo",
+              "Extract connection data from an Assemblage",
               "Assembler", "Post Processing")
         {
         }
@@ -75,6 +75,15 @@ namespace Assembler
             DA.SetDataTree(1, nOTree);
             DA.SetDataTree(2, nHTree);
 
+        }
+
+        /// <summary>
+        /// Exposure override for position in the Subcategory (options primary to septenary)
+        /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
+        /// </summary>
+        public override GH_Exposure Exposure
+        {
+            get { return GH_Exposure.tertiary; }
         }
 
         /// <summary>

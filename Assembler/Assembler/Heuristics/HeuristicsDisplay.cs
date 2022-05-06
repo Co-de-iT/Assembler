@@ -33,8 +33,6 @@ namespace Assembler
         private BoundingBox _clip;
         private List<XData> xDCatalog;
         private List<Mesh> _mesh;
-        //private List<Mesh> _invalidMesh;
-        //private List<Mesh> _ZincompatibleMesh;
         private List<Color> _color;
         private List<DisplayMaterial> _mat;
         private List<Point3d> XD_Points;
@@ -72,7 +70,6 @@ namespace Assembler
               "Display Heuristics as visual combination of AssemblyObjects",
               "Assembler", "Heuristics")
         {
-            //Message = GetValue("OutputType", "AO Types");
             filterkWZLock = GetValue("ZLockFilter", false);
             displayType = GetValue("OutputType", "AO Types");
             UpdateMessage();
@@ -87,7 +84,7 @@ namespace Assembler
             pManager.AddPointParameter("Origin Point", "P", "Origin Point for Display", GH_ParamAccess.item, new Point3d());
             pManager.AddGenericParameter("AssemblyObjects Set", "AOs", "List of Assembly Objects in the set", GH_ParamAccess.list);
             pManager.AddGenericParameter("XData", "XD", "Xdata associated with the AssemblyObject in the catalog", GH_ParamAccess.list);
-            pManager.AddTextParameter("Heuristics String", "HeS", "Heuristics String", GH_ParamAccess.list);
+            pManager.AddTextParameter("Heuristics Set", "HeS", "Heuristics Set", GH_ParamAccess.list);
             pManager.AddNumberParameter("X size", "Xs", "Cell size along X direction as % of Bounding Box", GH_ParamAccess.item, 1.0);
             pManager.AddNumberParameter("Y size", "Ys", "Cell size along Y direction as % of Bounding Box", GH_ParamAccess.item, 1.0);
             pManager.AddIntegerParameter("n. Rows", "nR", "number of rows", GH_ParamAccess.item, 10);
@@ -122,7 +119,7 @@ namespace Assembler
             AOs = GH_AOs.Select(ao => ao.Value).ToList();
 
             List<string> HeS = new List<string>();
-            if (!DA.GetDataList("Heuristics String", HeS)) return;
+            if (!DA.GetDataList("Heuristics Set", HeS)) return;
 
             // get XData catalog
             xDCatalog = new List<XData>();
@@ -213,35 +210,6 @@ namespace Assembler
             SetPreviewData(AOpairs, xData, srMode);
         }
 
-        private GH_Line[] GetSihouette(Mesh M)
-        {
-            ConcurrentBag<GH_Line> lines = new ConcurrentBag<GH_Line>();
-            double tol = Math.PI * 0.25; // angle tolerance  ignore edges whose faces meet at an angle larger than this
-
-            M.Normals.ComputeNormals();
-            Rhino.Geometry.Collections.MeshTopologyEdgeList topologyEdges = M.TopologyEdges;
-
-            Parallel.For(0, topologyEdges.Count, i =>
-            {
-                int[] connectedFaces = topologyEdges.GetConnectedFaces(i);
-                if (connectedFaces.Length < 2)
-                    lines.Add(new GH_Line(topologyEdges.EdgeLine(i)));
-
-                if (connectedFaces.Length == 2)
-                {
-                    Vector3f norm1 = M.FaceNormals[connectedFaces[0]];
-                    Vector3f norm2 = M.FaceNormals[connectedFaces[1]];
-                    double nAng = Vector3d.VectorAngle(new Vector3d((double)norm1.X, (double)norm1.Y, (double)norm1.Z),
-                      new Vector3d((double)norm2.X, (double)norm2.Y, (double)norm2.Z));
-                    if (nAng > tol)
-                        lines.Add(new GH_Line(topologyEdges.EdgeLine(i)));
-
-                }
-            });
-
-            return lines.ToArray();
-        }
-
         DisplayMaterial[] CompileMatCatalog(Color[] colorTable)
         {
             DisplayMaterial[] materialTable = new DisplayMaterial[colorTable.Length];
@@ -297,8 +265,8 @@ namespace Assembler
                 loc.Origin = new Point3d(countX, countY, 0);
 
                 // choose components
-                receiverAO = Utilities.Clone(AO[rT]);//new AssemblyObject(AO[rT]);//
-                senderAO = Utilities.Clone(AO[sT]);//new AssemblyObject(AO[sT]);//
+                receiverAO = Utilities.Clone(AO[rT]);
+                senderAO = Utilities.Clone(AO[sT]);
 
                 recEdges = new List<GH_Line>();
                 senEdges = new List<GH_Line>();
@@ -470,15 +438,9 @@ namespace Assembler
                     else
                     {
                         if (!coherencePattern.Branches[i][0])
-                        {
-                            //_invalidMesh.Add(m);
                             invalidDisplayEdges.AddRange(geomEdges.Branch(Aopairs.Path(i).AppendElement(j)), new GH_Path(i, j));
-                        }
                         else
-                        {
-                            //_ZincompatibleMesh.Add(m);
                             ZincompatibleDisplayEdges.AddRange(geomEdges.Branch(Aopairs.Path(i).AppendElement(j)), new GH_Path(i, j));
-                        }
                     }
 
                 }
@@ -574,8 +536,6 @@ namespace Assembler
         {
             _clip = BoundingBox.Empty;
             _mesh = new List<Mesh>();
-            //_invalidMesh = new List<Mesh>();
-            //_ZincompatibleMesh = new List<Mesh>();
             _color = new List<Color>();
             _mat = new List<DisplayMaterial>();
             _items = new List<GH_CustomPreviewItem>();

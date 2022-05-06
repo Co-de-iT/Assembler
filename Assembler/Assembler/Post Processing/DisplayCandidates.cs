@@ -15,7 +15,7 @@ namespace Assembler
         /// Initializes a new instance of the DisplayCandidates class.
         /// </summary>
         public DisplayCandidates()
-          : base("Display Candidates", "AODispCand",
+          : base("Display Candidates", "AOaDispCand",
               "Displays Candidate Objects at last step in the Assemblage",
               "Assembler", "Post Processing")
         {
@@ -35,7 +35,6 @@ namespace Assembler
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("Candidate Objects", "AO", "Candidate AssemblyObjects for last iteration", GH_ParamAccess.list);
-            //pManager.AddMeshParameter("Candidate Objects", "cO", "Candidate Object Meshes for last iteration", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -47,11 +46,18 @@ namespace Assembler
             Assemblage AOa = null;
             if (!DA.GetData(0, ref AOa)) return;
             
-            List<AssemblyObjectGoo> candidates = AOa.candidateObjects.Select(ao => new AssemblyObjectGoo(ao)).ToList();
+            List<AssemblyObjectGoo> candidates = AOa.CandidateObjects.Select(ao => new AssemblyObjectGoo(ao)).ToList();
 
             DA.SetDataList("Candidate Objects", candidates);
-            //DA.SetDataList("Candidate Objects", AOa.candidateObjects);
-            //DA.SetDataList("Candidate Objects", AOa.candidateObjects.Select(a => a.collisionMesh));
+        }
+
+        /// <summary>
+        /// Exposure override for position in the Subcategory (options primary to septenary)
+        /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
+        /// </summary>
+        public override GH_Exposure Exposure
+        {
+            get { return GH_Exposure.secondary; }
         }
 
         /// <summary>

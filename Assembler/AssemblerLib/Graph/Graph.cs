@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AssemblerLib
+namespace AssemblerLib.Graph
 {
     /// <summary>
     /// a Graph class to manage topological graphs
@@ -41,6 +41,10 @@ namespace AssemblerLib
             Connections = new List<Connection>();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="topology"></param>
         public Graph(int[][] topology)
         {
 

@@ -112,9 +112,29 @@ namespace AssemblerLib
             for (int i = 0; i < receivers.Length; i++) receivers[i].Transform(Xform);
         }
 
+        /// <summary>
+        /// Returns a string with the Handle Occupancy status
+        /// <list type="bullet">
+        /// <item>Occluded</item>
+        /// <item>Available</item>
+        /// <item>Connected</item>
+        /// </list>
+        /// </summary>
+        /// <returns>The Occupancy status as string</returns>
+        public string HandleStatus()
+        {
+            switch (occupancy)
+            {
+                case -1: return "Occluded";
+                case 0: return "Available";
+                case 1: return "Connected";
+                default: return "";
+            }
+        }
+
         public override string ToString()
         {
-            return string.Format("Handle type {0} with {1} rotations", type, rRotations.Length);
+            return string.Format("Handle type {0} . {1} rotations . {2}", type, rRotations.Length, HandleStatus());
         }
 
     }

@@ -47,7 +47,7 @@ namespace Assembler
             pManager.AddNumberParameter("Weight", "W", "The object's weight", GH_ParamAccess.item);
             pManager.AddIntegerParameter("Occluded Neighbours", "On", "Occluded Neighbours in the assemblage", GH_ParamAccess.tree);
             pManager.AddGenericParameter("Handles", "H", "The object's Handles", GH_ParamAccess.list);
-            pManager.AddGenericParameter("Children", "C", "Children of a Composite AssemblyObject", GH_ParamAccess.list);
+            //pManager.AddGenericParameter("Children", "C", "Children of a Composite AssemblyObject", GH_ParamAccess.list);
             pManager.AddBooleanParameter("Z Lock", "ZL", "Absolute Z-Lock status of the object", GH_ParamAccess.item);
         }
 
@@ -77,8 +77,8 @@ namespace Assembler
             DA.SetData("Weight", AO.weight);
             DA.SetDataTree(5, onTree);
             DA.SetDataList("Handles", AO.handles);
-            if (AO.children != null)
-                DA.SetDataList("Children", AO.children.Select(ao => new AssemblyObjectGoo(ao)).ToList());
+            //if (AO.children != null)
+            //    DA.SetDataList("Children", AO.children.Select(ao => new AssemblyObjectGoo(ao)).ToList());
             DA.SetData("Z Lock", AO.worldZLock);
         }
 

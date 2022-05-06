@@ -22,8 +22,8 @@ namespace Assembler
         /// Initializes a new instance of the HeuristicWriter class.
         /// </summary>
         public HeuristicWriter()
-          : base("Heuristics Writer", "HeuW",
-              "Generates heuristics for a list of AssemblyObjects",
+          : base("Heuristics Writer", "HeuWri",
+              "Generates Heuristics Set for an AssemblyObjects Set",
               "Assembler", "Heuristics")
         {
             noSelfObjectConnection = GetValue("noSO", false);
@@ -49,7 +49,7 @@ namespace Assembler
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddTextParameter("Heuristics String", "HeS", "Heuristics String", GH_ParamAccess.list);
+            pManager.AddTextParameter("Heuristics Set", "HeS", "Heuristics Set", GH_ParamAccess.list);
         }
 
         /// <summary>

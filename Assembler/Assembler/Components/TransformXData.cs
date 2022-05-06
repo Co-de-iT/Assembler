@@ -14,7 +14,7 @@ namespace Assembler
         /// Initializes a new instance of the TransformXData class.
         /// </summary>
         public TransformXData()
-          : base("Transform XData", "XDX",
+          : base("Transform XData", "XDTran",
               "Apply a transformation to an XData item",
               "Assembler", "Components")
         {

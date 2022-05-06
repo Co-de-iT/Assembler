@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace AssemblerLib
+namespace AssemblerLib.Graph
 {
     /// <summary>
     /// Connection class as part of a Graph
     /// </summary>
-    internal class Connection
+    class Connection
     {
         public Node from;
         public Node to;
@@ -47,6 +47,11 @@ namespace AssemblerLib
                    EqualityComparer<Node>.Default.Equals(to, connection.to)) ||
                    (EqualityComparer<Node>.Default.Equals(from, connection.to) &&
                    EqualityComparer<Node>.Default.Equals(to, connection.from)));
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

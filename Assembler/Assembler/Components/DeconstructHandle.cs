@@ -13,7 +13,7 @@ namespace Assembler
         /// Initializes a new instance of the DeconstructHandle class.
         /// </summary>
         public DeconstructHandle()
-          : base("Deconstruct Handle", "HanDecon",
+          : base("Deconstruct Handle", "HandDecon",
               "Deconstruct Handle",
               "Assembler", "Components")
         {

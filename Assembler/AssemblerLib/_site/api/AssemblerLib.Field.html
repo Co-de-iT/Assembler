@@ -146,39 +146,6 @@ Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to sp
   
   
   <a id="AssemblerLib_Field__ctor_" data-uid="AssemblerLib.Field.#ctor*"></a>
-  <h4 id="AssemblerLib_Field__ctor_Rhino_Geometry_Box_System_Double_" data-uid="AssemblerLib.Field.#ctor(Rhino.Geometry.Box,System.Double)">Field(Box, Double)</h4>
-  <div class="markdown level1 summary"><p>constructs an empty field from a Box, with single resolution</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Field(Box b, double res)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Rhino.Geometry.Box</span></td>
-        <td><span class="parametername">b</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Double</span></td>
-        <td><span class="parametername">res</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="AssemblerLib_Field__ctor_" data-uid="AssemblerLib.Field.#ctor*"></a>
   <h4 id="AssemblerLib_Field__ctor_Rhino_Geometry_Box_System_Double_System_Double_System_Double_" data-uid="AssemblerLib.Field.#ctor(Rhino.Geometry.Box,System.Double,System.Double,System.Double)">Field(Box, Double, Double, Double)</h4>
   <div class="markdown level1 summary"><p>constructs an empty field from a Box, with individual resolutions in X, Y, and Z</p>
 </div>
@@ -336,13 +303,13 @@ Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to sp
   
   
   <a id="AssemblerLib_Field__ctor_" data-uid="AssemblerLib.Field.#ctor*"></a>
-  <h4 id="AssemblerLib_Field__ctor_System_Collections_Generic_List_Rhino_Geometry_Point3d__Grasshopper_DataTree_System_Double__Grasshopper_DataTree_Rhino_Geometry_Vector3d__Grasshopper_DataTree_System_Int32__" data-uid="AssemblerLib.Field.#ctor(System.Collections.Generic.List{Rhino.Geometry.Point3d},Grasshopper.DataTree{System.Double},Grasshopper.DataTree{Rhino.Geometry.Vector3d},Grasshopper.DataTree{System.Int32})">Field(List&lt;Point3d&gt;, DataTree&lt;Double&gt;, DataTree&lt;Vector3d&gt;, DataTree&lt;Int32&gt;)</h4>
+  <h4 id="AssemblerLib_Field__ctor_System_Collections_Generic_List_Rhino_Geometry_Point3d__Grasshopper_DataTree_System_Double__Grasshopper_DataTree_Rhino_Geometry_Vector3d__Grasshopper_DataTree_System_Int32__Grasshopper_DataTree_System_Int32__Grasshopper_DataTree_System_Double__" data-uid="AssemblerLib.Field.#ctor(System.Collections.Generic.List{Rhino.Geometry.Point3d},Grasshopper.DataTree{System.Double},Grasshopper.DataTree{Rhino.Geometry.Vector3d},Grasshopper.DataTree{System.Int32},Grasshopper.DataTree{System.Int32},Grasshopper.DataTree{System.Double})">Field(List&lt;Point3d&gt;, DataTree&lt;Double&gt;, DataTree&lt;Vector3d&gt;, DataTree&lt;Int32&gt;, DataTree&lt;Int32&gt;, DataTree&lt;Double&gt;)</h4>
   <div class="markdown level1 summary"><p>Construct a Field from a List of Point3d, DataTrees for scalar and vector (multiple values per point), and a DataTree for topology (neighbours map)</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Field(List&lt;Point3d&gt; points, DataTree&lt;double&gt; scalars, DataTree&lt;Vector3d&gt; vectors, DataTree&lt;int&gt; topology)</code></pre>
+    <pre><code class="lang-csharp hljs">public Field(List&lt;Point3d&gt; points, DataTree&lt;double&gt; scalars, DataTree&lt;Vector3d&gt; vectors, DataTree&lt;int&gt; iWeights, DataTree&lt;int&gt; topology, DataTree&lt;double&gt; transCoeff)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -371,7 +338,55 @@ Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to sp
       </tr>
       <tr>
         <td><span class="xref">Grasshopper.DataTree</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+        <td><span class="parametername">iWeights</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">Grasshopper.DataTree</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
         <td><span class="parametername">topology</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">Grasshopper.DataTree</span>&lt;<span class="xref">System.Double</span>&gt;</td>
+        <td><span class="parametername">transCoeff</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="AssemblerLib_Field__ctor_" data-uid="AssemblerLib.Field.#ctor*"></a>
+  <h4 id="AssemblerLib_Field__ctor_System_Collections_Generic_List_Rhino_Geometry_Point3d__Grasshopper_DataTree_System_Int32__Grasshopper_DataTree_System_Double__" data-uid="AssemblerLib.Field.#ctor(System.Collections.Generic.List{Rhino.Geometry.Point3d},Grasshopper.DataTree{System.Int32},Grasshopper.DataTree{System.Double})">Field(List&lt;Point3d&gt;, DataTree&lt;Int32&gt;, DataTree&lt;Double&gt;)</h4>
+  <div class="markdown level1 summary"><p>Construct an empty Field from a List of Point3d, and DataTrees for topology and transmission coefficients</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Field(List&lt;Point3d&gt; points, DataTree&lt;int&gt; topology, DataTree&lt;double&gt; transCoeff)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">Rhino.Geometry.Point3d</span>&gt;</td>
+        <td><span class="parametername">points</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">Grasshopper.DataTree</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+        <td><span class="parametername">topology</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">Grasshopper.DataTree</span>&lt;<span class="xref">System.Double</span>&gt;</td>
+        <td><span class="parametername">transCoeff</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -417,13 +432,13 @@ Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to sp
   
   
   <a id="AssemblerLib_Field__ctor_" data-uid="AssemblerLib.Field.#ctor*"></a>
-  <h4 id="AssemblerLib_Field__ctor_System_Collections_Generic_List_Rhino_Geometry_Point3d__System_Collections_Generic_List_System_Double__System_Collections_Generic_List_Rhino_Geometry_Vector3d__Grasshopper_DataTree_System_Int32__" data-uid="AssemblerLib.Field.#ctor(System.Collections.Generic.List{Rhino.Geometry.Point3d},System.Collections.Generic.List{System.Double},System.Collections.Generic.List{Rhino.Geometry.Vector3d},Grasshopper.DataTree{System.Int32})">Field(List&lt;Point3d&gt;, List&lt;Double&gt;, List&lt;Vector3d&gt;, DataTree&lt;Int32&gt;)</h4>
-  <div class="markdown level1 summary"><p>Construct a Field from a List of Point3d, Lists for scalar and vector (single values per point), and a DataTree for topology (neighbours map)</p>
+  <h4 id="AssemblerLib_Field__ctor_System_Collections_Generic_List_Rhino_Geometry_Point3d__System_Collections_Generic_List_System_Double__System_Collections_Generic_List_Rhino_Geometry_Vector3d__System_Collections_Generic_List_System_Int32__Grasshopper_DataTree_System_Int32__Grasshopper_DataTree_System_Double__" data-uid="AssemblerLib.Field.#ctor(System.Collections.Generic.List{Rhino.Geometry.Point3d},System.Collections.Generic.List{System.Double},System.Collections.Generic.List{Rhino.Geometry.Vector3d},System.Collections.Generic.List{System.Int32},Grasshopper.DataTree{System.Int32},Grasshopper.DataTree{System.Double})">Field(List&lt;Point3d&gt;, List&lt;Double&gt;, List&lt;Vector3d&gt;, List&lt;Int32&gt;, DataTree&lt;Int32&gt;, DataTree&lt;Double&gt;)</h4>
+  <div class="markdown level1 summary"><p>Construct a Field from a List of Point3d, Lists for scalar, vector, iWeight (single values per point), and a DataTree for topology (neighbours map)</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Field(List&lt;Point3d&gt; points, List&lt;double&gt; scalar, List&lt;Vector3d&gt; vector, DataTree&lt;int&gt; topology)</code></pre>
+    <pre><code class="lang-csharp hljs">public Field(List&lt;Point3d&gt; points, List&lt;double&gt; scalar, List&lt;Vector3d&gt; vector, List&lt;int&gt; iWeights, DataTree&lt;int&gt; topology, DataTree&lt;double&gt; transCoeff)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -451,8 +466,18 @@ Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to sp
         <td></td>
       </tr>
       <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+        <td><span class="parametername">iWeights</span></td>
+        <td></td>
+      </tr>
+      <tr>
         <td><span class="xref">Grasshopper.DataTree</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
         <td><span class="parametername">topology</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">Grasshopper.DataTree</span>&lt;<span class="xref">System.Double</span>&gt;</td>
+        <td><span class="parametername">transCoeff</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -480,6 +505,31 @@ Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to sp
     <tbody>
       <tr>
         <td><span class="xref">System.Drawing.Color</span>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="AssemblerLib_Field_stigValues" data-uid="AssemblerLib.Field.stigValues">stigValues</h4>
+  <div class="markdown level1 summary"><p>stores values for stigmergy calculation</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double[] stigValues</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Double</span>[]</td>
         <td></td>
       </tr>
     </tbody>
@@ -530,6 +580,31 @@ Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to sp
     <tbody>
       <tr>
         <td><span class="xref">System.Int32</span>[][]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="AssemblerLib_Field_transCoeff" data-uid="AssemblerLib.Field.transCoeff">transCoeff</h4>
+  <div class="markdown level1 summary"><p>stores neighbour transmission coefficients for signal propagation</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double[][] transCoeff</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Double</span>[][]</td>
         <td></td>
       </tr>
     </tbody>
@@ -652,14 +727,15 @@ Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to sp
   </table>
   
   
-  <a id="AssemblerLib_Field_GenerateColorsByAttractors_" data-uid="AssemblerLib.Field.GenerateColorsByAttractors*"></a>
-  <h4 id="AssemblerLib_Field_GenerateColorsByAttractors_System_Collections_Generic_List_System_Drawing_Color__System_Collections_Generic_List_Rhino_Geometry_Point3d__System_Boolean_" data-uid="AssemblerLib.Field.GenerateColorsByAttractors(System.Collections.Generic.List{System.Drawing.Color},System.Collections.Generic.List{Rhino.Geometry.Point3d},System.Boolean)">GenerateColorsByAttractors(List&lt;Color&gt;, List&lt;Point3d&gt;, Boolean)</h4>
-  <div class="markdown level1 summary"><p>Generates a color for each Field point based on a list of attractor points and respective colors </p>
+  <a id="AssemblerLib_Field_GenerateScalarColors_" data-uid="AssemblerLib.Field.GenerateScalarColors*"></a>
+  <h4 id="AssemblerLib_Field_GenerateScalarColors_System_Collections_Generic_List_System_Drawing_Color__System_Int32_System_Double_System_Boolean_" data-uid="AssemblerLib.Field.GenerateScalarColors(System.Collections.Generic.List{System.Drawing.Color},System.Int32,System.Double,System.Boolean)">GenerateScalarColors(List&lt;Color&gt;, Int32, Double, Boolean)</h4>
+  <div class="markdown level1 summary"><p>Generates colors according to scalar values at given index in the field;
+threshold is used when blend is false</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool GenerateColorsByAttractors(List&lt;Color&gt; attColors, List&lt;Point3d&gt; attractors, bool blend)</code></pre>
+    <pre><code class="lang-csharp hljs">public bool GenerateScalarColors(List&lt;Color&gt; i_colors, int index, double threshold, bool blend)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -673,65 +749,7 @@ Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to sp
     <tbody>
       <tr>
         <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Drawing.Color</span>&gt;</td>
-        <td><span class="parametername">attColors</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">Rhino.Geometry.Point3d</span>&gt;</td>
-        <td><span class="parametername">attractors</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td><span class="parametername">blend</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="AssemblerLib_Field_GenerateScalarColors_" data-uid="AssemblerLib.Field.GenerateScalarColors*"></a>
-  <h4 id="AssemblerLib_Field_GenerateScalarColors_System_Drawing_Color_System_Drawing_Color_System_Int32_System_Double_System_Boolean_" data-uid="AssemblerLib.Field.GenerateScalarColors(System.Drawing.Color,System.Drawing.Color,System.Int32,System.Double,System.Boolean)">GenerateScalarColors(Color, Color, Int32, Double, Boolean)</h4>
-  <div class="markdown level1 summary"><p>Generates colors according to scalar values at given index in the field\nthreshold is used when blend is false</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool GenerateScalarColors(Color lowVal, Color hiVal, int index, double threshold, bool blend)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Drawing.Color</span></td>
-        <td><span class="parametername">lowVal</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Drawing.Color</span></td>
-        <td><span class="parametername">hiVal</span></td>
+        <td><span class="parametername">i_colors</span></td>
         <td></td>
       </tr>
       <tr>
@@ -762,7 +780,8 @@ Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to sp
     <tbody>
       <tr>
         <td><span class="xref">System.Boolean</span></td>
-        <td></td>
+        <td><p>True if operation is successful</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1663,6 +1682,16 @@ Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to sp
   </table>
   
   
+  <a id="AssemblerLib_Field_InitStigmergy_" data-uid="AssemblerLib.Field.InitStigmergy*"></a>
+  <h4 id="AssemblerLib_Field_InitStigmergy" data-uid="AssemblerLib.Field.InitStigmergy">InitStigmergy()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void InitStigmergy()</code></pre>
+  </div>
+  
+  
   <a id="AssemblerLib_Field_PopulateField_" data-uid="AssemblerLib.Field.PopulateField*"></a>
   <h4 id="AssemblerLib_Field_PopulateField_Grasshopper_DataTree_System_Double__Grasshopper_DataTree_Rhino_Geometry_Vector3d__" data-uid="AssemblerLib.Field.PopulateField(Grasshopper.DataTree{System.Double},Grasshopper.DataTree{Rhino.Geometry.Vector3d})">PopulateField(DataTree&lt;Double&gt;, DataTree&lt;Vector3d&gt;)</h4>
   <div class="markdown level1 summary"><p>Populates Field - lists of scalars and vectors for each Field point, no iWeights</p>
@@ -1843,6 +1872,59 @@ Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to sp
       </tr>
       <tr>
         <td><span class="xref">Grasshopper.DataTree</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+        <td><span class="parametername">iWeights</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="AssemblerLib_Field_PopulateField_" data-uid="AssemblerLib.Field.PopulateField*"></a>
+  <h4 id="AssemblerLib_Field_PopulateField_System_Collections_Generic_List_System_Double__System_Collections_Generic_List_Rhino_Geometry_Vector3d__System_Collections_Generic_List_System_Int32__" data-uid="AssemblerLib.Field.PopulateField(System.Collections.Generic.List{System.Double},System.Collections.Generic.List{Rhino.Geometry.Vector3d},System.Collections.Generic.List{System.Int32})">PopulateField(List&lt;Double&gt;, List&lt;Vector3d&gt;, List&lt;Int32&gt;)</h4>
+  <div class="markdown level1 summary"><p>Populates Field - lists of scalars, vectors and iWeights for each Field point</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool PopulateField(List&lt;double&gt; scalarValues, List&lt;Vector3d&gt; vectorValues, List&lt;int&gt; iWeights)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Double</span>&gt;</td>
+        <td><span class="parametername">scalarValues</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">Rhino.Geometry.Vector3d</span>&gt;</td>
+        <td><span class="parametername">vectorValues</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
         <td><span class="parametername">iWeights</span></td>
         <td></td>
       </tr>
@@ -2149,6 +2231,43 @@ Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to sp
   </table>
   <h5 class="overrides">Overrides</h5>
   <div><span class="xref">System.Object.ToString()</span></div>
+  
+  
+  <a id="AssemblerLib_Field_UpdateStigmergy_" data-uid="AssemblerLib.Field.UpdateStigmergy*"></a>
+  <h4 id="AssemblerLib_Field_UpdateStigmergy_System_Double_System_Double_System_Double_" data-uid="AssemblerLib.Field.UpdateStigmergy(System.Double,System.Double,System.Double)">UpdateStigmergy(Double, Double, Double)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void UpdateStigmergy(double addCoeff, double lossCoeff, double evapRate)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Double</span></td>
+        <td><span class="parametername">addCoeff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Double</span></td>
+        <td><span class="parametername">lossCoeff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Double</span></td>
+        <td><span class="parametername">evapRate</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 </article>
           </div>
           

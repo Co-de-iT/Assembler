@@ -7,12 +7,12 @@ using System.Collections.Generic;
 
 namespace Assembler
 {
-    public class SetSupports : GH_Component
+    public class D_SetSupports : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
-        public SetSupports()
+        public D_SetSupports()
           : base("Set Supports", "AOSetSup",
               "Sets supports for an AssemblyObject",
               "Assembler", "Components")

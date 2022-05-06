@@ -3,6 +3,7 @@ using Assembler.Utils;
 using AssemblerLib;
 using GH_IO.Serialization;
 using Grasshopper.Kernel;
+using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace Assembler
         /// Initializes a new instance of the AssemblerEngineX class.
         /// </summary>
         public AssemblerEngine()
-          : base("Assembler Engine", "AOEng",
+          : base("Assembler Engine", "AOaEngine",
               "Assembler Engine\nWhere the magic happens...",
               "Assembler", "Engine")
         {
@@ -201,7 +202,7 @@ namespace Assembler
             }
 
             DA.SetData("Assemblage", AOa);
-            DA.SetData("Assemblage Count", AOa.assemblyObjects.DataCount);
+            DA.SetData("Assemblage Count", new GH_Integer(AOa.assemblyObjects.DataCount));
         }
 
         public override void AppendAdditionalMenuItems(ToolStripDropDown menu)
@@ -209,8 +210,8 @@ namespace Assembler
             Menu_AppendSeparator(menu);
             ToolStripMenuItem toolStripMenuItem = Menu_AppendItem(menu, "Check World Z lock", ZLock_click, true, checkWZLock);
             toolStripMenuItem.ToolTipText = "Checks World Z axis orientation for AssemblyObjects with World Z lock enabled";
-            ToolStripMenuItem toolStripMenuItem1 = Menu_AppendItem(menu, "Use Supports", Supports_click, true, useSupports);
-            toolStripMenuItem1.ToolTipText = "Use supports (if present in AssemblyObjects) for Assemblage coherence\nNOT YET IMPLEMENTED";
+            //ToolStripMenuItem toolStripMenuItem1 = Menu_AppendItem(menu, "Use Supports", Supports_click, true, useSupports);
+            //toolStripMenuItem1.ToolTipText = "Use supports (if present in AssemblyObjects) for Assemblage coherence\nNOT YET IMPLEMENTED";
             Menu_AppendSeparator(menu);
         }
 
@@ -239,7 +240,7 @@ namespace Assembler
         private void UpdateMessage()
         {
             Message = checkWZLock ? "World Z Lock\n" : "";
-            Message += useSupports ? "Supports" : "";
+            //Message += useSupports ? "Supports" : "";
         }
 
         public override bool Write(GH_IWriter writer)

@@ -1,9 +1,8 @@
-﻿using System;
-
-using Grasshopper.Kernel;
-using AssemblerLib;
-using Assembler.Properties;
+﻿using Assembler.Properties;
 using Assembler.Utils;
+using AssemblerLib;
+using Grasshopper.Kernel;
+using System;
 
 namespace Assembler
 {
@@ -13,8 +12,8 @@ namespace Assembler
         /// Initializes a new instance of the ExtractID class.
         /// </summary>
         public ExtractType()
-          : base("Extract Type", "AOType",
-              "Extract Type from AssemblyObject class",
+          : base("Extract Type", "AOeType",
+              "Extract the Type of an AssemblyObject",
               "Assembler", "Post Processing")
         {
         }
@@ -70,7 +69,7 @@ namespace Assembler
         /// </summary>
         public override GH_Exposure Exposure
         {
-            get { return GH_Exposure.secondary; }
+            get { return GH_Exposure.quarternary; }
         }
 
         /// <summary>

@@ -13,7 +13,8 @@ using System.Windows.Forms;
 
 namespace Assembler
 {
-    public class DisplayHandle : GH_Component
+    [Obsolete]
+    public class L_DisplayHandle : GH_Component
     {
         private bool absoluteTextSize;
         private List<Handle> handles;
@@ -26,17 +27,17 @@ namespace Assembler
         private List<int> _width = new List<int>();
         private DataTree<double> _rotations = new DataTree<double>();
         private DataTree<Plane> _textLocations = new DataTree<Plane>();
-        private Color xAxis = Color.Red;
-        private Color yAxis = Color.Green;
-        private Color xGhost = Color.Firebrick;//IndianRed;//LightSalmon
-        private Color yGhost = Color.LimeGreen; //LightGreen
-        private Color handleTextColor = Color.Black;
-        private Color rotationColor = Color.FromArgb(72, 79, 79);//DarkSlateGray;//72, 79, 79
+        private readonly Color xAxis = Color.Red;
+        private readonly Color yAxis = Color.Green;
+        private readonly Color xGhost = Color.Firebrick;//IndianRed;//LightSalmon
+        private readonly Color yGhost = Color.LimeGreen; //LightGreen
+        private readonly Color handleTextColor = Color.Black;
+        private readonly Color rotationColor = Color.FromArgb(72, 79, 79);//DarkSlateGray;//72, 79, 79
 
         /// <summary>
         /// Initializes a new instance of the DisplayHandle class.
         /// </summary>
-        public DisplayHandle()
+        public L_DisplayHandle()
           : base("DisplayHandles", "HandDisp",
               "Displays Handle Type, weight, sender and receiver planes with rotations for all Handles in the input list",
               "Assembler", "Components")
@@ -199,7 +200,7 @@ namespace Assembler
                     textLoc = _textLocations.Branches[i][0];
                     textLoc.Translate(textLoc.YAxis * size * offset);
 
-                    Rhino.Display.Text3d drawText = new Rhino.Display.Text3d(string.Format("h {0} | type {1} | w {2}", i, handles[i].type, handles[i].weight), textLoc, size);
+                    Rhino.Display.Text3d drawText = new Rhino.Display.Text3d(string.Format("h {0} . type {1} . w {2}", i, handles[i].type, handles[i].weight), textLoc, size);
                     drawText.HorizontalAlignment = Rhino.DocObjects.TextHorizontalAlignment.Left;
                     drawText.VerticalAlignment = Rhino.DocObjects.TextVerticalAlignment.Top;
                     args.Display.Draw3dText(drawText, handleTextColor);
@@ -208,7 +209,7 @@ namespace Assembler
                     {
                         textLoc = _textLocations.Branches[i][j];
                         textLoc.Translate(textLoc.YAxis * size * offset);
-                        drawText = new Rhino.Display.Text3d(string.Format("r{0} {1}", j - 1, _rotations.Branches[i][j - 1]), textLoc, size);
+                        drawText = new Rhino.Display.Text3d(string.Format("r{0} . {1}°", j - 1, _rotations.Branches[i][j - 1]), textLoc, size);
                         drawText.HorizontalAlignment = Rhino.DocObjects.TextHorizontalAlignment.Center;
                         drawText.VerticalAlignment = Rhino.DocObjects.TextVerticalAlignment.Top;
                         args.Display.Draw3dText(drawText, rotationColor);
@@ -277,7 +278,7 @@ namespace Assembler
         /// </summary>
         public override GH_Exposure Exposure
         {
-            get { return GH_Exposure.secondary; }
+            get { return GH_Exposure.hidden; }
         }
 
         /// <summary>

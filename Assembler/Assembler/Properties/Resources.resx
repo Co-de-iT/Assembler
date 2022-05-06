@@ -190,6 +190,9 @@
   <data name="Exogenous_settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Exogenous settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Extract_AOSet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Extract AOSet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Extract_Candidates" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Extract Candidates.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -222,6 +225,9 @@
   </data>
   <data name="Field_N_OLD" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Field N_OLD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Field_Sparse" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Field Sparse.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Field_XYZ_OLD" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Field XYZ_OLD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -258,6 +264,9 @@
   </data>
   <data name="Populate_Field_iW_scalars" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Populate Field iW scalars.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Remove_AssemblyObject" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Remove AssemblyObject.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Transform_AO" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Transform AO.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

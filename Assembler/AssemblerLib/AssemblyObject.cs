@@ -12,10 +12,7 @@ namespace AssemblerLib
     public class AssemblyObject
     {
         #region fields
-        /// <summary>
-        /// List of optional children objects (for composite object)
-        /// </summary>
-        public List<AssemblyObject> children;
+
         /// <summary>
         /// A Mesh for collision detections
         /// </summary>
@@ -37,18 +34,6 @@ namespace AssemblerLib
         /// </summary>
         public Vector3d direction;
         /// <summary>
-        /// Supports
-        /// </summary>
-        public List<Support> supports;
-        /// <summary>
-        /// n. of minimum connected Supports to consider the object supported
-        /// </summary>
-        public int minSupports;
-        /// <summary>
-        /// True if minimum amount of required supports are connected
-        /// </summary>
-        public bool supported;
-        /// <summary>
         /// AssemblyObject id - identifies a unique object type
         /// </summary>
         public int type;
@@ -57,10 +42,10 @@ namespace AssemblerLib
         /// </summary>
         public string name;
         /// <summary>
-        /// AssemblyObject unique index in an assemblage - NOT IMPLEMENTED YET
+        /// AssemblyObject unique index in an assemblage
         /// </summary>
         public int AInd
-        { get { return aInd; } set { aInd = value; } }
+        { get => aInd; set => aInd = value; }
         private int aInd;
         /// <summary>
         /// List of 2 indices (AInd, handle index) occluded by this object
@@ -75,10 +60,6 @@ namespace AssemblerLib
         /// </summary>
         public int iWeight;
         /// <summary>
-        /// True to force the object's reference plane Z axys parallel to the World's Z axis
-        /// </summary>
-        public bool worldZLock;
-        /// <summary>
         /// stores a value during the Assemblage when acting as receiver;
         /// this value depends on the active <see cref="HeuristicsSettings.receiverSelectionMode"/>
         /// </summary>
@@ -88,11 +69,32 @@ namespace AssemblerLib
         /// /// this value depends on the active <see cref="HeuristicsSettings.ruleSelectionMode"/>
         /// </summary>
         public double senderValue;
-
         /// <summary>
-        /// internal map of handles for composite object
+        /// True to force the object's reference plane Z axys parallel to the World's Z axis
+        /// </summary>
+        public bool worldZLock;
+
+        // internal and experimental features
+        /// <summary>
+        /// List of optional children objects (for composite object) - NOT IMPLEMENTED YET
+        /// </summary>
+        internal List<AssemblyObject> children;
+        /// <summary>
+        /// internal map of handles for composite object - NOT IMPLEMENTED YET
         /// </summary>
         internal List<int[]> handleMap;
+        /// <summary>
+        /// Supports - NOT IMPLEMENTED YET
+        /// </summary>
+        public List<Support> supports;
+        /// <summary>
+        /// n. of minimum connected Supports to consider the object supported - NOT IMPLEMENTED YET
+        /// </summary>
+        public int minSupports;
+        /// <summary>
+        /// True if minimum amount of required supports are connected - NOT IMPLEMENTED YET
+        /// </summary>
+        public bool supported;
 
         #endregion
 
@@ -172,11 +174,9 @@ namespace AssemblerLib
         /// <param name="type">object type id</param>
         /// <param name="weight">scalar for density operations or field interactions</param>
         /// <param name="iWeight">integer Weight for Weighted Random choice during assemblage</param>
-        /// <param name="supports">list of supports</param>
-        /// <param name="minSupports">minimum n. of supports required</param>
         /// <param name="worldZLock">lock orientation of Z axis to World Z axis</param>
         public AssemblyObject(Mesh collisionMesh, Handle[] handles, Plane referencePlane, Vector3d direction, string name, int type, double weight, int iWeight,
-            List<Support> supports, int minSupports, bool worldZLock)
+            bool worldZLock)
         {
             // collision Mesh operations
             this.collisionMesh = new Mesh();
@@ -203,22 +203,22 @@ namespace AssemblerLib
             this.weight = weight;
             this.iWeight = iWeight;
 
-            // supports operations
-            this.supports = supports.Select(s => new Support(s)).ToList();
-            this.minSupports = minSupports;
-            supported = false;
-
             // Z Lock
             this.worldZLock = worldZLock;
-
-            // children and handlemap initialization
-            children = new List<AssemblyObject>();
-            handleMap = new List<int[]>();
 
             // "in Assemblage" values
             receiverValue = double.NaN;
             senderValue = double.NaN;
             aInd = -1;
+
+            // supports operations - NOT IMPLEMENTED YET
+            supports = new List<Support>();
+            minSupports = 0;
+            supported = false;
+
+            // children and handlemap initialization - NOT IMPLEMENTED YET
+            children = new List<AssemblyObject>();
+            handleMap = new List<int[]>();
         }
 
         #endregion
@@ -226,7 +226,7 @@ namespace AssemblerLib
         #region composite constructors
 
         /// <summary>
-        /// Builds a composite AssemblyObject from a list of children and a custom collisionMesh
+        /// Builds a composite AssemblyObject from a list of children and a custom collisionMesh - Children objects are NOT IMPLEMENTED YET
         /// </summary>
         /// <param name="collisionMesh"></param>
         /// <param name="referencePlane"></param>
@@ -237,7 +237,7 @@ namespace AssemblerLib
         /// <param name="absoluteZLock"></param>
         /// <param name="children"></param>
         public AssemblyObject(Mesh collisionMesh, Plane referencePlane, Vector3d direction, string name, int type, double weight, bool absoluteZLock, List<AssemblyObject> children) :
-            this(collisionMesh, new Handle[] { }, referencePlane, direction, name, type, weight, 1, new List<Support>(), 0, absoluteZLock)
+            this(collisionMesh, new Handle[] { }, referencePlane, direction, name, type, weight, 1, absoluteZLock)
         {
             // copy children objects
             this.children = children.Select(ao => Utilities.Clone(ao)).ToList();
@@ -251,7 +251,7 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// Builds a composite AssemblyObject from a list of children, a custom collisionMesh, and a custom set of Handles
+        /// Builds a composite AssemblyObject from a list of children, a custom collisionMesh, and a custom set of Handles - Children objects are NOT IMPLEMENTED YET
         /// </summary>
         /// <param name="collisionMesh"></param>
         /// <param name="handles"></param>
@@ -263,7 +263,7 @@ namespace AssemblerLib
         /// <param name="absoluteZLock"></param>
         /// <param name="children"></param>
         public AssemblyObject(Mesh collisionMesh, Handle[] handles, Plane referencePlane, Vector3d direction, string name, int type, double weight, bool absoluteZLock, List<AssemblyObject> children) :
-            this(collisionMesh, handles, referencePlane, direction, name, type, weight, 1, new List<Support>(), 0, absoluteZLock)
+            this(collisionMesh, handles, referencePlane, direction, name, type, weight, 1, absoluteZLock)
         {
             // copy children objects
             this.children = children.Select(ao => Utilities.Clone(ao)).ToList();
@@ -314,16 +314,6 @@ namespace AssemblerLib
             // transform Supports (if they exist)
             if (supports != null)
                 for (int i = 0; i < supports.Count; i++) supports[i].Transform(xForm);
-        }
-
-        // MOVE TO UTILITIES
-        //newObject.UpdateHandle(rule.sH, 1, rInd, rule.rH, assemblage[rInd].handles[rule.rH].weight)
-        public void UpdateHandle(int handleIndex, int occupancy, int neighbourObject, int neighbourHandle, double weight)
-        {
-            handles[handleIndex].occupancy = occupancy;
-            handles[handleIndex].neighbourObject = neighbourObject;
-            handles[handleIndex].neighbourHandle = neighbourHandle;
-            handles[handleIndex].weight += weight;
         }
 
         #endregion

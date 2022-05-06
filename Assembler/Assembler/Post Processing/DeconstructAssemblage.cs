@@ -4,8 +4,6 @@ using AssemblerLib;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Assembler
 {
@@ -16,7 +14,7 @@ namespace Assembler
         /// </summary>
         public DeconstructAssemblage()
           : base("Deconstruct Assemblage", "AOaDecon",
-              "Deconstructs an Assemblage",
+              "Deconstructs an Assemblage\nTree Branch indexes are the unique indexes of objects in the assemblage",
               "Assembler", "Post Processing")
         {
         }
@@ -35,10 +33,10 @@ namespace Assembler
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("Assemblage Objects", "AO", "The tree of AssemblyObjects in the Assemblage", GH_ParamAccess.tree);
-            pManager.AddGenericParameter("Assemblage Rules", "AOr", "The sequential list of Rules in the Assemblage", GH_ParamAccess.list);
-            pManager.AddIntegerParameter("Receiver Objects Indexes", "rOi", "The sequential list of receiver Objects indexes in the Assemblage", GH_ParamAccess.list);
-            pManager.AddIntegerParameter("Available Object indexes", "avO", "List of indexes for AssemblyObjects with available Handles", GH_ParamAccess.list);
-            pManager.AddIntegerParameter("Unreachable Object indexes", "unO", "List of indexes for unreachable AssemblyObjects", GH_ParamAccess.list);
+            pManager.AddTextParameter("Assemblage Rules", "AOr", "The tree of Rules in the Assemblage", GH_ParamAccess.tree);
+            pManager.AddIntegerParameter("Receiver Objects Indexes", "rOi", "The tree of receiver Objects indexes in the Assemblage", GH_ParamAccess.tree);
+            pManager.AddIntegerParameter("Available Object indexes", "avO", "List of unique Assemblage indexes for AssemblyObjects with available Handles", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("Unreachable Object indexes", "unO", "List of unique Assemblage indexes for unreachable AssemblyObjects", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -50,17 +48,14 @@ namespace Assembler
             Assemblage AOa = null;
             if (!DA.GetData(0, ref AOa)) return;
 
-            List<AssemblyObjectGoo> GH_AOs = AOa.assemblyObjects.AllData().Select(ao => new AssemblyObjectGoo(ao)).ToList();
             GH_Structure<AssemblyObjectGoo> AOGooTree = new GH_Structure<AssemblyObjectGoo>();
-            for(int i = 0; i < AOa.assemblyObjects.BranchCount; i++)
-            {
+
+            for (int i = 0; i < AOa.assemblyObjects.BranchCount; i++)
                 AOGooTree.Append(new AssemblyObjectGoo(AOa.assemblyObjects.Branches[i][0]), AOa.assemblyObjects.Paths[i]);
-            }
 
             DA.SetDataTree(0, AOGooTree);
-            //DA.SetDataList(0, GH_AOs);
-            DA.SetDataList("Assemblage Rules", AOa.assemblageRules);
-            DA.SetDataList("Receiver Objects Indexes", AOa.receiverIndexes);
+            DA.SetDataTree(1, AOa.AssemblageRules);
+            DA.SetDataTree(2, AOa.ReceiverAIndexes);
             DA.SetDataList("Available Object indexes", AOa.ExtractAvailableObjects());
             DA.SetDataList("Unreachable Object indexes", AOa.ExtractUnreachableObjects());
 
