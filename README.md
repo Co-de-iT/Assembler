@@ -14,7 +14,7 @@ This work is [licensed](LICENSE) under a GNU General Public License v3.0 (you ca
 
 :point_down: Want to support this project?
 
-<a href='https://ko-fi.com/J3J6D2TVL' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi2.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J6D2TVL)
 
 ### NuGet packages needed  
 docfx.console 2.59.2  
