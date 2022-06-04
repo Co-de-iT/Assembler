@@ -7,12 +7,14 @@ With ***Assembler***, you can create assemblages from parts and rules for their 
 
 This work is [licensed](LICENSE) under a GNU General Public License v3.0 (you can make commercial use, distribute and modify this project, but must **disclose** the source code with the license and copyright notice)
 
-<a href='https://ko-fi.com/J3J6D2TVL' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi2.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
-
 ## Note about crediting and NFTs:
 
 - I am for fair compensation of artist for their contribution to privates and community alike, but I am personally ***against*** NFTs. I don't think they are an answer, and I find the idea of purposely creating artificial scarcity to make value ***perverse***. If that wasn't enough, they're a [giant money-laundering pyramid scheme](https://twitter.com/smdiehl/status/1445795667826208770) and create structural incentives for [theft](https://twitter.com/NFTtheft) in the open source and generative art communities. Their [environmental impact](https://earth.org/nfts-environmental-impact/), although it can be mitigated, is also a huge issue. The lack of current viable alternatives to compensate artists is no excuse for the use of this garbage pile.
 - **I do not authorize in any way this project to be used for selling NFTs**, although I cannot legally enforce it. **Respect the creator**.
+
+:point_down: Want to support this project?
+
+<a href='https://ko-fi.com/J3J6D2TVL' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi2.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
 ### NuGet packages needed  
 docfx.console 2.59.2  
