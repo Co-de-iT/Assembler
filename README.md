@@ -10,7 +10,7 @@ Install ***Assembler*** via Rhino Package Manager.
 
 
 - [Full documentation](https://ale2x72.notion.site/Assembler-Documentation-aa694addf78a4263bd1d066ff8019dbb)
-- [Example files]()
+- [Example files](https://drive.google.com/file/d/1qnprauLZAfjruvcM0hTRckd6zSUlkDAe/view?usp=sharing)
 
 ---
 
@@ -24,9 +24,3 @@ This work is [licensed](LICENSE) under a GNU General Public License v3.0 (you ca
 :point_down: Want to support this project?
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J6D2TVL)
-
-### NuGet packages needed  
-docfx.console 2.59.2  
-Grasshopper 7.0.20314.3001  
-RhinoCommon 7.0.20314.3001  
-NewtonSoft.Json 13.0.1  
