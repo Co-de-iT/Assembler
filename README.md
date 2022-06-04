@@ -7,7 +7,7 @@ With ***Assembler***, you can create assemblages from parts and rules for their 
 
 This work is [licensed](LICENSE) under a GNU General Public License v3.0 (you can make commercial use, distribute and modify this project, but must **disclose** the source code with the license and copyright notice)
 
-<script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('buy me a Ko-fi', '#29abe0', 'J3J6D2TVL');kofiwidget2.draw();</script> 
+<a href='https://ko-fi.com/J3J6D2TVL' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi2.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
 ## Note about crediting and NFTs:
 
