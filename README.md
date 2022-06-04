@@ -5,6 +5,15 @@
 
 With ***Assembler***, you can create assemblages from parts and rules for their connection, manage the criteria for the assemblage growth and its interaction with environmental geometries and data, and perform local (part) and global (assemblage) level computation on the results for analysis or post-processing.
 
+## Installation instructions
+Install ***Assembler*** via Rhino Package Manager.
+
+
+- [Full documentation](https://ale2x72.notion.site/Assembler-Documentation-aa694addf78a4263bd1d066ff8019dbb)
+- [Example files]()
+
+---
+
 This work is [licensed](LICENSE) under a GNU General Public License v3.0 (you can make commercial use, distribute and modify this project, but must **disclose** the source code with the license and copyright notice)
 
 ## Note about crediting and NFTs:
