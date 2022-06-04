@@ -1,3 +1,0 @@
-Breeze Color Palette
-
-https://develop.kde.org/hig/style/color/default/
