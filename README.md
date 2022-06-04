@@ -7,6 +7,8 @@ With ***Assembler***, you can create assemblages from parts and rules for their 
 
 This work is [licensed](LICENSE) under a GNU General Public License v3.0 (you can make commercial use, distribute and modify this project, but must **disclose** the source code with the license and copyright notice)
 
+<script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('buy me a Ko-fi', '#29abe0', 'J3J6D2TVL');kofiwidget2.draw();</script> 
+
 ## Note about crediting and NFTs:
 
 - I am for fair compensation of artist for their contribution to privates and community alike, but I am personally ***against*** NFTs. I don't think they are an answer, and I find the idea of purposely creating artificial scarcity to make value ***perverse***. If that wasn't enough, they're a [giant money-laundering pyramid scheme](https://twitter.com/smdiehl/status/1445795667826208770) and create structural incentives for [theft](https://twitter.com/NFTtheft) in the open source and generative art communities. Their [environmental impact](https://earth.org/nfts-environmental-impact/), although it can be mitigated, is also a huge issue. The lack of current viable alternatives to compensate artists is no excuse for the use of this garbage pile.
