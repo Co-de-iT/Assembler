@@ -9,8 +9,9 @@ With ***Assembler***, you can create assemblages from parts and rules for their 
 Install ***Assembler*** via Rhino Package Manager.
 
 
-- [Full documentation](https://ale2x72.notion.site/Assembler-Documentation-aa694addf78a4263bd1d066ff8019dbb)
-- [Example files](https://drive.google.com/file/d/1qnprauLZAfjruvcM0hTRckd6zSUlkDAe/view?usp=sharing)
+- [Plugin Documentation](https://ale2x72.notion.site/Assembler-Documentation-aa694addf78a4263bd1d066ff8019dbb)
+- [Example Files](https://drive.google.com/file/d/1qnprauLZAfjruvcM0hTRckd6zSUlkDAe/view?usp=sharing)
+- [AssemblerLib API Documentation](https://drive.google.com/file/d/1v8xk-zqJCgIcm5H6vk6AS1f2M3cjsY64/view?usp=sharing)
 
 ---
 
