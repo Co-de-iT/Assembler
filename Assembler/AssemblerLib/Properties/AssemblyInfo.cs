@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Assemblage")]
-[assembly: AssemblyDescription("Library for Assemblages in Grasshopper")]
+[assembly: AssemblyTitle("AssemblerLib")]
+[assembly: AssemblyDescription("Library for the Assembler Grasshopper plugin")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Co-de-iT")]
 [assembly: AssemblyProduct("AssemblerLib")]
-[assembly: AssemblyCopyright("Copyright © Co-de-iT  2020")]
+[assembly: AssemblyCopyright("Copyright © Co-de-iT 2020 - GNU GPL v3.0")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.3.10.1")]
-[assembly: AssemblyFileVersion("1.3.0.0")]
+[assembly: AssemblyVersion("1.1.*")]
+//[assembly: AssemblyFileVersion("1.3.0.0")]

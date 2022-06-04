@@ -32,7 +32,7 @@ namespace Assembler
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Assembly Object", "AO", "The newly created Assembly Object", GH_ParamAccess.item);
+            pManager.AddGenericParameter("AssemblyObject", "AO", "An AssemblyObject", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Assembler
             AssemblyObjectGoo GH_AO = null;
             AssemblyObject AO;
             // sanity check on inputs
-            if (!DA.GetData("Assembly Object", ref GH_AO)) return;
+            if (!DA.GetData(0, ref GH_AO)) return;
             AO = GH_AO.Value;
             if (DA.Iteration == 0) nObj = 0;
            

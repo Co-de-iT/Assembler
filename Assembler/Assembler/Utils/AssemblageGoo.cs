@@ -15,7 +15,7 @@ namespace Assembler
         {
             get
             {
-                if (Value == null || Value.assemblyObjects == null) return false;
+                if (Value == null || Value.AssemblyObjects == null) return false;
                 return true;
             }
         }
@@ -25,7 +25,7 @@ namespace Assembler
             get
             {
                 if (Value == null) { return "No internal Assemblage instance"; }
-                if (Value.assemblyObjects == null) { return "No AssemblyObjects in the Assemblage"; }
+                if (Value.AssemblyObjects == null) { return "No AssemblyObjects in the Assemblage"; }
                 else { return string.Empty; }
             }
         }
@@ -56,7 +56,7 @@ namespace Assembler
 
         public override string ToString()
         {
-            return "Assemblage containing " + Value.assemblyObjects.BranchCount + " AssemblyObjects of " + Value.AOSet.Length + " different types";
+            return "Assemblage containing " + Value.AssemblyObjects.BranchCount + " AssemblyObjects of " + Value.AOSet.Length + " different types";
         }
 
         public override IGH_GeometricGoo DuplicateGeometry()

@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 namespace AssemblerLib
 {
     /// <summary>
-    /// Assemblage class - A class that manages Assemblages
+    /// A class that manages Assemblages, including <see cref="AssemblyObject"/>s, their Topology,
+    /// <see cref="HeuristicsSettings"/>, <see cref="ExogenousSettings"/>, and all related data.
     /// </summary>
     public class Assemblage
     {
@@ -28,13 +29,15 @@ namespace AssemblerLib
         object is removed from available and unreachable list (if present)
          */
 
-        #region fields & properties
+        #region fields-properties-delegates
 
+        #region properties
         /// <summary>
         /// The sequential list of <see cref="AssemblyObject"/>s in the assemblage
         /// convert to DataTree in which each Branch Path is the AInd
         /// </summary>
-        public DataTree<AssemblyObject> assemblyObjects;
+        public DataTree<AssemblyObject> AssemblyObjects
+        { get; internal set; }
         /// <summary>
         /// The set of unique <see cref="AssemblyObject"/> kinds
         /// </summary>
@@ -56,7 +59,7 @@ namespace AssemblerLib
         /// </summary>
         public double CollisionRadius
         { get; internal set; }
-        public int RulesCount { get => heuristicsTree.BranchCount; }
+        //public int RulesCount { get => heuristicsTree.BranchCount; }
         /// <summary>
         /// Candidate sender objects at each iteration
         /// </summary>
@@ -72,11 +75,27 @@ namespace AssemblerLib
         /// </summary>
         public DataTree<int> ReceiverAIndexes
         { get; internal set; }
+        /// <summary>
+        /// Gets or Sets the check for absolute Z direction lock.
+        /// if True, only candidates whose <see cref="AssemblyObject.referencePlane"/> Z axis is parallel to the World Z axis (fixed up direction) are selected
+        /// </summary>
+        public bool CheckWorldZLock
+        { get; set; }
+        /// <summary>
+        /// Gets or Sets the check for Supports
+        /// if True, AssemblyObjects with <see cref="Support"/>s will be added if they pass support check
+        /// </summary>
+        /// <remarks><see cref="Support"/>s NOT IMPLEMENTED YET</remarks>
+        public bool UseSupports
+        { get; set; }
 
-        // delegates for sender-receiver computation and selection
+        #endregion properties
+
+        #region delegates
+        // . . . delegates for sender-receiver computation and selection
 
         /// <summary>
-        /// Delegate type for environment contaier behavior (collision or inclusion)
+        /// Delegate type for environment container behavior (collision or inclusion)
         /// </summary>
         /// <param name="sO"></param>
         /// <returns>True if an <see cref="AssemblyObject"/> is invalid (clash detected or other invalidating condition), False if valid</returns>
@@ -121,33 +140,22 @@ namespace AssemblerLib
         /// </summary>
         public SelectWinnerMethod<double> selectReceiver;
 
-        /// <summary>
-        /// if True, forces candidates to have their own Z axis parallel to the World Z axis (fixed up direction)
-        /// </summary>
-        public bool checkWorldZLock;
-        /// <summary>
-        /// if True, AssemblyObjects with supports will be added if they pass support check
-        /// </summary>
-        public bool useSupports;
+        #endregion delegates
 
-        // internal fields (E_ stands for Experimental feature) - used across the .dll library
+        // . . . internal fields (E_ stands for Experimental feature) - used across the .dll library
 
-        /// <summary>
-        /// Index of currently used heuristics
-        /// </summary>
-        internal int currentHeuristics;
         /// <summary>
         /// Heuristics as a <see cref="Rule"/> DataTree
         /// </summary>
         internal DataTree<Rule> heuristicsTree;
         /// <summary>
+        /// Index of currently used heuristics
+        /// </summary>
+        internal int currentHeuristics;
+        /// <summary>
         /// The (name, type) Dictionary built from the AOSet
         /// </summary>
         internal Dictionary<string, int> AOSetDictionary;
-        /// <summary>
-        /// stores next AIndex to assign
-        /// </summary>
-        internal int nextAInd;
         /// <summary>
         /// RTree of AssemblyObjects centroids
         /// </summary>
@@ -168,11 +176,6 @@ namespace AssemblerLib
         /// List of unreachable objects AInd
         /// </summary>
         internal List<int> unreachableObjects;
-        /// <summary>
-        /// Keeps arrays of neighbours AInd for each valid candidate at each Assemblage iteration
-        /// passes the winning candidate array to Obstruction check (avoid RTree search twice)
-        /// </summary>
-        internal List<int[]> i_candidatesNeighAInd;
 
         /// <summary>
         /// Sandbox for focused assemblage growth - EXPERIMENTAL - NOT IMPLEMENTED YET
@@ -183,12 +186,14 @@ namespace AssemblerLib
         internal List<int> E_sandboxAvailableObjects;
         internal List<int> E_sandboxUnreachableObjects;
 
-        internal int E_sequentialRuleIndex; // progressive index for rule selection in sequential mode
+        //  . . . private fields
 
-        internal HashSet<int> handleTypes; // set of all available handle types
-        internal readonly Random rnd;
-
-        // private fields
+        /// <summary>
+        /// stores next AIndex to assign
+        /// </summary>
+        private int nextAInd;
+        private int E_sequentialRuleIndex; // progressive index for rule selection in sequential mode
+        private readonly Random rnd;
 
         // . . . iteration fields (updated at each Assemblage iteration)
 
@@ -201,7 +206,7 @@ namespace AssemblerLib
         /// </summary>
         private int i_receiverAInd;
         /// <summary>
-        /// stores receiver branch sequential index in <see cref="assemblyObjects"/> at each Assemblage iteration to speed up search 
+        /// stores receiver branch sequential index in <see cref="AssemblyObjects"/> at each Assemblage iteration to speed up search 
         /// </summary>
         private int i_receiverSeqBranchInd;
         /// <summary>
@@ -212,8 +217,13 @@ namespace AssemblerLib
         /// stores indexes of filtered valid rules from <see cref="i_receiverRules"/> at each Assemblage iteration
         /// </summary>
         private List<int> i_validRulesIndexes;
+        /// <summary>
+        /// Keeps arrays of neighbours AInd for each valid candidate at each Assemblage iteration
+        /// passes the winning candidate array to Obstruction check (avoid RTree search twice)
+        /// </summary>
+        private List<int[]> i_candidatesNeighAInd;
 
-        #endregion
+        #endregion fields-properties-delegates
 
         #region constructors and initializers
         /// <summary>
@@ -225,103 +235,40 @@ namespace AssemblerLib
         /// <summary>
         /// Construct an Assemblage from essential parameters
         /// </summary>
-        /// <param name="AOs"></param>
+        /// <param name="AOSet"></param>
         /// <param name="pAO"></param>
         /// <param name="startPlane"></param>
         /// <param name="startType"></param>
         /// <param name="HeuristicsSettings"></param>
         /// <param name="ExogenousSettings"></param>
-        public Assemblage(List<AssemblyObject> AOs, List<AssemblyObject> pAO, Plane startPlane, int startType, HeuristicsSettings HeuristicsSettings, ExogenousSettings ExogenousSettings)
+        public Assemblage(List<AssemblyObject> AOSet, List<AssemblyObject> pAO, Plane startPlane, int startType, HeuristicsSettings HeuristicsSettings, ExogenousSettings ExogenousSettings)
         {
-            rnd = new Random();
 
             // initialize AssemblyObjects variables
-            assemblyObjects = new DataTree<AssemblyObject>();
+            AssemblyObjects = new DataTree<AssemblyObject>();
             centroidsTree = new RTree();
             centroidsAO = new List<int>();
             availableObjects = new List<int>();
             availableReceiverValues = new List<double>();
             unreachableObjects = new List<int>();
-            i_candidatesNeighAInd = new List<int[]>();
-
-            this.HeuristicsSettings = HeuristicsSettings;
-            this.ExogenousSettings = ExogenousSettings;
-
-            //initialize environment method
-            SetEnvCheckMethod();
-
-            // initialize sandbox
-            if (this.ExogenousSettings.sandBox.IsValid)
-            {
-                E_sandbox = this.ExogenousSettings.sandBox;
-                Transform scale = Transform.Scale(E_sandbox.Center, 1.2);
-                E_sandbox.Transform(scale);
-                E_sandboxCentroidsTree = new RTree();
-                E_sandboxCentroidsAO = new List<int>();
-                E_sandboxAvailableObjects = new List<int>();
-                E_sandboxUnreachableObjects = new List<int>();
-            }
-            else
-            {
-                E_sandbox = Box.Empty;
-            }
-
-            // fill the unique objects set
-            // cast input to AssemblyObject array
-            AOSet = AOs.ToArray();
-
-            // build the dictionary
-            AOSetDictionary = Utilities.BuildDictionary(AOSet);
-
-            // fill handle types HashSet
-            handleTypes = Utilities.BuildHandlesHashSet(AOSet);
-
-            // compute collision radius
-            CollisionRadius = ComputeCollisionRadius(AOSet);
-
-            // if there is a previous Assemblage
-            if (pAO != null && pAO.Count > 0)
-            {
-                PopulateAssemblage(pAO);
-            }
-            else
-            {
-                // start the assemblage with one object
-                StartAssemblage(startType, startPlane);
-            }
-
-            // initialize heuristics
-            // heuristics MUST be initialized after filling the AOSetDictionary with ALL types,
-            // even those from the previous assemblage
-            heuristicsTree = InitHeuristics(this.HeuristicsSettings.heuSetsString);
-            currentHeuristics = this.HeuristicsSettings.currentHeuristics;
-
             // initialize other variables
             CandidateObjects = new List<AssemblyObject>();
             AssemblageRules = new DataTree<string>();
             ReceiverAIndexes = new DataTree<int>();
-
-            // initialize check World Z-Lock
-            checkWorldZLock = false;
-        }
-
-        /// <summary>
-        /// Initialize Assemblage
-        /// </summary>
-        public void Initialize()
-        {
-            // initialize selection modes
             E_sequentialRuleIndex = 0; // progressive index for rule selection in sequential mode (EXPERIMENTAL)
-            SetReceiverSelectionMode(HeuristicsSettings.receiverSelectionMode);
-            SetSenderSelectionMode(HeuristicsSettings.ruleSelectionMode);
+            rnd = new Random();
 
-            // compute receiver values
-            ComputeReceivers();
-            if (HeuristicsSettings.heuristicsMode == 1)
-                ComputeReceiversiWeights();
+            // initialize AOSet and AOSetDictionary
+            this.AOSet = AOSet.ToArray();
+            // build the dictionary (needed by AssignType)
+            AOSetDictionary = Utilities.BuildDictionary(this.AOSet);
 
-            // reset available/unreachable objects
-            ResetAvailableObjects();
+            // if there is a previous AssemblyObjects list opoulate, else start with one object
+            if (pAO != null && pAO.Count > 0) PopulateAssemblage(pAO);
+            else StartAssemblage(startType, startPlane);
+
+            // compute collision radius
+            CollisionRadius = ComputeCollisionRadius(this.AOSet);
         }
 
         private double ComputeCollisionRadius(AssemblyObject[] AOset)
@@ -346,66 +293,36 @@ namespace AssemblerLib
             startObject.AInd = 0;
             startObject.receiverValue = 0;
             nextAInd = 1;
-            assemblyObjects.Add(startObject, new GH_Path(startObject.AInd));
-            centroidsTree.Insert(assemblyObjects[new GH_Path(startObject.AInd), 0].referencePlane.Origin, startObject.AInd);
+            AssemblyObjects.Add(startObject, new GH_Path(startObject.AInd));
+            centroidsTree.Insert(AssemblyObjects[new GH_Path(startObject.AInd), 0].referencePlane.Origin, startObject.AInd);
             // future implementation: if object has children or multiple centroids, insert all children centroids under the same AInd (0 in this case)
             centroidsAO.Add(startObject.AInd);
-
             // just for initialization (environment checks will come later)
             availableObjects.Add(startObject.AInd);
             // just for initialization (compute methods haven't been defined yet)
             availableReceiverValues.Add(startObject.receiverValue);
-
-            // if sandbox is valid and contains origin add it to its tree & add according value to the boolean mask
-            if (E_sandbox.IsValid && E_sandbox.Contains(assemblyObjects[new GH_Path(startObject.AInd), 0].referencePlane.Origin))
-            {
-                E_sandboxCentroidsTree.Insert(assemblyObjects[new GH_Path(startObject.AInd), 0].referencePlane.Origin, assemblyObjects[new GH_Path(startObject.AInd), 0].AInd);
-                E_sandboxCentroidsAO.Add(centroidsAO[0]); // see note above for multiple centroids
-                // see note above for available objects
-                E_sandboxAvailableObjects.Add(assemblyObjects[new GH_Path(startObject.AInd), 0].AInd);
-            }
         }
 
         private void PopulateAssemblage(List<AssemblyObject> pAO)
         {
-            // assign types to previous objects
-            List<AssemblyObject> newTypes;
-            assemblyObjects = AssignType(pAO, out newTypes);
-
-            // update AOset and handleTypes HashSet with new types
-            if (newTypes.Count > 0)
-            {
-                List<AssemblyObject> AOsetList = AOSet.ToList();
-                AOsetList.AddRange(newTypes);
-                AOSet = AOsetList.ToArray();
-                handleTypes = Utilities.BuildHandlesHashSet(AOSet);
-            }
+            // reassign type, update AOSet & AOSetDictionary
+            AssemblyObjects = AssignType(pAO);
 
             // add previous objects to the centroids tree and check their occupancy/availability status
-            bool inSandBox;
-            for (int i = 0; i < assemblyObjects.BranchCount; i++)
+            for (int i = 0; i < AssemblyObjects.BranchCount; i++)
             {
-                inSandBox = false;
                 // add object to the centroids tree
                 // future implementation: if object has children, insert all children centroids under the same AInd
-                centroidsTree.Insert(assemblyObjects.Branches[i][0].referencePlane.Origin, assemblyObjects.Branches[i][0].AInd);
-                centroidsAO.Add(assemblyObjects.Branches[i][0].AInd);
-                // if sandbox is valid and contains origin add it to its tree
-                if (E_sandbox.IsValid && E_sandbox.Contains(assemblyObjects.Branches[i][0].referencePlane.Origin))
-                {
-                    inSandBox = true;
-                    E_sandboxCentroidsTree.Insert(assemblyObjects.Branches[i][0].referencePlane.Origin, assemblyObjects.Branches[i][0].AInd);
-                    E_sandboxCentroidsAO.Add(assemblyObjects.Branches[i][0].AInd); // see note above for multiple centroids
-                }
+                centroidsTree.Insert(AssemblyObjects.Branches[i][0].referencePlane.Origin, AssemblyObjects.Branches[i][0].AInd);
+                centroidsAO.Add(AssemblyObjects.Branches[i][0].AInd);
 
-                // find if the AssemblyObject is not already saturated and add it to the available list for initialization
-                foreach (Handle h in assemblyObjects.Branches[i][0].handles)
-                    if (h.occupancy == 0 && handleTypes.Contains(h.type))
+                // ResetAvailableObjects() needs lists of availables and unreachables
+                // initialize availableObjects list
+                foreach (Handle h in AssemblyObjects.Branches[i][0].handles)
+                    if (h.occupancy == 0)
                     {
-                        availableObjects.Add(assemblyObjects.Branches[i][0].AInd);
+                        availableObjects.Add(AssemblyObjects.Branches[i][0].AInd);
                         availableReceiverValues.Add(0); // just for initialization (these are computed later)
-                        if (E_sandbox.IsValid && inSandBox)
-                            E_sandboxAvailableObjects.Add(assemblyObjects.Branches[i][0].AInd);
                         break;
                     }
             }
@@ -415,40 +332,60 @@ namespace AssemblerLib
 
         #region setup methods
         /// <summary>
-        /// Assigns types to previous AssemblyObjects
+        /// Assigns types to previous AssemblyObjects, updating <see cref="AOSet"/> and <see cref="AOSetDictionary"/>
         /// </summary>
         /// <param name="pAO">List of previous Objects in input</param>
-        /// <param name="newTypes">List of new types AssemblyObject (to be added to the <see cref="AOSet"/>)</param>
-        /// <returns>Data Tree of AssemblyObjects, with their AInd as branch Path</returns>
-        private DataTree<AssemblyObject> AssignType(List<AssemblyObject> pAO, out List<AssemblyObject> newTypes)
+        /// <returns>Data Tree of type-updated AssemblyObjects, with their AInd as branch Path</returns>
+        private DataTree<AssemblyObject> AssignType(List<AssemblyObject> pAO)
         {
             nextAInd = 0;
             // previous objects are checked against the dictionary
             // - if they are not part of the existing set, a new type is added
 
-            newTypes = new List<AssemblyObject>();
+            // checks if AssemblyObjects need to be reindexed (ex. two or more with same AInd)
+            bool reIndex = false;
+            int ind = pAO[0].AInd;
+            for (int i = 1; i < pAO.Count; i++)
+                if (pAO[i].AInd == ind)
+                {
+                    reIndex = true;
+                    break;
+                }
+
+            List<AssemblyObject> newTypes = new List<AssemblyObject>();
             DataTree<AssemblyObject> pAOTyped = new DataTree<AssemblyObject>();
-            int newType = AOSetDictionary.Count;
+            int newTypeIndex = AOSetDictionary.Count;
             for (int i = 0; i < pAO.Count; i++)
             {
                 // if object name isn't already in the dictionary - new type identified
                 if (!AOSetDictionary.ContainsKey(pAO[i].name))
                 {
                     // add new type to the dictionary
-                    AOSetDictionary.Add(pAO[i].name, newType);
+                    AOSetDictionary.Add(pAO[i].name, newTypeIndex);
                     // add new type object to the dictionary candidates
                     AssemblyObject AOnewType = Utilities.Clone(pAO[i]);
-                    AOnewType.type = newType;
-                    AOnewType.AInd = -1; // reset its AInd
+                    AOnewType.type = newTypeIndex;
+                    //AOnewType.AInd = -1; // reset its AInd (Clone() does it already)
                     newTypes.Add(AOnewType);
-                    newType++;
+                    newTypeIndex++;
                 }
+                // if reIndex or AssemblyObjects do not belong to an assemblage (i.e. user-made starting input list)
+                if (reIndex || pAO[i].AInd == -1)
+                    pAO[i].AInd = nextAInd;
                 // update next AInd
                 if (pAO[i].AInd >= nextAInd) nextAInd = pAO[i].AInd + 1;
                 // reassign type
                 pAO[i].type = AOSetDictionary[pAO[i].name];
-                // add a copy of the original object to the Data Tree
+                // add a copy of the original object to the AssemblyObject Data Tree
                 pAOTyped.Add(Utilities.CloneWithConnectivity(pAO[i]), new GH_Path(pAO[i].AInd));
+            }
+
+            // update AOSet with new types
+            if (newTypes.Count > 0)
+            {
+                List<AssemblyObject> AOsetList = AOSet.ToList();
+                AOsetList.AddRange(newTypes);
+                AOSet = AOsetList.ToArray();
             }
 
             return pAOTyped;
@@ -498,12 +435,17 @@ namespace AssemblerLib
         {
             if (sandbox.IsValid)
             {
-                this.E_sandbox = sandbox;
-                Transform scale = Transform.Scale(this.E_sandbox.Center, 1.2);
-                this.E_sandbox.Transform(scale);
+                E_sandbox = sandbox;
+                Transform scale = Transform.Scale(E_sandbox.Center, 1.2);
+                E_sandbox.Transform(scale);
+                E_sandboxAvailableObjects = new List<int>();
+                E_sandboxUnreachableObjects = new List<int>();
                 ResetSandboxRtree();
             }
-
+            else
+            {
+                E_sandbox = Box.Empty;
+            }
         }
 
         /// <summary>
@@ -550,12 +492,12 @@ namespace AssemblerLib
                     selectReceiver = SelectRandomIndex;
                     break;
                 case 1:
-                    // scalar field search - fast (closest Field point)
+                    // scalar field search - closest Field point
                     computeReceiverValue = ComputeRScalarField;
                     selectReceiver = SelectMinIndex;
                     break;
                 case 2:
-                    // scalar field search - (interpolated values)
+                    // scalar field search - interpolated values
                     computeReceiverValue = ComputeRScalarFieldInterpolated;
                     selectReceiver = SelectMinIndex;
                     break;
@@ -666,64 +608,106 @@ namespace AssemblerLib
         /// 
         /// Update is composed by the following steps:
         /// <list type="number">
-        /// <item>receiver selection (where do I add the next item?)</item>
-        /// <item>rule selection (which one and how?)</item>
-        /// <item>new object addition to the assemblage</item>
-        /// <item>assemblage status update</item>
+        /// <item><description>receiver selection (where do I add the next item?)</description></item>
+        /// <item><description>rule selection (which one and how?)</description></item>
+        /// <item><description>new object addition to the assemblage</description></item>
+        /// <item><description>assemblage status update</description></item>
         /// </list>
         /// </summary>
         /// <remarks>The method is virtual, so it can be customized with an override</remarks>
+        /// <example>
+        /// This is the standard base implementation:
+        /// <code>
+        /// public override Update()
+        ///{
+        ///    // 0. reset iteration variables
+        ///    ResetIterationVariables();
+        ///    AssemblyObject newObject;
+        ///    // 1. receiver selection and candidates retrieval attempt
+        ///    // if there are no available candidates return
+        ///    if (!TryGetReceiverAndCandidates()) return;
+        ///    // 2. rule selection
+        ///    Rule rule = SelectRule(CandidateObjects, out newObject);
+        ///    // 3. new object addition
+        ///    AddValidObject(newObject, rule);
+        ///    // 4. Assemblage status update
+        ///    Utilities.ObstructionCheckAssemblage(this, newObject.AInd, i_candidatesNeighAInd[i_senderSeqInd]);
+        ///}
+        /// </code>
+        /// </example>
         public virtual void Update()
         {
+            // . . . . . . .    0. reset iteration variables
 
-            /*
-             In future implementations, add the possibility to implement the opposite logic:
+            ResetIterationVariables();
 
-             . start from the sender type
-             . look for all possible candidates among the existing assemblage free handles and relative rules
-             . filter selection according to criteria and add winner
-
-            To implement this logic, the heuristic tree should be queried by receiver type, its free handle index and sender type:
-            this should return all rules matching sender type
-            Since it scans the entire assemblage, the implementation of the SandBox might be a critical prerequisite.
-
-            Another thought:
-
-            . try to make an assemblage given a fixed list of AssemblyObject types and their respective count
-            . try combinations until exhaustion of list, also multiple times (given n. of attempts or target condition)
-            . save each attempt to disk (including list of used rules)
-             */
-
-            // reset receiver Rules and valid indexes 
-            i_receiverRules = new List<Rule>();
-            i_validRulesIndexes = new List<int>();
-            i_receiverAInd = 0;
-            i_receiverSeqBranchInd = 0;
             AssemblyObject newObject;
 
+            // . . . . . . .    1. receiver selection and candidates retrieval attempt
+
+            // if there are no available candidates return
+            if (!TryGetReceiverAndCandidates()) return;
+
+
+            // . . . . . . .    2. rule selection
+
+            Rule rule = SelectRule(CandidateObjects, out newObject);
+
+
+            // . . . . . . .    3. new object addition
+
+            AddValidObject(newObject, rule);
+
+
+            // . . . . . . .    4. Assemblage status update
+
+            // check for obstructions and/or secondary handle connections
+            // check if newly added object obstructs other handles in the surroundings
+            // or its handles are obstructed in turn by other objects
+            Utilities.ObstructionCheckAssemblage(this, newObject.AInd, i_candidatesNeighAInd[i_senderSeqInd]);
+        }
+
+        /// <summary>
+        /// Resets iteration-dependent variables in the Assemblage
+        /// </summary>
+        public void ResetIterationVariables()
+        {
+            i_senderSeqInd = 0;
+            i_receiverAInd = 0;
+            i_receiverSeqBranchInd = 0;
+            i_receiverRules = new List<Rule>();
+            i_validRulesIndexes = new List<int>();
+            i_candidatesNeighAInd = new List<int[]>();
+        }
+
+        /// <summary>
+        /// A virtual method that tries to retrieve a valid receiver and compile related list of candidates
+        /// </summary>
+        /// <returns>True if a valid receiver is found, False otherwise</returns>
+        /// <remarks>The method is virtual, so it can be customized with an override</remarks>
+        public virtual bool TryGetReceiverAndCandidates()
+        {
             while (availableObjects.Count > 0)
             {
                 // . . . . . . .    1. receiver selection
-                // . . . . . . .    
-                // . . . . . . .    
 
-
+                // select receiver from list of available values
                 // sequential receiver index in the available objects AInd list
                 int availableSeqIndex = selectReceiver(availableReceiverValues.ToArray());
+                // convert sequential index into AInd and find its related branch Path
                 i_receiverAInd = availableObjects[availableSeqIndex];
-                i_receiverSeqBranchInd = assemblyObjects.Paths.IndexOf(new GH_Path(i_receiverAInd));
+                i_receiverSeqBranchInd = AssemblyObjects.Paths.IndexOf(new GH_Path(i_receiverAInd));
 
                 // . . . . . . .    1.1 candidates retrieval attempt
-                // . . . . . . .    
-                // . . . . . . . 
+
                 // this function sifts candidates filtering invalid results (i.e. collisions, environment)
                 // compiles list of: validRulesIndexes, candidateObjects, candidatesNeighAInd
-                bool found = RetrieveCandidates();
 
-                if (found)
+                if (RetrieveCandidates())
                     break;
                 else
                 {
+                    // bookkeeping
                     // if an object cannot receive candidates, it is marked as unreachable (neither fully occupied nor occluded, yet nothing can be added to it)
                     unreachableObjects.Add(i_receiverAInd);
                     availableObjects.RemoveAt(availableSeqIndex);
@@ -731,42 +715,19 @@ namespace AssemblerLib
                 }
             }
 
-            // if there are no available candidates return
-            // this condition is not redundant as the loop above might end by exhausting the list of available objects without finding a candidate
-            if (CandidateObjects.Count == 0) return;
-
-            // . . . . . . .    2. rule selection
-            // . . . . . . .    
-            // . . . . . . .    
-
-            Rule rule = SelectRule(CandidateObjects, out newObject);
-
-            // . . . . . . .    3. new object addition
-            // . . . . . . .    
-            // . . . . . . .   
-            AddValidObject(newObject, rule);
-
-            // . . . . . . .    4. Assemblage status update
-            // . . . . . . .    
-            // . . . . . . .   
-            // check for obstructions and/or secondary handle connections
-            // check if newly added object obstructs other handles in the surroundings
-            // or its handles are obstructed in turn by other objects
-            Utilities.ObstructionCheckAssemblage(this, newObject.AInd, i_candidatesNeighAInd[i_senderSeqInd]);//assemblyObjects.Count - 1);
+            return CandidateObjects.Count > 0;
         }
 
         /// <summary>
-        /// Retrieve Candidates based on receiver index
+        /// Retrieve the <see cref="CandidateObjects"/> for the current iteration
         /// </summary>
-        /// <param name="receiverRules">List of corresponding <see cref="Rule"/>s</param>
-        /// <param name="validRulesIndexes">Indices of valid <see cref="Rule"/>s (candidates that do not collide with existing assemblage and/or environment obstacles)</param>
-        /// <param name="candidateObjects">List of candidates <see cref="AssemblyObject"/>s - each candidate corresponds with a valid <see cref="Rule"/></param>
-        /// 
         /// <returns>True if at least one suitable candidate has been found, False otherwise</returns>
+        /// <remarks>This function sifts candidates filtering invalid results (i.e. collisions, environment), eventually
+        /// compiling lists of: i_validRulesIndexes, <see cref="CandidateObjects"/>, i_candidatesNeighAInd </remarks>
         public bool RetrieveCandidates()
         {
             // . find receiver object type
-            int receiverType = assemblyObjects.Branch(i_receiverSeqBranchInd)[0].type;
+            int receiverType = AssemblyObjects.Branch(i_receiverSeqBranchInd)[0].type;
             CandidateObjects = new List<AssemblyObject>();
             i_candidatesNeighAInd.Clear();
             i_validRulesIndexes = new List<int>();
@@ -774,7 +735,7 @@ namespace AssemblerLib
             // select current heuristics - check if heuristic mode is set to field driven
             // in that case, use the receiver's iWeight (where the heuristics index is stored)
             if (HeuristicsSettings.heuristicsMode == 1)
-                currentHeuristics = assemblyObjects.Branch(i_receiverSeqBranchInd)[0].iWeight;
+                currentHeuristics = AssemblyObjects.Branch(i_receiverSeqBranchInd)[0].iWeight;
 
             // . sanity check on rules
             // it is possible, when using a custom set of rules, that an object is only used as sender
@@ -797,21 +758,21 @@ namespace AssemblerLib
             for (int i = 0; i < i_receiverRules.Count; i++)
             {
                 // if receiver handle isn't free skip to next rule
-                if (assemblyObjects.Branch(i_receiverSeqBranchInd)[0].handles[i_receiverRules[i].rH].occupancy != 0) continue;
+                if (AssemblyObjects.Branch(i_receiverSeqBranchInd)[0].handles[i_receiverRules[i].rH].occupancy != 0) continue;
 
                 // make a copy of corresponding sender type from catalog
                 newObject = Utilities.Clone(AOSet[i_receiverRules[i].sT]);
 
                 // create Transformation
                 Transform orient = Transform.PlaneToPlane(AOSet[i_receiverRules[i].sT].handles[i_receiverRules[i].sH].sender,
-                    assemblyObjects.Branch(i_receiverSeqBranchInd)[0].handles[i_receiverRules[i].rH].receivers[i_receiverRules[i].rR]);
+                    AssemblyObjects.Branch(i_receiverSeqBranchInd)[0].handles[i_receiverRules[i].rH].receivers[i_receiverRules[i].rR]);
 
                 // transform sender object
                 newObject.Transform(orient);
 
                 // verify Z lock
                 // if absolute Z lock is true for the current object...
-                if (checkWorldZLock && newObject.worldZLock)
+                if (CheckWorldZLock && newObject.worldZLock)
                     // ...perform that check too - if test is not passed continue to next object
                     if (!Utilities.AbsoluteZCheck(newObject)) continue;
 
@@ -876,7 +837,7 @@ namespace AssemblerLib
 
             // . . . . . UPDATE HANDLES
             // update sender + receiver handle status (handle index, occupancy, neighbourObject, neighbourHandle, weight)
-            Utilities.UpdateConnectedHandles(newObject, rule.sH, assemblyObjects.Branch(i_receiverSeqBranchInd)[0], rule.rH);
+            Utilities.UpdateHandlesOnConnection(newObject, rule.sH, AssemblyObjects.Branch(i_receiverSeqBranchInd)[0], rule.rH);
 
             // compute newObject receiver value
             newObject.receiverValue = computeReceiverValue(newObject);
@@ -893,10 +854,10 @@ namespace AssemblerLib
             availableReceiverValues.Add(newObject.receiverValue);
 
             // add new object to assemblage, its AInd to the index map
-            assemblyObjects.Add(newObject, newObjectPath);
+            AssemblyObjects.Add(newObject, newObjectPath);
 
             // if receiving object is fully occupied (all handles either connected or occluded) remove it from the available objects
-            if (assemblyObjects.Branch(i_receiverSeqBranchInd)[0].handles.Where(x => x.occupancy != 0).Sum(x => 1) == assemblyObjects.Branch(i_receiverSeqBranchInd)[0].handles.Length)
+            if (AssemblyObjects.Branch(i_receiverSeqBranchInd)[0].handles.Where(x => x.occupancy != 0).Sum(x => 1) == AssemblyObjects.Branch(i_receiverSeqBranchInd)[0].handles.Length)
             {
                 availableReceiverValues.RemoveAt(availableObjects.IndexOf(i_receiverAInd));
                 availableObjects.Remove(i_receiverAInd);
@@ -949,9 +910,9 @@ namespace AssemblerLib
             centroidsTree.Search(new Sphere(receiver.referencePlane.Origin, CollisionRadius), (s, args) =>
             {
                 GH_Path neighPath = new GH_Path(centroidsAO[args.Id]);
-                density += assemblyObjects[neighPath, 0].weight;
+                density += AssemblyObjects[neighPath, 0].weight;
                 // update neighbour object receiver value with current weight
-                assemblyObjects[neighPath, 0].receiverValue += receiver.weight;
+                AssemblyObjects[neighPath, 0].receiverValue += receiver.weight;
             });
 
             return density;
@@ -964,28 +925,28 @@ namespace AssemblerLib
 
         private void ComputeReceivers()
         {
-            if (assemblyObjects.BranchCount < 1000)
-                for (int i = 0; i < assemblyObjects.BranchCount; i++)
-                    assemblyObjects.Branches[i][0].receiverValue = computeReceiverValue(assemblyObjects.Branches[i][0]);
+            if (AssemblyObjects.BranchCount < 1000)
+                for (int i = 0; i < AssemblyObjects.BranchCount; i++)
+                    AssemblyObjects.Branches[i][0].receiverValue = computeReceiverValue(AssemblyObjects.Branches[i][0]);
             else
             {
-                Parallel.For(0, assemblyObjects.BranchCount, i =>
+                Parallel.For(0, AssemblyObjects.BranchCount, i =>
                 {
-                    assemblyObjects.Branches[i][0].receiverValue = computeReceiverValue(assemblyObjects.Branches[i][0]);
+                    AssemblyObjects.Branches[i][0].receiverValue = computeReceiverValue(AssemblyObjects.Branches[i][0]);
                 });
             }
         }
 
         private void ComputeReceiversiWeights()
         {
-            if (assemblyObjects.BranchCount < 1000)
-                for (int i = 0; i < assemblyObjects.BranchCount; i++)
-                    assemblyObjects.Branches[i][0].iWeight = ComputeRiWeight(assemblyObjects.Branches[i][0]);
+            if (AssemblyObjects.BranchCount < 1000)
+                for (int i = 0; i < AssemblyObjects.BranchCount; i++)
+                    AssemblyObjects.Branches[i][0].iWeight = ComputeRiWeight(AssemblyObjects.Branches[i][0]);
             else
             {
-                Parallel.For(0, assemblyObjects.BranchCount, i =>
+                Parallel.For(0, AssemblyObjects.BranchCount, i =>
                 {
-                    assemblyObjects.Branches[i][0].iWeight = ComputeRiWeight(assemblyObjects.Branches[i][0]);
+                    AssemblyObjects.Branches[i][0].iWeight = ComputeRiWeight(AssemblyObjects.Branches[i][0]);
                 });
             }
         }
@@ -995,7 +956,6 @@ namespace AssemblerLib
         #region compute candidates methods
         private double[] ComputeZero(List<AssemblyObject> candidates) => candidates.Select(c => 0.0).ToArray();
         private double[] ComputeRandom(List<AssemblyObject> candidates) => candidates.Select(c => rnd.NextDouble()).ToArray();
-
         private double[] ComputeBBVolume(List<AssemblyObject> candidates)
         {
             BoundingBox bBox;
@@ -1006,14 +966,14 @@ namespace AssemblerLib
             if (candidates.Count < 100)
                 for (int i = 0; i < candidates.Count; i++)
                 {
-                    bBox = assemblyObjects.Branch(i_receiverSeqBranchInd)[0].collisionMesh.GetBoundingBox(false);
+                    bBox = AssemblyObjects.Branch(i_receiverSeqBranchInd)[0].collisionMesh.GetBoundingBox(false);
                     bBox.Union(candidates[i].collisionMesh.GetBoundingBox(false));
                     BBvolumes[i] = bBox.Volume;
                 }
             else
                 Parallel.For(0, candidates.Count, i =>
                 {
-                    BoundingBox bBoxpar = assemblyObjects.Branch(i_receiverSeqBranchInd)[0].collisionMesh.GetBoundingBox(false);
+                    BoundingBox bBoxpar = AssemblyObjects.Branch(i_receiverSeqBranchInd)[0].collisionMesh.GetBoundingBox(false);
                     bBoxpar.Union(candidates[i].collisionMesh.GetBoundingBox(false));
                     BBvolumes[i] = bBoxpar.Volume;
                 });
@@ -1031,14 +991,14 @@ namespace AssemblerLib
             if (candidates.Count < 100)
                 for (int i = 0; i < candidates.Count; i++)
                 {
-                    bBox = assemblyObjects.Branch(i_receiverSeqBranchInd)[0].collisionMesh.GetBoundingBox(false);
+                    bBox = AssemblyObjects.Branch(i_receiverSeqBranchInd)[0].collisionMesh.GetBoundingBox(false);
                     bBox.Union(candidates[i].collisionMesh.GetBoundingBox(false));
                     BBdiagonals[i] = bBox.Diagonal.Length;
                 }
             else
                 Parallel.For(0, candidates.Count, i =>
                 {
-                    BoundingBox bBoxpar = assemblyObjects.Branch(i_receiverSeqBranchInd)[0].collisionMesh.GetBoundingBox(false);
+                    BoundingBox bBoxpar = AssemblyObjects.Branch(i_receiverSeqBranchInd)[0].collisionMesh.GetBoundingBox(false);
                     bBoxpar.Union(candidates[i].collisionMesh.GetBoundingBox(false));
                     BBdiagonals[i] = bBoxpar.Diagonal.Length;
                 });
@@ -1344,6 +1304,8 @@ namespace AssemblerLib
             HeuristicsSettings = Heu;
             ExogenousSettings = Exo;
 
+            // reset heuristicsTree
+            heuristicsTree = InitHeuristics(HeuristicsSettings.heuSetsString);
             // comment this in case currentHeuristics is taken directly from HeuristicsSettings
             currentHeuristics = HeuristicsSettings.currentHeuristics;
 
@@ -1357,6 +1319,7 @@ namespace AssemblerLib
 
             // compute receiver values
             ComputeReceivers();
+            // if heuristics is Field driven compute iWeights
             if (HeuristicsSettings.heuristicsMode == 1)
                 ComputeReceiversiWeights();
 
@@ -1367,12 +1330,14 @@ namespace AssemblerLib
         private void ResetSandboxRtree()
         {
             E_sandboxCentroidsTree = new RTree();
+            E_sandboxCentroidsAO = new List<int>();
             // create List of centroid correspondance with their AO
-
             centroidsTree.Search(E_sandbox.BoundingBox, (sender, args) =>
             {
                 // recover the AssemblyObject centroid related to the found centroid
-                E_sandboxCentroidsTree.Insert(assemblyObjects[new GH_Path(centroidsAO[args.Id]), 0].referencePlane.Origin, args.Id);
+                // args.Id contains the AInd
+                E_sandboxCentroidsTree.Insert(AssemblyObjects[new GH_Path(args.Id), 0].referencePlane.Origin, args.Id);
+                E_sandboxCentroidsAO.Add(args.Id);
             });
         }
 
@@ -1397,7 +1362,7 @@ namespace AssemblerLib
             availableReceiverValues.Clear();
             for (int i = 0; i < availableObjects.Count; i++)
             {
-                availableReceiverValues.Add(assemblyObjects[new GH_Path(availableObjects[i]), 0].receiverValue);
+                availableReceiverValues.Add(AssemblyObjects[new GH_Path(availableObjects[i]), 0].receiverValue);
             }
 
             // reset according to environment meshes
@@ -1415,7 +1380,7 @@ namespace AssemblerLib
             for (int i = availableObjects.Count - 1; i >= 0; i--)
             {
 
-                AssemblyObject avObject = assemblyObjects[new GH_Path(availableObjects[i]), 0];
+                AssemblyObject avObject = AssemblyObjects[new GH_Path(availableObjects[i]), 0];
 
                 // check if current heuristics is fixed or field-dependent
                 if (HeuristicsSettings.heuristicsMode == 1)
@@ -1464,6 +1429,20 @@ namespace AssemblerLib
 
             // add new unreachables to list
             unreachableObjects.AddRange(newUnreachables);
+
+            // add to specific Sandbox lists if a valid Sandbox is present
+            if (E_sandbox.IsValid)
+            {
+                E_sandboxAvailableObjects.Clear();
+                E_sandboxUnreachableObjects.Clear();
+                foreach (int avOb in availableObjects)
+                    if (E_sandbox.Contains(AssemblyObjects[new GH_Path(avOb), 0].referencePlane.Origin)) E_sandboxAvailableObjects.Add(avOb);
+                //if (E_sandboxCentroidsAO.Contains(avOb)) E_sandboxAvailableObjects.Add(avOb);
+                foreach (int unrOb in unreachableObjects)
+                    if (E_sandbox.Contains(AssemblyObjects[new GH_Path(unrOb), 0].referencePlane.Origin)) E_sandboxAvailableObjects.Add(unrOb);
+                //if (E_sandboxCentroidsAO.Contains(unrOb)) E_sandboxUnreachableObjects.Add(unrOb);
+            }
+
         }
 
         private void ResetAvailableObjectsEnvironment()
@@ -1472,7 +1451,7 @@ namespace AssemblerLib
             // verify available objects against new environment meshes to update unreachable list
             for (int i = availableObjects.Count - 1; i >= 0; i--)
             {
-                if (environmentCheck(assemblyObjects[new GH_Path(availableObjects[i]), 0]))
+                if (environmentCheck(AssemblyObjects[new GH_Path(availableObjects[i]), 0]))
                 {
                     unreachableObjects.Add(availableObjects[i]);
                     availableObjects.RemoveAt(i);
@@ -1529,9 +1508,13 @@ namespace AssemblerLib
 
         #endregion
 
+        /// <summary>
+        /// Returns a string that represents the <see cref="Assemblage"/>
+        /// </summary>
+        /// <returns>A string that represents the <see cref="Assemblage"/></returns>
         public override string ToString()
         {
-            return string.Format("Assemblage containing {0} AssemblyObjects", assemblyObjects.DataCount);
+            return string.Format("Assemblage containing {0} AssemblyObject(s) of {1} different kind(s)", AssemblyObjects.DataCount, AOSet.Length);
         }
     }
 }

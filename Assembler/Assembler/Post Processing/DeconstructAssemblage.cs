@@ -50,8 +50,8 @@ namespace Assembler
 
             GH_Structure<AssemblyObjectGoo> AOGooTree = new GH_Structure<AssemblyObjectGoo>();
 
-            for (int i = 0; i < AOa.assemblyObjects.BranchCount; i++)
-                AOGooTree.Append(new AssemblyObjectGoo(AOa.assemblyObjects.Branches[i][0]), AOa.assemblyObjects.Paths[i]);
+            for (int i = 0; i < AOa.AssemblyObjects.BranchCount; i++)
+                AOGooTree.Append(new AssemblyObjectGoo(AOa.AssemblyObjects.Branches[i][0]), AOa.AssemblyObjects.Paths[i]);
 
             DA.SetDataTree(0, AOGooTree);
             DA.SetDataTree(1, AOa.AssemblageRules);

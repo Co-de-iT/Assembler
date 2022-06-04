@@ -9,9 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AssemblerLib</RootNamespace>
     <AssemblyName>AssemblerLib</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
+    <Deterministic>false</Deterministic>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -100,11 +100,11 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\docfx.console.2.57.2\build\docfx.console.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\docfx.console.2.57.2\build\docfx.console.targets'))" />
     <Error Condition="!Exists('..\packages\RhinoCommon.7.0.20314.3001\build\RhinoCommon.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\RhinoCommon.7.0.20314.3001\build\RhinoCommon.targets'))" />
     <Error Condition="!Exists('..\packages\Grasshopper.7.0.20314.3001\build\Grasshopper.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Grasshopper.7.0.20314.3001\build\Grasshopper.targets'))" />
+    <Error Condition="!Exists('..\packages\docfx.console.2.59.2\build\docfx.console.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\docfx.console.2.59.2\build\docfx.console.targets'))" />
   </Target>
-  <Import Project="..\packages\docfx.console.2.57.2\build\docfx.console.targets" Condition="Exists('..\packages\docfx.console.2.57.2\build\docfx.console.targets')" />
   <Import Project="..\packages\RhinoCommon.7.0.20314.3001\build\RhinoCommon.targets" Condition="Exists('..\packages\RhinoCommon.7.0.20314.3001\build\RhinoCommon.targets')" />
   <Import Project="..\packages\Grasshopper.7.0.20314.3001\build\Grasshopper.targets" Condition="Exists('..\packages\Grasshopper.7.0.20314.3001\build\Grasshopper.targets')" />
+  <Import Project="..\packages\docfx.console.2.59.2\build\docfx.console.targets" Condition="Exists('..\packages\docfx.console.2.59.2\build\docfx.console.targets')" />
 </Project>

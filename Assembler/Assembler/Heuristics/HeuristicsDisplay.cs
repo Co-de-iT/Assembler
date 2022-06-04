@@ -85,13 +85,13 @@ namespace Assembler
             pManager.AddGenericParameter("AssemblyObjects Set", "AOs", "List of Assembly Objects in the set", GH_ParamAccess.list);
             pManager.AddGenericParameter("XData", "XD", "Xdata associated with the AssemblyObject in the catalog", GH_ParamAccess.list);
             pManager.AddTextParameter("Heuristics Set", "HeS", "Heuristics Set", GH_ParamAccess.list);
-            pManager.AddNumberParameter("X size", "Xs", "Cell size along X direction as % of Bounding Box", GH_ParamAccess.item, 1.0);
-            pManager.AddNumberParameter("Y size", "Ys", "Cell size along Y direction as % of Bounding Box", GH_ParamAccess.item, 1.0);
+            pManager.AddNumberParameter("X size", "Xs", "Cell size along X direction as % of Bounding Box", GH_ParamAccess.item, 1.2);
+            pManager.AddNumberParameter("Y size", "Ys", "Cell size along Y direction as % of Bounding Box", GH_ParamAccess.item, 1.2);
             pManager.AddIntegerParameter("n. Rows", "nR", "number of rows", GH_ParamAccess.item, 10);
             pManager.AddColourParameter("Colors", "C", "Colors (OPTIONAL)\n2 colors for Sender-Receiver display mode (receiver first)\nOne color for component type for Display by type", GH_ParamAccess.list);
 
             pManager[2].Optional = true; // XData is optional
-            pManager[7].Optional = true; // colors are optional
+            pManager[7].Optional = true; // Colors are optional
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace Assembler
 
             if (InputColors.Count > 0)
             {
-                // check input colors sanity if in AO Types mode
+                // check input Colors sanity if in AO Types mode
                 if (InputColors.Count < AOs.Count && GetValue("OutputType", "AO Types") == "AO Types")
                 {
                     AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Please provide one color for each AssemblyObject in the set");
@@ -181,7 +181,7 @@ namespace Assembler
             for (int i = 0; i < edgeCatalog.Length; i++)
                 edgeCatalog[i] = Utilities.GetSihouette(components[i].collisionMesh);
 
-            // build colors and materials catalogs
+            // build Colors and materials catalogs
             typeColorCatalog = TypeColors.ToArray();
             if (InputColors.Count > 1)
                 srColorCatalog = new Color[] { InputColors[0], InputColors[1] };

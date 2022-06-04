@@ -165,7 +165,7 @@ namespace Assembler
                 AOs = GH_AOs.Select(ao => ao.Value).ToList();
                 AOpa = GH_AOpa.Select(ao => ao.Value).ToList();
                 AOa = new Assemblage(AOs, AOpa, startReferencePlane, startingObjectType, HS, ES);
-                AOa.Initialize();
+                AOa.ResetSettings(HS, ES);
             }
 
             //
@@ -177,9 +177,9 @@ namespace Assembler
                 AOa.ResetSettings(HS, ES);
 
             // World Z-Lock
-            AOa.checkWorldZLock = checkWZLock;
+            AOa.CheckWorldZLock = checkWZLock;
             // use supports
-            AOa.useSupports = useSupports;
+            AOa.UseSupports = useSupports;
 
             //
             // . . . . . . . . . . . . 3. Update Assemblage & Component
@@ -193,7 +193,7 @@ namespace Assembler
                 return;
             }
 
-            if ((go || (step && pending)) && AOa.assemblyObjects.DataCount < maxObj)
+            if ((go || (step && pending)) && AOa.AssemblyObjects.DataCount < maxObj)
             {
                 for (int i = 0; i < nInt; i++)
                     AOa.Update();
@@ -202,7 +202,7 @@ namespace Assembler
             }
 
             DA.SetData("Assemblage", AOa);
-            DA.SetData("Assemblage Count", new GH_Integer(AOa.assemblyObjects.DataCount));
+            DA.SetData("Assemblage Count", new GH_Integer(AOa.AssemblyObjects.DataCount));
         }
 
         public override void AppendAdditionalMenuItems(ToolStripDropDown menu)

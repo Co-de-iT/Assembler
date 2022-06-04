@@ -52,7 +52,7 @@ namespace Assembler
             if (AOa == null) return;
 
             // cast input to AssemblyObject type
-            AO = AOa.assemblyObjects.AllData();
+            AO = AOa.AssemblyObjects.AllData();
 
             GH_Structure<GH_Integer> hOTree = new GH_Structure<GH_Integer>();
             GH_Structure<GH_Integer> nOTree = new GH_Structure<GH_Integer>();
@@ -61,7 +61,7 @@ namespace Assembler
             GH_Path p;
             for (int i = 0; i < AO.Count; i++)
             {
-                p = new GH_Path(0, AO[i].AInd);//topology main path is the object AInd
+                p = new GH_Path(0, AO[i].AInd);//Topology main path is the object AInd
                 foreach (Handle h in AO[i].handles)
                 {
                     hOTree.Append(new GH_Integer(h.occupancy), p);

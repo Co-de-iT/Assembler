@@ -52,15 +52,15 @@ namespace Assembler
             if (!DA.GetData(0, ref f)) return;
 
             DA.SetDataList(0, f.GetGH_Points());
-            if (f.tensors != null)
+            if (f.Tensors != null)
             {
                 DA.SetDataTree(1, f.GetGH_Scalars());
                 DA.SetDataTree(2, f.GetGH_Vectors());
                 DA.SetDataTree(3, f.GetGH_iWeights());
             }
-            DA.SetDataList(4, f.colors);
-            DA.SetDataTree(5, Utilities.ToDataTree(f.topology));
-            DA.SetDataTree(6, Utilities.ToDataTree(f.transCoeff));
+            DA.SetDataList(4, f.Colors);
+            DA.SetDataTree(5, Utilities.ToDataTree(f.Topology));
+            DA.SetDataTree(6, Utilities.ToDataTree(f.TransCoeff));
         }
 
         /// <summary>

@@ -14,8 +14,8 @@ namespace AssemblerLib
 {
     /*
      FUTURE IMPLEMENTATION
-    . Sparse Fields: component to Construct Field from Point list and topology
-    . use Graph class for topology (refine said class implementation)
+    . This class needs a refactoring to simplify stuff and reduce the number of methods
+    . use Graph class for Topology (refine said class implementation)
     */
 
     /// <summary>
@@ -29,23 +29,28 @@ namespace AssemblerLib
         /// <summary>
         /// Array of Tensor points in the field
         /// </summary>
-        public Tensor[] tensors;
+        public Tensor[] Tensors
+            { get; set; }
         /// <summary>
         /// Neighbour index array - for future implementation
         /// </summary>
-        public int[][] topology;
+        public int[][] Topology
+        { get; set; }
         /// <summary>
         /// stores neighbour transmission coefficients for signal propagation
         /// </summary>
-        public double[][] transCoeff;
+        public double[][] TransCoeff
+        { get; set; }
         /// <summary>
         /// stores values for stigmergy calculation
         /// </summary>
-        public double[] stigValues;
+        public double[] StigValues
+        { get; set; }
         /// <summary>
         /// Field points color - for display purposes only
         /// </summary>
-        public Color[] colors;
+        public Color[] Colors
+        { get; set; }
 
         /// <summary>
         /// Points in Rhino.Collections.Point3dList format for fast neighbour search
@@ -69,36 +74,36 @@ namespace AssemblerLib
             points = otherField.points.Duplicate();
             pointsTree = RTree.CreateFromPointArray(otherField.points);
             searchRadius = otherField.searchRadius;
-            tensors = (Tensor[])otherField.tensors.Clone();
-            topology = otherField.topology;
-            transCoeff = otherField.transCoeff;
-            colors = otherField.colors;
+            Tensors = (Tensor[])otherField.Tensors.Clone();
+            Topology = otherField.Topology;
+            TransCoeff = otherField.TransCoeff;
+            Colors = otherField.Colors;
         }
 
         #region Sparse Field Constructors
 
         /// <summary>
-        /// Construct a Field from a List of Point3d, DataTrees for scalar and vector (multiple values per point), and a DataTree for topology (neighbours map)
+        /// Construct a Field from a List of Point3d, DataTrees for scalar and vector (multiple values per point), and a DataTree for Topology (neighbours map)
         /// </summary>
         /// <param name="points"></param>
         /// <param name="scalars"></param>
         /// <param name="vectors"></param>
         /// <param name="iWeights"></param>
-        /// <param name="topology"></param>
-        /// <param name="transCoeff"></param>
-        public Field(List<Point3d> points, DataTree<double> scalars, DataTree<Vector3d> vectors, DataTree<int> iWeights, DataTree<int> topology, DataTree<double> transCoeff)
+        /// <param name="Topology"></param>
+        /// <param name="TransCoeff"></param>
+        public Field(List<Point3d> points, DataTree<double> scalars, DataTree<Vector3d> vectors, DataTree<int> iWeights, DataTree<int> Topology, DataTree<double> TransCoeff)
         {
             this.points = new Point3dList();
             this.points.AddRange(points);
             pointsTree = RTree.CreateFromPointArray(points);
 
-            // initialize tensors array and populate it
-            tensors = new Tensor[points.Count];
+            // initialize Tensors array and populate it
+            Tensors = new Tensor[points.Count];
             PopulateField(scalars, vectors, iWeights);
 
-            // convert topology DataTree to bidimensional array of neighbours
-            if (topology != null) this.topology = Utilities.ToJaggedArray(topology);
-            if (transCoeff != null) this.transCoeff = Utilities.ToJaggedArray(transCoeff);
+            // convert Topology DataTree to bidimensional array of neighbours
+            if (Topology != null) this.Topology = Utilities.ToJaggedArray(Topology);
+            if (TransCoeff != null) this.TransCoeff = Utilities.ToJaggedArray(TransCoeff);
             ComputeSearchRadius();
         }
 
@@ -112,30 +117,30 @@ namespace AssemblerLib
         { }
 
         /// <summary>
-        /// Construct a Field from a List of Point3d, Lists for scalar, vector, iWeight (single values per point), and a DataTree for topology (neighbours map)
+        /// Construct a Field from a List of Point3d, Lists for scalar, vector, iWeight (single values per point), and a DataTree for Topology (neighbours map)
         /// </summary>
         /// <param name="points"></param>
         /// <param name="scalar"></param>
         /// <param name="vector"></param>
         /// <param name="iWeights"></param>
-        /// <param name="topology"></param><param name="transCoeff"></param>
-        public Field(List<Point3d> points, List<double> scalar, List<Vector3d> vector, List<int> iWeights, DataTree<int> topology, DataTree<double> transCoeff)
+        /// <param name="Topology"></param><param name="TransCoeff"></param>
+        public Field(List<Point3d> points, List<double> scalar, List<Vector3d> vector, List<int> iWeights, DataTree<int> Topology, DataTree<double> TransCoeff)
         {
             this.points = new Point3dList();
             this.points.AddRange(points);
             pointsTree = RTree.CreateFromPointArray(points);
 
-            // initialize tensors array and populate it
-            tensors = new Tensor[points.Count];
+            // initialize Tensors array and populate it
+            Tensors = new Tensor[points.Count];
             PopulateField(scalar, vector, iWeights);
 
-            // convert topology DataTree to bidimensional array of neighbours
-            if (topology != null) this.topology = Utilities.ToJaggedArray(topology);
-            if (transCoeff != null) this.transCoeff = Utilities.ToJaggedArray(transCoeff);
+            // convert Topology DataTree to bidimensional array of neighbours
+            if (Topology != null) this.Topology = Utilities.ToJaggedArray(Topology);
+            if (TransCoeff != null) this.TransCoeff = Utilities.ToJaggedArray(TransCoeff);
             ComputeSearchRadius();
 
-            // initialize tensors array
-            tensors = new Tensor[points.Count];
+            // initialize Tensors array
+            Tensors = new Tensor[points.Count];
         }
 
         /// <summary>
@@ -147,28 +152,28 @@ namespace AssemblerLib
         public Field(List<Point3d> points, List<double> scalar, List<Vector3d> vector) : this(points, scalar, vector, null, null, null)
         { }
         /// <summary>
-        /// Construct an empty Field from a List of Point3d, and DataTrees for topology and transmission coefficients
+        /// Construct an empty Field from a List of Point3d, and DataTrees for Topology and transmission coefficients
         /// </summary>
         /// <param name="points"></param>
-        /// <param name="topology"></param>
-        /// <param name="transCoeff"></param>
-        public Field(List<Point3d> points, DataTree<int> topology, DataTree<double> transCoeff)
+        /// <param name="Topology"></param>
+        /// <param name="TransCoeff"></param>
+        public Field(List<Point3d> points, DataTree<int> Topology, DataTree<double> TransCoeff)
         {
             this.points = new Point3dList();
             this.points.AddRange(points);
             pointsTree = RTree.CreateFromPointArray(points);
 
-            // convert topology DataTree to bidimensional array of neighbours
-            if (topology != null) this.topology = Utilities.ToJaggedArray(topology);
-            if (transCoeff != null) this.transCoeff = Utilities.ToJaggedArray(transCoeff);
+            // convert Topology DataTree to bidimensional array of neighbours
+            if (Topology != null) this.Topology = Utilities.ToJaggedArray(Topology);
+            if (TransCoeff != null) this.TransCoeff = Utilities.ToJaggedArray(TransCoeff);
             ComputeSearchRadius();
 
-            // initialize tensors array
-            tensors = new Tensor[points.Count];
+            // initialize Tensors array
+            Tensors = new Tensor[points.Count];
         }
         #endregion
 
-        #region Geometry Constructors
+        #region Dense Field Constructors
 
         /// <summary>
         /// constructs an empty field from a Box, with individual resolutions in X, Y, and Z
@@ -243,14 +248,14 @@ namespace AssemblerLib
             if (points.Count == 1) searchRadius = b.BoundingBox.Diagonal.Length * 0.6;
             else searchRadius = points[0].DistanceTo(points[1]) * 1.2;
 
-            // initialize tensors array
-            tensors = new Tensor[points.Count];
+            // initialize Tensors array
+            Tensors = new Tensor[points.Count];
 
-            // costruct topology
-            topology = ConstructTopology(points, nX, nY, nZ, resX, resY, resZ, out transCoeff);
+            // costruct Topology
+            Topology = ConstructTopology(points, nX, nY, nZ, resX, resY, resZ);
         }
 
-        private int[][] ConstructTopology(Point3dList points, int nX, int nY, int nZ, double resX, double resY, double resZ, out double[][] transCoeff)
+        private int[][] ConstructTopology(Point3dList points, int nX, int nY, int nZ, double resX, double resY, double resZ)
         {
             // compute transmission weights as inverse of their length
             double dXw = 1 / resX;
@@ -262,7 +267,7 @@ namespace AssemblerLib
             double dXYZw = 1 / Math.Sqrt(resX * resX + resY * resY + resZ * resZ);
 
             /*
-             transCoeff calculation:
+             TransCoeff calculation:
             . define inverse lengths for each trait
             . add it to the coeff and to a total sum
             . divide coeffs for total sum
@@ -270,9 +275,9 @@ namespace AssemblerLib
 
             double totalWeight;// = 2 * (resXcoeff + resYcoeff + resZcoeff) + 4 * (dXYcoeff + dXZcoeff + dYZcoeff + dXYZcoeff); // if all neighbours are present
 
-            // costruct topology
+            // costruct Topology
             int[][] topology = new int[points.Count][];
-            transCoeff = new double[points.Count][];
+            TransCoeff = new double[points.Count][];
             int[] dimIndexes;
             List<int> neighInd;
             List<double> neighCoeff;
@@ -430,9 +435,9 @@ namespace AssemblerLib
                 for (int j = 0; j < neighCoeff.Count; j++)
                     neighCoeff[j] /= totalWeight;
 
-                // add to topology
+                // add to Topology
                 topology[i] = neighInd.ToArray();
-                transCoeff[i] = neighCoeff.ToArray();
+                TransCoeff[i] = neighCoeff.ToArray();
             }
 
             return topology;
@@ -451,10 +456,10 @@ namespace AssemblerLib
 
             scalarValues = Utilities.NormalizeRange(scalarValues);
 
-            if (tensors[0] == null)
-                tensors = scalarValues.Select(s => new Tensor(new[] { s })).ToArray();
+            if (Tensors[0] == null)
+                Tensors = scalarValues.Select(s => new Tensor(new[] { s })).ToArray();
             else for (int i = 0; i < scalarValues.Count; i++)
-                    tensors[i].Scalars = new[] { scalarValues[i] };
+                    Tensors[i].Scalars = new[] { scalarValues[i] };
 
             return true;
         }
@@ -470,12 +475,12 @@ namespace AssemblerLib
 
             scalarValues = Utilities.NormalizeRanges(scalarValues);
 
-            if (tensors[0] == null)
+            if (Tensors[0] == null)
                 for (int i = 0; i < scalarValues.BranchCount; i++)
-                    tensors[i] = new Tensor(scalarValues.Branches[i]);
+                    Tensors[i] = new Tensor(scalarValues.Branches[i]);
             else
                 for (int i = 0; i < scalarValues.BranchCount; i++)
-                    tensors[i].Scalars = scalarValues.Branches[i].ToArray();
+                    Tensors[i].Scalars = scalarValues.Branches[i].ToArray();
 
             return true;
         }
@@ -489,10 +494,10 @@ namespace AssemblerLib
         {
             if (vectorValues.Count != points.Count) return false;
 
-            if (tensors[0] == null)
-                tensors = vectorValues.Select(v => new Tensor(new[] { v })).ToArray();
+            if (Tensors[0] == null)
+                Tensors = vectorValues.Select(v => new Tensor(new[] { v })).ToArray();
             else for (int i = 0; i < vectorValues.Count; i++)
-                    tensors[i].Vectors = new[] { vectorValues[i] };
+                    Tensors[i].Vectors = new[] { vectorValues[i] };
 
             return true;
         }
@@ -506,12 +511,12 @@ namespace AssemblerLib
         {
             if (vectorValues.BranchCount != points.Count) return false;
 
-            if (tensors[0] == null)
+            if (Tensors[0] == null)
                 for (int i = 0; i < vectorValues.BranchCount; i++)
-                    tensors[i] = new Tensor(vectorValues.Branches[i]);
+                    Tensors[i] = new Tensor(vectorValues.Branches[i]);
             else
                 for (int i = 0; i < vectorValues.BranchCount; i++)
-                    tensors[i].Vectors = vectorValues.Branches[i].ToArray();
+                    Tensors[i].Vectors = vectorValues.Branches[i].ToArray();
 
             return true;
         }
@@ -527,10 +532,10 @@ namespace AssemblerLib
 
             //iWeights = Utilities.NormalizeRange(iWeights);
 
-            if (tensors[0] == null)
-                tensors = iWeights.Select(s => new Tensor(new[] { s })).ToArray();
+            if (Tensors[0] == null)
+                Tensors = iWeights.Select(s => new Tensor(new[] { s })).ToArray();
             else for (int i = 0; i < iWeights.Count; i++)
-                    tensors[i].IWeights = new[] { iWeights[i] };
+                    Tensors[i].IWeights = new[] { iWeights[i] };
 
             return true;
         }
@@ -544,14 +549,14 @@ namespace AssemblerLib
         {
             if (iWeights.BranchCount != points.Count) return false;
 
-            // if tensors aren't populated yet
-            if (tensors[0] == null)
+            // if Tensors aren't populated yet
+            if (Tensors[0] == null)
                 for (int i = 0; i < iWeights.BranchCount; i++)
-                    tensors[i] = new Tensor(iWeights.Branches[i]);
+                    Tensors[i] = new Tensor(iWeights.Branches[i]);
             else
             {
-                for (int i = 0; i < tensors.Length; i++)
-                    tensors[i].IWeights = iWeights.Branches[i].ToArray();
+                for (int i = 0; i < Tensors.Length; i++)
+                    Tensors[i].IWeights = iWeights.Branches[i].ToArray();
             }
             return true;
         }
@@ -564,13 +569,13 @@ namespace AssemblerLib
         private bool PopulateiWeights(int[][] iWeights)
         {
             if (iWeights.Length != points.Count) return false;
-            // if tensors aren't populated yet
-            if (tensors[0] == null)
-                tensors = iWeights.Select(iW => new Tensor(iW)).ToArray();
+            // if Tensors aren't populated yet
+            if (Tensors[0] == null)
+                Tensors = iWeights.Select(iW => new Tensor(iW)).ToArray();
             else
             {
-                for (int i = 0; i < tensors.Length; i++)
-                    tensors[i].IWeights = iWeights[i];
+                for (int i = 0; i < Tensors.Length; i++)
+                    Tensors[i].IWeights = iWeights[i];
             }
             return true;
         }
@@ -640,20 +645,35 @@ namespace AssemblerLib
         /// <returns></returns>
         private void ComputeSearchRadius()
         {
-            double radius = 0;
+            double radius;
             double dist;
 
-            for (int i = 0; i < points.Count; i++)
-                for (int j = 0; j < topology[i].Length; j++)
-                {
-                    dist = points[i].DistanceTo(points[topology[i][j]]);
-                    if (dist > radius) radius = dist;
-                }
-            searchRadius = radius * 1.2;
+            if (Topology == null)
+            {
+                radius = double.MaxValue;
+                for (int i = 0; i < points.Count; i++)
+                    for (int j = i + 1; j < points.Count; j++)
+                    {
+                        dist = points[i].DistanceTo(points[j]);
+                        if (dist < radius) radius = dist;
+                    }
+                searchRadius = radius * 1.5;
+            }
+            else
+            {
+                radius = 0;
+                for (int i = 0; i < points.Count; i++)
+                    for (int j = 0; j < Topology[i].Length; j++)
+                    {
+                        dist = points[i].DistanceTo(points[Topology[i][j]]);
+                        if (dist > radius) radius = dist;
+                    }
+                searchRadius = radius * 1.2;
+            }
         }
 
         /// <summary>
-        /// Generates colors according to scalar values at given index in the field;
+        /// Generates Colors according to scalar values at given index in the field;
         /// threshold is used when blend is false
         /// </summary>
         /// <param name="i_colors"></param>
@@ -664,23 +684,23 @@ namespace AssemblerLib
         public bool GenerateScalarColors(List<Color> i_colors, int index, double threshold, bool blend)
         {
             // return if scalar values are not present or sInd is invalid
-            if (tensors[0] == null) return false;
-            if (tensors[0].Scalars == null) return false;
-            if (tensors[0].Scalars.Length == 0 || tensors[0].Scalars.Length <= index) return false;
+            if (Tensors[0] == null) return false;
+            if (Tensors[0].Scalars == null) return false;
+            if (Tensors[0].Scalars.Length == 0 || Tensors[0].Scalars.Length <= index) return false;
 
             List<double> parameters = new List<double>();
             double factor = 1.0 / (i_colors.Count - 1.0);
             for (int i = 0; i < i_colors.Count; i++)
                 parameters.Add(i * factor);
 
-            colors = new Color[points.Count];
+            Colors = new Color[points.Count];
 
             if (blend)
             {
                 GH_Gradient gradient = new GH_Gradient(parameters, i_colors);
                 Parallel.For(0, points.Count, i =>
                 {
-                    colors[i] = gradient.ColourAt(tensors[i].Scalars[index]);
+                    Colors[i] = gradient.ColourAt(Tensors[i].Scalars[index]);
                 });
             }
 
@@ -699,7 +719,7 @@ namespace AssemblerLib
 
                 int[][] rgbValues = new int[points.Count][];
                 rgbValues = AllocateIntegersScalar(cWeights, threshold, index);
-                colors = rgbValues.Select(c => Color.FromArgb(c[0], c[1], c[2])).ToArray();
+                Colors = rgbValues.Select(c => Color.FromArgb(c[0], c[1], c[2])).ToArray();
             }
             return true;
         }
@@ -711,12 +731,12 @@ namespace AssemblerLib
         /// <param name="threshold"></param>
         /// <param name="index"></param>
         /// <param name="blend"></param>
-        public bool DistributeiWeightsScalar(DataTree<int> weights, double threshold, int index, bool blend)
+        private bool DistributeiWeightsScalar(DataTree<int> weights, double threshold, int index, bool blend)
         {
-            // if tensors aren't populated yet or there are no scalar values at the index or index exceeds scalar vector length return
-            if (tensors[0] == null) return false;
-            if (tensors[0].Scalars == null) return false;
-            if (index >= tensors[0].Scalars.Length) return false;
+            // if Tensors aren't populated yet or there are no scalar values at the index or index exceeds scalar vector length return
+            if (Tensors[0] == null) return false;
+            if (Tensors[0].Scalars == null) return false;
+            if (index >= Tensors[0].Scalars.Length) return false;
 
             if (blend)
                 return PopulateiWeights(InterpolateIntegersScalar(weights, index));
@@ -731,14 +751,14 @@ namespace AssemblerLib
         /// <param name="weights">Data Tree of input weights\nOne branch for each attractor point</param>
         /// <param name="attractors">List of attractor points</param>
         /// <param name="blend">True for smooth blending, false for closest-point criteria</param>
-        public bool DistributeiWeights(DataTree<int> weights, List<Point3d> attractors, bool blend)
+        private bool DistributeiWeights(DataTree<int> weights, List<Point3d> attractors, bool blend)
         {
-            // if tensors aren't populated yet initialize the tensors array with placeholder weights
-            if (tensors[0] == null)
+            // if Tensors aren't populated yet initialize the Tensors array with placeholder weights
+            if (Tensors[0] == null)
             {
                 int[] w = new[] { 0 };
-                for (int i = 0; i < tensors.Length; i++)
-                    tensors[i] = new Tensor(w);
+                for (int i = 0; i < Tensors.Length; i++)
+                    Tensors[i] = new Tensor(w);
             }
 
             if (blend)
@@ -798,7 +818,7 @@ namespace AssemblerLib
                 integerArray[i] = new int[weights.Branches[0].Count];
                 for (int j = 0; j < weights.Branches[0].Count; j++)
                 {
-                    double weight = weights.Branches[0][j] * (1 - tensors[i].Scalars[index]) + weights.Branches[1][j] * tensors[i].Scalars[index];
+                    double weight = weights.Branches[0][j] * (1 - Tensors[i].Scalars[index]) + weights.Branches[1][j] * Tensors[i].Scalars[index];
                     integerArray[i][j] = (int)Math.Round(weight);
                 }
 
@@ -863,7 +883,7 @@ namespace AssemblerLib
             {
                 integerArray[i] = new int[weights.Branches[0].Count];
                 for (int j = 0; j < weights.Branches[0].Count; j++)
-                    integerArray[i][j] = tensors[i].Scalars[index] < threshold ? weights.Branches[0][j] : weights.Branches[1][j];
+                    integerArray[i][j] = Tensors[i].Scalars[index] < threshold ? weights.Branches[0][j] : weights.Branches[1][j];
 
             });
 
@@ -908,7 +928,7 @@ namespace AssemblerLib
         /// <returns></returns>
         public double GetClosestScalar(Point3d P)
         {
-            return tensors[points.ClosestIndex(P)].GetScalar();
+            return Tensors[points.ClosestIndex(P)].GetScalar();
         }
 
         /// <summary>
@@ -918,7 +938,7 @@ namespace AssemblerLib
         /// <returns></returns>
         public double[] GetClosestScalars(Point3d P)
         {
-            return tensors[points.ClosestIndex(P)].Scalars;
+            return Tensors[points.ClosestIndex(P)].Scalars;
         }
 
         /// <summary>
@@ -953,7 +973,7 @@ namespace AssemblerLib
             pointsTree.Search(new Sphere(P, searchRadius), (object sender, RTreeEventArgs e) =>
             {
                 // get the scalar neighbours values
-                neighScal.Add(tensors[e.Id].GetScalar());
+                neighScal.Add(Tensors[e.Id].GetScalar());
             });
 
             return neighScal;
@@ -966,7 +986,7 @@ namespace AssemblerLib
         /// <returns></returns>
         public Vector3d GetClosestVector(Point3d P)
         {
-            return tensors[points.ClosestIndex(P)].GetVector();
+            return Tensors[points.ClosestIndex(P)].GetVector();
         }
 
         /// <summary>
@@ -997,7 +1017,7 @@ namespace AssemblerLib
             pointsTree.Search(new Sphere(P, searchRadius), (object sender, RTreeEventArgs e) =>
             {
                 // recover the AssemblyObject index related to the found centroid
-                neighVec.Add(tensors[e.Id].GetVector());
+                neighVec.Add(Tensors[e.Id].GetVector());
             });
 
             return neighVec;
@@ -1010,7 +1030,7 @@ namespace AssemblerLib
         /// <returns></returns>
         public Vector3d[] GetClosestVectors(Point3d P)
         {
-            return tensors[points.ClosestIndex(P)].Vectors;
+            return Tensors[points.ClosestIndex(P)].Vectors;
         }
 
         /// <summary>
@@ -1020,7 +1040,7 @@ namespace AssemblerLib
         /// <returns></returns>
         public int[] GetClosestiWeights(Point3d P)
         {
-            return tensors[points.ClosestIndex(P)].IWeights;
+            return Tensors[points.ClosestIndex(P)].IWeights;
         }
 
         /// <summary>
@@ -1030,8 +1050,8 @@ namespace AssemblerLib
         /// <returns></returns>
         public double GetScalar(int i)
         {
-            if (tensors.Length > 0 && tensors[i] != null && tensors[i].Scalars != null)
-                return tensors[i].GetScalar();
+            if (Tensors.Length > 0 && Tensors[i] != null && Tensors[i].Scalars != null)
+                return Tensors[i].GetScalar();
             else return double.NaN;
         }
 
@@ -1042,8 +1062,8 @@ namespace AssemblerLib
         /// <returns></returns>
         public double[] GetScalars(int i)
         {
-            if (tensors.Length > 0 && tensors[i] != null && tensors[i].Scalars != null)
-                return tensors[i].Scalars;
+            if (Tensors.Length > 0 && Tensors[i] != null && Tensors[i].Scalars != null)
+                return Tensors[i].Scalars;
             else return null;
         }
 
@@ -1054,8 +1074,8 @@ namespace AssemblerLib
         /// <returns></returns>
         public Vector3d GetVector(int i)
         {
-            if (tensors.Length > 0 && tensors[i] != null && tensors[i].Vectors != null)
-                return tensors[i].GetVector();
+            if (Tensors.Length > 0 && Tensors[i] != null && Tensors[i].Vectors != null)
+                return Tensors[i].GetVector();
             else return Vector3d.Zero;
         }
 
@@ -1066,8 +1086,8 @@ namespace AssemblerLib
         /// <returns></returns>
         public Vector3d[] GetVectors(int i)
         {
-            if (tensors.Length > 0 && tensors[i] != null && tensors[i].Vectors != null)
-                return tensors[i].Vectors;
+            if (Tensors.Length > 0 && Tensors[i] != null && Tensors[i].Vectors != null)
+                return Tensors[i].Vectors;
             else return null;
         }
 
@@ -1078,8 +1098,8 @@ namespace AssemblerLib
         /// <returns></returns>
         public int[] GetiWeights(int i)
         {
-            if (tensors.Length > 0 && tensors[i] != null && tensors[i].IWeights != null)
-                return tensors[i].IWeights;
+            if (Tensors.Length > 0 && Tensors[i] != null && Tensors[i].IWeights != null)
+                return Tensors[i].IWeights;
             else return null;
         }
 
@@ -1109,9 +1129,9 @@ namespace AssemblerLib
         {
             DataTree<double> scalars = new DataTree<double>();
 
-            if (tensors.Length > 0 && tensors[0] != null && tensors[0].Scalars != null)
-                for (int j = 0; j < tensors.Length; j++)
-                    scalars.AddRange(tensors[j].Scalars, new GH_Path(j));
+            if (Tensors.Length > 0 && Tensors[0] != null && Tensors[0].Scalars != null)
+                for (int j = 0; j < Tensors.Length; j++)
+                    scalars.AddRange(Tensors[j].Scalars, new GH_Path(j));
 
             return scalars;
         }
@@ -1124,9 +1144,9 @@ namespace AssemblerLib
         {
             DataTree<GH_Number> scalars = new DataTree<GH_Number>();
 
-            if (tensors.Length > 0 && tensors[0] != null && tensors[0].Scalars != null)
-                for (int j = 0; j < tensors.Length; j++)
-                    scalars.AddRange(tensors[j].Scalars.Select(s => new GH_Number(s)).ToList(), new GH_Path(j));
+            if (Tensors.Length > 0 && Tensors[0] != null && Tensors[0].Scalars != null)
+                for (int j = 0; j < Tensors.Length; j++)
+                    scalars.AddRange(Tensors[j].Scalars.Select(s => new GH_Number(s)).ToList(), new GH_Path(j));
 
             return scalars;
         }
@@ -1139,9 +1159,9 @@ namespace AssemblerLib
         {
             DataTree<Vector3d> vectors = new DataTree<Vector3d>();
 
-            if (tensors.Length > 0 && tensors[0] != null && tensors[0].Vectors != null)
-                for (int j = 0; j < tensors.Length; j++)
-                    vectors.AddRange(tensors[j].Vectors, new GH_Path(j));
+            if (Tensors.Length > 0 && Tensors[0] != null && Tensors[0].Vectors != null)
+                for (int j = 0; j < Tensors.Length; j++)
+                    vectors.AddRange(Tensors[j].Vectors, new GH_Path(j));
 
             return vectors;
         }
@@ -1154,9 +1174,9 @@ namespace AssemblerLib
         {
             DataTree<GH_Vector> vectors = new DataTree<GH_Vector>();
 
-            if (tensors.Length > 0 && tensors[0] != null && tensors[0].Vectors != null)
-                for (int j = 0; j < tensors.Length; j++)
-                    vectors.AddRange(tensors[j].Vectors.Select(v => new GH_Vector(v)).ToList(), new GH_Path(j));
+            if (Tensors.Length > 0 && Tensors[0] != null && Tensors[0].Vectors != null)
+                for (int j = 0; j < Tensors.Length; j++)
+                    vectors.AddRange(Tensors[j].Vectors.Select(v => new GH_Vector(v)).ToList(), new GH_Path(j));
 
             return vectors;
         }
@@ -1169,9 +1189,9 @@ namespace AssemblerLib
         {
             DataTree<int> data = new DataTree<int>();
 
-            if (tensors.Length > 0 && tensors[0] != null && tensors[0].IWeights != null)
-                for (int j = 0; j < tensors.Length; j++)
-                    data.AddRange(tensors[j].IWeights, new GH_Path(j));
+            if (Tensors.Length > 0 && Tensors[0] != null && Tensors[0].IWeights != null)
+                for (int j = 0; j < Tensors.Length; j++)
+                    data.AddRange(Tensors[j].IWeights, new GH_Path(j));
 
             return data;
         }
@@ -1184,9 +1204,9 @@ namespace AssemblerLib
         {
             DataTree<GH_Integer> data = new DataTree<GH_Integer>();
 
-            if (tensors.Length > 0 && tensors[0] != null && tensors[0].IWeights != null)
-                for (int j = 0; j < tensors.Length; j++)
-                    data.AddRange(tensors[j].IWeights.Select(i => new GH_Integer(i)).ToList(), new GH_Path(j));
+            if (Tensors.Length > 0 && Tensors[0] != null && Tensors[0].IWeights != null)
+                for (int j = 0; j < Tensors.Length; j++)
+                    data.AddRange(Tensors[j].IWeights.Select(i => new GH_Integer(i)).ToList(), new GH_Path(j));
 
             return data;
         }
@@ -1209,34 +1229,34 @@ namespace AssemblerLib
         #region Stigmergy methods
         public void InitStigmergy()
         {
-            stigValues = new double[points.Count];
+            StigValues = new double[points.Count];
 
-            for (int i = 0; i < stigValues.Length; i++) stigValues[i] = 0;
+            for (int i = 0; i < StigValues.Length; i++) StigValues[i] = 0;
         }
 
         public void UpdateStigmergy(double addCoeff, double lossCoeff, double evapRate)
         {
-            double[] stigAdd = new double[stigValues.Length];
-            double[] stigLoss = new double[stigValues.Length];
+            double[] stigAdd = new double[StigValues.Length];
+            double[] stigLoss = new double[StigValues.Length];
 
             // instead of calculating an outgoing value (writing to neighbours)
             // an incoming contribution from neighbours is calculated (reading from neighbours)
             // as well as the loss of value to the neighbours
             // hence making parallel computation possible
-            Parallel.For(0, stigValues.Length, i =>
+            Parallel.For(0, StigValues.Length, i =>
             {
-                for (int j = 0; j < topology[i].Length; j++)
+                for (int j = 0; j < Topology[i].Length; j++)
                 {
-                    stigAdd[i] += stigValues[topology[i][j]] * transCoeff[i][j];
-                    stigLoss[i] += stigValues[i] * transCoeff[i][j];
+                    stigAdd[i] += StigValues[Topology[i][j]] * TransCoeff[i][j];
+                    stigLoss[i] += StigValues[i] * TransCoeff[i][j];
                 }
             });
 
             // still, calculation must be split in 2 parts: calculating modification and value update
-            Parallel.For(0, stigValues.Length, i =>
+            Parallel.For(0, StigValues.Length, i =>
             {
-                stigValues[i] = (stigValues[i] + stigAdd[i] * addCoeff - stigLoss[i] * lossCoeff) * evapRate;
-                stigValues[i] = Math.Min(stigValues[i], 1);
+                StigValues[i] = (StigValues[i] + stigAdd[i] * addCoeff - stigLoss[i] * lossCoeff) * evapRate;
+                StigValues[i] = Math.Min(StigValues[i], 1);
             });
 
         }

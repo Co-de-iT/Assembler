@@ -81,7 +81,7 @@ namespace Assembler
             pManager.AddBooleanParameter("Show Edges", "E", "Show Mesh edges", GH_ParamAccess.item, false);
             pManager.AddIntegerParameter("Display Mode", "D", "Choose which display mode to use\n0 - by AssemblyObject type\n1 - by Sender/Receiver status\n\nattach a value list component for automatic list generation", GH_ParamAccess.item, 0);
             pManager[2].Optional = true; // XData is optional
-            pManager[7].Optional = true; // colors are optional
+            pManager[7].Optional = true; // Colors are optional
             pManager[8].Optional = true; // show edges is optional
             pManager[9].Optional = true; // display mode is optional
         }
@@ -178,7 +178,7 @@ namespace Assembler
             for (int i = 0; i < edgeCatalog.Length; i++)
                 edgeCatalog[i] = GetSihouette(components[i].collisionMesh);
 
-            // build colors and materials catalogs
+            // build Colors and materials catalogs
             colorCatalog = Cols.ToArray();
             matCatalog = CompileMatCatalog(colorCatalog);
 

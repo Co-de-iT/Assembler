@@ -20,7 +20,7 @@ namespace Assembler.Utils
         {
         }
 
-        // Users are not allowed to pick AssemblyObjects, so related ui must be disabled
+        // Users are not allowed to pick AssemblyObjects from Rhino, so related ui items must be disabled
         protected override GH_GetterResult Prompt_Singular(ref AssemblyObjectGoo value)
         {
             return GH_GetterResult.cancel;

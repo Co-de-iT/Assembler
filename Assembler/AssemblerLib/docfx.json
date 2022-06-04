@@ -14,7 +14,10 @@
           ]
         }
       ],
-      "dest": "obj/api"
+      "dest": "obj/api",
+      "properties": {
+        "targetFramework": "net45"
+      }
     }
   ],
   "build": {
@@ -41,7 +44,9 @@
     "resource": [
       {
         "files": [
-          "images/**"
+          "images/**",
+          "logo.svg",
+          "favicon.ico"
         ],
         "exclude": [
           "obj/**",
@@ -62,7 +67,7 @@
     ],
     "dest": "_site",
     "template": [
-      "default"
+      "statictoc"
     ]
   }
 }

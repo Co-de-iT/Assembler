@@ -1,27 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
+﻿using Assembler.Properties;
+using Assembler.Utils;
+using AssemblerLib;
 using Grasshopper;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
-using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
-using Rhino.Geometry.Intersect;
-using AssemblerLib;
-using Assembler.Properties;
-using Assembler.Utils;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Assembler
 {
     public class HeuristicsDisplayEx : GH_Component
     {
-        bool haveXData;
+
         private Dictionary<string, int> catalog;
-        private List<XData> xDCatalog;
         DataTree<AssemblyObject> AOpairs;
         DataTree<AssemblyObjectGoo> AOoutput;
-        DataTree<XData> xData;
         DataTree<Plane> textLocations;
         DataTree<Plane> numberLocations;
         DataTree<Point3d> bbCenters;
@@ -44,12 +39,10 @@ namespace Assembler
         {
             pManager.AddPointParameter("Origin Point", "P", "Origin Point for Display", GH_ParamAccess.item, new Point3d());
             pManager.AddGenericParameter("AssemblyObjects Set", "AOs", "List of Assembly Objects in the set", GH_ParamAccess.list);
-            pManager.AddGenericParameter("XData", "XD", "Xdata associated with the AssemblyObject in the catalog", GH_ParamAccess.list);
             pManager.AddTextParameter("Heuristics Set", "HeS", "Heuristics Set", GH_ParamAccess.list);
-            pManager.AddNumberParameter("X size", "Xs", "Cell size along X direction as % of Bounding Box", GH_ParamAccess.item, 1.0);
-            pManager.AddNumberParameter("Y size", "Ys", "Cell size along Y direction as % of Bounding Box", GH_ParamAccess.item, 1.0);
+            pManager.AddNumberParameter("X size", "Xs", "Cell size along X direction as % of Bounding Box", GH_ParamAccess.item, 1.2);
+            pManager.AddNumberParameter("Y size", "Ys", "Cell size along Y direction as % of Bounding Box", GH_ParamAccess.item, 1.2);
             pManager.AddIntegerParameter("n. Rows", "nR", "number of rows", GH_ParamAccess.item, 10);
-            pManager[2].Optional = true; // XData is optional
         }
 
         /// <summary>
@@ -61,7 +54,6 @@ namespace Assembler
             pManager.AddTextParameter("Heuristics Set Tree", "HeT", "Heuristics rules Set Tree", GH_ParamAccess.tree);
             pManager.AddBooleanParameter("Coherence Pattern", "cP", "Pattern of valid/invalid combinations", GH_ParamAccess.tree);
             pManager.AddPointParameter("Text base points", "tP", "Locations for text placement", GH_ParamAccess.tree);
-            pManager.AddGenericParameter("XData", "XD", "Xdata associated with the AssemblyObject in the catalog", GH_ParamAccess.tree);
         }
 
         /// <summary>
@@ -81,14 +73,6 @@ namespace Assembler
             List<string> HeS = new List<string>();
             if (!DA.GetDataList("Heuristics Set", HeS)) return;
 
-            // get XData catalog
-            xDCatalog = new List<XData>();
-            DA.GetDataList(2, xDCatalog);
-
-            // flag for XData existence
-            haveXData = (xDCatalog != null) && (xDCatalog.Count > 0);
-            xData = new DataTree<XData>();
-
             // get the rest of inputs
             Point3d P = new Point3d();
             double xS = double.NaN;
@@ -106,7 +90,8 @@ namespace Assembler
             catalog = Utilities.BuildDictionary(components);
 
             // build Heuristics Tree
-            DataTree<string> HeSTree = new DataTree<string>(); // heuristics string in tree format for manual selection in GH
+            // heuristics string in tree format for manual selection in GH
+            DataTree<string> HeSTree = new DataTree<string>();
             for (int i = 0; i < HeS.Count; i++)
                 HeSTree.Add(HeS[i], new GH_Path(i));
             
@@ -121,16 +106,12 @@ namespace Assembler
             DA.SetDataTree(1, HeSTree);
             DA.SetDataTree(2, coherencePattern);
             DA.SetDataTree(3, textLocations);
-            DA.SetDataTree(4, xData);
         }
 
         private DataTree<AssemblyObject> GeneratePairs(AssemblyObject[] AO, List<Rule> Hr, Point3d O, double padX, double padY, int nR)
         {
             DataTree<AssemblyObject> AOpairs = new DataTree<AssemblyObject>();
             AssemblyObject sender, receiver;
-
-            xData = new DataTree<XData>();
-            XData senGeom, recGeom;
 
             textLocations = new DataTree<Plane>();
             numberLocations = new DataTree<Plane>();
@@ -159,9 +140,6 @@ namespace Assembler
             {
                 rT = Hr[i].rT;
 
-                senGeom = null;
-                recGeom = null;
-
                 // extract rule parameters
                 rH = Hr[i].rH;
                 sT = Hr[i].sT;
@@ -173,8 +151,8 @@ namespace Assembler
                 loc.Origin = new Point3d(countX, countY, 0);
 
                 // choose components
-                receiver = Utilities.Clone(AO[rT]);//new AssemblyObject(AO[rT]);
-                sender = Utilities.Clone(AO[sT]);//new AssemblyObject(AO[sT]);
+                receiver = Utilities.Clone(AO[rT]);
+                sender = Utilities.Clone(AO[sT]);
 
                 // generate transformation orient: sender to receiver
                 Transform orient = Transform.PlaneToPlane(sender.handles[sH].sender, receiver.handles[rH].receivers[rR]);
@@ -182,22 +160,6 @@ namespace Assembler
                 // orient sender AssemblyObject
                 sender.Transform(orient);
 
-                // copy and orient XData if present
-                if (haveXData)
-                {
-                    for (int k = 0; k < xDCatalog.Count; k++)
-                    {
-                        // receiver XData
-                        if (String.Equals(xDCatalog[k].AOName, receiver.name))
-                            recGeom = new XData(xDCatalog[k]);
-                        // sender XData
-                        if (String.Equals(xDCatalog[k].AOName, sender.name))
-                        {
-                            senGeom = new XData(xDCatalog[k]);
-                            senGeom.Transform(orient);
-                        }
-                    }
-                }
                 // calculate Bounding Box and compare size to initial parameters
                 BoundingBox bb = receiver.collisionMesh.GetBoundingBox(false);
                 bb.Union(sender.collisionMesh.GetBoundingBox(false));
@@ -220,16 +182,6 @@ namespace Assembler
                 // fill coherence pattern & orient extra geometry only if valid combination
                 bool valid = !Utilities.CollisionCheckPair(receiver, sender);
                 coherencePattern.Add(valid, new GH_Path(i));
-
-                if (valid && haveXData)
-                {
-                    // extra geometries need one more index for sender/receiver identification (0 receiver, 1 sender)
-                    if (recGeom != null) xData.Add(recGeom, new GH_Path(i, 0));
-                    if (senGeom != null) xData.Add(senGeom, new GH_Path(i, 1));
-                }
-
-                // rewrite rule for display and add to the text Tree (just for Heuristic Display component)
-                //rulesText.Add(rule, Hr.Paths[i].AppendElement(j));
 
                 // calculate next grid position
                 countX++;
@@ -266,11 +218,6 @@ namespace Assembler
                 foreach (AssemblyObject ao in AOpairs.Branches[i])
                     ao.Transform(move);
 
-                // transfer extra geometries
-                if (haveXData && coherencePattern.Branches[i][0])
-                    for (int k = 0; k < 2; k++)
-                        if (xData.PathExists(AOpairs.Paths[i].AppendElement(k)))
-                            xData.Branch(AOpairs.Paths[i].AppendElement(k))[0].Transform(move);
             }
             return AOpairs;
         }

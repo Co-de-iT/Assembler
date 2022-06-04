@@ -60,9 +60,9 @@ namespace Assembler
             DA.GetDataTree(2, out vectors);
             DA.GetDataTree(3, out iWeights);
 
-            DataTree<double> scalarsTree = Utilities.GH2TreeDoubles(scalars);
-            DataTree<Vector3d> vectorsTree = Utilities.GH2TreeVectors(vectors);
-            DataTree<int> iWeightsTree = Utilities.GH2TreeIntegers(iWeights);
+            DataTree<double> scalarsTree = Utilities.GHS2TreeDoubles(scalars);
+            DataTree<Vector3d> vectorsTree = Utilities.GHS2TreeVectors(vectors);
+            DataTree<int> iWeightsTree = Utilities.GHS2TreeIntegers(iWeights);
 
             fPop = new Field(f);
 

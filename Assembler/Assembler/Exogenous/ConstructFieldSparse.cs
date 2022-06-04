@@ -17,7 +17,7 @@ namespace Assembler
         /// </summary>
         public ConstructFieldSparse()
           : base("Construct Sparse Field", "AFieldSp",
-              "Constructs an empty Field from a sparse list of points and related topology",
+              "Constructs an empty Field from a sparse list of points and optional topology information",
               "Assembler", "Exogenous")
         {
         }
@@ -31,6 +31,7 @@ namespace Assembler
             pManager.AddIntegerParameter("Topology", "T", "Topology of neighbour indexes for each point in the list", GH_ParamAccess.tree);
             pManager.AddNumberParameter("Topology Weights", "tW", "Weight of each neighbour connection, in the same topology order" +
                 "\nleave empty to use connection length", GH_ParamAccess.tree);
+            pManager[1].Optional = true; // Topology is optional
             pManager[2].Optional = true; // transmission coefficients are optional
         }
 
@@ -55,16 +56,22 @@ namespace Assembler
             if (points.Count == 0) return;
 
             GH_Structure<GH_Integer> GH_topology = new GH_Structure<GH_Integer>();
-            if (!DA.GetDataTree(1, out GH_topology)) return;
-            DataTree<int> topology = Utilities.GH2TreeIntegers(GH_topology);
+            DA.GetDataTree(1, out GH_topology);
+            DataTree<int> topology = null;
 
             GH_Structure<GH_Number> GH_transCoeff = new GH_Structure<GH_Number>();
             DA.GetDataTree(2, out GH_transCoeff);
-            DataTree<double> transCoeff;
+            DataTree<double> transCoeff = null;
 
-            if (GH_transCoeff==null || GH_transCoeff.IsEmpty)
-                transCoeff = ComputeTransCoeff(points, topology);
-            else transCoeff = Utilities.GH2TreeDoubles(GH_transCoeff);
+            if (!(GH_topology == null || GH_topology.IsEmpty || GH_topology.DataCount==0))
+            {
+                if (GH_topology.Branches.Count != points.Count)
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Topology tree branches must match number of points");
+                topology = Utilities.GHS2TreeIntegers(GH_topology);
+                if (GH_transCoeff == null || GH_transCoeff.IsEmpty)
+                    transCoeff = ComputeTransCoeff(points, topology);
+                else transCoeff = Utilities.GHS2TreeDoubles(GH_transCoeff);
+            }
 
             Field f = new Field(points, topology, transCoeff);
 

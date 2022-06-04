@@ -57,7 +57,7 @@ namespace Assembler
 
             DataTree<XData> XDataTree = new DataTree<XData>();
 
-            AO = AOa.assemblyObjects.AllData();
+            AO = AOa.AssemblyObjects.AllData();
 
             //XData[][] assemblageXD = new XData[AO.Count][];
 

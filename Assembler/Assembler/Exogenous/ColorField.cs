@@ -74,7 +74,7 @@ namespace Assembler
             int ind = 0;
             DA.GetData("Index", ref ind);
 
-            if (fCol.tensors[0].Scalars == null || ind > fCol.tensors[0].Scalars.Length)
+            if (fCol.Tensors[0].Scalars == null || ind > fCol.Tensors[0].Scalars.Length)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Field does not have scalar values at specified index");
                 return;
@@ -87,11 +87,11 @@ namespace Assembler
             //fCol.GenerateScalarColors(C[0], C[1], ind, thres, blend);
 
             _cloud = new PointCloud();
-            _cloud.AddRange(fCol.GetPoints(), fCol.colors);
+            _cloud.AddRange(fCol.GetPoints(), fCol.Colors);
             _clip = _cloud.GetBoundingBox(false);
 
             DA.SetData(0, fCol);
-            DA.SetDataList(1, fCol.colors);
+            DA.SetDataList(1, fCol.Colors);
         }
 
         /// <summary>

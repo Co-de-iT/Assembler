@@ -67,7 +67,7 @@ namespace Assembler
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Assembly Object", "AO", "The newly created Assembly Object", GH_ParamAccess.item);
+            pManager.AddGenericParameter("AssemblyObject", "AO", "The newly created Assembly Object", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace Assembler
             // construct the AssemblyObject                                                                        v Zlock
             AssemblyObject AO = new AssemblyObject(cm, handles, rp, d, name, type, w, -1, worldZLock);
 
-            DA.SetData("Assembly Object", new AssemblyObjectGoo(AO));
+            DA.SetData(0, new AssemblyObjectGoo(AO));
 
         }
 

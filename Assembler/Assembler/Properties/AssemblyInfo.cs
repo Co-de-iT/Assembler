@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Assembler")]
-[assembly: AssemblyDescription("Build and manage Assemblages")]
+[assembly: AssemblyDescription("A Grasshopper plugin to build and manage Assemblages")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Co-de-iT")]
 [assembly: AssemblyProduct("Assembler")]
-[assembly: AssemblyCopyright("Copyright © Co-de-iT 2020")]
+[assembly: AssemblyCopyright("Copyright © Co-de-iT 2020 - GNU GPL v3.0")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -33,4 +33,4 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.1.*")]
-[assembly: AssemblyFileVersion("1.1.0.0")]
+//[assembly: AssemblyFileVersion("1.1.0.0")]

@@ -9,7 +9,7 @@
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "rDaZ9rfTTpUtDVkrJ4I9wUPqYTUt5D587U6QUnYQAeo="
+          "hash": "5mFSA52kbz6b0lWtYktnOx0oXbjyBWr6jZiNQKKlcrs="
         }
       },
       "is_incremental": true,
@@ -21,19 +21,63 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro.html",
-          "hash": "ZWwrQTxwiw4whBucNmeG7Q60lSVebaDeNrSBsQkcfzY="
+          "hash": "caKOzYV5s57dfDMw02dCDUtjy2eEoSspyAiZ8DkJvvk="
         }
       },
       "is_incremental": true,
       "version": ""
     },
     {
-      "type": "Toc",
-      "source_relative_path": "articles/toc.md",
+      "type": "Conceptual",
+      "source_relative_path": "articles/testpage.md",
       "output": {
         ".html": {
-          "relative_path": "articles/toc.html",
-          "hash": "BlPxk5mtl2kgfcZUgkEguqiSAR/EUyUTT4EdebwkQvs="
+          "relative_path": "articles/testpage.html",
+          "hash": "4hQfvADmSyNbhLujpGYToc3UEr1Sr4ib3ZUwvpN/Evk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "favicon.ico",
+      "output": {
+        "resource": {
+          "relative_path": "favicon.ico"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/README.txt",
+      "output": {
+        "resource": {
+          "relative_path": "images/README.txt"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/logo.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/logo.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/logoLib.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/logoLib.png"
         }
       },
       "is_incremental": false,
@@ -45,10 +89,21 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "p7a3H1Ys65paW7aRXNKMwpbCe0anDl9usCKztHbVxdc="
+          "hash": "HjfdmiR3r/2fSFytnkgZYkwyPEINWSxD3267mnTYBkM="
         }
       },
       "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "logo.svg",
+      "output": {
+        "resource": {
+          "relative_path": "logo.svg"
+        }
+      },
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -57,7 +112,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.Assemblage.ComputeCandidatesValuesMethod-1.html",
-          "hash": "TNdelP1stX9/7OKuw01lSrWcYzkiqLa4yavCiXMMlQI="
+          "hash": "mpQiFdiWkEokn4vF1IQyeNNj+/cW3UtPkIQEGrA6wdY="
         }
       },
       "is_incremental": true,
@@ -69,7 +124,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.Assemblage.ComputeReceiverMethod-1.html",
-          "hash": "arWfaEArwckZgXXM7wLGMIVcQPi7G7U7LbCPXrl8FQc="
+          "hash": "/omTYpu/ljh0lnBHbM3+ybwjcngWxj/MCwKYWFXYODI="
         }
       },
       "is_incremental": true,
@@ -81,7 +136,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.Assemblage.EnvironmentCheckMethod.html",
-          "hash": "jzbIXA04Z7Y357/kO1bCpRTB9X9DVVVMsAi3VlCB0mY="
+          "hash": "mRbd6oHGP1b0lt4FoUsa4VkCshWMybZy8dZOM9VmaKU="
         }
       },
       "is_incremental": true,
@@ -93,7 +148,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.Assemblage.SelectWinnerMethod-1.html",
-          "hash": "lIvixUIRxiJXEfTCIL26/prEV6j9AxLFS0xbC4fmdcA="
+          "hash": "aSZdfQStGdRMOMHlh8iXXt4E5zqACwynPoI+DtckeRU="
         }
       },
       "is_incremental": true,
@@ -105,7 +160,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.Assemblage.html",
-          "hash": "9+zWdyPrX489KyNJi11ZAj5h0n2n3/XI+W4jxbUdsL0="
+          "hash": "qeZ3SsWp+KtRdZCM89pdYBb9yLagWscMdouIu9fNALg="
         }
       },
       "is_incremental": true,
@@ -117,7 +172,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.AssemblyObject.html",
-          "hash": "4xc7KL0SqhMmTq+uRK8TAq/DJq+kJVsmJYrDNeWjUIA="
+          "hash": "kyNC+NuHNeO/ux+Meo1eyyIwV26/Ro+YyUUo/cPPhtQ="
         }
       },
       "is_incremental": true,
@@ -129,7 +184,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.ExogenousSettings.html",
-          "hash": "DThqHm/BjQEJbtvBx0T0sKqFkx6rMYt7fKt11OyCPQ4="
+          "hash": "llebC5AbKiJkhKi9WzTz9Z+lXfb/Fz+jHSdutG5MR3I="
         }
       },
       "is_incremental": true,
@@ -141,7 +196,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.Field.html",
-          "hash": "aImOfamKFkp/IVuq9R1oFGM3fJD+oCo6t2Fm94pY2aE="
+          "hash": "ji4Mq8WRgKaaU1b+TZsro3rKJNwjYvJPiS9+J1r1C4M="
         }
       },
       "is_incremental": true,
@@ -153,7 +208,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.Handle.html",
-          "hash": "xuUK392GKplv7vMah59Vuyf7zuyXyu2F5mGeSVydheE="
+          "hash": "bpEoz/xhzerYmkufrVzUTF99/eyb1YhiFbbBjZig7mc="
         }
       },
       "is_incremental": true,
@@ -165,7 +220,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.HeuristicsSettings.html",
-          "hash": "kIXih7S1tZOKnhKIbs/t0Zo88oyGV/J1fc5slkJylcE="
+          "hash": "3zH5LSCOJkBUmie5yoUJ0psnhr2DCjEVjg27BpmkKxs="
         }
       },
       "is_incremental": true,
@@ -177,7 +232,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.MeshEnvironment.Type.html",
-          "hash": "plC5c+3yQFnV20K5gDCm1BZXiUH1SQY+k2nO5aWlKC4="
+          "hash": "Ff4Aql6U53ebMW9vyVjxeGOdTkUvs/CL3lyuRfBUtJM="
         }
       },
       "is_incremental": true,
@@ -189,7 +244,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.MeshEnvironment.html",
-          "hash": "rdzRbKQZEeBCNWkeDy4A2NwhTwEKx68iE2y/6lXhxjo="
+          "hash": "5yx4D1qhV0iRjcHYm3mstLmxFQDjmyOsAp5qFKwJzNU="
         }
       },
       "is_incremental": true,
@@ -201,7 +256,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.Rule.html",
-          "hash": "/T+foR0ket3zBdGpE8HSj1M3/V+RjhrcfOHjOixGPI0="
+          "hash": "mrOQ2gAgBszr+oieLnd3Lyow7fFMGdEI0bn+FKBa9ic="
         }
       },
       "is_incremental": true,
@@ -213,7 +268,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.Support.html",
-          "hash": "90yRmwcTNPZ3VUAHq/pFYcJlEg2WwBXTAYJRVogNGvk="
+          "hash": "76W5z4hPRiWnluB1pz5GnqkPjL0QkdPtx1/Pg32r3tc="
         }
       },
       "is_incremental": true,
@@ -225,7 +280,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.Tensor.html",
-          "hash": "PhH3+68pWeJJr5heecBRG4F7QznRDcwhajI7Re3+kSg="
+          "hash": "x1FImspfyGtew6Mlp20YIGz0MUNUdwp7i6lgRGOcpXg="
         }
       },
       "is_incremental": true,
@@ -237,7 +292,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.Utilities.html",
-          "hash": "8LDAmHFT2fOQzQqs2c7q7btg21xfUGC/SwHQ142uhwU="
+          "hash": "DCb/CySfMHiMfv9KFyvH660YvEHwUVuw1lnzNvjNkpE="
         }
       },
       "is_incremental": true,
@@ -249,7 +304,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.XData.html",
-          "hash": "P48XMUOL6DEpl8a1EK5I+0fv5edyL0wuXNeevge00fQ="
+          "hash": "TH8Im4mrhUmXu+FbNYT856p1hZF3IboZnWph/sGUWGg="
         }
       },
       "is_incremental": true,
@@ -261,34 +316,10 @@
       "output": {
         ".html": {
           "relative_path": "api/AssemblerLib.html",
-          "hash": "rhaZ4ps2+9AWxsAEMapffi+Dc59frbrx6nZMMVbLmfU="
+          "hash": "zGlupFphgx4cX8glg0SYfp+8VelHadD8/ROEJENO8kw="
         }
       },
       "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "Toc",
-      "source_relative_path": "obj/api/toc.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/toc.html",
-          "hash": "jtn5J8Zs604jqLR+8AXwullR+jBMjafe7uy8PhFvDm0="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "Toc",
-      "source_relative_path": "toc.yml",
-      "output": {
-        ".html": {
-          "relative_path": "toc.html",
-          "hash": "Oa9PuD4E1hvZnCkVjUgzNBX6S00Zo5YilamTERTZo54="
-        }
-      },
-      "is_incremental": false,
       "version": ""
     }
   ],
@@ -304,14 +335,21 @@
         "ConceptualDocumentProcessor": {
           "can_incremental": true,
           "incrementalPhase": "build",
-          "total_file_count": 3,
-          "skipped_file_count": 3
+          "total_file_count": 4,
+          "skipped_file_count": 4
         },
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": true,
           "incrementalPhase": "build",
           "total_file_count": 18,
           "skipped_file_count": 18
+        },
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
         },
         "TocDocumentProcessor": {
           "can_incremental": false,

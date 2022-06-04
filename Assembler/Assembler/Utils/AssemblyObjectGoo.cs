@@ -239,6 +239,7 @@ namespace Assembler.Utils
         private const string IoRPlaneKey = "_RPlane_";
         private const string IoSPlaneKey = "_SPlane";
         private const string IoHWeightKey = "_Weight";
+        private const string IoHIdleWeightKey = "_idleWeight";
         private const string IoHTypeKey = "_type";
         private const string IoHOccupancyKey = "_occupancy";
         private const string IoHNeighObjKey = "_neighbourObject";
@@ -250,6 +251,7 @@ namespace Assembler.Utils
         private const string IoaIndKey = "AInd";
         private const string IoOccludedNeighboursKey = "OccludedNeighbours";
         private const string IoWeightKey = "Weight";
+        private const string IoIdleWeightKey = "idleWeight";
         private const string IoIWeightKey = "IWeight";
 
         private const string IoSupportsCountKey = "SupportsCount";
@@ -288,6 +290,7 @@ namespace Assembler.Utils
                 // serialize number values
                 writer.SetInt32(IoHandleKey + i.ToString() + IoHTypeKey, h.type);
                 writer.SetDouble(IoHandleKey + i.ToString() + IoHWeightKey, h.weight);
+                writer.SetDouble(IoHandleKey + i.ToString() + IoHIdleWeightKey, h.idleWeight);
                 writer.SetInt32(IoHandleKey + i.ToString() + IoHOccupancyKey, h.occupancy);
                 writer.SetInt32(IoHandleKey + i.ToString() + IoHNeighObjKey, h.neighbourObject);
                 writer.SetInt32(IoHandleKey + i.ToString() + IoHNeighHandKey, h.neighbourHandle);
@@ -321,6 +324,9 @@ namespace Assembler.Utils
 
             // weight
             writer.SetDouble(IoWeightKey, Value.weight);
+            
+            // idleWeight
+            writer.SetDouble(IoIdleWeightKey, Value.idleWeight);
             
             // iWeight
             writer.SetInt32(IoIWeightKey, Value.iWeight);
@@ -408,11 +414,15 @@ namespace Assembler.Utils
                     // weight
                     double hWeight = reader.GetDouble(IoHandleKey + i.ToString() + IoHWeightKey);
 
+                    // idleWeight
+                    double hidleWeight = reader.GetDouble(IoHandleKey + i.ToString() + IoHIdleWeightKey);
+
                     // list of rotations
                     double[] rRot = reader.GetDoubleArray(IoHandleKey + i.ToString() + IoRrotKey);
 
                     // construct base handle
                     Handle h = new Handle(sp, hType, hWeight, rRot.ToList());
+                    h.idleWeight = hidleWeight;
 
                     // add connectivity status
                     h.occupancy = reader.GetInt32(IoHandleKey + i.ToString() + IoHOccupancyKey);
@@ -442,6 +452,9 @@ namespace Assembler.Utils
 
             // deserialize weight
             m_value.weight = reader.GetDouble(IoWeightKey);
+            
+            // deserialize idleWeight
+            m_value.idleWeight = reader.GetDouble(IoIdleWeightKey);
 
             // deserialize iWeight
             m_value.iWeight = reader.GetInt32(IoIWeightKey);
@@ -543,6 +556,10 @@ namespace Assembler.Utils
         {
             // bakes collisionMesh 
             obj_ids.Add(doc.Objects.AddMesh(m_value.collisionMesh));
+            // bake reference plane as L polyline
+            obj_ids.Add(doc.Objects.AddPolyline(PlaneToPoints(m_value.referencePlane)));
+            // bake direction as line
+            obj_ids.Add(doc.Objects.AddLine(m_value.referencePlane.Origin, m_value.referencePlane.Origin + m_value.direction));
             // bake  Handles as L polylines
             for (int i = 0; i < m_value.handles.Length; i++)
                 obj_ids.Add(doc.Objects.AddPolyline(PlaneToPoints(m_value.handles[i].sender)));

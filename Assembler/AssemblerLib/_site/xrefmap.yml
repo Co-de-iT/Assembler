@@ -74,12 +74,19 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Assemblage.AssemblageRules
   nameWithType: Assemblage.AssemblageRules
-- uid: AssemblerLib.Assemblage.assemblyObjects
-  name: assemblyObjects
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_assemblyObjects
-  commentId: F:AssemblerLib.Assemblage.assemblyObjects
-  fullName: AssemblerLib.Assemblage.assemblyObjects
-  nameWithType: Assemblage.assemblyObjects
+- uid: AssemblerLib.Assemblage.AssemblyObjects
+  name: AssemblyObjects
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_AssemblyObjects
+  commentId: P:AssemblerLib.Assemblage.AssemblyObjects
+  fullName: AssemblerLib.Assemblage.AssemblyObjects
+  nameWithType: Assemblage.AssemblyObjects
+- uid: AssemblerLib.Assemblage.AssemblyObjects*
+  name: AssemblyObjects
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_AssemblyObjects_
+  commentId: Overload:AssemblerLib.Assemblage.AssemblyObjects
+  isSpec: "True"
+  fullName: AssemblerLib.Assemblage.AssemblyObjects
+  nameWithType: Assemblage.AssemblyObjects
 - uid: AssemblerLib.Assemblage.CandidateObjects
   name: CandidateObjects
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_CandidateObjects
@@ -93,12 +100,19 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Assemblage.CandidateObjects
   nameWithType: Assemblage.CandidateObjects
-- uid: AssemblerLib.Assemblage.checkWorldZLock
-  name: checkWorldZLock
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_checkWorldZLock
-  commentId: F:AssemblerLib.Assemblage.checkWorldZLock
-  fullName: AssemblerLib.Assemblage.checkWorldZLock
-  nameWithType: Assemblage.checkWorldZLock
+- uid: AssemblerLib.Assemblage.CheckWorldZLock
+  name: CheckWorldZLock
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_CheckWorldZLock
+  commentId: P:AssemblerLib.Assemblage.CheckWorldZLock
+  fullName: AssemblerLib.Assemblage.CheckWorldZLock
+  nameWithType: Assemblage.CheckWorldZLock
+- uid: AssemblerLib.Assemblage.CheckWorldZLock*
+  name: CheckWorldZLock
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_CheckWorldZLock_
+  commentId: Overload:AssemblerLib.Assemblage.CheckWorldZLock
+  isSpec: "True"
+  fullName: AssemblerLib.Assemblage.CheckWorldZLock
+  nameWithType: Assemblage.CheckWorldZLock
 - uid: AssemblerLib.Assemblage.CollisionRadius
   name: CollisionRadius
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_CollisionRadius
@@ -206,19 +220,6 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Assemblage.HeuristicsSettings
   nameWithType: Assemblage.HeuristicsSettings
-- uid: AssemblerLib.Assemblage.Initialize
-  name: Initialize()
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_Initialize
-  commentId: M:AssemblerLib.Assemblage.Initialize
-  fullName: AssemblerLib.Assemblage.Initialize()
-  nameWithType: Assemblage.Initialize()
-- uid: AssemblerLib.Assemblage.Initialize*
-  name: Initialize
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_Initialize_
-  commentId: Overload:AssemblerLib.Assemblage.Initialize
-  isSpec: "True"
-  fullName: AssemblerLib.Assemblage.Initialize
-  nameWithType: Assemblage.Initialize
 - uid: AssemblerLib.Assemblage.ReceiverAIndexes
   name: ReceiverAIndexes
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_ReceiverAIndexes
@@ -232,6 +233,19 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Assemblage.ReceiverAIndexes
   nameWithType: Assemblage.ReceiverAIndexes
+- uid: AssemblerLib.Assemblage.ResetIterationVariables
+  name: ResetIterationVariables()
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_ResetIterationVariables
+  commentId: M:AssemblerLib.Assemblage.ResetIterationVariables
+  fullName: AssemblerLib.Assemblage.ResetIterationVariables()
+  nameWithType: Assemblage.ResetIterationVariables()
+- uid: AssemblerLib.Assemblage.ResetIterationVariables*
+  name: ResetIterationVariables
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_ResetIterationVariables_
+  commentId: Overload:AssemblerLib.Assemblage.ResetIterationVariables
+  isSpec: "True"
+  fullName: AssemblerLib.Assemblage.ResetIterationVariables
+  nameWithType: Assemblage.ResetIterationVariables
 - uid: AssemblerLib.Assemblage.ResetSettings(AssemblerLib.HeuristicsSettings,AssemblerLib.ExogenousSettings)
   name: ResetSettings(HeuristicsSettings, ExogenousSettings)
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_ResetSettings_AssemblerLib_HeuristicsSettings_AssemblerLib_ExogenousSettings_
@@ -258,19 +272,6 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Assemblage.RetrieveCandidates
   nameWithType: Assemblage.RetrieveCandidates
-- uid: AssemblerLib.Assemblage.RulesCount
-  name: RulesCount
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_RulesCount
-  commentId: P:AssemblerLib.Assemblage.RulesCount
-  fullName: AssemblerLib.Assemblage.RulesCount
-  nameWithType: Assemblage.RulesCount
-- uid: AssemblerLib.Assemblage.RulesCount*
-  name: RulesCount
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_RulesCount_
-  commentId: Overload:AssemblerLib.Assemblage.RulesCount
-  isSpec: "True"
-  fullName: AssemblerLib.Assemblage.RulesCount
-  nameWithType: Assemblage.RulesCount
 - uid: AssemblerLib.Assemblage.selectReceiver
   name: selectReceiver
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_selectReceiver
@@ -321,6 +322,19 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Assemblage.ToString
   nameWithType: Assemblage.ToString
+- uid: AssemblerLib.Assemblage.TryGetReceiverAndCandidates
+  name: TryGetReceiverAndCandidates()
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_TryGetReceiverAndCandidates
+  commentId: M:AssemblerLib.Assemblage.TryGetReceiverAndCandidates
+  fullName: AssemblerLib.Assemblage.TryGetReceiverAndCandidates()
+  nameWithType: Assemblage.TryGetReceiverAndCandidates()
+- uid: AssemblerLib.Assemblage.TryGetReceiverAndCandidates*
+  name: TryGetReceiverAndCandidates
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_TryGetReceiverAndCandidates_
+  commentId: Overload:AssemblerLib.Assemblage.TryGetReceiverAndCandidates
+  isSpec: "True"
+  fullName: AssemblerLib.Assemblage.TryGetReceiverAndCandidates
+  nameWithType: Assemblage.TryGetReceiverAndCandidates
 - uid: AssemblerLib.Assemblage.Update
   name: Update()
   href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_Update
@@ -334,12 +348,19 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Assemblage.Update
   nameWithType: Assemblage.Update
-- uid: AssemblerLib.Assemblage.useSupports
-  name: useSupports
-  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_useSupports
-  commentId: F:AssemblerLib.Assemblage.useSupports
-  fullName: AssemblerLib.Assemblage.useSupports
-  nameWithType: Assemblage.useSupports
+- uid: AssemblerLib.Assemblage.UseSupports
+  name: UseSupports
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_UseSupports
+  commentId: P:AssemblerLib.Assemblage.UseSupports
+  fullName: AssemblerLib.Assemblage.UseSupports
+  nameWithType: Assemblage.UseSupports
+- uid: AssemblerLib.Assemblage.UseSupports*
+  name: UseSupports
+  href: api/AssemblerLib.Assemblage.html#AssemblerLib_Assemblage_UseSupports_
+  commentId: Overload:AssemblerLib.Assemblage.UseSupports
+  isSpec: "True"
+  fullName: AssemblerLib.Assemblage.UseSupports
+  nameWithType: Assemblage.UseSupports
 - uid: AssemblerLib.AssemblyObject
   name: AssemblyObject
   href: api/AssemblerLib.AssemblyObject.html
@@ -370,15 +391,15 @@ references:
   fullName.vb: AssemblerLib.AssemblyObject.AssemblyObject(Rhino.Geometry.Mesh, AssemblerLib.Handle(), Rhino.Geometry.Plane, Rhino.Geometry.Vector3d, System.String, System.Int32, System.Double, System.Int32, System.Boolean)
   nameWithType: AssemblyObject.AssemblyObject(Mesh, Handle[], Plane, Vector3d, String, Int32, Double, Int32, Boolean)
   nameWithType.vb: AssemblyObject.AssemblyObject(Mesh, Handle(), Plane, Vector3d, String, Int32, Double, Int32, Boolean)
-- uid: AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.Int32,System.Collections.Generic.List{System.Int32[]},System.String,System.Int32,System.Double,System.Int32,System.Collections.Generic.List{AssemblerLib.Support},System.Int32,System.Boolean,System.Boolean,System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.List{System.Int32[]},System.Double,System.Double)
-  name: AssemblyObject(Mesh, Mesh, Handle[], Plane, Vector3d, Int32, List<Int32[]>, String, Int32, Double, Int32, List<Support>, Int32, Boolean, Boolean, List<AssemblyObject>, List<Int32[]>, Double, Double)
-  href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_Rhino_Geometry_Mesh_AssemblerLib_Handle___Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_Int32_System_Collections_Generic_List_System_Int32____System_String_System_Int32_System_Double_System_Int32_System_Collections_Generic_List_AssemblerLib_Support__System_Int32_System_Boolean_System_Boolean_System_Collections_Generic_List_AssemblerLib_AssemblyObject__System_Collections_Generic_List_System_Int32____System_Double_System_Double_
-  commentId: M:AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.Int32,System.Collections.Generic.List{System.Int32[]},System.String,System.Int32,System.Double,System.Int32,System.Collections.Generic.List{AssemblerLib.Support},System.Int32,System.Boolean,System.Boolean,System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.List{System.Int32[]},System.Double,System.Double)
-  name.vb: AssemblyObject(Mesh, Mesh, Handle(), Plane, Vector3d, Int32, List(Of Int32()), String, Int32, Double, Int32, List(Of Support), Int32, Boolean, Boolean, List(Of AssemblyObject), List(Of Int32()), Double, Double)
-  fullName: AssemblerLib.AssemblyObject.AssemblyObject(Rhino.Geometry.Mesh, Rhino.Geometry.Mesh, AssemblerLib.Handle[], Rhino.Geometry.Plane, Rhino.Geometry.Vector3d, System.Int32, System.Collections.Generic.List<System.Int32[]>, System.String, System.Int32, System.Double, System.Int32, System.Collections.Generic.List<AssemblerLib.Support>, System.Int32, System.Boolean, System.Boolean, System.Collections.Generic.List<AssemblerLib.AssemblyObject>, System.Collections.Generic.List<System.Int32[]>, System.Double, System.Double)
-  fullName.vb: AssemblerLib.AssemblyObject.AssemblyObject(Rhino.Geometry.Mesh, Rhino.Geometry.Mesh, AssemblerLib.Handle(), Rhino.Geometry.Plane, Rhino.Geometry.Vector3d, System.Int32, System.Collections.Generic.List(Of System.Int32()), System.String, System.Int32, System.Double, System.Int32, System.Collections.Generic.List(Of AssemblerLib.Support), System.Int32, System.Boolean, System.Boolean, System.Collections.Generic.List(Of AssemblerLib.AssemblyObject), System.Collections.Generic.List(Of System.Int32()), System.Double, System.Double)
-  nameWithType: AssemblyObject.AssemblyObject(Mesh, Mesh, Handle[], Plane, Vector3d, Int32, List<Int32[]>, String, Int32, Double, Int32, List<Support>, Int32, Boolean, Boolean, List<AssemblyObject>, List<Int32[]>, Double, Double)
-  nameWithType.vb: AssemblyObject.AssemblyObject(Mesh, Mesh, Handle(), Plane, Vector3d, Int32, List(Of Int32()), String, Int32, Double, Int32, List(Of Support), Int32, Boolean, Boolean, List(Of AssemblyObject), List(Of Int32()), Double, Double)
+- uid: AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.Int32,System.Collections.Generic.List{System.Int32[]},System.String,System.Int32,System.Double,System.Double,System.Int32,System.Collections.Generic.List{AssemblerLib.Support},System.Int32,System.Boolean,System.Boolean,System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.List{System.Int32[]},System.Double,System.Double)
+  name: AssemblyObject(Mesh, Mesh, Handle[], Plane, Vector3d, Int32, List<Int32[]>, String, Int32, Double, Double, Int32, List<Support>, Int32, Boolean, Boolean, List<AssemblyObject>, List<Int32[]>, Double, Double)
+  href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_Rhino_Geometry_Mesh_AssemblerLib_Handle___Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_Int32_System_Collections_Generic_List_System_Int32____System_String_System_Int32_System_Double_System_Double_System_Int32_System_Collections_Generic_List_AssemblerLib_Support__System_Int32_System_Boolean_System_Boolean_System_Collections_Generic_List_AssemblerLib_AssemblyObject__System_Collections_Generic_List_System_Int32____System_Double_System_Double_
+  commentId: M:AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.Int32,System.Collections.Generic.List{System.Int32[]},System.String,System.Int32,System.Double,System.Double,System.Int32,System.Collections.Generic.List{AssemblerLib.Support},System.Int32,System.Boolean,System.Boolean,System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.List{System.Int32[]},System.Double,System.Double)
+  name.vb: AssemblyObject(Mesh, Mesh, Handle(), Plane, Vector3d, Int32, List(Of Int32()), String, Int32, Double, Double, Int32, List(Of Support), Int32, Boolean, Boolean, List(Of AssemblyObject), List(Of Int32()), Double, Double)
+  fullName: AssemblerLib.AssemblyObject.AssemblyObject(Rhino.Geometry.Mesh, Rhino.Geometry.Mesh, AssemblerLib.Handle[], Rhino.Geometry.Plane, Rhino.Geometry.Vector3d, System.Int32, System.Collections.Generic.List<System.Int32[]>, System.String, System.Int32, System.Double, System.Double, System.Int32, System.Collections.Generic.List<AssemblerLib.Support>, System.Int32, System.Boolean, System.Boolean, System.Collections.Generic.List<AssemblerLib.AssemblyObject>, System.Collections.Generic.List<System.Int32[]>, System.Double, System.Double)
+  fullName.vb: AssemblerLib.AssemblyObject.AssemblyObject(Rhino.Geometry.Mesh, Rhino.Geometry.Mesh, AssemblerLib.Handle(), Rhino.Geometry.Plane, Rhino.Geometry.Vector3d, System.Int32, System.Collections.Generic.List(Of System.Int32()), System.String, System.Int32, System.Double, System.Double, System.Int32, System.Collections.Generic.List(Of AssemblerLib.Support), System.Int32, System.Boolean, System.Boolean, System.Collections.Generic.List(Of AssemblerLib.AssemblyObject), System.Collections.Generic.List(Of System.Int32()), System.Double, System.Double)
+  nameWithType: AssemblyObject.AssemblyObject(Mesh, Mesh, Handle[], Plane, Vector3d, Int32, List<Int32[]>, String, Int32, Double, Double, Int32, List<Support>, Int32, Boolean, Boolean, List<AssemblyObject>, List<Int32[]>, Double, Double)
+  nameWithType.vb: AssemblyObject.AssemblyObject(Mesh, Mesh, Handle(), Plane, Vector3d, Int32, List(Of Int32()), String, Int32, Double, Double, Int32, List(Of Support), Int32, Boolean, Boolean, List(Of AssemblyObject), List(Of Int32()), Double, Double)
 - uid: AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.String,System.Int32,System.Double,System.Boolean,System.Collections.Generic.List{AssemblerLib.AssemblyObject})
   name: AssemblyObject(Mesh, Plane, Vector3d, String, Int32, Double, Boolean, List<AssemblyObject>)
   href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_String_System_Int32_System_Double_System_Boolean_System_Collections_Generic_List_AssemblerLib_AssemblyObject__
@@ -426,6 +447,12 @@ references:
   commentId: F:AssemblerLib.AssemblyObject.handles
   fullName: AssemblerLib.AssemblyObject.handles
   nameWithType: AssemblyObject.handles
+- uid: AssemblerLib.AssemblyObject.idleWeight
+  name: idleWeight
+  href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject_idleWeight
+  commentId: F:AssemblerLib.AssemblyObject.idleWeight
+  fullName: AssemblerLib.AssemblyObject.idleWeight
+  nameWithType: AssemblyObject.idleWeight
 - uid: AssemblerLib.AssemblyObject.iWeight
   name: iWeight
   href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject_iWeight
@@ -651,44 +678,19 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Field.Field
   nameWithType: Field.Field
-- uid: AssemblerLib.Field.colors
-  name: colors
-  href: api/AssemblerLib.Field.html#AssemblerLib_Field_colors
-  commentId: F:AssemblerLib.Field.colors
-  fullName: AssemblerLib.Field.colors
-  nameWithType: Field.colors
-- uid: AssemblerLib.Field.DistributeiWeights(Grasshopper.DataTree{System.Int32},System.Collections.Generic.List{Rhino.Geometry.Point3d},System.Boolean)
-  name: DistributeiWeights(DataTree<Int32>, List<Point3d>, Boolean)
-  href: api/AssemblerLib.Field.html#AssemblerLib_Field_DistributeiWeights_Grasshopper_DataTree_System_Int32__System_Collections_Generic_List_Rhino_Geometry_Point3d__System_Boolean_
-  commentId: M:AssemblerLib.Field.DistributeiWeights(Grasshopper.DataTree{System.Int32},System.Collections.Generic.List{Rhino.Geometry.Point3d},System.Boolean)
-  name.vb: DistributeiWeights(DataTree(Of Int32), List(Of Point3d), Boolean)
-  fullName: AssemblerLib.Field.DistributeiWeights(Grasshopper.DataTree<System.Int32>, System.Collections.Generic.List<Rhino.Geometry.Point3d>, System.Boolean)
-  fullName.vb: AssemblerLib.Field.DistributeiWeights(Grasshopper.DataTree(Of System.Int32), System.Collections.Generic.List(Of Rhino.Geometry.Point3d), System.Boolean)
-  nameWithType: Field.DistributeiWeights(DataTree<Int32>, List<Point3d>, Boolean)
-  nameWithType.vb: Field.DistributeiWeights(DataTree(Of Int32), List(Of Point3d), Boolean)
-- uid: AssemblerLib.Field.DistributeiWeights*
-  name: DistributeiWeights
-  href: api/AssemblerLib.Field.html#AssemblerLib_Field_DistributeiWeights_
-  commentId: Overload:AssemblerLib.Field.DistributeiWeights
+- uid: AssemblerLib.Field.Colors
+  name: Colors
+  href: api/AssemblerLib.Field.html#AssemblerLib_Field_Colors
+  commentId: P:AssemblerLib.Field.Colors
+  fullName: AssemblerLib.Field.Colors
+  nameWithType: Field.Colors
+- uid: AssemblerLib.Field.Colors*
+  name: Colors
+  href: api/AssemblerLib.Field.html#AssemblerLib_Field_Colors_
+  commentId: Overload:AssemblerLib.Field.Colors
   isSpec: "True"
-  fullName: AssemblerLib.Field.DistributeiWeights
-  nameWithType: Field.DistributeiWeights
-- uid: AssemblerLib.Field.DistributeiWeightsScalar(Grasshopper.DataTree{System.Int32},System.Double,System.Int32,System.Boolean)
-  name: DistributeiWeightsScalar(DataTree<Int32>, Double, Int32, Boolean)
-  href: api/AssemblerLib.Field.html#AssemblerLib_Field_DistributeiWeightsScalar_Grasshopper_DataTree_System_Int32__System_Double_System_Int32_System_Boolean_
-  commentId: M:AssemblerLib.Field.DistributeiWeightsScalar(Grasshopper.DataTree{System.Int32},System.Double,System.Int32,System.Boolean)
-  name.vb: DistributeiWeightsScalar(DataTree(Of Int32), Double, Int32, Boolean)
-  fullName: AssemblerLib.Field.DistributeiWeightsScalar(Grasshopper.DataTree<System.Int32>, System.Double, System.Int32, System.Boolean)
-  fullName.vb: AssemblerLib.Field.DistributeiWeightsScalar(Grasshopper.DataTree(Of System.Int32), System.Double, System.Int32, System.Boolean)
-  nameWithType: Field.DistributeiWeightsScalar(DataTree<Int32>, Double, Int32, Boolean)
-  nameWithType.vb: Field.DistributeiWeightsScalar(DataTree(Of Int32), Double, Int32, Boolean)
-- uid: AssemblerLib.Field.DistributeiWeightsScalar*
-  name: DistributeiWeightsScalar
-  href: api/AssemblerLib.Field.html#AssemblerLib_Field_DistributeiWeightsScalar_
-  commentId: Overload:AssemblerLib.Field.DistributeiWeightsScalar
-  isSpec: "True"
-  fullName: AssemblerLib.Field.DistributeiWeightsScalar
-  nameWithType: Field.DistributeiWeightsScalar
+  fullName: AssemblerLib.Field.Colors
+  nameWithType: Field.Colors
 - uid: AssemblerLib.Field.GenerateScalarColors(System.Collections.Generic.List{System.Drawing.Color},System.Int32,System.Double,System.Boolean)
   name: GenerateScalarColors(List<Color>, Int32, Double, Boolean)
   href: api/AssemblerLib.Field.html#AssemblerLib_Field_GenerateScalarColors_System_Collections_Generic_List_System_Drawing_Color__System_Int32_System_Double_System_Boolean_
@@ -1136,24 +1138,45 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Field.PopulateVectors
   nameWithType: Field.PopulateVectors
-- uid: AssemblerLib.Field.stigValues
-  name: stigValues
-  href: api/AssemblerLib.Field.html#AssemblerLib_Field_stigValues
-  commentId: F:AssemblerLib.Field.stigValues
-  fullName: AssemblerLib.Field.stigValues
-  nameWithType: Field.stigValues
-- uid: AssemblerLib.Field.tensors
-  name: tensors
-  href: api/AssemblerLib.Field.html#AssemblerLib_Field_tensors
-  commentId: F:AssemblerLib.Field.tensors
-  fullName: AssemblerLib.Field.tensors
-  nameWithType: Field.tensors
-- uid: AssemblerLib.Field.topology
-  name: topology
-  href: api/AssemblerLib.Field.html#AssemblerLib_Field_topology
-  commentId: F:AssemblerLib.Field.topology
-  fullName: AssemblerLib.Field.topology
-  nameWithType: Field.topology
+- uid: AssemblerLib.Field.StigValues
+  name: StigValues
+  href: api/AssemblerLib.Field.html#AssemblerLib_Field_StigValues
+  commentId: P:AssemblerLib.Field.StigValues
+  fullName: AssemblerLib.Field.StigValues
+  nameWithType: Field.StigValues
+- uid: AssemblerLib.Field.StigValues*
+  name: StigValues
+  href: api/AssemblerLib.Field.html#AssemblerLib_Field_StigValues_
+  commentId: Overload:AssemblerLib.Field.StigValues
+  isSpec: "True"
+  fullName: AssemblerLib.Field.StigValues
+  nameWithType: Field.StigValues
+- uid: AssemblerLib.Field.Tensors
+  name: Tensors
+  href: api/AssemblerLib.Field.html#AssemblerLib_Field_Tensors
+  commentId: P:AssemblerLib.Field.Tensors
+  fullName: AssemblerLib.Field.Tensors
+  nameWithType: Field.Tensors
+- uid: AssemblerLib.Field.Tensors*
+  name: Tensors
+  href: api/AssemblerLib.Field.html#AssemblerLib_Field_Tensors_
+  commentId: Overload:AssemblerLib.Field.Tensors
+  isSpec: "True"
+  fullName: AssemblerLib.Field.Tensors
+  nameWithType: Field.Tensors
+- uid: AssemblerLib.Field.Topology
+  name: Topology
+  href: api/AssemblerLib.Field.html#AssemblerLib_Field_Topology
+  commentId: P:AssemblerLib.Field.Topology
+  fullName: AssemblerLib.Field.Topology
+  nameWithType: Field.Topology
+- uid: AssemblerLib.Field.Topology*
+  name: Topology
+  href: api/AssemblerLib.Field.html#AssemblerLib_Field_Topology_
+  commentId: Overload:AssemblerLib.Field.Topology
+  isSpec: "True"
+  fullName: AssemblerLib.Field.Topology
+  nameWithType: Field.Topology
 - uid: AssemblerLib.Field.ToString
   name: ToString()
   href: api/AssemblerLib.Field.html#AssemblerLib_Field_ToString
@@ -1167,12 +1190,19 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Field.ToString
   nameWithType: Field.ToString
-- uid: AssemblerLib.Field.transCoeff
-  name: transCoeff
-  href: api/AssemblerLib.Field.html#AssemblerLib_Field_transCoeff
-  commentId: F:AssemblerLib.Field.transCoeff
-  fullName: AssemblerLib.Field.transCoeff
-  nameWithType: Field.transCoeff
+- uid: AssemblerLib.Field.TransCoeff
+  name: TransCoeff
+  href: api/AssemblerLib.Field.html#AssemblerLib_Field_TransCoeff
+  commentId: P:AssemblerLib.Field.TransCoeff
+  fullName: AssemblerLib.Field.TransCoeff
+  nameWithType: Field.TransCoeff
+- uid: AssemblerLib.Field.TransCoeff*
+  name: TransCoeff
+  href: api/AssemblerLib.Field.html#AssemblerLib_Field_TransCoeff_
+  commentId: Overload:AssemblerLib.Field.TransCoeff
+  isSpec: "True"
+  fullName: AssemblerLib.Field.TransCoeff
+  nameWithType: Field.TransCoeff
 - uid: AssemblerLib.Field.UpdateStigmergy(System.Double,System.Double,System.Double)
   name: UpdateStigmergy(Double, Double, Double)
   href: api/AssemblerLib.Field.html#AssemblerLib_Field_UpdateStigmergy_System_Double_System_Double_System_Double_
@@ -1230,6 +1260,12 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Handle.HandleStatus
   nameWithType: Handle.HandleStatus
+- uid: AssemblerLib.Handle.idleWeight
+  name: idleWeight
+  href: api/AssemblerLib.Handle.html#AssemblerLib_Handle_idleWeight
+  commentId: F:AssemblerLib.Handle.idleWeight
+  fullName: AssemblerLib.Handle.idleWeight
+  nameWithType: Handle.idleWeight
 - uid: AssemblerLib.Handle.neighbourHandle
   name: neighbourHandle
   href: api/AssemblerLib.Handle.html#AssemblerLib_Handle_neighbourHandle
@@ -1344,12 +1380,6 @@ references:
   commentId: F:AssemblerLib.HeuristicsSettings.heuristicsMode
   fullName: AssemblerLib.HeuristicsSettings.heuristicsMode
   nameWithType: HeuristicsSettings.heuristicsMode
-- uid: AssemblerLib.HeuristicsSettings.heuSetsString
-  name: heuSetsString
-  href: api/AssemblerLib.HeuristicsSettings.html#AssemblerLib_HeuristicsSettings_heuSetsString
-  commentId: F:AssemblerLib.HeuristicsSettings.heuSetsString
-  fullName: AssemblerLib.HeuristicsSettings.heuSetsString
-  nameWithType: HeuristicsSettings.heuSetsString
 - uid: AssemblerLib.HeuristicsSettings.receiverSelectionMode
   name: receiverSelectionMode
   href: api/AssemblerLib.HeuristicsSettings.html#AssemblerLib_HeuristicsSettings_receiverSelectionMode
@@ -1895,31 +1925,6 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Utilities.AssemblageToJSONSmart
   nameWithType: Utilities.AssemblageToJSONSmart
-- uid: AssemblerLib.Utilities.AverageUnitized(Rhino.Geometry.Vector3d[])
-  name: AverageUnitized(Vector3d[])
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_AverageUnitized_Rhino_Geometry_Vector3d___
-  commentId: M:AssemblerLib.Utilities.AverageUnitized(Rhino.Geometry.Vector3d[])
-  name.vb: AverageUnitized(Vector3d())
-  fullName: AssemblerLib.Utilities.AverageUnitized(Rhino.Geometry.Vector3d[])
-  fullName.vb: AssemblerLib.Utilities.AverageUnitized(Rhino.Geometry.Vector3d())
-  nameWithType: Utilities.AverageUnitized(Vector3d[])
-  nameWithType.vb: Utilities.AverageUnitized(Vector3d())
-- uid: AssemblerLib.Utilities.AverageUnitized(System.Collections.Generic.List{Rhino.Geometry.Vector3d})
-  name: AverageUnitized(List<Vector3d>)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_AverageUnitized_System_Collections_Generic_List_Rhino_Geometry_Vector3d__
-  commentId: M:AssemblerLib.Utilities.AverageUnitized(System.Collections.Generic.List{Rhino.Geometry.Vector3d})
-  name.vb: AverageUnitized(List(Of Vector3d))
-  fullName: AssemblerLib.Utilities.AverageUnitized(System.Collections.Generic.List<Rhino.Geometry.Vector3d>)
-  fullName.vb: AssemblerLib.Utilities.AverageUnitized(System.Collections.Generic.List(Of Rhino.Geometry.Vector3d))
-  nameWithType: Utilities.AverageUnitized(List<Vector3d>)
-  nameWithType.vb: Utilities.AverageUnitized(List(Of Vector3d))
-- uid: AssemblerLib.Utilities.AverageUnitized*
-  name: AverageUnitized
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_AverageUnitized_
-  commentId: Overload:AssemblerLib.Utilities.AverageUnitized
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.AverageUnitized
-  nameWithType: Utilities.AverageUnitized
 - uid: AssemblerLib.Utilities.BuildDictionary(AssemblerLib.AssemblyObject[])
   name: BuildDictionary(AssemblyObject[])
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_BuildDictionary_AssemblerLib_AssemblyObject___
@@ -1936,22 +1941,6 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Utilities.BuildDictionary
   nameWithType: Utilities.BuildDictionary
-- uid: AssemblerLib.Utilities.BuildHandlesHashSet(AssemblerLib.AssemblyObject[])
-  name: BuildHandlesHashSet(AssemblyObject[])
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_BuildHandlesHashSet_AssemblerLib_AssemblyObject___
-  commentId: M:AssemblerLib.Utilities.BuildHandlesHashSet(AssemblerLib.AssemblyObject[])
-  name.vb: BuildHandlesHashSet(AssemblyObject())
-  fullName: AssemblerLib.Utilities.BuildHandlesHashSet(AssemblerLib.AssemblyObject[])
-  fullName.vb: AssemblerLib.Utilities.BuildHandlesHashSet(AssemblerLib.AssemblyObject())
-  nameWithType: Utilities.BuildHandlesHashSet(AssemblyObject[])
-  nameWithType.vb: Utilities.BuildHandlesHashSet(AssemblyObject())
-- uid: AssemblerLib.Utilities.BuildHandlesHashSet*
-  name: BuildHandlesHashSet
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_BuildHandlesHashSet_
-  commentId: Overload:AssemblerLib.Utilities.BuildHandlesHashSet
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.BuildHandlesHashSet
-  nameWithType: Utilities.BuildHandlesHashSet
 - uid: AssemblerLib.Utilities.CheckSupport(AssemblerLib.AssemblyObject,System.Collections.Generic.List{AssemblerLib.AssemblyObject})
   name: CheckSupport(AssemblyObject, List<AssemblyObject>)
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_CheckSupport_AssemblerLib_AssemblyObject_System_Collections_Generic_List_AssemblerLib_AssemblyObject__
@@ -2043,22 +2032,6 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Utilities.CloneWithConnectivity
   nameWithType: Utilities.CloneWithConnectivity
-- uid: AssemblerLib.Utilities.CollisionCheckInAssemblage(AssemblerLib.Assemblage,AssemblerLib.AssemblyObject,System.Int32[]@)
-  name: CollisionCheckInAssemblage(Assemblage, AssemblyObject, out Int32[])
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_CollisionCheckInAssemblage_AssemblerLib_Assemblage_AssemblerLib_AssemblyObject_System_Int32____
-  commentId: M:AssemblerLib.Utilities.CollisionCheckInAssemblage(AssemblerLib.Assemblage,AssemblerLib.AssemblyObject,System.Int32[]@)
-  name.vb: CollisionCheckInAssemblage(Assemblage, AssemblyObject, ByRef Int32())
-  fullName: AssemblerLib.Utilities.CollisionCheckInAssemblage(AssemblerLib.Assemblage, AssemblerLib.AssemblyObject, out System.Int32[])
-  fullName.vb: AssemblerLib.Utilities.CollisionCheckInAssemblage(AssemblerLib.Assemblage, AssemblerLib.AssemblyObject, ByRef System.Int32())
-  nameWithType: Utilities.CollisionCheckInAssemblage(Assemblage, AssemblyObject, out Int32[])
-  nameWithType.vb: Utilities.CollisionCheckInAssemblage(Assemblage, AssemblyObject, ByRef Int32())
-- uid: AssemblerLib.Utilities.CollisionCheckInAssemblage*
-  name: CollisionCheckInAssemblage
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_CollisionCheckInAssemblage_
-  commentId: Overload:AssemblerLib.Utilities.CollisionCheckInAssemblage
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.CollisionCheckInAssemblage
-  nameWithType: Utilities.CollisionCheckInAssemblage
 - uid: AssemblerLib.Utilities.CollisionCheckMeshes(Rhino.Geometry.Mesh,Rhino.Geometry.Mesh)
   name: CollisionCheckMeshes(Mesh, Mesh)
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_CollisionCheckMeshes_Rhino_Geometry_Mesh_Rhino_Geometry_Mesh_
@@ -2072,22 +2045,6 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Utilities.CollisionCheckMeshes
   nameWithType: Utilities.CollisionCheckMeshes
-- uid: AssemblerLib.Utilities.CollisionCheckNeighbours(AssemblerLib.AssemblyObject,System.Collections.Generic.List{AssemblerLib.AssemblyObject})
-  name: CollisionCheckNeighbours(AssemblyObject, List<AssemblyObject>)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_CollisionCheckNeighbours_AssemblerLib_AssemblyObject_System_Collections_Generic_List_AssemblerLib_AssemblyObject__
-  commentId: M:AssemblerLib.Utilities.CollisionCheckNeighbours(AssemblerLib.AssemblyObject,System.Collections.Generic.List{AssemblerLib.AssemblyObject})
-  name.vb: CollisionCheckNeighbours(AssemblyObject, List(Of AssemblyObject))
-  fullName: AssemblerLib.Utilities.CollisionCheckNeighbours(AssemblerLib.AssemblyObject, System.Collections.Generic.List<AssemblerLib.AssemblyObject>)
-  fullName.vb: AssemblerLib.Utilities.CollisionCheckNeighbours(AssemblerLib.AssemblyObject, System.Collections.Generic.List(Of AssemblerLib.AssemblyObject))
-  nameWithType: Utilities.CollisionCheckNeighbours(AssemblyObject, List<AssemblyObject>)
-  nameWithType.vb: Utilities.CollisionCheckNeighbours(AssemblyObject, List(Of AssemblyObject))
-- uid: AssemblerLib.Utilities.CollisionCheckNeighbours*
-  name: CollisionCheckNeighbours
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_CollisionCheckNeighbours_
-  commentId: Overload:AssemblerLib.Utilities.CollisionCheckNeighbours
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.CollisionCheckNeighbours
-  nameWithType: Utilities.CollisionCheckNeighbours
 - uid: AssemblerLib.Utilities.CollisionCheckPair(AssemblerLib.AssemblyObject,AssemblerLib.AssemblyObject)
   name: CollisionCheckPair(AssemblyObject, AssemblyObject)
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_CollisionCheckPair_AssemblerLib_AssemblyObject_AssemblerLib_AssemblyObject_
@@ -2107,79 +2064,24 @@ references:
   commentId: F:AssemblerLib.Utilities.colorlist
   fullName: AssemblerLib.Utilities.colorlist
   nameWithType: Utilities.colorlist
-- uid: AssemblerLib.Utilities.ComputeWeightedNormals(Rhino.Geometry.Mesh)
-  name: ComputeWeightedNormals(Mesh)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_ComputeWeightedNormals_Rhino_Geometry_Mesh_
-  commentId: M:AssemblerLib.Utilities.ComputeWeightedNormals(Rhino.Geometry.Mesh)
-  fullName: AssemblerLib.Utilities.ComputeWeightedNormals(Rhino.Geometry.Mesh)
-  nameWithType: Utilities.ComputeWeightedNormals(Mesh)
-- uid: AssemblerLib.Utilities.ComputeWeightedNormals*
-  name: ComputeWeightedNormals
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_ComputeWeightedNormals_
-  commentId: Overload:AssemblerLib.Utilities.ComputeWeightedNormals
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.ComputeWeightedNormals
-  nameWithType: Utilities.ComputeWeightedNormals
-- uid: AssemblerLib.Utilities.DegreesToRadians(System.Double)
-  name: DegreesToRadians(Double)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_DegreesToRadians_System_Double_
-  commentId: M:AssemblerLib.Utilities.DegreesToRadians(System.Double)
-  fullName: AssemblerLib.Utilities.DegreesToRadians(System.Double)
-  nameWithType: Utilities.DegreesToRadians(Double)
-- uid: AssemblerLib.Utilities.DegreesToRadians*
-  name: DegreesToRadians
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_DegreesToRadians_
-  commentId: Overload:AssemblerLib.Utilities.DegreesToRadians
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.DegreesToRadians
-  nameWithType: Utilities.DegreesToRadians
 - uid: AssemblerLib.Utilities.densityGradient
   name: densityGradient
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_densityGradient
   commentId: F:AssemblerLib.Utilities.densityGradient
   fullName: AssemblerLib.Utilities.densityGradient
   nameWithType: Utilities.densityGradient
-- uid: AssemblerLib.Utilities.DeserializeAssemblage(System.String[])
-  name: DeserializeAssemblage(String[])
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_DeserializeAssemblage_System_String___
-  commentId: M:AssemblerLib.Utilities.DeserializeAssemblage(System.String[])
-  name.vb: DeserializeAssemblage(String())
-  fullName: AssemblerLib.Utilities.DeserializeAssemblage(System.String[])
-  fullName.vb: AssemblerLib.Utilities.DeserializeAssemblage(System.String())
-  nameWithType: Utilities.DeserializeAssemblage(String[])
-  nameWithType.vb: Utilities.DeserializeAssemblage(String())
-- uid: AssemblerLib.Utilities.DeserializeAssemblage*
-  name: DeserializeAssemblage
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_DeserializeAssemblage_
-  commentId: Overload:AssemblerLib.Utilities.DeserializeAssemblage
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.DeserializeAssemblage
-  nameWithType: Utilities.DeserializeAssemblage
 - uid: AssemblerLib.Utilities.discoGradient
   name: discoGradient
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_discoGradient
   commentId: F:AssemblerLib.Utilities.discoGradient
   fullName: AssemblerLib.Utilities.discoGradient
   nameWithType: Utilities.discoGradient
-- uid: AssemblerLib.Utilities.GetGHFilePath(Grasshopper.Kernel.GH_Component)
-  name: GetGHFilePath(GH_Component)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GetGHFilePath_Grasshopper_Kernel_GH_Component_
-  commentId: M:AssemblerLib.Utilities.GetGHFilePath(Grasshopper.Kernel.GH_Component)
-  fullName: AssemblerLib.Utilities.GetGHFilePath(Grasshopper.Kernel.GH_Component)
-  nameWithType: Utilities.GetGHFilePath(GH_Component)
-- uid: AssemblerLib.Utilities.GetGHFilePath*
-  name: GetGHFilePath
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GetGHFilePath_
-  commentId: Overload:AssemblerLib.Utilities.GetGHFilePath
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.GetGHFilePath
-  nameWithType: Utilities.GetGHFilePath
-- uid: AssemblerLib.Utilities.GetSihouette(Rhino.Geometry.Mesh)
-  name: GetSihouette(Mesh)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GetSihouette_Rhino_Geometry_Mesh_
-  commentId: M:AssemblerLib.Utilities.GetSihouette(Rhino.Geometry.Mesh)
-  fullName: AssemblerLib.Utilities.GetSihouette(Rhino.Geometry.Mesh)
-  nameWithType: Utilities.GetSihouette(Mesh)
+- uid: AssemblerLib.Utilities.GetSihouette(Rhino.Geometry.Mesh,System.Double)
+  name: GetSihouette(Mesh, Double)
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GetSihouette_Rhino_Geometry_Mesh_System_Double_
+  commentId: M:AssemblerLib.Utilities.GetSihouette(Rhino.Geometry.Mesh,System.Double)
+  fullName: AssemblerLib.Utilities.GetSihouette(Rhino.Geometry.Mesh, System.Double)
+  nameWithType: Utilities.GetSihouette(Mesh, Double)
 - uid: AssemblerLib.Utilities.GetSihouette*
   name: GetSihouette
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GetSihouette_
@@ -2187,70 +2089,54 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Utilities.GetSihouette
   nameWithType: Utilities.GetSihouette
-- uid: AssemblerLib.Utilities.GetUniqueVectors(Rhino.Geometry.Vector3d[],System.Double)
-  name: GetUniqueVectors(Vector3d[], Double)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GetUniqueVectors_Rhino_Geometry_Vector3d___System_Double_
-  commentId: M:AssemblerLib.Utilities.GetUniqueVectors(Rhino.Geometry.Vector3d[],System.Double)
-  name.vb: GetUniqueVectors(Vector3d(), Double)
-  fullName: AssemblerLib.Utilities.GetUniqueVectors(Rhino.Geometry.Vector3d[], System.Double)
-  fullName.vb: AssemblerLib.Utilities.GetUniqueVectors(Rhino.Geometry.Vector3d(), System.Double)
-  nameWithType: Utilities.GetUniqueVectors(Vector3d[], Double)
-  nameWithType.vb: Utilities.GetUniqueVectors(Vector3d(), Double)
-- uid: AssemblerLib.Utilities.GetUniqueVectors*
-  name: GetUniqueVectors
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GetUniqueVectors_
-  commentId: Overload:AssemblerLib.Utilities.GetUniqueVectors
+- uid: AssemblerLib.Utilities.GHS2TreeDoubles(Grasshopper.Kernel.Data.GH_Structure{Grasshopper.Kernel.Types.GH_Number})
+  name: GHS2TreeDoubles(GH_Structure<GH_Number>)
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GHS2TreeDoubles_Grasshopper_Kernel_Data_GH_Structure_Grasshopper_Kernel_Types_GH_Number__
+  commentId: M:AssemblerLib.Utilities.GHS2TreeDoubles(Grasshopper.Kernel.Data.GH_Structure{Grasshopper.Kernel.Types.GH_Number})
+  name.vb: GHS2TreeDoubles(GH_Structure(Of GH_Number))
+  fullName: AssemblerLib.Utilities.GHS2TreeDoubles(Grasshopper.Kernel.Data.GH_Structure<Grasshopper.Kernel.Types.GH_Number>)
+  fullName.vb: AssemblerLib.Utilities.GHS2TreeDoubles(Grasshopper.Kernel.Data.GH_Structure(Of Grasshopper.Kernel.Types.GH_Number))
+  nameWithType: Utilities.GHS2TreeDoubles(GH_Structure<GH_Number>)
+  nameWithType.vb: Utilities.GHS2TreeDoubles(GH_Structure(Of GH_Number))
+- uid: AssemblerLib.Utilities.GHS2TreeDoubles*
+  name: GHS2TreeDoubles
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GHS2TreeDoubles_
+  commentId: Overload:AssemblerLib.Utilities.GHS2TreeDoubles
   isSpec: "True"
-  fullName: AssemblerLib.Utilities.GetUniqueVectors
-  nameWithType: Utilities.GetUniqueVectors
-- uid: AssemblerLib.Utilities.GH2TreeDoubles(Grasshopper.Kernel.Data.GH_Structure{Grasshopper.Kernel.Types.GH_Number})
-  name: GH2TreeDoubles(GH_Structure<GH_Number>)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GH2TreeDoubles_Grasshopper_Kernel_Data_GH_Structure_Grasshopper_Kernel_Types_GH_Number__
-  commentId: M:AssemblerLib.Utilities.GH2TreeDoubles(Grasshopper.Kernel.Data.GH_Structure{Grasshopper.Kernel.Types.GH_Number})
-  name.vb: GH2TreeDoubles(GH_Structure(Of GH_Number))
-  fullName: AssemblerLib.Utilities.GH2TreeDoubles(Grasshopper.Kernel.Data.GH_Structure<Grasshopper.Kernel.Types.GH_Number>)
-  fullName.vb: AssemblerLib.Utilities.GH2TreeDoubles(Grasshopper.Kernel.Data.GH_Structure(Of Grasshopper.Kernel.Types.GH_Number))
-  nameWithType: Utilities.GH2TreeDoubles(GH_Structure<GH_Number>)
-  nameWithType.vb: Utilities.GH2TreeDoubles(GH_Structure(Of GH_Number))
-- uid: AssemblerLib.Utilities.GH2TreeDoubles*
-  name: GH2TreeDoubles
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GH2TreeDoubles_
-  commentId: Overload:AssemblerLib.Utilities.GH2TreeDoubles
+  fullName: AssemblerLib.Utilities.GHS2TreeDoubles
+  nameWithType: Utilities.GHS2TreeDoubles
+- uid: AssemblerLib.Utilities.GHS2TreeIntegers(Grasshopper.Kernel.Data.GH_Structure{Grasshopper.Kernel.Types.GH_Integer})
+  name: GHS2TreeIntegers(GH_Structure<GH_Integer>)
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GHS2TreeIntegers_Grasshopper_Kernel_Data_GH_Structure_Grasshopper_Kernel_Types_GH_Integer__
+  commentId: M:AssemblerLib.Utilities.GHS2TreeIntegers(Grasshopper.Kernel.Data.GH_Structure{Grasshopper.Kernel.Types.GH_Integer})
+  name.vb: GHS2TreeIntegers(GH_Structure(Of GH_Integer))
+  fullName: AssemblerLib.Utilities.GHS2TreeIntegers(Grasshopper.Kernel.Data.GH_Structure<Grasshopper.Kernel.Types.GH_Integer>)
+  fullName.vb: AssemblerLib.Utilities.GHS2TreeIntegers(Grasshopper.Kernel.Data.GH_Structure(Of Grasshopper.Kernel.Types.GH_Integer))
+  nameWithType: Utilities.GHS2TreeIntegers(GH_Structure<GH_Integer>)
+  nameWithType.vb: Utilities.GHS2TreeIntegers(GH_Structure(Of GH_Integer))
+- uid: AssemblerLib.Utilities.GHS2TreeIntegers*
+  name: GHS2TreeIntegers
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GHS2TreeIntegers_
+  commentId: Overload:AssemblerLib.Utilities.GHS2TreeIntegers
   isSpec: "True"
-  fullName: AssemblerLib.Utilities.GH2TreeDoubles
-  nameWithType: Utilities.GH2TreeDoubles
-- uid: AssemblerLib.Utilities.GH2TreeIntegers(Grasshopper.Kernel.Data.GH_Structure{Grasshopper.Kernel.Types.GH_Integer})
-  name: GH2TreeIntegers(GH_Structure<GH_Integer>)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GH2TreeIntegers_Grasshopper_Kernel_Data_GH_Structure_Grasshopper_Kernel_Types_GH_Integer__
-  commentId: M:AssemblerLib.Utilities.GH2TreeIntegers(Grasshopper.Kernel.Data.GH_Structure{Grasshopper.Kernel.Types.GH_Integer})
-  name.vb: GH2TreeIntegers(GH_Structure(Of GH_Integer))
-  fullName: AssemblerLib.Utilities.GH2TreeIntegers(Grasshopper.Kernel.Data.GH_Structure<Grasshopper.Kernel.Types.GH_Integer>)
-  fullName.vb: AssemblerLib.Utilities.GH2TreeIntegers(Grasshopper.Kernel.Data.GH_Structure(Of Grasshopper.Kernel.Types.GH_Integer))
-  nameWithType: Utilities.GH2TreeIntegers(GH_Structure<GH_Integer>)
-  nameWithType.vb: Utilities.GH2TreeIntegers(GH_Structure(Of GH_Integer))
-- uid: AssemblerLib.Utilities.GH2TreeIntegers*
-  name: GH2TreeIntegers
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GH2TreeIntegers_
-  commentId: Overload:AssemblerLib.Utilities.GH2TreeIntegers
+  fullName: AssemblerLib.Utilities.GHS2TreeIntegers
+  nameWithType: Utilities.GHS2TreeIntegers
+- uid: AssemblerLib.Utilities.GHS2TreeVectors(Grasshopper.Kernel.Data.GH_Structure{Grasshopper.Kernel.Types.GH_Vector})
+  name: GHS2TreeVectors(GH_Structure<GH_Vector>)
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GHS2TreeVectors_Grasshopper_Kernel_Data_GH_Structure_Grasshopper_Kernel_Types_GH_Vector__
+  commentId: M:AssemblerLib.Utilities.GHS2TreeVectors(Grasshopper.Kernel.Data.GH_Structure{Grasshopper.Kernel.Types.GH_Vector})
+  name.vb: GHS2TreeVectors(GH_Structure(Of GH_Vector))
+  fullName: AssemblerLib.Utilities.GHS2TreeVectors(Grasshopper.Kernel.Data.GH_Structure<Grasshopper.Kernel.Types.GH_Vector>)
+  fullName.vb: AssemblerLib.Utilities.GHS2TreeVectors(Grasshopper.Kernel.Data.GH_Structure(Of Grasshopper.Kernel.Types.GH_Vector))
+  nameWithType: Utilities.GHS2TreeVectors(GH_Structure<GH_Vector>)
+  nameWithType.vb: Utilities.GHS2TreeVectors(GH_Structure(Of GH_Vector))
+- uid: AssemblerLib.Utilities.GHS2TreeVectors*
+  name: GHS2TreeVectors
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GHS2TreeVectors_
+  commentId: Overload:AssemblerLib.Utilities.GHS2TreeVectors
   isSpec: "True"
-  fullName: AssemblerLib.Utilities.GH2TreeIntegers
-  nameWithType: Utilities.GH2TreeIntegers
-- uid: AssemblerLib.Utilities.GH2TreeVectors(Grasshopper.Kernel.Data.GH_Structure{Grasshopper.Kernel.Types.GH_Vector})
-  name: GH2TreeVectors(GH_Structure<GH_Vector>)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GH2TreeVectors_Grasshopper_Kernel_Data_GH_Structure_Grasshopper_Kernel_Types_GH_Vector__
-  commentId: M:AssemblerLib.Utilities.GH2TreeVectors(Grasshopper.Kernel.Data.GH_Structure{Grasshopper.Kernel.Types.GH_Vector})
-  name.vb: GH2TreeVectors(GH_Structure(Of GH_Vector))
-  fullName: AssemblerLib.Utilities.GH2TreeVectors(Grasshopper.Kernel.Data.GH_Structure<Grasshopper.Kernel.Types.GH_Vector>)
-  fullName.vb: AssemblerLib.Utilities.GH2TreeVectors(Grasshopper.Kernel.Data.GH_Structure(Of Grasshopper.Kernel.Types.GH_Vector))
-  nameWithType: Utilities.GH2TreeVectors(GH_Structure<GH_Vector>)
-  nameWithType.vb: Utilities.GH2TreeVectors(GH_Structure(Of GH_Vector))
-- uid: AssemblerLib.Utilities.GH2TreeVectors*
-  name: GH2TreeVectors
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_GH2TreeVectors_
-  commentId: Overload:AssemblerLib.Utilities.GH2TreeVectors
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.GH2TreeVectors
-  nameWithType: Utilities.GH2TreeVectors
+  fullName: AssemblerLib.Utilities.GHS2TreeVectors
+  nameWithType: Utilities.GHS2TreeVectors
 - uid: AssemblerLib.Utilities.HeuristicsRulesFromString(System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.Dictionary{System.String,System.Int32},System.Collections.Generic.List{System.String})
   name: HeuristicsRulesFromString(List<AssemblyObject>, Dictionary<String, Int32>, List<String>)
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_HeuristicsRulesFromString_System_Collections_Generic_List_AssemblerLib_AssemblyObject__System_Collections_Generic_Dictionary_System_String_System_Int32__System_Collections_Generic_List_System_String__
@@ -2260,15 +2146,6 @@ references:
   fullName.vb: AssemblerLib.Utilities.HeuristicsRulesFromString(System.Collections.Generic.List(Of AssemblerLib.AssemblyObject), System.Collections.Generic.Dictionary(Of System.String, System.Int32), System.Collections.Generic.List(Of System.String))
   nameWithType: Utilities.HeuristicsRulesFromString(List<AssemblyObject>, Dictionary<String, Int32>, List<String>)
   nameWithType.vb: Utilities.HeuristicsRulesFromString(List(Of AssemblyObject), Dictionary(Of String, Int32), List(Of String))
-- uid: AssemblerLib.Utilities.HeuristicsRulesFromString(System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.Dictionary{System.String,System.Int32},System.Collections.Generic.List{System.String},Grasshopper.DataTree{System.String}@)
-  name: HeuristicsRulesFromString(List<AssemblyObject>, Dictionary<String, Int32>, List<String>, out DataTree<String>)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_HeuristicsRulesFromString_System_Collections_Generic_List_AssemblerLib_AssemblyObject__System_Collections_Generic_Dictionary_System_String_System_Int32__System_Collections_Generic_List_System_String__Grasshopper_DataTree_System_String___
-  commentId: M:AssemblerLib.Utilities.HeuristicsRulesFromString(System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.Dictionary{System.String,System.Int32},System.Collections.Generic.List{System.String},Grasshopper.DataTree{System.String}@)
-  name.vb: HeuristicsRulesFromString(List(Of AssemblyObject), Dictionary(Of String, Int32), List(Of String), ByRef DataTree(Of String))
-  fullName: AssemblerLib.Utilities.HeuristicsRulesFromString(System.Collections.Generic.List<AssemblerLib.AssemblyObject>, System.Collections.Generic.Dictionary<System.String, System.Int32>, System.Collections.Generic.List<System.String>, out Grasshopper.DataTree<System.String>)
-  fullName.vb: AssemblerLib.Utilities.HeuristicsRulesFromString(System.Collections.Generic.List(Of AssemblerLib.AssemblyObject), System.Collections.Generic.Dictionary(Of System.String, System.Int32), System.Collections.Generic.List(Of System.String), ByRef Grasshopper.DataTree(Of System.String))
-  nameWithType: Utilities.HeuristicsRulesFromString(List<AssemblyObject>, Dictionary<String, Int32>, List<String>, out DataTree<String>)
-  nameWithType.vb: Utilities.HeuristicsRulesFromString(List(Of AssemblyObject), Dictionary(Of String, Int32), List(Of String), ByRef DataTree(Of String))
 - uid: AssemblerLib.Utilities.HeuristicsRulesFromString*
   name: HeuristicsRulesFromString
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_HeuristicsRulesFromString_
@@ -2282,12 +2159,12 @@ references:
   commentId: F:AssemblerLib.Utilities.historyGradient
   fullName: AssemblerLib.Utilities.historyGradient
   nameWithType: Utilities.historyGradient
-- uid: AssemblerLib.Utilities.IsPointInMesh(Rhino.Geometry.Mesh,Rhino.Geometry.Point3d,System.Double)
-  name: IsPointInMesh(Mesh, Point3d, Double)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_IsPointInMesh_Rhino_Geometry_Mesh_Rhino_Geometry_Point3d_System_Double_
-  commentId: M:AssemblerLib.Utilities.IsPointInMesh(Rhino.Geometry.Mesh,Rhino.Geometry.Point3d,System.Double)
-  fullName: AssemblerLib.Utilities.IsPointInMesh(Rhino.Geometry.Mesh, Rhino.Geometry.Point3d, System.Double)
-  nameWithType: Utilities.IsPointInMesh(Mesh, Point3d, Double)
+- uid: AssemblerLib.Utilities.IsPointInMesh(Rhino.Geometry.Mesh,Rhino.Geometry.Point3d)
+  name: IsPointInMesh(Mesh, Point3d)
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_IsPointInMesh_Rhino_Geometry_Mesh_Rhino_Geometry_Point3d_
+  commentId: M:AssemblerLib.Utilities.IsPointInMesh(Rhino.Geometry.Mesh,Rhino.Geometry.Point3d)
+  fullName: AssemblerLib.Utilities.IsPointInMesh(Rhino.Geometry.Mesh, Rhino.Geometry.Point3d)
+  nameWithType: Utilities.IsPointInMesh(Mesh, Point3d)
 - uid: AssemblerLib.Utilities.IsPointInMesh*
   name: IsPointInMesh
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_IsPointInMesh_
@@ -2295,153 +2172,6 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Utilities.IsPointInMesh
   nameWithType: Utilities.IsPointInMesh
-- uid: AssemblerLib.Utilities.LerpColor(System.Drawing.Color,System.Drawing.Color,System.Double)
-  name: LerpColor(Color, Color, Double)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_LerpColor_System_Drawing_Color_System_Drawing_Color_System_Double_
-  commentId: M:AssemblerLib.Utilities.LerpColor(System.Drawing.Color,System.Drawing.Color,System.Double)
-  fullName: AssemblerLib.Utilities.LerpColor(System.Drawing.Color, System.Drawing.Color, System.Double)
-  nameWithType: Utilities.LerpColor(Color, Color, Double)
-- uid: AssemblerLib.Utilities.LerpColor*
-  name: LerpColor
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_LerpColor_
-  commentId: Overload:AssemblerLib.Utilities.LerpColor
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.LerpColor
-  nameWithType: Utilities.LerpColor
-- uid: AssemblerLib.Utilities.MeshOffsetWeightedAngle(Rhino.Geometry.Mesh,System.Double)
-  name: MeshOffsetWeightedAngle(Mesh, Double)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_MeshOffsetWeightedAngle_Rhino_Geometry_Mesh_System_Double_
-  commentId: M:AssemblerLib.Utilities.MeshOffsetWeightedAngle(Rhino.Geometry.Mesh,System.Double)
-  fullName: AssemblerLib.Utilities.MeshOffsetWeightedAngle(Rhino.Geometry.Mesh, System.Double)
-  nameWithType: Utilities.MeshOffsetWeightedAngle(Mesh, Double)
-- uid: AssemblerLib.Utilities.MeshOffsetWeightedAngle*
-  name: MeshOffsetWeightedAngle
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_MeshOffsetWeightedAngle_
-  commentId: Overload:AssemblerLib.Utilities.MeshOffsetWeightedAngle
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.MeshOffsetWeightedAngle
-  nameWithType: Utilities.MeshOffsetWeightedAngle
-- uid: AssemblerLib.Utilities.NormalizeRange(System.Collections.Generic.List{System.Double})
-  name: NormalizeRange(List<Double>)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_NormalizeRange_System_Collections_Generic_List_System_Double__
-  commentId: M:AssemblerLib.Utilities.NormalizeRange(System.Collections.Generic.List{System.Double})
-  name.vb: NormalizeRange(List(Of Double))
-  fullName: AssemblerLib.Utilities.NormalizeRange(System.Collections.Generic.List<System.Double>)
-  fullName.vb: AssemblerLib.Utilities.NormalizeRange(System.Collections.Generic.List(Of System.Double))
-  nameWithType: Utilities.NormalizeRange(List<Double>)
-  nameWithType.vb: Utilities.NormalizeRange(List(Of Double))
-- uid: AssemblerLib.Utilities.NormalizeRange(System.Double[])
-  name: NormalizeRange(Double[])
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_NormalizeRange_System_Double___
-  commentId: M:AssemblerLib.Utilities.NormalizeRange(System.Double[])
-  name.vb: NormalizeRange(Double())
-  fullName: AssemblerLib.Utilities.NormalizeRange(System.Double[])
-  fullName.vb: AssemblerLib.Utilities.NormalizeRange(System.Double())
-  nameWithType: Utilities.NormalizeRange(Double[])
-  nameWithType.vb: Utilities.NormalizeRange(Double())
-- uid: AssemblerLib.Utilities.NormalizeRange*
-  name: NormalizeRange
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_NormalizeRange_
-  commentId: Overload:AssemblerLib.Utilities.NormalizeRange
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.NormalizeRange
-  nameWithType: Utilities.NormalizeRange
-- uid: AssemblerLib.Utilities.NormalizeRanges(Grasshopper.DataTree{System.Double})
-  name: NormalizeRanges(DataTree<Double>)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_NormalizeRanges_Grasshopper_DataTree_System_Double__
-  commentId: M:AssemblerLib.Utilities.NormalizeRanges(Grasshopper.DataTree{System.Double})
-  name.vb: NormalizeRanges(DataTree(Of Double))
-  fullName: AssemblerLib.Utilities.NormalizeRanges(Grasshopper.DataTree<System.Double>)
-  fullName.vb: AssemblerLib.Utilities.NormalizeRanges(Grasshopper.DataTree(Of System.Double))
-  nameWithType: Utilities.NormalizeRanges(DataTree<Double>)
-  nameWithType.vb: Utilities.NormalizeRanges(DataTree(Of Double))
-- uid: AssemblerLib.Utilities.NormalizeRanges(System.Double[][])
-  name: NormalizeRanges(Double[][])
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_NormalizeRanges_System_Double_____
-  commentId: M:AssemblerLib.Utilities.NormalizeRanges(System.Double[][])
-  name.vb: NormalizeRanges(Double()())
-  fullName: AssemblerLib.Utilities.NormalizeRanges(System.Double[][])
-  fullName.vb: AssemblerLib.Utilities.NormalizeRanges(System.Double()())
-  nameWithType: Utilities.NormalizeRanges(Double[][])
-  nameWithType.vb: Utilities.NormalizeRanges(Double()())
-- uid: AssemblerLib.Utilities.NormalizeRanges*
-  name: NormalizeRanges
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_NormalizeRanges_
-  commentId: Overload:AssemblerLib.Utilities.NormalizeRanges
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.NormalizeRanges
-  nameWithType: Utilities.NormalizeRanges
-- uid: AssemblerLib.Utilities.ObstructionCheckAssemblage(AssemblerLib.Assemblage,System.Int32,System.Int32[])
-  name: ObstructionCheckAssemblage(Assemblage, Int32, Int32[])
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_ObstructionCheckAssemblage_AssemblerLib_Assemblage_System_Int32_System_Int32___
-  commentId: M:AssemblerLib.Utilities.ObstructionCheckAssemblage(AssemblerLib.Assemblage,System.Int32,System.Int32[])
-  name.vb: ObstructionCheckAssemblage(Assemblage, Int32, Int32())
-  fullName: AssemblerLib.Utilities.ObstructionCheckAssemblage(AssemblerLib.Assemblage, System.Int32, System.Int32[])
-  fullName.vb: AssemblerLib.Utilities.ObstructionCheckAssemblage(AssemblerLib.Assemblage, System.Int32, System.Int32())
-  nameWithType: Utilities.ObstructionCheckAssemblage(Assemblage, Int32, Int32[])
-  nameWithType.vb: Utilities.ObstructionCheckAssemblage(Assemblage, Int32, Int32())
-- uid: AssemblerLib.Utilities.ObstructionCheckAssemblage*
-  name: ObstructionCheckAssemblage
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_ObstructionCheckAssemblage_
-  commentId: Overload:AssemblerLib.Utilities.ObstructionCheckAssemblage
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.ObstructionCheckAssemblage
-  nameWithType: Utilities.ObstructionCheckAssemblage
-- uid: AssemblerLib.Utilities.ObstructionCheckList(System.Collections.Generic.List{AssemblerLib.AssemblyObject})
-  name: ObstructionCheckList(List<AssemblyObject>)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_ObstructionCheckList_System_Collections_Generic_List_AssemblerLib_AssemblyObject__
-  commentId: M:AssemblerLib.Utilities.ObstructionCheckList(System.Collections.Generic.List{AssemblerLib.AssemblyObject})
-  name.vb: ObstructionCheckList(List(Of AssemblyObject))
-  fullName: AssemblerLib.Utilities.ObstructionCheckList(System.Collections.Generic.List<AssemblerLib.AssemblyObject>)
-  fullName.vb: AssemblerLib.Utilities.ObstructionCheckList(System.Collections.Generic.List(Of AssemblerLib.AssemblyObject))
-  nameWithType: Utilities.ObstructionCheckList(List<AssemblyObject>)
-  nameWithType.vb: Utilities.ObstructionCheckList(List(Of AssemblyObject))
-- uid: AssemblerLib.Utilities.ObstructionCheckList*
-  name: ObstructionCheckList
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_ObstructionCheckList_
-  commentId: Overload:AssemblerLib.Utilities.ObstructionCheckList
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.ObstructionCheckList
-  nameWithType: Utilities.ObstructionCheckList
-- uid: AssemblerLib.Utilities.RadiansToDegrees(System.Double)
-  name: RadiansToDegrees(Double)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_RadiansToDegrees_System_Double_
-  commentId: M:AssemblerLib.Utilities.RadiansToDegrees(System.Double)
-  fullName: AssemblerLib.Utilities.RadiansToDegrees(System.Double)
-  nameWithType: Utilities.RadiansToDegrees(Double)
-- uid: AssemblerLib.Utilities.RadiansToDegrees*
-  name: RadiansToDegrees
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_RadiansToDegrees_
-  commentId: Overload:AssemblerLib.Utilities.RadiansToDegrees
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.RadiansToDegrees
-  nameWithType: Utilities.RadiansToDegrees
-- uid: AssemblerLib.Utilities.ReadFileByLines(System.String)
-  name: ReadFileByLines(String)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_ReadFileByLines_System_String_
-  commentId: M:AssemblerLib.Utilities.ReadFileByLines(System.String)
-  fullName: AssemblerLib.Utilities.ReadFileByLines(System.String)
-  nameWithType: Utilities.ReadFileByLines(String)
-- uid: AssemblerLib.Utilities.ReadFileByLines*
-  name: ReadFileByLines
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_ReadFileByLines_
-  commentId: Overload:AssemblerLib.Utilities.ReadFileByLines
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.ReadFileByLines
-  nameWithType: Utilities.ReadFileByLines
-- uid: AssemblerLib.Utilities.ReadFileUnique(System.String)
-  name: ReadFileUnique(String)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_ReadFileUnique_System_String_
-  commentId: M:AssemblerLib.Utilities.ReadFileUnique(System.String)
-  fullName: AssemblerLib.Utilities.ReadFileUnique(System.String)
-  nameWithType: Utilities.ReadFileUnique(String)
-- uid: AssemblerLib.Utilities.ReadFileUnique*
-  name: ReadFileUnique
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_ReadFileUnique_
-  commentId: Overload:AssemblerLib.Utilities.ReadFileUnique
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.ReadFileUnique
-  nameWithType: Utilities.ReadFileUnique
 - uid: AssemblerLib.Utilities.receiverValuesGradient
   name: receiverValuesGradient
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_receiverValuesGradient
@@ -2490,18 +2220,6 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Utilities.ResetSupports
   nameWithType: Utilities.ResetSupports
-- uid: AssemblerLib.Utilities.RhinoAbsoluteTolerance
-  name: RhinoAbsoluteTolerance
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_RhinoAbsoluteTolerance
-  commentId: F:AssemblerLib.Utilities.RhinoAbsoluteTolerance
-  fullName: AssemblerLib.Utilities.RhinoAbsoluteTolerance
-  nameWithType: Utilities.RhinoAbsoluteTolerance
-- uid: AssemblerLib.Utilities.RhinoAbsoluteToleranceSquared
-  name: RhinoAbsoluteToleranceSquared
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_RhinoAbsoluteToleranceSquared
-  commentId: F:AssemblerLib.Utilities.RhinoAbsoluteToleranceSquared
-  fullName: AssemblerLib.Utilities.RhinoAbsoluteToleranceSquared
-  nameWithType: Utilities.RhinoAbsoluteToleranceSquared
 - uid: AssemblerLib.Utilities.SaveStringsToFile(System.String,System.String,System.String[])
   name: SaveStringsToFile(String, String, String[])
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_SaveStringsToFile_System_String_System_String_System_String___
@@ -2518,22 +2236,6 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Utilities.SaveStringsToFile
   nameWithType: Utilities.SaveStringsToFile
-- uid: AssemblerLib.Utilities.SerializeAssemblage(System.Collections.Generic.List{AssemblerLib.AssemblyObject})
-  name: SerializeAssemblage(List<AssemblyObject>)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_SerializeAssemblage_System_Collections_Generic_List_AssemblerLib_AssemblyObject__
-  commentId: M:AssemblerLib.Utilities.SerializeAssemblage(System.Collections.Generic.List{AssemblerLib.AssemblyObject})
-  name.vb: SerializeAssemblage(List(Of AssemblyObject))
-  fullName: AssemblerLib.Utilities.SerializeAssemblage(System.Collections.Generic.List<AssemblerLib.AssemblyObject>)
-  fullName.vb: AssemblerLib.Utilities.SerializeAssemblage(System.Collections.Generic.List(Of AssemblerLib.AssemblyObject))
-  nameWithType: Utilities.SerializeAssemblage(List<AssemblyObject>)
-  nameWithType.vb: Utilities.SerializeAssemblage(List(Of AssemblyObject))
-- uid: AssemblerLib.Utilities.SerializeAssemblage*
-  name: SerializeAssemblage
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_SerializeAssemblage_
-  commentId: Overload:AssemblerLib.Utilities.SerializeAssemblage
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.SerializeAssemblage
-  nameWithType: Utilities.SerializeAssemblage
 - uid: AssemblerLib.Utilities.SetCollisionMesh(AssemblerLib.AssemblyObject,Rhino.Geometry.Mesh)
   name: SetCollisionMesh(AssemblyObject, Mesh)
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_SetCollisionMesh_AssemblerLib_AssemblyObject_Rhino_Geometry_Mesh_
@@ -2569,40 +2271,6 @@ references:
   commentId: F:AssemblerLib.Utilities.srPalette
   fullName: AssemblerLib.Utilities.srPalette
   nameWithType: Utilities.srPalette
-- uid: AssemblerLib.Utilities.SupportIntersect(AssemblerLib.Support,System.Collections.Generic.List{AssemblerLib.AssemblyObject})
-  name: SupportIntersect(Support, List<AssemblyObject>)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_SupportIntersect_AssemblerLib_Support_System_Collections_Generic_List_AssemblerLib_AssemblyObject__
-  commentId: M:AssemblerLib.Utilities.SupportIntersect(AssemblerLib.Support,System.Collections.Generic.List{AssemblerLib.AssemblyObject})
-  name.vb: SupportIntersect(Support, List(Of AssemblyObject))
-  fullName: AssemblerLib.Utilities.SupportIntersect(AssemblerLib.Support, System.Collections.Generic.List<AssemblerLib.AssemblyObject>)
-  fullName.vb: AssemblerLib.Utilities.SupportIntersect(AssemblerLib.Support, System.Collections.Generic.List(Of AssemblerLib.AssemblyObject))
-  nameWithType: Utilities.SupportIntersect(Support, List<AssemblyObject>)
-  nameWithType.vb: Utilities.SupportIntersect(Support, List(Of AssemblyObject))
-- uid: AssemblerLib.Utilities.SupportIntersect(AssemblerLib.Support,System.Collections.Generic.List{AssemblerLib.MeshEnvironment})
-  name: SupportIntersect(Support, List<MeshEnvironment>)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_SupportIntersect_AssemblerLib_Support_System_Collections_Generic_List_AssemblerLib_MeshEnvironment__
-  commentId: M:AssemblerLib.Utilities.SupportIntersect(AssemblerLib.Support,System.Collections.Generic.List{AssemblerLib.MeshEnvironment})
-  name.vb: SupportIntersect(Support, List(Of MeshEnvironment))
-  fullName: AssemblerLib.Utilities.SupportIntersect(AssemblerLib.Support, System.Collections.Generic.List<AssemblerLib.MeshEnvironment>)
-  fullName.vb: AssemblerLib.Utilities.SupportIntersect(AssemblerLib.Support, System.Collections.Generic.List(Of AssemblerLib.MeshEnvironment))
-  nameWithType: Utilities.SupportIntersect(Support, List<MeshEnvironment>)
-  nameWithType.vb: Utilities.SupportIntersect(Support, List(Of MeshEnvironment))
-- uid: AssemblerLib.Utilities.SupportIntersect(AssemblerLib.Support,System.Collections.Generic.List{Rhino.Geometry.Mesh})
-  name: SupportIntersect(Support, List<Mesh>)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_SupportIntersect_AssemblerLib_Support_System_Collections_Generic_List_Rhino_Geometry_Mesh__
-  commentId: M:AssemblerLib.Utilities.SupportIntersect(AssemblerLib.Support,System.Collections.Generic.List{Rhino.Geometry.Mesh})
-  name.vb: SupportIntersect(Support, List(Of Mesh))
-  fullName: AssemblerLib.Utilities.SupportIntersect(AssemblerLib.Support, System.Collections.Generic.List<Rhino.Geometry.Mesh>)
-  fullName.vb: AssemblerLib.Utilities.SupportIntersect(AssemblerLib.Support, System.Collections.Generic.List(Of Rhino.Geometry.Mesh))
-  nameWithType: Utilities.SupportIntersect(Support, List<Mesh>)
-  nameWithType.vb: Utilities.SupportIntersect(Support, List(Of Mesh))
-- uid: AssemblerLib.Utilities.SupportIntersect*
-  name: SupportIntersect
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_SupportIntersect_
-  commentId: Overload:AssemblerLib.Utilities.SupportIntersect
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.SupportIntersect
-  nameWithType: Utilities.SupportIntersect
 - uid: AssemblerLib.Utilities.ToDataTree*
   name: ToDataTree
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_ToDataTree_
@@ -2660,45 +2328,6 @@ references:
   fullName.vb: AssemblerLib.Utilities.ToListOfArrays(Of T)(Grasshopper.DataTree(Of T))
   nameWithType: Utilities.ToListOfArrays<T>(DataTree<T>)
   nameWithType.vb: Utilities.ToListOfArrays(Of T)(DataTree(Of T))
-- uid: AssemblerLib.Utilities.Transform(AssemblerLib.AssemblyObject,Rhino.Geometry.Transform)
-  name: Transform(AssemblyObject, Transform)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_Transform_AssemblerLib_AssemblyObject_Rhino_Geometry_Transform_
-  commentId: M:AssemblerLib.Utilities.Transform(AssemblerLib.AssemblyObject,Rhino.Geometry.Transform)
-  fullName: AssemblerLib.Utilities.Transform(AssemblerLib.AssemblyObject, Rhino.Geometry.Transform)
-  nameWithType: Utilities.Transform(AssemblyObject, Transform)
-- uid: AssemblerLib.Utilities.Transform*
-  name: Transform
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_Transform_
-  commentId: Overload:AssemblerLib.Utilities.Transform
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.Transform
-  nameWithType: Utilities.Transform
-- uid: AssemblerLib.Utilities.Triangulate(Rhino.Geometry.Mesh)
-  name: Triangulate(Mesh)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_Triangulate_Rhino_Geometry_Mesh_
-  commentId: M:AssemblerLib.Utilities.Triangulate(Rhino.Geometry.Mesh)
-  fullName: AssemblerLib.Utilities.Triangulate(Rhino.Geometry.Mesh)
-  nameWithType: Utilities.Triangulate(Mesh)
-- uid: AssemblerLib.Utilities.Triangulate*
-  name: Triangulate
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_Triangulate_
-  commentId: Overload:AssemblerLib.Utilities.Triangulate
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.Triangulate
-  nameWithType: Utilities.Triangulate
-- uid: AssemblerLib.Utilities.UpdateConnectedHandles(AssemblerLib.AssemblyObject,System.Int32,AssemblerLib.AssemblyObject,System.Int32)
-  name: UpdateConnectedHandles(AssemblyObject, Int32, AssemblyObject, Int32)
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_UpdateConnectedHandles_AssemblerLib_AssemblyObject_System_Int32_AssemblerLib_AssemblyObject_System_Int32_
-  commentId: M:AssemblerLib.Utilities.UpdateConnectedHandles(AssemblerLib.AssemblyObject,System.Int32,AssemblerLib.AssemblyObject,System.Int32)
-  fullName: AssemblerLib.Utilities.UpdateConnectedHandles(AssemblerLib.AssemblyObject, System.Int32, AssemblerLib.AssemblyObject, System.Int32)
-  nameWithType: Utilities.UpdateConnectedHandles(AssemblyObject, Int32, AssemblyObject, Int32)
-- uid: AssemblerLib.Utilities.UpdateConnectedHandles*
-  name: UpdateConnectedHandles
-  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_UpdateConnectedHandles_
-  commentId: Overload:AssemblerLib.Utilities.UpdateConnectedHandles
-  isSpec: "True"
-  fullName: AssemblerLib.Utilities.UpdateConnectedHandles
-  nameWithType: Utilities.UpdateConnectedHandles
 - uid: AssemblerLib.Utilities.zHeightGradient
   name: zHeightGradient
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_zHeightGradient

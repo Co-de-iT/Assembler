@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Assembler</RootNamespace>
     <AssemblyName>Assembler</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <NuGetPackageImportStamp>
@@ -70,6 +70,7 @@
   <ItemGroup>
     <Compile Include="Components\ConstructHandle.cs" />
     <Compile Include="Components\DisplayHandles.cs" />
+    <Compile Include="Components\ResetAssemblyObject.cs" />
     <Compile Include="Exogenous\ConstructFieldSparse.cs" />
     <Compile Include="ZZ_DEV\D_SetSupports.cs" />
     <Compile Include="ZZ_DEV\D_ExtractSupports.cs" />
@@ -170,9 +171,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\FlamIcon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Assembler Icon.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Etract AOSet.png" />
@@ -305,6 +303,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Deconstruct Handle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Reset AO.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Assembler_Icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

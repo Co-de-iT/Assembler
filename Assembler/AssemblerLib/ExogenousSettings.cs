@@ -15,18 +15,18 @@ namespace AssemblerLib
         /// <summary>
         /// interaction mode with the environment Meshes
         /// <list type="bullet">
-        /// <item>0 - ignore objects</item>
-        /// <item>1 - container collision</item>
-        /// <item>2 - container inclusion</item>
+        /// <item><description>0 - ignore objects</description></item>
+        /// <item><description>1 - container collision</description></item>
+        /// <item><description>2 - container inclusion</description></item>
         /// </list>
         /// </summary>
         public readonly int environmentMode;
         /// <summary>
-        /// Field used by the Assemblage
+        /// <see cref="Field"/> used by the Assemblage
         /// </summary>
         public readonly Field field;
         /// <summary>
-        /// Field threshold for scalar values
+        /// <see cref="Field"/> threshold for scalar values
         /// </summary>
         public readonly double fieldScalarThreshold;
         /// <summary>

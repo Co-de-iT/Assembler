@@ -12,14 +12,13 @@ namespace AssemblerLib
         /// Mesh
         /// </summary>
         public Mesh mesh;
-
         public enum Type : ushort { Void = 0, Solid = 1, Container = 2 } // cannot use negative values with ushort
         /// <summary>
         /// defines the EnvironmentMesh type
         /// <list type="bullet">
-        /// <item>0 - Void</item>
-        /// <item>1 - Solid</item>
-        /// <item>2 - Container</item>
+        /// <item><description>0 - Void</description></item>
+        /// <item><description>1 - Solid</description></item>
+        /// <item><description>2 - Container</description></item>
         /// </list>
         /// </summary>
         public Type type;

@@ -134,7 +134,7 @@
     <value>..\Resources\Assembler Engine X.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Assembler_Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Assembler Icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Assembler_Icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Associate_XData" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Associate XData.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -267,6 +267,9 @@
   </data>
   <data name="Remove_AssemblyObject" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Remove AssemblyObject.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Reset_AO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Reset AO.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Transform_AO" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Transform AO.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

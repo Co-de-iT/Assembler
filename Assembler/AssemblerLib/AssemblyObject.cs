@@ -56,6 +56,10 @@ namespace AssemblerLib
         /// </summary>
         public double weight;
         /// <summary>
+        /// Initial value of <see cref="weight"/> (for resetting purposes)
+        /// </summary>
+        public double idleWeight;
+        /// <summary>
         /// Integer Weight for heuristics assignment
         /// </summary>
         public int iWeight;
@@ -128,6 +132,7 @@ namespace AssemblerLib
         /// <param name="name"></param>
         /// <param name="type"></param>
         /// <param name="weight"></param>
+        /// <param name="idleWeight"></param>
         /// <param name="iWeight"></param>
         /// <param name="supports"></param>
         /// <param name="minSupports"></param>
@@ -139,8 +144,8 @@ namespace AssemblerLib
         /// <param name="senderValue"></param>
         [JsonConstructor]
         public AssemblyObject(Mesh collisionMesh, Mesh offsetMesh, Handle[] handles, Plane referencePlane, Vector3d direction, int aInd, List<int[]> occludedNeighbours,
-            string name, int type, double weight, int iWeight, List<Support> supports, int minSupports,
-            bool supported, bool worldZLock, List<AssemblyObject> children, List<int[]> handleMap, double receiverValue, double senderValue)
+            string name, int type, double weight, double idleWeight, int iWeight, List<Support> supports,
+            int minSupports, bool supported, bool worldZLock, List<AssemblyObject> children, List<int[]> handleMap, double receiverValue, double senderValue)
         {
             this.collisionMesh = collisionMesh;
             this.offsetMesh = offsetMesh;
@@ -152,6 +157,7 @@ namespace AssemblerLib
             this.name = name;
             this.type = type;
             this.weight = weight;
+            this.idleWeight = idleWeight;
             this.iWeight = iWeight;
             this.supports = supports;
             this.minSupports = minSupports;
@@ -201,6 +207,7 @@ namespace AssemblerLib
             this.name = name;
             this.type = type;
             this.weight = weight;
+            idleWeight = weight;
             this.iWeight = iWeight;
 
             // Z Lock

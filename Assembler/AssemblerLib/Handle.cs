@@ -30,31 +30,35 @@ namespace AssemblerLib
         /// </summary>
         public Dictionary<double, int> rDictionary;
         /// <summary>
-        /// Weight
+        /// weight
         /// </summary>
         public double weight;
         /// <summary>
+        /// initial value of <see cref="weight"/> (for resetting purposes)
+        /// </summary>
+        public double idleWeight;
+        /// <summary>
         /// Occupancy status
         /// <list type="bullet">
-        /// <item>-1 occluded</item>
-        /// <item>0 available</item>
-        /// <item>1 connected</item>
+        /// <item><description>-1 occluded</description></item>
+        /// <item><description>0 available</description></item>
+        /// <item><description>1 connected</description></item>
         /// </list>
         /// </summary>
         public int occupancy;
         /// <summary>
         /// Neighbour object index
         /// <list type="bullet">
-        /// <item>-1 - when handle is available</item>
-        /// <item>index of connected neighbour object - when handle is connected or occluded by another <see cref="AssemblyObject"/></item>
+        /// <item><description>-1 - when handle is available</description></item>
+        /// <item><description>index of connected neighbour object - when handle is connected or occluded by another <see cref="AssemblyObject"/></description></item>
         /// </list>
         /// </summary>
         public int neighbourObject;
         /// <summary>
         /// Neighbour handle index
         /// <list type="bullet">
-        /// <item>-1 - when handle is either available or occluded</item>
-        /// <item>neighbour object's handle index - when handle is connected</item>
+        /// <item><description>-1 - when handle is either available or occluded</description></item>
+        /// <item><description>neighbour object's handle index - when handle is connected</description></item>
         /// </list>
         /// </summary>
         public int neighbourHandle;
@@ -80,6 +84,7 @@ namespace AssemblerLib
         {
             this.type = type;
             this.weight = weight;
+            idleWeight = weight;
             occupancy = 0;
             neighbourObject = -1;
             neighbourHandle = -1;
@@ -102,7 +107,7 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// Transform handle using a generic Transformation
+        /// Transform a <see cref="Handle"/> using a generic Transformation
         /// </summary>
         /// <param name="Xform">Transformation to apply</param>
         public void Transform(Transform Xform)
@@ -113,11 +118,11 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// Returns a string with the Handle Occupancy status
+        /// Returns a string with the Handle Occupancy status:
         /// <list type="bullet">
-        /// <item>Occluded</item>
-        /// <item>Available</item>
-        /// <item>Connected</item>
+        /// <item><description>Occluded</description></item>
+        /// <item><description>Available</description></item>
+        /// <item><description>Connected</description></item>
         /// </list>
         /// </summary>
         /// <returns>The Occupancy status as string</returns>

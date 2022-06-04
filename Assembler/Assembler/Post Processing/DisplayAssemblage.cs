@@ -69,14 +69,11 @@ namespace Assembler
             bool colOnly = false;
             DA.GetData(1, ref colOnly);
 
-            meshes = colOnly? null : new Mesh[AOa.assemblyObjects.BranchCount];
+            meshes = colOnly? null : new Mesh[AOa.AssemblyObjects.BranchCount];
             edges = null;
-            colors = new Color[AOa.assemblyObjects.BranchCount];
+            colors = new Color[AOa.AssemblyObjects.BranchCount];
 
-            //if (!byPass)
             SetPreviewData(AOa, displayMode, colOnly);
-            //else
-            //    meshes = AOa.assemblyObjects.AsParallel().Select(ao => ao.collisionMesh).ToArray();
 
             DA.SetDataList(0, meshes);
             DA.SetDataList(1, edges);
@@ -86,7 +83,6 @@ namespace Assembler
         public void SetPreviewData(Assemblage AOa, string displayMode, bool colOnly)
         {
             Mesh joined;
-            //Color[] colors = new Color[AOa.assemblyObjects.BranchCount];
 
             switch (displayMode)
             {
@@ -97,17 +93,17 @@ namespace Assembler
                     });
                     break;
                 case "AO Types": // by type
-                    // use type palette if number of types is smaller than the number of colors in the palette
+                    // use type palette if number of types is smaller than the number of Colors in the palette
                     if (AOa.AOSet.Length <= Utilities.AOTypePalette.Length)
                         Parallel.For(0, colors.Length, i =>
                         {
-                            colors[i] = Utilities.AOTypePalette[AOa.assemblyObjects.Branches[i][0].type];
+                            colors[i] = Utilities.AOTypePalette[AOa.AssemblyObjects.Branches[i][0].type];
                         });
-                    // otherwise use random colors
+                    // otherwise use random Colors
                     else
                         Parallel.For(0, colors.Length, i =>
                         {
-                            colors[i] = Color.FromKnownColor(Utilities.colorlist[AOa.assemblyObjects.Branches[i][0].type]);
+                            colors[i] = Color.FromKnownColor(Utilities.colorlist[AOa.AssemblyObjects.Branches[i][0].type]);
                         });
                     break;
                 case "Occupancy": // occupancy
@@ -132,8 +128,8 @@ namespace Assembler
                     break;
                 case "Z Value": // zHeight
                     BoundingBox AOaBBox = BoundingBox.Empty;
-                    for(int i=0; i< AOa.assemblyObjects.BranchCount; i++)
-                        AOaBBox.Union(AOa.assemblyObjects.Branches[i][0].collisionMesh.GetBoundingBox(false)); //ao.referencePlane.Origin
+                    for(int i=0; i< AOa.AssemblyObjects.BranchCount; i++)
+                        AOaBBox.Union(AOa.AssemblyObjects.Branches[i][0].collisionMesh.GetBoundingBox(false)); //ao.referencePlane.Origin
                     //foreach (AssemblyObject ao in AOa.assemblyObjects.AllData())
                     //    AOaBBox.Union(ao.collisionMesh.GetBoundingBox(false)); //ao.referencePlane.Origin
                     double minZ = AOaBBox.Min.Z;
@@ -141,29 +137,29 @@ namespace Assembler
                     double invZSpan = 1 / (maxZ - minZ);
                     Parallel.For(0, colors.Length, i =>
                     {
-                        double t = (AOa.assemblyObjects.Branches[i][0].referencePlane.Origin.Z - minZ) * invZSpan;
+                        double t = (AOa.AssemblyObjects.Branches[i][0].referencePlane.Origin.Z - minZ) * invZSpan;
                         colors[i] = Utilities.zHeightGradient.ColourAt(t);
                     });
                     break;
                 case "AO Weights": // AssemblyObject Weight
                     Parallel.For(0, colors.Length, i =>
                     {
-                        colors[i] = GH_Gradient.GreyScale().ColourAt(AOa.assemblyObjects.Branches[i][0].weight);
+                        colors[i] = GH_Gradient.GreyScale().ColourAt(AOa.AssemblyObjects.Branches[i][0].weight);
                     });
                     break;
                 case "Connectedness": // connectedness (n. of non-free handles/total handles)
                     Parallel.For(0, colors.Length, i =>
                     {
-                        double connectedness = 1 - (AOa.assemblyObjects.Branches[i][0].handles.Where(h => h.occupancy == 0).Sum(x => 1) / (double)(AOa.assemblyObjects.Branches[i][0].handles.Length));
+                        double connectedness = 1 - (AOa.AssemblyObjects.Branches[i][0].handles.Where(h => h.occupancy == 0).Sum(x => 1) / (double)(AOa.AssemblyObjects.Branches[i][0].handles.Length));
                         colors[i] = GH_Gradient.Traffic().ColourAt(connectedness);
                     });
                     break;
                 case "Orientation": // Orientation
                     Parallel.For(0, colors.Length, i =>
                     {
-                        Vector3d v = AOa.assemblyObjects.Branches[i][0].direction;
+                        Vector3d v = AOa.AssemblyObjects.Branches[i][0].direction;
                         //normal-map like - see https://en.wikipedia.org/wiki/Normal_mapping
-                        //colors[i] = Color.FromArgb((int)((v.X * .5 + .5) * 255), (int)((v.Y * .5 + .5) * 255), (int)(v.Z <= 0 ? 128 : 128 + v.Z * 127));
+                        //Colors[i] = Color.FromArgb((int)((v.X * .5 + .5) * 255), (int)((v.Y * .5 + .5) * 255), (int)(v.Z <= 0 ? 128 : 128 + v.Z * 127));
                         // faux normal map
                         colors[i] = Color.FromArgb((int)((v.X * .5 + .5) * 255), (int)((v.Y * .5 + .5) * 255), (int)((v.Z * .5 + .5) * 255));
                     });
@@ -171,22 +167,22 @@ namespace Assembler
                 case "Z Orientation": // Orientation
                     Parallel.For(0, colors.Length, i =>
                     {
-                        Vector3d v = AOa.assemblyObjects.Branches[i][0].referencePlane.ZAxis;
+                        Vector3d v = AOa.AssemblyObjects.Branches[i][0].referencePlane.ZAxis;
                         //normal-map like - see https://en.wikipedia.org/wiki/Normal_mapping
-                        //colors[i] = Color.FromArgb((int)((v.X * .5 + .5) * 255), (int)((v.Y * .5 + .5) * 255), (int)(v.Z <= 0 ? 128 : 128 + v.Z * 127));
+                        //Colors[i] = Color.FromArgb((int)((v.X * .5 + .5) * 255), (int)((v.Y * .5 + .5) * 255), (int)(v.Z <= 0 ? 128 : 128 + v.Z * 127));
                         // faux normal map
                         colors[i] = Color.FromArgb((int)((v.X * .5 + .5) * 255), (int)((v.Y * .5 + .5) * 255), (int)((v.Z * .5 + .5) * 255));
                     });
                     break;
                 case "Receiver Values":
-                    double[] rValues = AOa.assemblyObjects.AllData().Select(ao => ao.receiverValue).ToArray();
+                    double[] rValues = AOa.AssemblyObjects.AllData().Select(ao => ao.receiverValue).ToArray();
                     double min = rValues.Min();
                     double max = rValues.Max();
                     // avoid division by 0
                     double factor = min == max ? 0 : 1 / (max - min);
                     Parallel.For(0, colors.Length, i =>
                     {
-                        colors[i] = Utilities.receiverValuesGradient.ColourAt((AOa.assemblyObjects.Branches[i][0].receiverValue - min) * factor);
+                        colors[i] = Utilities.receiverValuesGradient.ColourAt((AOa.AssemblyObjects.Branches[i][0].receiverValue - min) * factor);
                     });
                     break;
                 case "Local Density": // Local Density
@@ -209,17 +205,17 @@ namespace Assembler
                     Parallel.For(0, colors.Length, i =>
                     {
                         // get collision volume for the present object
-                        double localVolumes = AOsetCollisionVolumes[AOa.assemblyObjects.Branches[i][0].type];
+                        double localVolumes = AOsetCollisionVolumes[AOa.AssemblyObjects.Branches[i][0].type];
 
                         // get collision volume for connected or occluding neighbours
-                        for (int j = 0; j < AOa.assemblyObjects.Branches[i][0].handles.Length; j++)
+                        for (int j = 0; j < AOa.AssemblyObjects.Branches[i][0].handles.Length; j++)
                         {
                             // if Handle is free (consider also occluding objects) go to next handle
-                            if (AOa.assemblyObjects.Branches[i][0].handles[j].occupancy == 0) continue;
+                            if (AOa.AssemblyObjects.Branches[i][0].handles[j].occupancy == 0) continue;
 
                             // else (if connected or occluded) add other object collision volume
-                            int connectedIndex = AOa.assemblyObjects.Branches[i][0].handles[j].neighbourObject;
-                            int connectedType = AOa.assemblyObjects[new GH_Path(connectedIndex),0].type;
+                            int connectedIndex = AOa.AssemblyObjects.Branches[i][0].handles[j].neighbourObject;
+                            int connectedType = AOa.AssemblyObjects[new GH_Path(connectedIndex),0].type;
 
                             localVolumes += AOsetCollisionVolumes[connectedType];
                         }
@@ -229,9 +225,9 @@ namespace Assembler
                     });
                     // write a "normalize with limits" function?
                     //double[] normalizedDensities = Utilities.NormalizeRange(localDensities);
-                    //Parallel.For(0, colors.Length, i =>
+                    //Parallel.For(0, Colors.Length, i =>
                     //{
-                    //    colors[i] = Utilities.densityGradient.ColourAt(normalizedDensities[i]);
+                    //    Colors[i] = Utilities.densityGradient.ColourAt(normalizedDensities[i]);
                     //});
                     break;
                 // possible other display modes:
@@ -243,11 +239,11 @@ namespace Assembler
 
             if (colOnly) return;
 
-            // assign colors to meshes
-            Parallel.For(0, AOa.assemblyObjects.BranchCount, i =>
+            // assign Colors to meshes
+            Parallel.For(0, AOa.AssemblyObjects.BranchCount, i =>
            {
                Mesh m = new Mesh();
-               m.CopyFrom(AOa.assemblyObjects.Branches[i][0].collisionMesh);
+               m.CopyFrom(AOa.AssemblyObjects.Branches[i][0].collisionMesh);
                m.Unweld(0, true);
                m.VertexColors.Clear();
                for (int j = 0; j < m.Vertices.Count; j++)
@@ -259,7 +255,7 @@ namespace Assembler
             joined = new Mesh();
             joined.Append(meshes);
             edges = Utilities.GetSihouette(joined);
-            //cols = colors;
+            //cols = Colors;
         }
 
         public override void AppendAdditionalMenuItems(ToolStripDropDown menu)

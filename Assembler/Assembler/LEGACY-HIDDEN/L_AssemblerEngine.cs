@@ -164,7 +164,7 @@ namespace Assembler
                 return;
             }
 
-            if ((go || (step && pending)) && AOa.assemblyObjects.BranchCount < maxObj)
+            if ((go || (step && pending)) && AOa.AssemblyObjects.BranchCount < maxObj)
             {
                 for (int i = 0; i < nInt; i++)
                     AOa.Update();
@@ -178,7 +178,7 @@ namespace Assembler
             }
 
             DA.SetData("Assemblage", AOa);
-            DA.SetData("Assemblage Count", AOa.assemblyObjects.BranchCount);
+            DA.SetData("Assemblage Count", AOa.AssemblyObjects.BranchCount);
 
             // DIAGNOSTICS
             // stopwatch.Restart();

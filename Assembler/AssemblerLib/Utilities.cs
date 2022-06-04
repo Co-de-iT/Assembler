@@ -17,18 +17,18 @@ namespace AssemblerLib
 {
 
     /// <summary>
-    /// A static Utilities class grouping some useful methods
+    /// A static Utilities class grouping some useful fields and methods
     /// </summary>
     public static class Utilities
     {
         /// <summary>
         /// Tolerance from Rhino file
         /// </summary>
-        public static readonly double RhinoAbsoluteTolerance = Rhino.RhinoDoc.ActiveDoc.ModelAbsoluteTolerance;
+        internal static readonly double RhinoAbsoluteTolerance = Rhino.RhinoDoc.ActiveDoc.ModelAbsoluteTolerance;
         /// <summary>
         /// Tolerance squared - for fast neighbour search
         /// </summary>
-        public static readonly double RhinoAbsoluteToleranceSquared = Math.Pow(Rhino.RhinoDoc.ActiveDoc.ModelAbsoluteTolerance, 2);
+        internal static readonly double RhinoAbsoluteToleranceSquared = Math.Pow(Rhino.RhinoDoc.ActiveDoc.ModelAbsoluteTolerance, 2);
 
         public static readonly GH_Gradient historyGradient = new GH_Gradient(new double[] { 0.0, 0.5, 0.9, 1.0 },
             new Color[] { Color.Black, Color.FromArgb(56, 136, 150), Color.FromArgb(186, 224, 224), Color.White });
@@ -42,8 +42,9 @@ namespace AssemblerLib
             new Color[] { Color.FromArgb(255, 0, 255), Color.FromArgb(0, 255, 255) });
 
         /// <summary>
-        /// AssemblyObject Type palette, with up to 24 colors - which is already WAY TOO MANY!!!
+        /// AssemblyObject Type palette, with up to 24 Colors
         /// </summary>
+        /// <remarks>Which are already WAY TOO MANY!!!</remarks>
         public static readonly Color[] AOTypePalette = new Color[] {
         Color.FromArgb(192,57,43), Color.FromArgb(100,100,100), Color.FromArgb(52,152,219), Color.FromArgb(253,188,75),
         Color.FromArgb(155,89,182), Color.FromArgb(46,204,113), Color.FromArgb(49,54,59), Color.FromArgb(231,76,60),
@@ -74,7 +75,7 @@ namespace AssemblerLib
         /// <param name="sO">The sender <see cref="AssemblyObject"/> to check</param>
         /// <param name="neighbourIndexes">array of neighbour AssemblyObjects Aind</param>
         /// <returns>true if a collision exists</returns>
-        public static bool CollisionCheckInAssemblage(Assemblage AOa, AssemblyObject sO, out int[] neighbourIndexes)
+        internal static bool CollisionCheckInAssemblage(Assemblage AOa, AssemblyObject sO, out int[] neighbourIndexes)
         {
             neighbourIndexes = null;
             // get first vertex as Point3d for inclusion check
@@ -99,7 +100,7 @@ namespace AssemblerLib
             foreach (int index in neighbourIndexes)
             {
                 GH_Path neighPath = new GH_Path(index);
-                AOcollision = AOa.assemblyObjects[neighPath, 0].collisionMesh;
+                AOcollision = AOa.AssemblyObjects[neighPath, 0].collisionMesh;
                 // check Bounding Box intersection first - if no intersection continue to the next loop iteration
                 if (!BoundingBoxIntersect(sO.collisionMesh.GetBoundingBox(false),
                     AOcollision.GetBoundingBox(false)))
@@ -112,7 +113,7 @@ namespace AssemblerLib
                     return true;
                 // check if neighbour is inside sender object
                 // get neighbour's OffsetMesh first vertex & check if it's inside
-                neighFirstVertex = AOa.assemblyObjects[neighPath, 0].offsetMesh.Vertices[0];
+                neighFirstVertex = AOa.AssemblyObjects[neighPath, 0].offsetMesh.Vertices[0];
                 if (sO.collisionMesh.IsPointInside(neighFirstVertex, RhinoAbsoluteTolerance, true))
                     return true;
             }
@@ -125,7 +126,7 @@ namespace AssemblerLib
         /// <param name="AO"></param>
         /// <param name="neighbours"></param>
         /// <returns></returns>
-        public static bool CollisionCheckNeighbours(AssemblyObject AO, List<AssemblyObject> neighbours)
+        internal static bool CollisionCheckNeighbours(AssemblyObject AO, List<AssemblyObject> neighbours)
         {
 
             // get first vertex as Point3d for inclusion check
@@ -213,9 +214,9 @@ namespace AssemblerLib
         /// <param name="AO_AInd"></param>
         /// <returns></returns>
         /// <param name="neighbourAIndexes"></param>
-        public static bool ObstructionCheckAssemblage(Assemblage AOa, int AO_AInd, int[] neighbourAIndexes)
+        internal static bool ObstructionCheckAssemblage(Assemblage AOa, int AO_AInd, int[] neighbourAIndexes)
         {
-            AssemblyObject AO = AOa.assemblyObjects[new GH_Path(AO_AInd), 0];
+            AssemblyObject AO = AOa.AssemblyObjects[new GH_Path(AO_AInd), 0];
             bool obstruct = false;
             Line ray;
             int[] faceIDs;
@@ -232,12 +233,12 @@ namespace AssemblerLib
             {
                 // find neighbour sequential index (for faster tree access)
                 neighPath = new GH_Path(neighAInd);
-                neighSeqInd = AOa.assemblyObjects.Paths.IndexOf(neighPath);
+                neighSeqInd = AOa.AssemblyObjects.Paths.IndexOf(neighPath);
                 // scan neighbour's handles
-                for (int j = 0; j < AOa.assemblyObjects.Branch(neighSeqInd)[0].handles.Length; j++)
+                for (int j = 0; j < AOa.AssemblyObjects.Branch(neighSeqInd)[0].handles.Length; j++)
                 {
                     // if the handle is not available continue
-                    if (AOa.assemblyObjects.Branch(neighSeqInd)[0].handles[j].occupancy != 0) continue;
+                    if (AOa.AssemblyObjects.Branch(neighSeqInd)[0].handles[j].occupancy != 0) continue;
 
                     // check for accidental handle connection
                     bool connect = false;
@@ -253,10 +254,10 @@ namespace AssemblerLib
                         // if handles are of the same type...
                         // if (AO.handles[k].type == AOa.assemblyObjects[index].handles[j].type)
                         // ...and their distance is below absolute tolerance...
-                        if (AOa.assemblyObjects.Branch(neighSeqInd)[0].handles[j].sender.Origin.DistanceToSquared(AO.handles[k].sender.Origin) < RhinoAbsoluteToleranceSquared)
+                        if (AOa.AssemblyObjects.Branch(neighSeqInd)[0].handles[j].sender.Origin.DistanceToSquared(AO.handles[k].sender.Origin) < RhinoAbsoluteToleranceSquared)
                         {
                             // ...update handles
-                            UpdateConnectedHandles(AO, k, AOa.assemblyObjects.Branch(neighSeqInd)[0], j);
+                            UpdateHandlesOnConnection(AO, k, AOa.AssemblyObjects.Branch(neighSeqInd)[0], j);
                             connect = true;
                             break;
                         }
@@ -266,17 +267,17 @@ namespace AssemblerLib
 
                     // CHECK OBSTRUCTION OF NEIGHBOUR HANDLES BY sO
                     // shoot a line from the handle
-                    Plane hSender = AOa.assemblyObjects.Branch(neighSeqInd)[0].handles[j].sender;
+                    Plane hSender = AOa.AssemblyObjects.Branch(neighSeqInd)[0].handles[j].sender;
                     ray = new Line(hSender.Origin - (hSender.ZAxis * RhinoAbsoluteTolerance * 5), hSender.ZAxis * 1.5);
 
                     // if it intercepts the last added object
                     if (Intersection.MeshLine(AO.collisionMesh, ray, out faceIDs).Length != 0)
                     {
                         // change handle occupancy to -1 (occluded) and add Object index to occluded handle neighbourObject
-                        AOa.assemblyObjects.Branch(neighSeqInd)[0].handles[j].occupancy = -1;
-                        AOa.assemblyObjects.Branch(neighSeqInd)[0].handles[j].neighbourObject = AO_AInd;
+                        AOa.AssemblyObjects.Branch(neighSeqInd)[0].handles[j].occupancy = -1;
+                        AOa.AssemblyObjects.Branch(neighSeqInd)[0].handles[j].neighbourObject = AO_AInd;
                         // update Object OccludedNeighbours status
-                        AOa.assemblyObjects[new GH_Path(AO_AInd), 0].occludedNeighbours.Add(new int[] { neighAInd, j });
+                        AOa.AssemblyObjects[new GH_Path(AO_AInd), 0].occludedNeighbours.Add(new int[] { neighAInd, j });
                         // change obstruct variable status
                         obstruct = true;
                     }
@@ -293,13 +294,13 @@ namespace AssemblerLib
                     ray = new Line(AO.handles[k].sender.Origin - (AO.handles[k].sender.ZAxis * Utilities.RhinoAbsoluteTolerance * 5), AO.handles[k].sender.ZAxis * 1.5);
 
                     // if it intercepts the neighbour object
-                    if (Intersection.MeshLine(AOa.assemblyObjects.Branch(neighSeqInd)[0].collisionMesh, ray, out faceIDs).Length != 0)
+                    if (Intersection.MeshLine(AOa.AssemblyObjects.Branch(neighSeqInd)[0].collisionMesh, ray, out faceIDs).Length != 0)
                     {
                         // change handle occupancy to -1 (occluded) and add neighbour Object index to occluded handle neighbourObject
                         AO.handles[k].occupancy = -1;
                         AO.handles[k].neighbourObject = neighAInd;
                         // update neighbourObject OccludedNeighbours status
-                        AOa.assemblyObjects.Branch(neighSeqInd)[0].occludedNeighbours.Add(new int[] { AO_AInd, k });
+                        AOa.AssemblyObjects.Branch(neighSeqInd)[0].occludedNeighbours.Add(new int[] { AO_AInd, k });
                         // change obstruct variable status
                         obstruct = true;
                     }
@@ -313,7 +314,7 @@ namespace AssemblerLib
         /// </summary>
         /// <param name="AOList">List of <see cref="AssemblyObject"/>s to check</param>
         /// <returns></returns>
-        public static bool ObstructionCheckList(List<AssemblyObject> AOList)
+        internal static bool ObstructionCheckList(List<AssemblyObject> AOList)
         {
             //AssemblyObject AO = AOa.assemblage[AOindex];
             bool obstruct = false;
@@ -349,7 +350,7 @@ namespace AssemblerLib
                                 if (AOList[j].handles[k].sender.Origin.DistanceToSquared(AOList[i].handles[p].sender.Origin) < RhinoAbsoluteToleranceSquared)// Rhino.RhinoDoc.ActiveDoc.ModelAbsoluteTolerance)
                                 {
                                     // ...update handles
-                                    UpdateConnectedHandles(AOList[i], p, AOList[j], k);
+                                    UpdateHandlesOnConnection(AOList[i], p, AOList[j], k);
                                     connect = true;
                                     break;
                                 }
@@ -421,21 +422,6 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// Builds the Handles HashSet - for compatibility checks of loaded assemblages
-        /// </summary>
-        /// <param name="AOset">the array of unique AssemblyObjects constituting the set</param>
-        /// <returns></returns>
-        public static HashSet<int> BuildHandlesHashSet(AssemblyObject[] AOset)
-        {
-            HashSet<int> hh = new HashSet<int>();
-            foreach (AssemblyObject ao in AOset)
-                foreach (Handle h in ao.handles)
-                    hh.Add(h.type);
-
-            return hh;
-        }
-
-        /// <summary>
         /// Clone an Assemblage
         /// </summary>
         /// <param name="AOa">Assemblage to clone</param>
@@ -444,10 +430,9 @@ namespace AssemblerLib
         {
             Assemblage clonedAOa = new Assemblage();
             // clone AssemblyObjects
-            clonedAOa.assemblyObjects = new DataTree<AssemblyObject>();
-            for (int i = 0; i < AOa.assemblyObjects.BranchCount; i++)
-                clonedAOa.assemblyObjects.Add(CloneWithConnectivity(AOa.assemblyObjects.Branches[i][0]), AOa.assemblyObjects.Paths[i]);
-            //cAss.AOIndexesMap = ass.AOIndexesMap;
+            clonedAOa.AssemblyObjects = new DataTree<AssemblyObject>();
+            for (int i = 0; i < AOa.AssemblyObjects.BranchCount; i++)
+                clonedAOa.AssemblyObjects.Add(CloneWithConnectivity(AOa.AssemblyObjects.Branches[i][0]), AOa.AssemblyObjects.Paths[i]);
             // clone AOSet
             clonedAOa.AOSet = new AssemblyObject[AOa.AOSet.Length];
             for (int i = 0; i < AOa.AOSet.Length; i++)
@@ -457,7 +442,7 @@ namespace AssemblerLib
             // clone settings
             clonedAOa.HeuristicsSettings = AOa.HeuristicsSettings;
             clonedAOa.ExogenousSettings = AOa.ExogenousSettings;
-            // clone colliison radius
+            // clone collision radius
             clonedAOa.CollisionRadius = AOa.CollisionRadius;
             // clone Sandbox
             clonedAOa.E_sandbox = AOa.E_sandbox;
@@ -467,18 +452,18 @@ namespace AssemblerLib
             // candidateObjects doesn't need cloning
             clonedAOa.AssemblageRules = AOa.AssemblageRules;
             clonedAOa.ReceiverAIndexes = AOa.ReceiverAIndexes;
-            clonedAOa.checkWorldZLock = AOa.checkWorldZLock;
+            clonedAOa.CheckWorldZLock = AOa.CheckWorldZLock;
             clonedAOa.centroidsAO = AOa.centroidsAO;
             clonedAOa.centroidsTree = AOa.centroidsTree;
             clonedAOa.availableObjects = AOa.availableObjects;
             clonedAOa.unreachableObjects = AOa.unreachableObjects;
             clonedAOa.availableReceiverValues = AOa.availableReceiverValues;
-            clonedAOa.handleTypes = AOa.handleTypes;
+            //clonedAOa.handleTypes = AOa.handleTypes;
             return clonedAOa;
         }
 
         /// <summary>
-        /// Remove an <see cref="AssemblyObject"/> from an <see cref="Assemblage"/>, updating topology information
+        /// Remove an <see cref="AssemblyObject"/> from an <see cref="Assemblage"/>, updating Topology information
         /// </summary>
         /// <param name="AOa">The Assemblage to remove from</param>
         /// <param name="AInd">the Assemblage Index of the AssemblyObject to remove</param>
@@ -487,9 +472,9 @@ namespace AssemblerLib
         {
             GH_Path AOPath = new GH_Path(AInd);
             // if the index does not exist return
-            if (!AOa.assemblyObjects.PathExists(AOPath)) return false;
+            if (!AOa.AssemblyObjects.PathExists(AOPath)) return false;
 
-            AssemblyObject AO = AOa.assemblyObjects[AOPath, 0];
+            AssemblyObject AO = AOa.AssemblyObjects[AOPath, 0];
 
             // . . . Topology operations
             // update connected AO Handles
@@ -502,13 +487,13 @@ namespace AssemblerLib
                 // free connected handles
                 if (AO.handles[i].occupancy == 1)
                 {
-                    AOa.assemblyObjects[neighPath, 0].handles[AO.handles[i].neighbourHandle].occupancy = 0;
-                    AOa.assemblyObjects[neighPath, 0].handles[AO.handles[i].neighbourHandle].neighbourObject = -1;
-                    AOa.assemblyObjects[neighPath, 0].handles[AO.handles[i].neighbourHandle].neighbourHandle = -1;
+                    AOa.AssemblyObjects[neighPath, 0].handles[AO.handles[i].neighbourHandle].occupancy = 0;
+                    AOa.AssemblyObjects[neighPath, 0].handles[AO.handles[i].neighbourHandle].neighbourObject = -1;
+                    AOa.AssemblyObjects[neighPath, 0].handles[AO.handles[i].neighbourHandle].neighbourHandle = -1;
                 }
                 // update occluding objects
                 else if (AO.handles[i].occupancy == -1)
-                    AOa.assemblyObjects[neighPath, 0].occludedNeighbours.Remove(new int[] { AO.AInd, i });
+                    AOa.AssemblyObjects[neighPath, 0].occludedNeighbours.Remove(new int[] { AO.AInd, i });
             }
 
             // check its occluded objects
@@ -516,8 +501,8 @@ namespace AssemblerLib
             {
                 GH_Path occludePath = new GH_Path(AO.occludedNeighbours[i][0]);
                 // free occluded handle
-                AOa.assemblyObjects[occludePath, 0].handles[AO.occludedNeighbours[i][1]].occupancy = 0;
-                AOa.assemblyObjects[occludePath, 0].handles[AO.occludedNeighbours[i][1]].neighbourObject = -1;
+                AOa.AssemblyObjects[occludePath, 0].handles[AO.occludedNeighbours[i][1]].occupancy = 0;
+                AOa.AssemblyObjects[occludePath, 0].handles[AO.occludedNeighbours[i][1]].neighbourObject = -1;
             }
 
             // remove from used rules
@@ -538,7 +523,7 @@ namespace AssemblerLib
             AOa.centroidsTree.Remove(AO.referencePlane.Origin, AO.AInd);
 
             // remove from AssemblyObject list
-            AOa.assemblyObjects.RemovePath(AO.AInd);
+            AOa.AssemblyObjects.RemovePath(AO.AInd);
 
             return true;
         }
@@ -595,14 +580,14 @@ namespace AssemblerLib
             }
 
             // clone supports
-            List<Support> supports = new List<Support>();
+            List<Support> supports = null;
 
             if (AO.supports != null)
                 supports = AO.supports.Select(s => new Support(s)).ToList();
 
-            // clone AssemblyObject
-            AssemblyObject AOclone = new AssemblyObject(collisionMesh, offsetMesh, handles, AO.referencePlane, AO.direction, AO.AInd, occludedNeighbours,
-                AO.name, AO.type, AO.weight, AO.iWeight, supports, AO.minSupports, AO.supported, AO.worldZLock, children, handleMap, AO.receiverValue, AO.senderValue);
+            // clone AssemblyObject with default values (idleWeight is passed twice to reset weight, -1 is passed as aInd)
+            AssemblyObject AOclone = new AssemblyObject(collisionMesh, offsetMesh, handles, AO.referencePlane, AO.direction, -1, occludedNeighbours,
+                AO.name, AO.type, AO.idleWeight, AO.idleWeight, AO.iWeight, supports, AO.minSupports, AO.supported, AO.worldZLock, children, handleMap, double.NaN, double.NaN);
 
             return AOclone;
         }
@@ -615,12 +600,24 @@ namespace AssemblerLib
         /// <remarks>Useful for previous assemblages and the Goo wrapper</remarks>
         public static AssemblyObject CloneWithConnectivity(AssemblyObject AO)
         {
+            // make a fresh new clone
             AssemblyObject AOcloneConnect = Clone(AO);
 
             for (int i = 0; i < AOcloneConnect.handles.Length; i++)
                 AOcloneConnect.handles[i] = CloneWithConnectivity(ref AO.handles[i]);
 
             AOcloneConnect.occludedNeighbours = AO.occludedNeighbours;
+            AOcloneConnect.weight = AO.weight;
+            AOcloneConnect.receiverValue = AO.receiverValue;
+            AOcloneConnect.senderValue = AO.senderValue;
+            AOcloneConnect.AInd = AO.AInd;
+
+            // supports
+            if (AO.supports != null)
+            {
+                AOcloneConnect.supports = AO.supports;
+                AOcloneConnect.supported = AO.supported;
+            }
 
             return AOcloneConnect;
         }
@@ -638,37 +635,12 @@ namespace AssemblerLib
             AO.offsetMesh = MeshOffsetWeightedAngle(AO.collisionMesh, offsetTol); // do NOT use the standard Mesh Offset method
         }
 
-        /// <summary>
-        /// Transform AssemblyObject using a generic Transformation
-        /// </summary>
-        /// <param name="AO"></param>
-        /// <param name="xForm"></param>
-        public static void Transform(AssemblyObject AO, Transform xForm)
-        {
-            // transform geometries
-            AO.collisionMesh.Transform(xForm);
-            AO.offsetMesh.Transform(xForm);
-            AO.referencePlane.Transform(xForm);
-            AO.direction.Transform(xForm);
-
-            // transform Handles (do not use a foreach loop)
-            for (int i = 0; i < AO.handles.Length; i++) AO.handles[i].Transform(xForm);
-
-            // transform children (if any)
-            if (AO.children != null)
-                for (int i = 0; i < AO.children.Count; i++) Transform(AO.children[i], xForm);
-
-            // transform Supports (if they exist)
-            if (AO.supports != null)
-                for (int i = 0; i < AO.supports.Count; i++) AO.supports[i].Transform(xForm);
-        }
-
         #endregion Object Utilities
 
         #region Handle Utilities
 
         /// <summary>
-        /// Clones a Handle
+        /// Clones a Handle, resetting data
         /// </summary>
         /// <param name="handle"></param>
         /// <returns>a cloned Handle</returns>
@@ -683,7 +655,8 @@ namespace AssemblerLib
             // deep array copy (from https://stackoverflow.com/questions/3464635/deep-copy-with-array)
             clone.receivers = handle.receivers.Select(pl => pl.Clone()).ToArray();
             clone.type = handle.type;
-            clone.weight = handle.weight;
+            clone.weight = handle.idleWeight;
+            clone.idleWeight = handle.idleWeight;
             clone.occupancy = 0;
             clone.neighbourHandle = -1;
             clone.neighbourObject = -1;
@@ -692,7 +665,7 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// Duplicates a Handle preserving connectivity information
+        /// Duplicates a Handle preserving connectivity information and weight
         /// </summary>
         /// <param name="handle"></param>
         /// <returns>a duplicated Handle with the same connectivity</returns>
@@ -708,14 +681,21 @@ namespace AssemblerLib
             handleCloneConnect.receivers = handle.receivers.Select(pl => pl.Clone()).ToArray();
             handleCloneConnect.type = handle.type;
             handleCloneConnect.weight = handle.weight;
+            handleCloneConnect.idleWeight = handle.idleWeight;
             handleCloneConnect.occupancy = handle.occupancy;
             handleCloneConnect.neighbourHandle = handle.neighbourHandle;
             handleCloneConnect.neighbourObject = handle.neighbourObject;
 
             return handleCloneConnect;
         }
-
-        public static void UpdateConnectedHandles(AssemblyObject AO1, int handle1, AssemblyObject AO2, int handle2)
+        /// <summary>
+        /// Updates <see cref="Handle"/>s involved in a new connection between two <see cref="AssemblyObject"/>s
+        /// </summary>
+        /// <param name="AO1">first <see cref="AssemblyObject"/></param>
+        /// <param name="handle1"><see cref="Handle"/> from first <see cref="AssemblyObject"/></param>
+        /// <param name="AO2">second <see cref="AssemblyObject"/></param>
+        /// <param name="handle2"><see cref="Handle"/> from second <see cref="AssemblyObject"/></param>
+        internal static void UpdateHandlesOnConnection(AssemblyObject AO1, int handle1, AssemblyObject AO2, int handle2)
         {
             AO1.handles[handle1].occupancy = 1;
             AO2.handles[handle2].occupancy = 1;
@@ -732,24 +712,6 @@ namespace AssemblerLib
         #endregion Handle Utilities
 
         #region Rule Utilities
-        /// <summary>
-        /// Returns a list of Rules from a heuristics string, outputs also a Data Tree of the rules strings
-        /// </summary>
-        /// <param name="AOset"></param>
-        /// <param name="AOCatalog"></param>
-        /// <param name="heuristics"></param>
-        /// <param name="heuristicsTree"></param>
-        /// <returns></returns>
-        public static List<Rule> HeuristicsRulesFromString(List<AssemblyObject> AOset, Dictionary<string, int> AOCatalog, List<string> heuristics, out DataTree<string> heuristicsTree)
-        {
-            List<Rule> heuList = HeuristicsRulesFromString(AOset, AOCatalog, heuristics);
-            heuristicsTree = new DataTree<string>();
-
-            for (int i = 0; i < heuristics.Count; i++)
-                heuristicsTree.Add(heuristics[i], new GH_Path(i));
-
-            return heuList;
-        }
 
         /// <summary>
         /// Returns a list of Rules from a heuristics string
@@ -789,32 +751,6 @@ namespace AssemblerLib
             }
             return heuT;
         }
-
-        //private static bool RuleExist(Assemblage AOa, int sO, int rO, int sH, int rH)
-        //{
-        //    if (AOa.heuristicsTree.PathExists(AOa.currentHeuristics, AOa.assemblyObjects[rO].type))
-        //    // search for rInd rule
-        //    {
-        //        // scan rO rules
-        //        foreach (Rule r in AOa.heuristicsTree.Branch(AOa.currentHeuristics, AOa.assemblyObjects[rO].type))
-        //        {
-        //            if (r.sT != AOa.assemblyObjects[sO].type) continue;
-        //            else if (r.sH == sH && r.rH == rH) return true;
-        //        }
-        //    }
-        //    else if (AOa.heuristicsTree.PathExists(AOa.currentHeuristics, AOa.assemblyObjects[sO].type))
-        //    // search for sInd rule
-        //    {
-        //        // scan sO rules
-        //        foreach (Rule r in AOa.heuristicsTree.Branch(AOa.currentHeuristics, AOa.assemblyObjects[sO].type))
-        //        {
-        //            if (r.sT != AOa.assemblyObjects[rO].type) continue;
-        //            else if (r.sH == rH && r.rH == sH) return true;
-        //        }
-
-        //    }
-        //    return false; // there is no corresponding rule
-        //}
 
         #endregion Rule Utilities
 
@@ -923,7 +859,7 @@ namespace AssemblerLib
         /// <param name="s"></param>
         /// <param name="neighbours"></param>
         /// <returns></returns>
-        public static bool SupportIntersect(Support s, List<AssemblyObject> neighbours)
+        internal static bool SupportIntersect(Support s, List<AssemblyObject> neighbours)
         {
             int[] faceIds;
             Point3d[] intPts;
@@ -960,7 +896,7 @@ namespace AssemblerLib
         /// <param name="s"></param>
         /// <param name="envMeshes"></param>
         /// <returns></returns>
-        public static bool SupportIntersect(Support s, List<MeshEnvironment> envMeshes)
+        internal static bool SupportIntersect(Support s, List<MeshEnvironment> envMeshes)
         {
             int[] faceIds;
             Point3d[] intPts;
@@ -992,7 +928,7 @@ namespace AssemblerLib
         /// <param name="s"></param>
         /// <param name="meshes"></param>
         /// <returns></returns>
-        public static bool SupportIntersect(Support s, List<Mesh> meshes)
+        internal static bool SupportIntersect(Support s, List<Mesh> meshes)
         {
             int[] faceIds;
             Point3d[] intPts;
@@ -1106,26 +1042,6 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// Reads a file as a unique string
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public static string ReadFileUnique(string path)
-        {
-            return System.IO.File.ReadAllText(path);
-        }
-
-        /// <summary>
-        /// Reads a file by line
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public static string[] ReadFileByLines(string path)
-        {
-            return System.IO.File.ReadAllLines(path);
-        }
-
-        /// <summary>
         /// Saves an array of strings to a file in a given path
         /// </summary>
         /// <param name="directory"></param>
@@ -1140,35 +1056,18 @@ namespace AssemblerLib
 
             System.IO.File.WriteAllLines(target, data);
         }
-
+        /// <summary>
+        /// Appends string data to an existing file
+        /// </summary>
+        /// <param name="directory">The existing file directory</param>
+        /// <param name="fileName"></param>
+        /// <param name="data"></param>
         public static void AppendToFile(string directory, string fileName, string data)
         {
-            string target = directory + fileName;
-            var writer = System.IO.File.AppendText(target);
+            string path = directory + fileName;
+            var writer = System.IO.File.AppendText(path);
             writer.WriteLine(data);
             writer.Close();
-        }
-
-        /// <summary>
-        /// Gets the GH File Path when called from a component
-        /// </summary>
-        /// <param name="caller"></param>
-        /// <returns></returns>
-        public static string GetGHFilePath(GH_Component caller)
-        {
-            GH_Document ghDoc = null;// = Grasshopper.Instances.ActiveCanvas.Document;
-            ghDoc = caller.OnPingDocument();
-
-
-            if (ghDoc == null || !ghDoc.IsFilePathDefined) return string.Empty;
-
-            int nameLen = ghDoc.DisplayName.TrimEnd('*').Length + 3; // +3 accounts for the '.gh' extension
-            int fileLen = ghDoc.FilePath.TrimEnd('*').Length;
-
-            //string F = ghDoc.DisplayName.TrimEnd('*'); // filename (in case it might be needed)
-            string GHFilePath = ghDoc.FilePath.Substring(0, fileLen - nameLen);
-
-            return GHFilePath;
         }
 
         /// <summary>
@@ -1176,7 +1075,7 @@ namespace AssemblerLib
         /// </summary>
         /// <param name="assemblage"></param>
         /// <returns></returns>
-        public static string[] SerializeAssemblage(List<AssemblyObject> assemblage)
+        internal static string[] SerializeAssemblage(List<AssemblyObject> assemblage)
         {
             string[] AOjson = new string[assemblage.Count];
 
@@ -1198,7 +1097,7 @@ namespace AssemblerLib
         /// </summary>
         /// <param name="AOjson"></param>
         /// <returns></returns>
-        public static List<AssemblyObject> DeserializeAssemblage(string[] AOjson)
+        internal static List<AssemblyObject> DeserializeAssemblage(string[] AOjson)
         {
             AssemblyObject[] assemblage = new AssemblyObject[AOjson.Length];
             if (AOjson.Length < 1000)
@@ -1218,17 +1117,21 @@ namespace AssemblerLib
         #region Mesh Utilities
 
         /// <summary>
-        /// Checks if point P is inside a Mesh by checking angle of projection vector with face normal
+        /// Checks if a point P is inside a Mesh by checking the number of intersections of a line
+        /// from a point outside to the test point
+        /// even number of intersections is outside, odd is inside.
+        /// see this thread for this and more methods: https://twitter.com/OskSta/status/1491716992931356672
         /// </summary>
-        /// <param name="testPoint">the point to check</param>
-        /// <param name="searchDist">maximum distance for inclusion check</param>
-        /// <returns>true if point is inside the mesh</returns>
-        /// <remarks>This returns some false positives - use Mesh.IsPointInside() native function instead</remarks>
-        public static bool IsPointInMesh(Mesh mesh, Point3d testPoint, double searchDist)
+        /// <param name="mesh"></param>
+        /// <param name="testPoint"></param>
+        /// <returns>True if point is inside, False otherwise</returns>
+        public static bool IsPointInMesh(Mesh mesh, Point3d testPoint)
         {
-            MeshPoint mP = mesh.ClosestMeshPoint(testPoint, searchDist);
-            if (mP == null) return false;
-            return Vector3d.VectorAngle(mesh.FaceNormals[mP.FaceIndex], mP.Point - testPoint) < (Math.PI * 0.5);
+            // this point must be OUTSIDE of the Mesh
+            Point3d from = (Point3d)(mesh.Vertices[0] + mesh.Normals[0]);
+            int[] faceIds;
+            // even number of intersections: point is outside, otherwise point is inside
+            return (Intersection.MeshLine(mesh, new Line(from, testPoint), out faceIds).Length % 2 != 0);
         }
 
         /// <summary>
@@ -1240,7 +1143,7 @@ namespace AssemblerLib
         /// <param name="offsetDistance"></param>
         /// <remarks>This method generates better offset meshes in most cases (concave, convex, comples shapes, etc.)</remarks>
         /// <returns>An offset Mesh</returns>
-        public static Mesh MeshOffsetWeightedAngle(Mesh mesh, double offsetDistance)
+        internal static Mesh MeshOffsetWeightedAngle(Mesh mesh, double offsetDistance)
         {
 
             Mesh offset = new Mesh();
@@ -1276,7 +1179,7 @@ namespace AssemblerLib
         /// </summary>
         /// <param name="mesh"></param>
         /// <returns>Weighted Normals as a Vector3d array</returns>
-        public static Vector3d[] ComputeWeightedNormals(Mesh mesh)
+        private static Vector3d[] ComputeWeightedNormals(Mesh mesh)
         {
             mesh.Weld(Math.PI);
             mesh.RebuildNormals();
@@ -1326,7 +1229,7 @@ namespace AssemblerLib
             return weightedNormals;
         }
 
-        static double MeshFaceArea(Mesh m, int i)
+        private static double MeshFaceArea(Mesh m, int i)
         {
             double area = 0;
             MeshFace f = m.Faces[i];
@@ -1339,18 +1242,24 @@ namespace AssemblerLib
             return area;
         }
 
-        static double TriangleArea(Point3d A, Point3d B, Point3d C)
+        private static double TriangleArea(Point3d A, Point3d B, Point3d C)
         {
             return Math.Abs(A.X * (B.Y - C.Y) + B.X * (C.Y - A.Y) + C.X * (A.Y - B.Y)) * 0.5;
         }
 
-        public static GH_Line[] GetSihouette(Mesh M)
+        /// <summary>
+        /// Returns Mesh edges whose faces stand at an angle larger than the tolerance
+        /// </summary>
+        /// <param name="mesh">The input Mesh</param>
+        /// <param name="angleTolerance">The angle tolerance in radians - default is Math.PI * 0.25 = 45°</param>
+        /// <returns>Edges as an array of GH_Lines</returns>
+        public static GH_Line[] GetSihouette(Mesh mesh, double angleTolerance = Math.PI * 0.25)
         {
             ConcurrentBag<GH_Line> lines = new ConcurrentBag<GH_Line>();
-            double angleTolerance = Math.PI * 0.25; // angle tolerance  ignore edges whose faces meet at an angle larger than this
+            //double angleTolerance = Math.PI * 0.25; // angle tolerance  ignore edges whose faces meet at an angle larger than this
 
-            M.Normals.ComputeNormals();
-            Rhino.Geometry.Collections.MeshTopologyEdgeList topologyEdges = M.TopologyEdges;
+            mesh.Normals.ComputeNormals();
+            Rhino.Geometry.Collections.MeshTopologyEdgeList topologyEdges = mesh.TopologyEdges;
 
             Parallel.For(0, topologyEdges.Count, i =>
             {
@@ -1360,8 +1269,8 @@ namespace AssemblerLib
 
                 if (connectedFaces.Length == 2)
                 {
-                    Vector3f norm1 = M.FaceNormals[connectedFaces[0]];
-                    Vector3f norm2 = M.FaceNormals[connectedFaces[1]];
+                    Vector3f norm1 = mesh.FaceNormals[connectedFaces[0]];
+                    Vector3f norm2 = mesh.FaceNormals[connectedFaces[1]];
                     double nAng = Vector3d.VectorAngle(new Vector3d((double)norm1.X, (double)norm1.Y, (double)norm1.Z),
                       new Vector3d((double)norm2.X, (double)norm2.Y, (double)norm2.Z));
                     if (nAng > angleTolerance)
@@ -1378,7 +1287,7 @@ namespace AssemblerLib
         /// </summary>
         /// <param name="inputMesh"></param>
         /// <returns>a Mesh with triangular faces only</returns>
-        public static Mesh Triangulate(Mesh inputMesh)
+        private static Mesh Triangulate(Mesh inputMesh)
         {
             Mesh triMesh = new Mesh();
             int facecount = inputMesh.Faces.Count;
@@ -1423,25 +1332,7 @@ namespace AssemblerLib
         /// </summary>
         /// <param name="vectors"></param>
         /// <returns>The average normalized vector</returns>
-        public static Vector3d AverageUnitized(Vector3d[] vectors)
-        {
-            Vector3d averageNormal = Vector3d.Zero;
-            foreach (Vector3d v in vectors)
-            {
-                averageNormal += v;
-                averageNormal.Unitize();
-            }
-
-            return averageNormal;
-        }
-
-        /// <summary>
-        /// Average Unitized Vector from a Vector List - unitizes vector result at each step
-        /// Useful for Vertex normal calculations
-        /// </summary>
-        /// <param name="vectors"></param>
-        /// <returns>The average normalized</returns>
-        public static Vector3d AverageUnitized(List<Vector3d> vectors)
+        private static Vector3d UnitizedAverage(IEnumerable<Vector3d> vectors)
         {
             Vector3d averageNormal = Vector3d.Zero;
             foreach (Vector3d v in vectors)
@@ -1459,7 +1350,7 @@ namespace AssemblerLib
         /// <param name="vectors"></param>
         /// <param name="angleTolerance"></param>
         /// <returns>Array of unique vectors</returns>
-        public static Vector3d[] GetUniqueVectors(Vector3d[] vectors, double angleTolerance)
+        private static Vector3d[] GetUniqueVectors(Vector3d[] vectors, double angleTolerance)
         {
             List<Vector3d> result = new List<Vector3d>();
 
@@ -1489,13 +1380,13 @@ namespace AssemblerLib
         #region Color Utilities
 
         /// <summary>
-        /// Linear interpolate between colors
+        /// Linear interpolate between Colors
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <param name="t"></param>
         /// <returns></returns>
-        public static Color LerpColor(Color a, Color b, double t)
+        private static Color LerpColor(Color a, Color b, double t)
         {
             if (t <= 0) return a;
             if (t >= 1) return b;
@@ -1513,7 +1404,7 @@ namespace AssemblerLib
         /// </summary>
         /// <param name="angle">The angle to convert (in degrees)</param>
         /// <returns></returns>
-        public static double DegreesToRadians(double angle)
+        internal static double DegreesToRadians(double angle)
         {
             return (Math.PI / 180) * angle;
         }
@@ -1523,7 +1414,7 @@ namespace AssemblerLib
         /// </summary>
         /// <param name="angle">The angle to convert (in radians)</param>
         /// <returns></returns>
-        public static double RadiansToDegrees(double angle)
+        internal static double RadiansToDegrees(double angle)
         {
             return (180 / Math.PI) * angle;
         }
@@ -1533,7 +1424,7 @@ namespace AssemblerLib
         /// </summary>
         /// <param name="values"></param>
         /// <returns></returns>
-        public static double[] NormalizeRange(double[] values)
+        internal static double[] NormalizeRange(double[] values)
         {
             double vMin = values.Min();
             double vMax = values.Max();
@@ -1556,7 +1447,7 @@ namespace AssemblerLib
         /// </summary>
         /// <param name="values"></param>
         /// <returns></returns>
-        public static List<double> NormalizeRange(List<double> values)
+        internal static List<double> NormalizeRange(List<double> values)
         {
             double vMin = values.Min();
             double vMax = values.Max();
@@ -1579,7 +1470,7 @@ namespace AssemblerLib
         /// </summary>
         /// <param name="values"></param>
         /// <returns></returns>
-        public static double[][] NormalizeRanges(double[][] values)
+        private static double[][] NormalizeRanges(double[][] values)
         {
             int nVals = values[0].Length;
             double[] vMin = new double[nVals], vMax = new double[nVals];
@@ -1620,15 +1511,17 @@ namespace AssemblerLib
         /// <summary>
         /// Normalizes a DataTree of real numbers
         /// </summary>
-        /// <param name="values"></param>
+        /// <param name="values">the values data tree</param>
         /// <returns></returns>
-        public static DataTree<double> NormalizeRanges(DataTree<double> values)
+        internal static DataTree<double> NormalizeRanges(DataTree<double> values)
         {
-
+            IList<GH_Path> paths = values.Paths;
             double[][] valuesArray = ToJaggedArray(values);
             double[][] normValuesArray = NormalizeRanges(valuesArray);
 
             DataTree<double> normVal = ToDataTree(normValuesArray);
+            for(int i=0; i< normVal.Paths.Count; i++)
+                normVal.Paths[i] = paths[i];
 
             return normVal;
         }
@@ -1640,9 +1533,9 @@ namespace AssemblerLib
         /// <summary>
         /// Converts a jagged array into a DataTree of the same type
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="jaggedArray"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">The Data type</typeparam>
+        /// <param name="jaggedArray">A jagged array to convert to DataTree</param>
+        /// <returns>A DataTree of type T</returns>
         public static DataTree<T> ToDataTree<T>(T[][] jaggedArray)
         {
             DataTree<T> data = new DataTree<T>();
@@ -1656,15 +1549,15 @@ namespace AssemblerLib
         /// <summary>
         /// Converts a list of arrays into a DataTree of the same type
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="arraysList"></param>
-        /// <returns></returns>
-        public static DataTree<T> ToDataTree<T>(List<T[]> arraysList)
+        /// <typeparam name="T">The Data type</typeparam>
+        /// <param name="listOfArrays">A list of Arrays to convert to DataTree</param>
+        /// <returns>A DataTree of type T</returns>
+        public static DataTree<T> ToDataTree<T>(List<T[]> listOfArrays)
         {
             DataTree<T> data = new DataTree<T>();
 
-            for (int i = 0; i < arraysList.Count; i++)
-                data.AddRange(arraysList[i].Select(d => d).ToList(), new GH_Path(i));
+            for (int i = 0; i < listOfArrays.Count; i++)
+                data.AddRange(listOfArrays[i].Select(d => d).ToList(), new GH_Path(i));
 
             return data;
         }
@@ -1672,9 +1565,9 @@ namespace AssemblerLib
         /// <summary>
         /// Converts a DataTree into a jagged array of the same type\nThe array length is equal to the number of branches, regardless of paths
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="tree"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">The Data type</typeparam>
+        /// <param name="tree">A DataTree to convert to jagged array</param>
+        /// <returns>A Jagged Array of type T</returns>
         public static T[][] ToJaggedArray<T>(DataTree<T> tree)
         {
 
@@ -1689,9 +1582,9 @@ namespace AssemblerLib
         /// <summary>
         /// Converts a DataTree into a list of arrays of the same type\nThe list count is equal to the number of branches, regardless of paths
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="tree"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">The Data type</typeparam>
+        /// <param name="tree">A DataTree to convert to List of arrays</param>
+        /// <returns>A List of arrays of type T</returns>
         public static List<T[]> ToListOfArrays<T>(DataTree<T> tree)
         {
 
@@ -1704,12 +1597,13 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// Clones a Dictionary and its values - as seen here: https://stackoverflow.com/questions/139592/what-is-the-best-way-to-clone-deep-copy-a-net-generic-dictionarystring-t
+        /// Clones a Dictionary and its values
         /// </summary>
         /// <typeparam name="TKey"></typeparam>
         /// <typeparam name="TValue"></typeparam>
         /// <param name="original"></param>
-        /// <returns></returns>
+        /// <returns>The cloned Dictionary</returns>
+        /// <remarks>as seen here: https://stackoverflow.com/questions/139592/what-is-the-best-way-to-clone-deep-copy-a-net-generic-dictionarystring-t</remarks>
         public static Dictionary<TKey, TValue> CloneDictionaryWithValues<TKey, TValue>(Dictionary<TKey, TValue> original)
         {
             Dictionary<TKey, TValue> copy = new Dictionary<TKey, TValue>(original.Count, original.Comparer);
@@ -1721,7 +1615,7 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// Renames a key in a Dictionary - as seen here: https://stackoverflow.com/questions/6499334/best-way-to-change-dictionary-key
+        /// Renames a key in a Dictionary
         /// </summary>
         /// <typeparam name="TKey"></typeparam>
         /// <typeparam name="TValue"></typeparam>
@@ -1729,6 +1623,7 @@ namespace AssemblerLib
         /// <param name="fromKey"></param>
         /// <param name="toKey"></param>
         /// <returns>true if successful</returns>
+        /// <remarks>as seen here: https://stackoverflow.com/questions/6499334/best-way-to-change-dictionary-key</remarks>
         public static bool RenameKey<TKey, TValue>(Dictionary<TKey, TValue> dictionary, TKey fromKey, TKey toKey)
         {
             TValue value = dictionary[fromKey];
@@ -1738,7 +1633,12 @@ namespace AssemblerLib
             return true;
         }
 
-        public static DataTree<double> GH2TreeDoubles(GH_Structure<GH_Number> scalars)
+        /// <summary>
+        /// Converts a GH_Structure of GH_Number to a DataTree of double
+        /// </summary>
+        /// <param name="scalars"></param>
+        /// <returns></returns>
+        public static DataTree<double> GHS2TreeDoubles(GH_Structure<GH_Number> scalars)
         {
             DataTree<double> scalarsRh = new DataTree<double>();
 
@@ -1748,8 +1648,12 @@ namespace AssemblerLib
 
             return scalarsRh;
         }
-
-        public static DataTree<Vector3d> GH2TreeVectors(GH_Structure<GH_Vector> vectors)
+        /// <summary>
+        /// Converts a GH_Structure of GH_Vector to a DataTree of Vector3d
+        /// </summary>
+        /// <param name="vectors"></param>
+        /// <returns></returns>
+        public static DataTree<Vector3d> GHS2TreeVectors(GH_Structure<GH_Vector> vectors)
         {
             DataTree<Vector3d> vectorsRh = new DataTree<Vector3d>();
 
@@ -1759,8 +1663,12 @@ namespace AssemblerLib
 
             return vectorsRh;
         }
-
-        public static DataTree<int> GH2TreeIntegers(GH_Structure<GH_Integer> iWeights)
+        /// <summary>
+        /// Converts a GH_Structure of GH_Integer to a DataTree of integer
+        /// </summary>
+        /// <param name="iWeights"></param>
+        /// <returns></returns>
+        public static DataTree<int> GHS2TreeIntegers(GH_Structure<GH_Integer> iWeights)
         {
             DataTree<int> iWeightsRh = new DataTree<int>();
 
