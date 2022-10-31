@@ -102,9 +102,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\RhinoCommon.7.0.20314.3001\build\RhinoCommon.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\RhinoCommon.7.0.20314.3001\build\RhinoCommon.targets'))" />
     <Error Condition="!Exists('..\packages\Grasshopper.7.0.20314.3001\build\Grasshopper.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Grasshopper.7.0.20314.3001\build\Grasshopper.targets'))" />
-    <Error Condition="!Exists('..\packages\docfx.console.2.59.2\build\docfx.console.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\docfx.console.2.59.2\build\docfx.console.targets'))" />
+    <Error Condition="!Exists('..\packages\docfx.console.2.59.4\build\docfx.console.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\docfx.console.2.59.4\build\docfx.console.targets'))" />
   </Target>
   <Import Project="..\packages\RhinoCommon.7.0.20314.3001\build\RhinoCommon.targets" Condition="Exists('..\packages\RhinoCommon.7.0.20314.3001\build\RhinoCommon.targets')" />
   <Import Project="..\packages\Grasshopper.7.0.20314.3001\build\Grasshopper.targets" Condition="Exists('..\packages\Grasshopper.7.0.20314.3001\build\Grasshopper.targets')" />
-  <Import Project="..\packages\docfx.console.2.59.2\build\docfx.console.targets" Condition="Exists('..\packages\docfx.console.2.59.2\build\docfx.console.targets')" />
+  <Import Project="..\packages\docfx.console.2.59.4\build\docfx.console.targets" Condition="Exists('..\packages\docfx.console.2.59.4\build\docfx.console.targets')" />
 </Project>

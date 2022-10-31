@@ -4,7 +4,6 @@ using GH_IO.Serialization;
 using Grasshopper;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
-using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
@@ -16,7 +15,7 @@ namespace Assembler
     public class DisplayHandles : GH_Component
     {
         private bool absoluteTextSize;
-        private DataTree<Handle> handles;
+        private DataTree<Handle> handlesTree;
         double offset, planeOffset, lineOffset;
         double absSize;
         private BoundingBox _clip;
@@ -75,41 +74,39 @@ namespace Assembler
             // j - rotations index
 
             // get data
-            handles = new DataTree<Handle>();
+            handlesTree = new DataTree<Handle>();
             List<Handle> handlesList = new List<Handle>();
-            List<Curve> pCurves = new List<Curve>();
-            List<Polyline> poly = new List<Polyline>();
-
-            GH_Structure<GH_Number> rot = new GH_Structure<GH_Number>();
-            List<int> type = new List<int>();
-            List<double> w = new List<double>();
-            double size = 1;
 
             if (!DA.GetDataList(0, handlesList)) return;
             if (handlesList == null || handlesList.Count == 0) return;
 
+            // purge nulls from Handles list
+            handlesList = Utilities.PurgeNullHandlesFromList(handlesList);
+
             // This is to display multiple Handles list input as a tree
             currentPath = new GH_Path(DA.Iteration);
 
-            // populate handles + rotations Data Tree
+            // populate handlesTree + rotations Data Tree
             for (int i = 0; i < handlesList.Count; i++)
             {
-                handles.Add(handlesList[i], currentPath.AppendElement(i));
+                handlesTree.Add(handlesList[i], currentPath.AppendElement(i));
                 _rotations.AddRange(handlesList[i].rRotations, currentPath.AppendElement(i));
             }
 
-            if (!DA.GetData(1, ref size)) size = absoluteTextSize ? 1 : 0.1;
+            double textSize = 1;
+
+            if (!DA.GetData(1, ref textSize)) textSize = absoluteTextSize ? 1 : 0.1;
 
             if (absoluteTextSize)
             {
-                absSize = size == 0 ? 50 : size * 50;
+                absSize = textSize == 0 ? 50 : textSize * 50;
                 offset = absSize * 0.02;
             }
             else
             {
-                absSize = size;
-                offset = size * 2;
-                planeOffset = size * 3;
+                absSize = textSize;
+                offset = textSize * 2;
+                planeOffset = textSize * 3;
                 lineOffset = offset * 2;
             }
 
@@ -122,10 +119,10 @@ namespace Assembler
             Transform move;
             Handle hand;
             GH_Path handlePath;
-            for (int i = 0; i < handles.BranchCount; i++)
+            for (int i = 0; i < handlesTree.BranchCount; i++)
             {
                 handlePath = currentPath.AppendElement(i);
-                hand = handles.Branch(handlePath)[0];
+                hand = handlesTree.Branch(handlePath)[0];
                 Line rZ = new Line(hand.sender.Origin, hand.sender.Origin + (hand.sender.ZAxis * offset * (_rotations.Branches[i].Count + 1)));
                 _dotCurve.Add(rZ);
                 _clip.Union(rZ.BoundingBox);
@@ -215,7 +212,7 @@ namespace Assembler
                     size = absSize;
                     textLoc = _textLocations.Branches[i][0];
                     textLoc.Translate(textLoc.YAxis * size * offset);
-                    Rhino.Display.Text3d drawText = new Rhino.Display.Text3d(string.Format("H {0} . type {1} . w {2}", handleIndex, handles.Branches[handleIndex][0].type, handles.Branches[handleIndex][0].weight), textLoc, size);
+                    Rhino.Display.Text3d drawText = new Rhino.Display.Text3d(string.Format("H {0} . type {1} . w {2}", handleIndex, handlesTree.Branches[handleIndex][0].type, handlesTree.Branches[handleIndex][0].weight), textLoc, size);
                     drawText.HorizontalAlignment = Rhino.DocObjects.TextHorizontalAlignment.Left;
                     drawText.VerticalAlignment = Rhino.DocObjects.TextVerticalAlignment.Top;
                     args.Display.Draw3dText(drawText, handleTextColor);
@@ -235,12 +232,12 @@ namespace Assembler
                 for (int i = 0; i < _textLocations.BranchCount; i++)
                 {
                     handleIndex = _textLocations.Paths[i][1];
-                    // Figure out the size. This means measuring the visible size in the viewport AT the current location.
+                    // Figure out the textSize. This means measuring the visible textSize in the viewport AT the current location.
                     viewport.GetWorldToScreenScale(_textLocations.Branches[i][0].Origin, out pixPerUnit);
                     size = absSize / pixPerUnit;
                     textLoc = _textLocations.Branches[i][0];
                     textLoc.Translate(textLoc.YAxis * size * offset);
-                    Rhino.Display.Text3d drawText = new Rhino.Display.Text3d(string.Format("H {0} . type {1} . w {2}", handleIndex, handles.Branches[handleIndex][0].type, handles.Branches[handleIndex][0].weight), textLoc, size);
+                    Rhino.Display.Text3d drawText = new Rhino.Display.Text3d(string.Format("H {0} . type {1} . w {2}", handleIndex, handlesTree.Branches[handleIndex][0].type, handlesTree.Branches[handleIndex][0].weight), textLoc, size);
                     drawText.HorizontalAlignment = Rhino.DocObjects.TextHorizontalAlignment.Left;
                     drawText.VerticalAlignment = Rhino.DocObjects.TextVerticalAlignment.Top;
                     args.Display.Draw3dText(drawText, handleTextColor);

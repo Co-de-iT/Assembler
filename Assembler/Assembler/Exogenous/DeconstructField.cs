@@ -1,9 +1,7 @@
-﻿using System;
-
-using Grasshopper.Kernel;
-
+﻿using Assembler.Properties;
 using AssemblerLib;
-using Assembler.Properties;
+using Grasshopper.Kernel;
+using System;
 
 namespace Assembler
 {

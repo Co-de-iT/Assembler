@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class Utilities
    ">
-    <meta name="generator" content="docfx 2.59.2.0">
+    <meta name="generator" content="docfx 2.59.4.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -1256,7 +1256,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static DataTree&lt;double&gt; GHS2TreeDoubles(GH_Structure&lt;GH_Number&gt; scalars)</code></pre>
+    <pre><code class="lang-csharp hljs">public static DataTree&lt;double&gt; GHS2TreeDoubles(GH_Structure&lt;GH_Number&gt; ghNumbers)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1270,7 +1270,7 @@
     <tbody>
       <tr>
         <td><span class="xref">Grasshopper.Kernel.Data.GH_Structure</span>&lt;<span class="xref">Grasshopper.Kernel.Types.GH_Number</span>&gt;</td>
-        <td><span class="parametername">scalars</span></td>
+        <td><span class="parametername">ghNumbers</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -1299,7 +1299,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static DataTree&lt;int&gt; GHS2TreeIntegers(GH_Structure&lt;GH_Integer&gt; iWeights)</code></pre>
+    <pre><code class="lang-csharp hljs">public static DataTree&lt;int&gt; GHS2TreeIntegers(GH_Structure&lt;GH_Integer&gt; ghInt)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1313,7 +1313,7 @@
     <tbody>
       <tr>
         <td><span class="xref">Grasshopper.Kernel.Data.GH_Structure</span>&lt;<span class="xref">Grasshopper.Kernel.Types.GH_Integer</span>&gt;</td>
-        <td><span class="parametername">iWeights</span></td>
+        <td><span class="parametername">ghInt</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -1342,7 +1342,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static DataTree&lt;Vector3d&gt; GHS2TreeVectors(GH_Structure&lt;GH_Vector&gt; vectors)</code></pre>
+    <pre><code class="lang-csharp hljs">public static DataTree&lt;Vector3d&gt; GHS2TreeVectors(GH_Structure&lt;GH_Vector&gt; ghVectors)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1356,7 +1356,7 @@
     <tbody>
       <tr>
         <td><span class="xref">Grasshopper.Kernel.Data.GH_Structure</span>&lt;<span class="xref">Grasshopper.Kernel.Types.GH_Vector</span>&gt;</td>
-        <td><span class="parametername">vectors</span></td>
+        <td><span class="parametername">ghVectors</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -1477,6 +1477,51 @@ see this thread for this and more methods: <a href="https://twitter.com/OskSta/s
       <tr>
         <td><span class="xref">System.Boolean</span></td>
         <td><p>True if point is inside, False otherwise</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="AssemblerLib_Utilities_PurgeNullHandlesFromList_" data-uid="AssemblerLib.Utilities.PurgeNullHandlesFromList*"></a>
+  <h4 id="AssemblerLib_Utilities_PurgeNullHandlesFromList_System_Collections_Generic_List_AssemblerLib_Handle__" data-uid="AssemblerLib.Utilities.PurgeNullHandlesFromList(System.Collections.Generic.List{AssemblerLib.Handle})">PurgeNullHandlesFromList(List&lt;Handle&gt;)</h4>
+  <div class="markdown level1 summary"><p>Purges a List of Null items</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static List&lt;Handle&gt; PurgeNullHandlesFromList(List&lt;Handle&gt; inputList)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AssemblerLib.Handle.html">Handle</a>&gt;</td>
+        <td><span class="parametername">inputList</span></td>
+        <td><p>A supposedly dirty <a class="xref" href="AssemblerLib.Handle.html">Handle</a> List containing some Null items</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AssemblerLib.Handle.html">Handle</a>&gt;</td>
+        <td><p>The purged List</p>
 </td>
       </tr>
     </tbody>
@@ -1801,7 +1846,7 @@ see this thread for this and more methods: <a href="https://twitter.com/OskSta/s
     <tbody>
       <tr>
         <td><span class="xref">Grasshopper.DataTree</span>&lt;T&gt;</td>
-        <td><p>A DataTree of type T</p>
+        <td><p>A DataTree of type Handle</p>
 </td>
       </tr>
     </tbody>
@@ -1862,7 +1907,7 @@ see this thread for this and more methods: <a href="https://twitter.com/OskSta/s
     <tbody>
       <tr>
         <td><span class="xref">Grasshopper.DataTree</span>&lt;T&gt;</td>
-        <td><p>A DataTree of type T</p>
+        <td><p>A DataTree of type Handle</p>
 </td>
       </tr>
     </tbody>
@@ -1923,7 +1968,7 @@ see this thread for this and more methods: <a href="https://twitter.com/OskSta/s
     <tbody>
       <tr>
         <td>T[][]</td>
-        <td><p>A Jagged Array of type T</p>
+        <td><p>A Jagged Array of type Handle</p>
 </td>
       </tr>
     </tbody>
@@ -1984,7 +2029,7 @@ see this thread for this and more methods: <a href="https://twitter.com/OskSta/s
     <tbody>
       <tr>
         <td><span class="xref">System.Collections.Generic.List</span>&lt;T[]&gt;</td>
-        <td><p>A List of arrays of type T</p>
+        <td><p>A List of arrays of type Handle</p>
 </td>
       </tr>
     </tbody>

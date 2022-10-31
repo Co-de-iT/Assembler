@@ -1,6 +1,5 @@
 ﻿using Grasshopper;
 using Grasshopper.GUI.Gradient;
-using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using Newtonsoft.Json;
@@ -709,6 +708,24 @@ namespace AssemblerLib
             AO2.handles[handle2].weight = newWeight;
         }
 
+        /// <summary>
+        /// Purges a List of Null items
+        /// </summary>
+        /// <param name="inputList">A supposedly dirty <see cref="Handle"/> List containing some Null items</param>
+        /// <returns>The purged List</returns>
+        public static List<Handle> PurgeNullHandlesFromList(List<Handle> inputList)
+        {
+            List<Handle> purgedList = new List<Handle>();
+
+            for (int i = 0; i < inputList.Count; i++)
+            {
+                if (inputList[i].sender == null || inputList[i].rDictionary == null) continue;
+                purgedList.Add(inputList[i]);
+            }
+
+            return purgedList;
+        }
+
         #endregion Handle Utilities
 
         #region Rule Utilities
@@ -1345,11 +1362,11 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// Removes duplicate vectors (within tolerance) from an array, returning only unique vectors
+        /// Removes duplicate ghVectors (within tolerance) from an array, returning only unique ghVectors
         /// </summary>
         /// <param name="vectors"></param>
         /// <param name="angleTolerance"></param>
-        /// <returns>Array of unique vectors</returns>
+        /// <returns>Array of unique ghVectors</returns>
         private static Vector3d[] GetUniqueVectors(Vector3d[] vectors, double angleTolerance)
         {
             List<Vector3d> result = new List<Vector3d>();
@@ -1429,7 +1446,7 @@ namespace AssemblerLib
             double vMin = values.Min();
             double vMax = values.Max();
 
-            // if scalars are identical, prevent division by 0
+            // if ghNumbers are identical, prevent division by 0
             if (vMin == vMax) return values.Select(x => 0.5).ToArray();
 
             double den = 1 / (vMax - vMin);
@@ -1452,7 +1469,7 @@ namespace AssemblerLib
             double vMin = values.Min();
             double vMax = values.Max();
 
-            // if scalars are identical, prevent division by 0
+            // if ghNumbers are identical, prevent division by 0
             if (vMin == vMax) return values.Select(x => 0.5).ToList();
 
             double den = 1 / (vMax - vMin);
@@ -1535,7 +1552,7 @@ namespace AssemblerLib
         /// </summary>
         /// <typeparam name="T">The Data type</typeparam>
         /// <param name="jaggedArray">A jagged array to convert to DataTree</param>
-        /// <returns>A DataTree of type T</returns>
+        /// <returns>A DataTree of type Handle</returns>
         public static DataTree<T> ToDataTree<T>(T[][] jaggedArray)
         {
             DataTree<T> data = new DataTree<T>();
@@ -1551,7 +1568,7 @@ namespace AssemblerLib
         /// </summary>
         /// <typeparam name="T">The Data type</typeparam>
         /// <param name="listOfArrays">A list of Arrays to convert to DataTree</param>
-        /// <returns>A DataTree of type T</returns>
+        /// <returns>A DataTree of type Handle</returns>
         public static DataTree<T> ToDataTree<T>(List<T[]> listOfArrays)
         {
             DataTree<T> data = new DataTree<T>();
@@ -1567,7 +1584,7 @@ namespace AssemblerLib
         /// </summary>
         /// <typeparam name="T">The Data type</typeparam>
         /// <param name="tree">A DataTree to convert to jagged array</param>
-        /// <returns>A Jagged Array of type T</returns>
+        /// <returns>A Jagged Array of type Handle</returns>
         public static T[][] ToJaggedArray<T>(DataTree<T> tree)
         {
 
@@ -1584,7 +1601,7 @@ namespace AssemblerLib
         /// </summary>
         /// <typeparam name="T">The Data type</typeparam>
         /// <param name="tree">A DataTree to convert to List of arrays</param>
-        /// <returns>A List of arrays of type T</returns>
+        /// <returns>A List of arrays of type Handle</returns>
         public static List<T[]> ToListOfArrays<T>(DataTree<T> tree)
         {
 
@@ -1636,47 +1653,49 @@ namespace AssemblerLib
         /// <summary>
         /// Converts a GH_Structure of GH_Number to a DataTree of double
         /// </summary>
-        /// <param name="scalars"></param>
+        /// <param name="ghNumbers"></param>
         /// <returns></returns>
-        public static DataTree<double> GHS2TreeDoubles(GH_Structure<GH_Number> scalars)
+        public static DataTree<double> GHS2TreeDoubles(GH_Structure<GH_Number> ghNumbers)
         {
-            DataTree<double> scalarsRh = new DataTree<double>();
+            DataTree<double> rhNumbers = new DataTree<double>();
 
-            if (scalars != null)
-                for (int i = 0; i < scalars.Branches.Count; i++)
-                    scalarsRh.AddRange(scalars.Branches[i].Select(n => n.Value).ToList(), scalars.Paths[i]);
+            if (ghNumbers != null)
+                for (int i = 0; i < ghNumbers.Branches.Count; i++)
+                    rhNumbers.AddRange(ghNumbers.Branches[i].Select(n => n.Value).ToList(), ghNumbers.Paths[i]);
 
-            return scalarsRh;
+            return rhNumbers;
         }
+
         /// <summary>
         /// Converts a GH_Structure of GH_Vector to a DataTree of Vector3d
         /// </summary>
-        /// <param name="vectors"></param>
+        /// <param name="ghVectors"></param>
         /// <returns></returns>
-        public static DataTree<Vector3d> GHS2TreeVectors(GH_Structure<GH_Vector> vectors)
+        public static DataTree<Vector3d> GHS2TreeVectors(GH_Structure<GH_Vector> ghVectors)
         {
-            DataTree<Vector3d> vectorsRh = new DataTree<Vector3d>();
+            DataTree<Vector3d> rhVectors = new DataTree<Vector3d>();
 
-            if (vectors != null)
-                for (int i = 0; i < vectors.Branches.Count; i++)
-                    vectorsRh.AddRange(vectors.Branches[i].Select(n => n.Value).ToList(), vectors.Paths[i]);
+            if (ghVectors != null)
+                for (int i = 0; i < ghVectors.Branches.Count; i++)
+                    rhVectors.AddRange(ghVectors.Branches[i].Select(n => n.Value).ToList(), ghVectors.Paths[i]);
 
-            return vectorsRh;
+            return rhVectors;
         }
+
         /// <summary>
         /// Converts a GH_Structure of GH_Integer to a DataTree of integer
         /// </summary>
-        /// <param name="iWeights"></param>
+        /// <param name="ghInt"></param>
         /// <returns></returns>
-        public static DataTree<int> GHS2TreeIntegers(GH_Structure<GH_Integer> iWeights)
+        public static DataTree<int> GHS2TreeIntegers(GH_Structure<GH_Integer> ghInt)
         {
-            DataTree<int> iWeightsRh = new DataTree<int>();
+            DataTree<int> rhInt = new DataTree<int>();
 
-            if (iWeights != null)
-                for (int i = 0; i < iWeights.Branches.Count; i++)
-                    iWeightsRh.AddRange(iWeights.Branches[i].Select(n => n.Value).ToList(), iWeights.Paths[i]);
+            if (ghInt != null)
+                for (int i = 0; i < ghInt.Branches.Count; i++)
+                    rhInt.AddRange(ghInt.Branches[i].Select(n => n.Value).ToList(), ghInt.Paths[i]);
 
-            return iWeightsRh;
+            return rhInt;
         }
 
         #endregion Data Utilities

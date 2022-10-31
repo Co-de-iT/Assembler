@@ -3,7 +3,6 @@ using Assembler.Utils;
 using AssemblerLib;
 using GH_IO.Serialization;
 using Grasshopper;
-using Grasshopper.GUI;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Components;
 using Grasshopper.Kernel.Data;
@@ -12,11 +11,9 @@ using Rhino.Display;
 using Rhino.DocObjects;
 using Rhino.Geometry;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Assembler
@@ -235,7 +232,8 @@ namespace Assembler
 
             int countY = 0, countX = 0;
             int total = Hr.Count;
-            int rowElements = (total / nR) + 1;
+            // int rowElements = (total / nR) + 1;
+            int rowElements = (int)Math.Ceiling(total / (double)nR);
 
             // sequence
             // loop 1:

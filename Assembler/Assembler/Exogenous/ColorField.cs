@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-
+﻿using Assembler.Properties;
+using AssemblerLib;
+using GH_IO.Serialization;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using AssemblerLib;
-using Assembler.Properties;
-using System.Threading;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
-using GH_IO.Serialization;
 
 namespace Assembler
 {
@@ -38,7 +36,7 @@ namespace Assembler
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Field", "F", "Field", GH_ParamAccess.item);
-            pManager.AddColourParameter("Colors", "C", "List of Colors for scalars\nat least 2 colors are needed", GH_ParamAccess.list);
+            pManager.AddColourParameter("Colors", "C", "List of Colors for scalars\nat least 2 colors are needed", GH_ParamAccess.list, new List<Color> { Color.Red, Color.FromArgb(0, 128, 255) });
             pManager.AddIntegerParameter("Index", "i", "Index of scalar value to sample\n0 (default) for single scalar value per Field point", GH_ParamAccess.item, 0);
             pManager.AddNumberParameter("Threshold", "T", "Threshold for Allocation\nif Blend colors option is true this value is ingored", GH_ParamAccess.item, 0.5);
         }
@@ -59,14 +57,16 @@ namespace Assembler
         protected override void SolveInstance(IGH_DataAccess DA)
         {
 
-            Field f = null, fCol;
-            if (!DA.GetData(0, ref f)) return;
+            Field field = null, coloredField;
+            if (!DA.GetData(0, ref field)) return;
 
-            fCol = new Field(f);
+            coloredField = new Field(field);
 
             List<Color> C = new List<Color>();
-            if (!DA.GetDataList(1, C)) return;
-            if (C.Count < 2)
+            DA.GetDataList(1, C);
+            //if (!DA.GetDataList(1, C)) return;
+            if (C == null || C.Count == 0) C = new List<Color> { Color.Red, Color.FromArgb(0, 128, 255) };
+            if (C.Count > 0 && C.Count < 2)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "You must provide at least 2 Colors");
                 return;
@@ -74,24 +74,29 @@ namespace Assembler
             int ind = 0;
             DA.GetData("Index", ref ind);
 
-            if (fCol.Tensors[0].Scalars == null || ind > fCol.Tensors[0].Scalars.Length)
+            if (coloredField.Tensors[0] == null)
             {
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Field does not have scalar values at specified index");
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Field does not contain scalar values");
+                return;
+            }
+
+            if (coloredField.Tensors[0].Scalars == null || ind > coloredField.Tensors[0].Scalars.Length)
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Field does not contain scalar values at specified index");
                 return;
             }
 
             double thres = 0.5;
             DA.GetData("Threshold", ref thres);
 
-            fCol.GenerateScalarColors(C, ind, thres, blend);
-            //fCol.GenerateScalarColors(C[0], C[1], ind, thres, blend);
+            coloredField.GenerateScalarColors(C, ind, thres, blend);
 
             _cloud = new PointCloud();
-            _cloud.AddRange(fCol.GetPoints(), fCol.Colors);
+            _cloud.AddRange(coloredField.GetPoints(), coloredField.Colors);
             _clip = _cloud.GetBoundingBox(false);
 
-            DA.SetData(0, fCol);
-            DA.SetDataList(1, fCol.Colors);
+            DA.SetData(0, coloredField);
+            DA.SetDataList(1, coloredField.Colors);
         }
 
         /// <summary>

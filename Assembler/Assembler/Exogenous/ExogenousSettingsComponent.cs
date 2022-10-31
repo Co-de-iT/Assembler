@@ -43,19 +43,22 @@ namespace Assembler
         {
             pManager.AddMeshParameter("Environment Meshes", "ME", "Closed Meshes as environmental objects" +
                 "\nMesh normal direction decides the object type\noutwards: obstacle\ninward: void" +
-                "\nNOTE: if the right-click menu 'Use Container' option is active, the first Mesh in a non-empty list will be used as a container", GH_ParamAccess.list);
+                "\nNOTE: if the right-click menu 'Use Container' option is active, the first Mesh in a non-empty list will be used as a container",
+                GH_ParamAccess.list);
             pManager.AddIntegerParameter("Environment Mode", "eM",
                 "Environment interaction mode" +
                 "\n0 - ignore environmental objects" +
                 "\n1 - use objects - container collision" +
                 "\n2 - use objects - container inclusion" +
                 "\n" +
-                "\nattach a Value List for automatic list generation",
+                "\nattach a Value List for automatic list generation"+
+                "\nIf no Mesh is provided in ME input, this will be forced to mode 0",
                 GH_ParamAccess.item, 1);
             pManager.AddGenericParameter("Field", "F", "Field", GH_ParamAccess.item);
             pManager.AddNumberParameter("Field Scalar threshold", "Ft", "Threshold value (in normalized 0-1 range) for scalar Field based criteria", GH_ParamAccess.item, 0.5);
             pManager.AddBoxParameter("Sandbox", "sB", "Sandbox for focused assemblages (NOT IMPLEMENTED YET)\nif present, Assemblage will grow only inside the Box", GH_ParamAccess.item, Box.Empty);
 
+            pManager[0].Optional = true;
             pManager[1].Optional = true;
             pManager[2].Optional = true;
             pManager[3].Optional = true;
@@ -79,16 +82,13 @@ namespace Assembler
         {
             // exogenous
             List<Mesh> ME = new List<Mesh>();
-            if (!DA.GetDataList("Environment Meshes", ME)) return;
+            DA.GetDataList("Environment Meshes", ME);
 
             // check environment meshes and remove nulls and invalids
             int meshCount = ME.Count;
 
             for (int i = ME.Count - 1; i >= 0; i--)
                 if (ME[i] == null || !ME[i].IsValid) ME.RemoveAt(i);
-
-            if (ME.Count == 0)
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "All input Meshes are null or invalid");
 
             if (ME.Count != meshCount)
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Some Environment Meshes are null or invalid and have been removed from the list");
@@ -133,7 +133,7 @@ namespace Assembler
             }
             catch
             {
-                // handles anything that is not a value list
+                // handlesTree anything that is not a value list
             }
 
             ExogenousSettings ES = new ExogenousSettings(ME, eM, F, fT, sandbox, hasContainer);

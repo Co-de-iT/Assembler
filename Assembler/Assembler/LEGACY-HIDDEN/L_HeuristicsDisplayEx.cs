@@ -262,7 +262,7 @@ namespace Assembler
                     }
 
                     // rewrite rule for display and add to the text Tree (just for Heuristic Display component)
-                    //string rule = receiver.name + "|" + rH + "=" + rR + "(" + receiver.handles[rH].rRotations[rR] + ")" + "<" + sender.name + "|" + sH;
+                    //string rule = receiver.name + "|" + rH + "=" + rR + "(" + receiver.handlesTree[rH].rRotations[rR] + ")" + "<" + sender.name + "|" + sH;
                     //rulesText.Add(rule, Hr.Paths[i].AppendElement(j));
 
                     // calculate next grid position

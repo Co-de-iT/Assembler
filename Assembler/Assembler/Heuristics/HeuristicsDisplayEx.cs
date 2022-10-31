@@ -94,7 +94,7 @@ namespace Assembler
             DataTree<string> HeSTree = new DataTree<string>();
             for (int i = 0; i < HeS.Count; i++)
                 HeSTree.Add(HeS[i], new GH_Path(i));
-            
+
             // build Rules list
             List<Rule> HeR = Utilities.HeuristicsRulesFromString(AOs, catalog, HeS);
 
@@ -125,7 +125,8 @@ namespace Assembler
 
             int countY = 0, countX = 0;
             int total = Hr.Count;
-            int rowElements = (total / nR) + 1;
+            // int rowElements = (total / nR) + 1;
+            int rowElements = (int)Math.Ceiling(total / (double)nR);
 
             // sequence
             // loop 1:

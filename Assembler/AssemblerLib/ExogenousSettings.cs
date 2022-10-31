@@ -4,7 +4,7 @@ using Rhino.Geometry;
 namespace AssemblerLib
 {
     /// <summary>
-    /// A class that manages settings for Exogenous elements (environment, Field)
+    /// A structure that manages settings for Exogenous elements (environment, Field)
     /// </summary>
     public struct ExogenousSettings
     {

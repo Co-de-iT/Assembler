@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿using Assembler.Properties;
+using Assembler.Utils;
+using AssemblerLib;
+using GH_IO.Serialization;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using AssemblerLib;
-using Assembler.Utils;
-using Assembler.Properties;
+using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
-using GH_IO.Serialization;
 
 namespace Assembler
 {
@@ -17,13 +16,13 @@ namespace Assembler
         // but it screws up existing components (must be manually replaced in definitions!)
         // so I'm doing it "old school"
         private bool worldZLock = false;
-        //public bool Absolute
+        //public bool WorldZLock
         //{
-        //    get { return absoluteZLock; }
+        //    get { return worldZLock; }
         //    set
         //    {
-        //        absoluteZLock = value;
-        //        if (absoluteZLock)
+        //        worldZLock = value;
+        //        if (worldZLock)
         //        {
         //            Message = "World Z Lock";
         //        }
@@ -55,11 +54,11 @@ namespace Assembler
         {
             pManager.AddTextParameter("Name", "N", "The object's unique name", GH_ParamAccess.item);
             pManager.AddMeshParameter("Collision Mesh", "M", "The mesh geometry used for collision checks", GH_ParamAccess.item);
-            pManager.AddPlaneParameter("Reference Plane", "P", "The object's reference plane", GH_ParamAccess.item);
-            pManager.AddVectorParameter("Direction", "D", "The object's direction vector", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Weight", "W", "The object's weight (optional)", GH_ParamAccess.item, 1.0);
+            pManager.AddPlaneParameter("Reference Plane", "P", "The object's reference plane\nif unspecified, it is set to an XY Plane in the mesh volume centroid", GH_ParamAccess.item);
+            pManager.AddVectorParameter("Direction", "D", "The object's direction vector\ndefault: X direction vector", GH_ParamAccess.item, Vector3d.XAxis);
             pManager.AddGenericParameter("Handles", "H", "The object's Handles", GH_ParamAccess.list);
-            pManager[4].Optional = true;
+            pManager.AddNumberParameter("Weight", "W", "The object's weight\n(optional)", GH_ParamAccess.item, 1.0);
+            pManager[2].Optional = true;
         }
 
         /// <summary>
@@ -78,50 +77,53 @@ namespace Assembler
         {
             string name = "";
             int type = 0;
-            Mesh cm = new Mesh();
-            Plane rp = new Plane();
-            Vector3d d = Vector3d.Zero;
-            double w = 1.0;
-            List<Handle> h = new List<Handle>();
+            Mesh collisionMesh = new Mesh();
+            Plane referencePlane = new Plane();
+            Vector3d directionVector = Vector3d.Zero;
+            double weight = 1.0;
+            List<Handle> handlesList = new List<Handle>();
 
             // input data sanity checks
             if (!DA.GetData("Name", ref name)) return;
-            if (!DA.GetData("Collision Mesh", ref cm)) return;
-            if (!DA.GetData("Reference Plane", ref rp)) return;
-            if (!DA.GetData("Direction", ref d)) return;
-            DA.GetData("Weight", ref w);
-            if (!DA.GetDataList(5, h)) return;
+            if (!DA.GetData("Collision Mesh", ref collisionMesh)) return;
 
             // if collision mesh is null return
-            if (cm == null || !cm.IsValid || !cm.IsClosed)
+            if (collisionMesh == null || !collisionMesh.IsValid || !collisionMesh.IsClosed)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Collision Mesh is null, open or invalid");
                 return;
             }
-            // if reference plane is null return
-            if (rp == null)
+
+            // if no reference plane is set or if null set it to XY plane in volume centroid
+            if (!DA.GetData("Reference Plane", ref referencePlane) || referencePlane == null)
             {
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Reference plane is null");
-                return;
+                Point3d centroid = VolumeMassProperties.Compute(collisionMesh).Centroid;
+                referencePlane = new Plane(centroid, Vector3d.ZAxis);
             }
+
+            DA.GetData("Direction", ref directionVector);
             // if direction is null or zero return
-            if (d == null || d == Vector3d.Zero)
+            if (directionVector == null || directionVector == Vector3d.Zero)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Direction vector is zero or invalid");
                 return;
             }
+
+            DA.GetData("Weight", ref weight);
+
+            if (!DA.GetDataList(4, handlesList)) return;
             // if Handles are empty return
-            if (h.Count == 0)
+            if (handlesList.Count == 0)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "No Handles supplied");
                 return;
             }
 
-            // cast Handles to array
-            Handle[] handles = h.ToArray();
+            // purge nulls from Handles list
+            handlesList = Utilities.PurgeNullHandlesFromList(handlesList);
 
-            // construct the AssemblyObject                                                                        v Zlock
-            AssemblyObject AO = new AssemblyObject(cm, handles, rp, d, name, type, w, -1, worldZLock);
+            // construct the AssemblyObject                                                                                         v iWeight v Zlock
+            AssemblyObject AO = new AssemblyObject(collisionMesh, handlesList, referencePlane, directionVector, name, type, weight, -1, worldZLock);
 
             DA.SetData(0, new AssemblyObjectGoo(AO));
 
@@ -151,7 +153,7 @@ namespace Assembler
 
         public override bool Write(GH_IWriter writer)
         {
-            // NOTE: the value in between "" is shared AMONG ALL COMPONENTS of a librbary!
+            // NOTE: the value in between "" is shared AMONG ALL COMPONENTS of a library!
             // ZLockAO is accessible (and modifyable) by other components!
             writer.SetBoolean("ZLockAO", worldZLock);
             return base.Write(writer);
@@ -182,7 +184,7 @@ namespace Assembler
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("3aa66311-1c61-4923-8cc7-675545b770bf"); }
+            get { return new Guid("19C0CD1D-6F1B-4FA7-9D71-6C41FAD8CEA7"); }
         }
     }
 }

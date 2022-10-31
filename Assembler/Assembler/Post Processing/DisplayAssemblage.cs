@@ -147,7 +147,7 @@ namespace Assembler
                         colors[i] = GH_Gradient.GreyScale().ColourAt(AOa.AssemblyObjects.Branches[i][0].weight);
                     });
                     break;
-                case "Connectedness": // connectedness (n. of non-free handles/total handles)
+                case "Connectedness": // connectedness (n. of non-free handlesTree/total handlesTree)
                     Parallel.For(0, colors.Length, i =>
                     {
                         double connectedness = 1 - (AOa.AssemblyObjects.Branches[i][0].handles.Where(h => h.occupancy == 0).Sum(x => 1) / (double)(AOa.AssemblyObjects.Branches[i][0].handles.Length));
@@ -232,7 +232,7 @@ namespace Assembler
                     break;
                 // possible other display modes:
 
-                // Valence (n. of handles)?
+                // Valence (n. of handlesTree)?
                 default:
                     goto case "Objects";
             }

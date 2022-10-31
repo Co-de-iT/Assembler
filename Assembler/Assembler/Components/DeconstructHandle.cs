@@ -1,9 +1,7 @@
-﻿using System;
-
-using Grasshopper.Kernel;
-
+﻿using Assembler.Properties;
 using AssemblerLib;
-using Assembler.Properties;
+using Grasshopper.Kernel;
+using System;
 
 namespace Assembler
 {
@@ -34,7 +32,7 @@ namespace Assembler
         {
             pManager.AddPlaneParameter("Sender Plane", "SP", "Sender Plane", GH_ParamAccess.item);
             pManager.AddPlaneParameter("Receiver Planes", "RP", "Receiver Planes", GH_ParamAccess.list);
-            pManager.AddNumberParameter("Receiver Planes rotations", "Rr", "Receiver Planes rotations", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Receiver Planes rotations", "R", "Receiver Planes rotations", GH_ParamAccess.list);
             pManager.AddIntegerParameter("Handle Type", "T", "Handle Type", GH_ParamAccess.item);
             pManager.AddNumberParameter("Handle Weight", "W", "Handle Weight", GH_ParamAccess.item);
             pManager.AddIntegerParameter("Handle Occupancy", "hO", "Handle Occupancy status\n-1 occluded\n0 available\n1 connected", GH_ParamAccess.item);

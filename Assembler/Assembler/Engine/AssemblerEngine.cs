@@ -240,7 +240,9 @@ namespace Assembler
         private void UpdateMessage()
         {
             Message = checkWZLock ? "World Z Lock\n" : "";
-            //Message += useSupports ? "Supports" : "";
+#if DEBUG
+            Message += useSupports ? "Supports" : "";
+#endif
         }
 
         public override bool Write(GH_IWriter writer)

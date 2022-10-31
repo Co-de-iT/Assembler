@@ -373,24 +373,6 @@ references:
   commentId: M:AssemblerLib.AssemblyObject.#ctor
   fullName: AssemblerLib.AssemblyObject.AssemblyObject()
   nameWithType: AssemblyObject.AssemblyObject()
-- uid: AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.String,System.Int32,System.Double,System.Boolean,System.Collections.Generic.List{AssemblerLib.AssemblyObject})
-  name: AssemblyObject(Mesh, Handle[], Plane, Vector3d, String, Int32, Double, Boolean, List<AssemblyObject>)
-  href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_AssemblerLib_Handle___Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_String_System_Int32_System_Double_System_Boolean_System_Collections_Generic_List_AssemblerLib_AssemblyObject__
-  commentId: M:AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.String,System.Int32,System.Double,System.Boolean,System.Collections.Generic.List{AssemblerLib.AssemblyObject})
-  name.vb: AssemblyObject(Mesh, Handle(), Plane, Vector3d, String, Int32, Double, Boolean, List(Of AssemblyObject))
-  fullName: AssemblerLib.AssemblyObject.AssemblyObject(Rhino.Geometry.Mesh, AssemblerLib.Handle[], Rhino.Geometry.Plane, Rhino.Geometry.Vector3d, System.String, System.Int32, System.Double, System.Boolean, System.Collections.Generic.List<AssemblerLib.AssemblyObject>)
-  fullName.vb: AssemblerLib.AssemblyObject.AssemblyObject(Rhino.Geometry.Mesh, AssemblerLib.Handle(), Rhino.Geometry.Plane, Rhino.Geometry.Vector3d, System.String, System.Int32, System.Double, System.Boolean, System.Collections.Generic.List(Of AssemblerLib.AssemblyObject))
-  nameWithType: AssemblyObject.AssemblyObject(Mesh, Handle[], Plane, Vector3d, String, Int32, Double, Boolean, List<AssemblyObject>)
-  nameWithType.vb: AssemblyObject.AssemblyObject(Mesh, Handle(), Plane, Vector3d, String, Int32, Double, Boolean, List(Of AssemblyObject))
-- uid: AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.String,System.Int32,System.Double,System.Int32,System.Boolean)
-  name: AssemblyObject(Mesh, Handle[], Plane, Vector3d, String, Int32, Double, Int32, Boolean)
-  href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_AssemblerLib_Handle___Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_String_System_Int32_System_Double_System_Int32_System_Boolean_
-  commentId: M:AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.String,System.Int32,System.Double,System.Int32,System.Boolean)
-  name.vb: AssemblyObject(Mesh, Handle(), Plane, Vector3d, String, Int32, Double, Int32, Boolean)
-  fullName: AssemblerLib.AssemblyObject.AssemblyObject(Rhino.Geometry.Mesh, AssemblerLib.Handle[], Rhino.Geometry.Plane, Rhino.Geometry.Vector3d, System.String, System.Int32, System.Double, System.Int32, System.Boolean)
-  fullName.vb: AssemblerLib.AssemblyObject.AssemblyObject(Rhino.Geometry.Mesh, AssemblerLib.Handle(), Rhino.Geometry.Plane, Rhino.Geometry.Vector3d, System.String, System.Int32, System.Double, System.Int32, System.Boolean)
-  nameWithType: AssemblyObject.AssemblyObject(Mesh, Handle[], Plane, Vector3d, String, Int32, Double, Int32, Boolean)
-  nameWithType.vb: AssemblyObject.AssemblyObject(Mesh, Handle(), Plane, Vector3d, String, Int32, Double, Int32, Boolean)
 - uid: AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.Int32,System.Collections.Generic.List{System.Int32[]},System.String,System.Int32,System.Double,System.Double,System.Int32,System.Collections.Generic.List{AssemblerLib.Support},System.Int32,System.Boolean,System.Boolean,System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.List{System.Int32[]},System.Double,System.Double)
   name: AssemblyObject(Mesh, Mesh, Handle[], Plane, Vector3d, Int32, List<Int32[]>, String, Int32, Double, Double, Int32, List<Support>, Int32, Boolean, Boolean, List<AssemblyObject>, List<Int32[]>, Double, Double)
   href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_Rhino_Geometry_Mesh_AssemblerLib_Handle___Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_Int32_System_Collections_Generic_List_System_Int32____System_String_System_Int32_System_Double_System_Double_System_Int32_System_Collections_Generic_List_AssemblerLib_Support__System_Int32_System_Boolean_System_Boolean_System_Collections_Generic_List_AssemblerLib_AssemblyObject__System_Collections_Generic_List_System_Int32____System_Double_System_Double_
@@ -409,6 +391,24 @@ references:
   fullName.vb: AssemblerLib.AssemblyObject.AssemblyObject(Rhino.Geometry.Mesh, Rhino.Geometry.Plane, Rhino.Geometry.Vector3d, System.String, System.Int32, System.Double, System.Boolean, System.Collections.Generic.List(Of AssemblerLib.AssemblyObject))
   nameWithType: AssemblyObject.AssemblyObject(Mesh, Plane, Vector3d, String, Int32, Double, Boolean, List<AssemblyObject>)
   nameWithType.vb: AssemblyObject.AssemblyObject(Mesh, Plane, Vector3d, String, Int32, Double, Boolean, List(Of AssemblyObject))
+- uid: AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,System.Collections.Generic.IEnumerable{AssemblerLib.Handle},Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.String,System.Int32,System.Double,System.Boolean,System.Collections.Generic.List{AssemblerLib.AssemblyObject})
+  name: AssemblyObject(Mesh, IEnumerable<Handle>, Plane, Vector3d, String, Int32, Double, Boolean, List<AssemblyObject>)
+  href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_System_Collections_Generic_IEnumerable_AssemblerLib_Handle__Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_String_System_Int32_System_Double_System_Boolean_System_Collections_Generic_List_AssemblerLib_AssemblyObject__
+  commentId: M:AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,System.Collections.Generic.IEnumerable{AssemblerLib.Handle},Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.String,System.Int32,System.Double,System.Boolean,System.Collections.Generic.List{AssemblerLib.AssemblyObject})
+  name.vb: AssemblyObject(Mesh, IEnumerable(Of Handle), Plane, Vector3d, String, Int32, Double, Boolean, List(Of AssemblyObject))
+  fullName: AssemblerLib.AssemblyObject.AssemblyObject(Rhino.Geometry.Mesh, System.Collections.Generic.IEnumerable<AssemblerLib.Handle>, Rhino.Geometry.Plane, Rhino.Geometry.Vector3d, System.String, System.Int32, System.Double, System.Boolean, System.Collections.Generic.List<AssemblerLib.AssemblyObject>)
+  fullName.vb: AssemblerLib.AssemblyObject.AssemblyObject(Rhino.Geometry.Mesh, System.Collections.Generic.IEnumerable(Of AssemblerLib.Handle), Rhino.Geometry.Plane, Rhino.Geometry.Vector3d, System.String, System.Int32, System.Double, System.Boolean, System.Collections.Generic.List(Of AssemblerLib.AssemblyObject))
+  nameWithType: AssemblyObject.AssemblyObject(Mesh, IEnumerable<Handle>, Plane, Vector3d, String, Int32, Double, Boolean, List<AssemblyObject>)
+  nameWithType.vb: AssemblyObject.AssemblyObject(Mesh, IEnumerable(Of Handle), Plane, Vector3d, String, Int32, Double, Boolean, List(Of AssemblyObject))
+- uid: AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,System.Collections.Generic.IEnumerable{AssemblerLib.Handle},Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.String,System.Int32,System.Double,System.Int32,System.Boolean)
+  name: AssemblyObject(Mesh, IEnumerable<Handle>, Plane, Vector3d, String, Int32, Double, Int32, Boolean)
+  href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_System_Collections_Generic_IEnumerable_AssemblerLib_Handle__Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_String_System_Int32_System_Double_System_Int32_System_Boolean_
+  commentId: M:AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,System.Collections.Generic.IEnumerable{AssemblerLib.Handle},Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.String,System.Int32,System.Double,System.Int32,System.Boolean)
+  name.vb: AssemblyObject(Mesh, IEnumerable(Of Handle), Plane, Vector3d, String, Int32, Double, Int32, Boolean)
+  fullName: AssemblerLib.AssemblyObject.AssemblyObject(Rhino.Geometry.Mesh, System.Collections.Generic.IEnumerable<AssemblerLib.Handle>, Rhino.Geometry.Plane, Rhino.Geometry.Vector3d, System.String, System.Int32, System.Double, System.Int32, System.Boolean)
+  fullName.vb: AssemblerLib.AssemblyObject.AssemblyObject(Rhino.Geometry.Mesh, System.Collections.Generic.IEnumerable(Of AssemblerLib.Handle), Rhino.Geometry.Plane, Rhino.Geometry.Vector3d, System.String, System.Int32, System.Double, System.Int32, System.Boolean)
+  nameWithType: AssemblyObject.AssemblyObject(Mesh, IEnumerable<Handle>, Plane, Vector3d, String, Int32, Double, Int32, Boolean)
+  nameWithType.vb: AssemblyObject.AssemblyObject(Mesh, IEnumerable(Of Handle), Plane, Vector3d, String, Int32, Double, Int32, Boolean)
 - uid: AssemblerLib.AssemblyObject.#ctor*
   name: AssemblyObject
   href: api/AssemblerLib.AssemblyObject.html#AssemblerLib_AssemblyObject__ctor_
@@ -1011,6 +1011,19 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Field.InitStigmergy
   nameWithType: Field.InitStigmergy
+- uid: AssemblerLib.Field.MaxDistSquare
+  name: MaxDistSquare
+  href: api/AssemblerLib.Field.html#AssemblerLib_Field_MaxDistSquare
+  commentId: P:AssemblerLib.Field.MaxDistSquare
+  fullName: AssemblerLib.Field.MaxDistSquare
+  nameWithType: Field.MaxDistSquare
+- uid: AssemblerLib.Field.MaxDistSquare*
+  name: MaxDistSquare
+  href: api/AssemblerLib.Field.html#AssemblerLib_Field_MaxDistSquare_
+  commentId: Overload:AssemblerLib.Field.MaxDistSquare
+  isSpec: "True"
+  fullName: AssemblerLib.Field.MaxDistSquare
+  nameWithType: Field.MaxDistSquare
 - uid: AssemblerLib.Field.PopulateField(Grasshopper.DataTree{System.Double},Grasshopper.DataTree{Rhino.Geometry.Vector3d})
   name: PopulateField(DataTree<Double>, DataTree<Vector3d>)
   href: api/AssemblerLib.Field.html#AssemblerLib_Field_PopulateField_Grasshopper_DataTree_System_Double__Grasshopper_DataTree_Rhino_Geometry_Vector3d__
@@ -2172,6 +2185,22 @@ references:
   isSpec: "True"
   fullName: AssemblerLib.Utilities.IsPointInMesh
   nameWithType: Utilities.IsPointInMesh
+- uid: AssemblerLib.Utilities.PurgeNullHandlesFromList(System.Collections.Generic.List{AssemblerLib.Handle})
+  name: PurgeNullHandlesFromList(List<Handle>)
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_PurgeNullHandlesFromList_System_Collections_Generic_List_AssemblerLib_Handle__
+  commentId: M:AssemblerLib.Utilities.PurgeNullHandlesFromList(System.Collections.Generic.List{AssemblerLib.Handle})
+  name.vb: PurgeNullHandlesFromList(List(Of Handle))
+  fullName: AssemblerLib.Utilities.PurgeNullHandlesFromList(System.Collections.Generic.List<AssemblerLib.Handle>)
+  fullName.vb: AssemblerLib.Utilities.PurgeNullHandlesFromList(System.Collections.Generic.List(Of AssemblerLib.Handle))
+  nameWithType: Utilities.PurgeNullHandlesFromList(List<Handle>)
+  nameWithType.vb: Utilities.PurgeNullHandlesFromList(List(Of Handle))
+- uid: AssemblerLib.Utilities.PurgeNullHandlesFromList*
+  name: PurgeNullHandlesFromList
+  href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_PurgeNullHandlesFromList_
+  commentId: Overload:AssemblerLib.Utilities.PurgeNullHandlesFromList
+  isSpec: "True"
+  fullName: AssemblerLib.Utilities.PurgeNullHandlesFromList
+  nameWithType: Utilities.PurgeNullHandlesFromList
 - uid: AssemblerLib.Utilities.receiverValuesGradient
   name: receiverValuesGradient
   href: api/AssemblerLib.Utilities.html#AssemblerLib_Utilities_receiverValuesGradient

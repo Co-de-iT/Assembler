@@ -61,7 +61,8 @@ namespace Assembler
             GH_Path p;
             for (int i = 0; i < AO.Count; i++)
             {
-                p = new GH_Path(0, AO[i].AInd);//Topology main path is the object AInd
+                //Topology main path is the object AInd
+                p = new GH_Path(0, AO[i].AInd);
                 foreach (Handle h in AO[i].handles)
                 {
                     hOTree.Append(new GH_Integer(h.occupancy), p);

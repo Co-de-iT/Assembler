@@ -100,7 +100,7 @@ namespace Assembler
                 poly.Add(p);
             }
 
-            // create handles
+            // create handlesTree
             for (int i = 0; i < poly.Count; i++)
             {
                 if (rot.Branches[i] == null || rot.Branches[i].Count == 0)
@@ -116,7 +116,7 @@ namespace Assembler
                 handles.Add(hand);
             }
 
-            // output handles
+            // output handlesTree
             DA.SetDataList(0, handles);
         }
 

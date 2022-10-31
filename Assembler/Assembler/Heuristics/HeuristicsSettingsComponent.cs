@@ -112,64 +112,64 @@ namespace Assembler
             // __________________ autoList - Receiver Selection Mode __________________
 
             // variable for the list
-            GH_ValueList vListRec;
+            GH_ValueList vListReceiver;
             // tries to cast input as list
             try
             {
-                vListRec = (GH_ValueList)Params.Input[3].Sources[0];
+                vListReceiver = (GH_ValueList)Params.Input[3].Sources[0];
 
-                if (!vListRec.NickName.Equals("Receiver selection mode"))
+                if (!vListReceiver.NickName.Equals("Receiver selection mode"))
                 {
-                    vListRec.ClearData();
-                    vListRec.ListItems.Clear();
-                    vListRec.NickName = "Receiver selection mode";
+                    vListReceiver.ClearData();
+                    vListReceiver.ListItems.Clear();
+                    vListReceiver.NickName = "Receiver selection mode";
 
-                    vListRec.ListItems.Add(new GH_ValueListItem("Random", "0"));
-                    vListRec.ListItems.Add(new GH_ValueListItem("Scalar Field nearest", "1"));
-                    vListRec.ListItems.Add(new GH_ValueListItem("Scalar Field interpolated", "2"));
-                    vListRec.ListItems.Add(new GH_ValueListItem("Dense Packing", "3"));
+                    vListReceiver.ListItems.Add(new GH_ValueListItem("Random", "0"));
+                    vListReceiver.ListItems.Add(new GH_ValueListItem("Scalar Field nearest", "1"));
+                    vListReceiver.ListItems.Add(new GH_ValueListItem("Scalar Field interpolated", "2"));
+                    vListReceiver.ListItems.Add(new GH_ValueListItem("Dense Packing", "3"));
 
-                    vListRec.ListItems[0].Value.CastTo(out Rsm);
+                    vListReceiver.ListItems[0].Value.CastTo(out Rsm);
                 }
             }
             catch
             {
-                // handles anything that is not a value list
+                // handlesTree anything that is not a value list
             }
 
             // __________________ autoList - Sender (rule) Selection Mode __________________
 
             // variable for the list
-            GH_ValueList vListSen;
+            GH_ValueList vListSender;
             // tries to cast input as list
             try
             {
 
-                vListSen = (GH_ValueList)Params.Input[4].Sources[0];
+                vListSender = (GH_ValueList)Params.Input[4].Sources[0];
 
-                if (!vListSen.NickName.Equals("Sender selection mode"))
+                if (!vListSender.NickName.Equals("Sender selection mode"))
                 {
-                    vListSen.ClearData();
-                    vListSen.ListItems.Clear();
-                    vListSen.NickName = "Sender selection mode";
+                    vListSender.ClearData();
+                    vListSender.ListItems.Clear();
+                    vListSender.NickName = "Sender selection mode";
 
-                    vListSen.ListItems.Add(new GH_ValueListItem("Random", "0"));
-                    vListSen.ListItems.Add(new GH_ValueListItem("Scalar Field nearest", "1"));
-                    vListSen.ListItems.Add(new GH_ValueListItem("Scalar Field interpolated", "2"));
-                    vListSen.ListItems.Add(new GH_ValueListItem("Vector Field > nearest", "3"));
-                    vListSen.ListItems.Add(new GH_ValueListItem("Vector Field > interpolated", "4"));
-                    vListSen.ListItems.Add(new GH_ValueListItem("Vector Field <> nearest", "5"));
-                    vListSen.ListItems.Add(new GH_ValueListItem("Vector Field <> interpolated", "6"));
-                    vListSen.ListItems.Add(new GH_ValueListItem("Minimum local AABB volume", "7"));
-                    vListSen.ListItems.Add(new GH_ValueListItem("Minimum local AABB diagonal", "8"));
-                    vListSen.ListItems.Add(new GH_ValueListItem("Weighted Random Choice", "9"));
+                    vListSender.ListItems.Add(new GH_ValueListItem("Random", "0"));
+                    vListSender.ListItems.Add(new GH_ValueListItem("Scalar Field nearest", "1"));
+                    vListSender.ListItems.Add(new GH_ValueListItem("Scalar Field interpolated", "2"));
+                    vListSender.ListItems.Add(new GH_ValueListItem("Vector Field > nearest", "3"));
+                    vListSender.ListItems.Add(new GH_ValueListItem("Vector Field > interpolated", "4"));
+                    vListSender.ListItems.Add(new GH_ValueListItem("Vector Field <> nearest", "5"));
+                    vListSender.ListItems.Add(new GH_ValueListItem("Vector Field <> interpolated", "6"));
+                    vListSender.ListItems.Add(new GH_ValueListItem("Minimum local AABB volume", "7"));
+                    vListSender.ListItems.Add(new GH_ValueListItem("Minimum local AABB diagonal", "8"));
+                    vListSender.ListItems.Add(new GH_ValueListItem("Weighted Random Choice", "9"));
 
-                    vListSen.ListItems[0].Value.CastTo(out Ssm);
+                    vListSender.ListItems[0].Value.CastTo(out Ssm);
                 }
             }
             catch
             {
-                // handles anything that is not a value list
+                // handlesTree anything that is not a value list
             }
 
             HeuristicsSettings HS = new HeuristicsSettings(HeS, cH, HeM, Rsm, Ssm);

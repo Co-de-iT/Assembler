@@ -161,7 +161,7 @@ namespace Assembler
             }
             catch
             {
-                // handles anything that is not a value list
+                // handlesTree anything that is not a value list
             }
 
             // cast input to AssemblyObject type

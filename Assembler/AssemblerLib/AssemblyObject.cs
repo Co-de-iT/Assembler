@@ -48,7 +48,7 @@ namespace AssemblerLib
         { get => aInd; set => aInd = value; }
         private int aInd;
         /// <summary>
-        /// List of 2 indices (AInd, handle index) occluded by this object
+        /// List <see cref="AssemblyObject"/>s occluded by this object and their respective <see cref="Handle"/>
         /// </summary>
         public List<int[]> occludedNeighbours;
         /// <summary>
@@ -173,15 +173,15 @@ namespace AssemblerLib
         /// Builds an AssemblyObject from all required parameters
         /// </summary>
         /// <param name="collisionMesh">Mesh for collision calculation</param>
-        /// <param name="handles">handles for assemblage</param>
-        /// <param name="referencePlane">reference Plane</param>
-        /// <param name="direction">direction for Vector field interaction</param>
-        /// <param name="name">object type name</param>
-        /// <param name="type">object type id</param>
-        /// <param name="weight">scalar for density operations or field interactions</param>
-        /// <param name="iWeight">integer Weight for Weighted Random choice during assemblage</param>
-        /// <param name="worldZLock">lock orientation of Z axis to World Z axis</param>
-        public AssemblyObject(Mesh collisionMesh, Handle[] handles, Plane referencePlane, Vector3d direction, string name, int type, double weight, int iWeight,
+        /// <param name="handles"><see cref="Handle"/>s for <see cref="Assemblage"/></param>
+        /// <param name="referencePlane">Reference Plane</param>
+        /// <param name="direction">Direction for Vector <see cref="Field"/> interaction</param>
+        /// <param name="name">AssemblyObject kind name</param>
+        /// <param name="type">AssemblyObject type id</param>
+        /// <param name="weight">Scalar for density operations or field interactions</param>
+        /// <param name="iWeight">Integer Weight</param>
+        /// <param name="worldZLock">Lock orientation of reference Plane Z-axis to World Z-axis</param>
+        public AssemblyObject(Mesh collisionMesh, IEnumerable<Handle> handles, Plane referencePlane, Vector3d direction, string name, int type, double weight, int iWeight,
             bool worldZLock)
         {
             // collision Mesh operations
@@ -269,7 +269,7 @@ namespace AssemblerLib
         /// <param name="weight"></param>
         /// <param name="absoluteZLock"></param>
         /// <param name="children"></param>
-        public AssemblyObject(Mesh collisionMesh, Handle[] handles, Plane referencePlane, Vector3d direction, string name, int type, double weight, bool absoluteZLock, List<AssemblyObject> children) :
+        public AssemblyObject(Mesh collisionMesh, IEnumerable<Handle> handles, Plane referencePlane, Vector3d direction, string name, int type, double weight, bool absoluteZLock, List<AssemblyObject> children) :
             this(collisionMesh, handles, referencePlane, direction, name, type, weight, 1, absoluteZLock)
         {
             // copy children objects

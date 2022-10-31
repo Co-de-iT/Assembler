@@ -21,7 +21,8 @@ namespace AssemblerLib
     /// <summary>
     /// Stores spatially-distributed scalar, vector and integer weights values
     /// </summary>
-    /// <remarks>test if field improves transforming scalars to integer values - i.e. input desired precision (3, 4, etc.) 
+    /// <remarks>
+    /// Test if field improves transforming scalars to integer values - i.e. input desired precision (3, 4, etc.) 
     /// and multiply 0-1 * 10^precision.
     /// Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to speed up vector field computations?</remarks>
     public class Field
@@ -30,7 +31,7 @@ namespace AssemblerLib
         /// Array of Tensor points in the field
         /// </summary>
         public Tensor[] Tensors
-            { get; set; }
+        { get; set; }
         /// <summary>
         /// Neighbour index array - for future implementation
         /// </summary>
@@ -51,6 +52,11 @@ namespace AssemblerLib
         /// </summary>
         public Color[] Colors
         { get; set; }
+        /// <summary>
+        /// Maximum distance (square, for faster calculations) after which a point is considered outside the Field
+        /// </summary>
+        public double MaxDistSquare
+        { get; internal set; }
 
         /// <summary>
         /// Points in Rhino.Collections.Point3dList format for fast neighbour search
@@ -74,10 +80,14 @@ namespace AssemblerLib
             points = otherField.points.Duplicate();
             pointsTree = RTree.CreateFromPointArray(otherField.points);
             searchRadius = otherField.searchRadius;
+            MaxDistSquare = otherField.MaxDistSquare;
             Tensors = (Tensor[])otherField.Tensors.Clone();
-            Topology = otherField.Topology;
-            TransCoeff = otherField.TransCoeff;
-            Colors = otherField.Colors;
+            // see if this works, otherwise revert to the line commented below
+            Topology = otherField.Topology == null ? null : (int[][])otherField.Topology.Clone();
+            // Topology = otherField.Topology;
+            TransCoeff = otherField.TransCoeff == null ? null : (double[][])otherField.TransCoeff.Clone();
+            StigValues = otherField.StigValues == null ? null : (double[])otherField.StigValues.Clone();
+            Colors = otherField.Colors == null ? null : (Color[])otherField.Colors.Clone();
         }
 
         #region Sparse Field Constructors
@@ -104,7 +114,7 @@ namespace AssemblerLib
             // convert Topology DataTree to bidimensional array of neighbours
             if (Topology != null) this.Topology = Utilities.ToJaggedArray(Topology);
             if (TransCoeff != null) this.TransCoeff = Utilities.ToJaggedArray(TransCoeff);
-            ComputeSearchRadius();
+            ComputeSearchRadiusAndMaxDist();
         }
 
         /// <summary>
@@ -137,7 +147,7 @@ namespace AssemblerLib
             // convert Topology DataTree to bidimensional array of neighbours
             if (Topology != null) this.Topology = Utilities.ToJaggedArray(Topology);
             if (TransCoeff != null) this.TransCoeff = Utilities.ToJaggedArray(TransCoeff);
-            ComputeSearchRadius();
+            ComputeSearchRadiusAndMaxDist();
 
             // initialize Tensors array
             Tensors = new Tensor[points.Count];
@@ -166,7 +176,7 @@ namespace AssemblerLib
             // convert Topology DataTree to bidimensional array of neighbours
             if (Topology != null) this.Topology = Utilities.ToJaggedArray(Topology);
             if (TransCoeff != null) this.TransCoeff = Utilities.ToJaggedArray(TransCoeff);
-            ComputeSearchRadius();
+            ComputeSearchRadiusAndMaxDist();
 
             // initialize Tensors array
             Tensors = new Tensor[points.Count];
@@ -178,41 +188,41 @@ namespace AssemblerLib
         /// <summary>
         /// constructs an empty field from a Box, with individual resolutions in X, Y, and Z
         /// </summary>
-        /// <param name="b"></param>
+        /// <param name="box"></param>
         /// <param name="resX"></param>
         /// <param name="resY"></param>
         /// <param name="resZ"></param>
-        public Field(Box b, double resX, double resY, double resZ)
+        public Field(Box box, double resX, double resY, double resZ)
         {
-            Vector3d diag = b.BoundingBox.Diagonal;
+            Vector3d diag = box.BoundingBox.Diagonal;
 
             int nX = Math.Max(1, (int)Math.Round(diag.X / resX));
             int nY = Math.Max(1, (int)Math.Round(diag.Y / resY));
             int nZ = Math.Max(1, (int)Math.Round(diag.Z / resZ));
 
-            InitField(b, nX, nY, nZ);
+            InitField(box, nX, nY, nZ);
         }
 
         /// <summary>
         /// constructs an empty field from a Box, with individual number of points in X, Y, and Z
         /// </summary>
-        /// <param name="b"></param>
+        /// <param name="box"></param>
         /// <param name="nX"></param>
         /// <param name="nY"></param>
         /// <param name="nZ"></param>
-        public Field(Box b, int nX, int nY, int nZ)
+        public Field(Box box, int nX, int nY, int nZ)
         {
-            InitField(b, nX, nY, nZ);
+            InitField(box, nX, nY, nZ);
         }
 
         /// <summary>
         /// constructs an empty field from a Box, with n points on the largest dimension and according numbers on other
         /// </summary>
-        /// <param name="b"></param>
+        /// <param name="box"></param>
         /// <param name="n"></param>
-        public Field(Box b, int n)
+        public Field(Box box, int n)
         {
-            Point3d[] corners = b.GetCorners();
+            Point3d[] corners = box.GetCorners();
             double x, y, z;
             x = corners[0].DistanceTo(corners[1]);
             y = corners[0].DistanceTo(corners[3]);
@@ -224,14 +234,13 @@ namespace AssemblerLib
             int nY = Math.Max(1, (int)Math.Round(y / res));
             int nZ = Math.Max(1, (int)Math.Round(z / res));
 
-            InitField(b, nX, nY, nZ);
+            InitField(box, nX, nY, nZ);
         }
 
         #endregion
 
-        private void InitField(Box b, int nX, int nY, int nZ)
+        private void InitField(Box box, int nX, int nY, int nZ)
         {
-
             double resX = 1.0 / nX;
             double resY = 1.0 / nY;
             double resZ = 1.0 / nZ;
@@ -241,12 +250,13 @@ namespace AssemblerLib
             for (int i = 0; i < nX; i++)
                 for (int j = 0; j < nY; j++)
                     for (int k = 0; k < nZ; k++)
-                        points.Add(b.PointAt((i + 0.5) * resX, (j + 0.5) * resY, (k + 0.5) * resZ));
+                        points.Add(box.PointAt((i + 0.5) * resX, (j + 0.5) * resY, (k + 0.5) * resZ));
 
             pointsTree = RTree.CreateFromPointArray(points);
 
-            if (points.Count == 1) searchRadius = b.BoundingBox.Diagonal.Length * 0.6;
+            if (points.Count == 1) searchRadius = box.BoundingBox.Diagonal.Length * 0.6;
             else searchRadius = points[0].DistanceTo(points[1]) * 1.2;
+            MaxDistSquare = searchRadius * searchRadius;
 
             // initialize Tensors array
             Tensors = new Tensor[points.Count];
@@ -643,7 +653,7 @@ namespace AssemblerLib
         /// Computes search radius for sparse Fields
         /// </summary>
         /// <returns></returns>
-        private void ComputeSearchRadius()
+        private void ComputeSearchRadiusAndMaxDist()
         {
             double radius;
             double dist;
@@ -658,6 +668,7 @@ namespace AssemblerLib
                         if (dist < radius) radius = dist;
                     }
                 searchRadius = radius * 1.5;
+                MaxDistSquare = radius * radius;
             }
             else
             {
@@ -669,6 +680,7 @@ namespace AssemblerLib
                         if (dist > radius) radius = dist;
                     }
                 searchRadius = radius * 1.2;
+                MaxDistSquare = radius * radius;
             }
         }
 
@@ -952,7 +964,7 @@ namespace AssemblerLib
             List<double> neighScal = GetNeighbourScalars(P);
 
             double intScal = 0;
-            if (neighScal.Count == 0) return intScal;
+            if (neighScal.Count == 0) return intScal; // this is the condition of being outside the Field - correct with another value
 
             for (int i = 0; i < neighScal.Count; i++)
                 intScal += neighScal[i];

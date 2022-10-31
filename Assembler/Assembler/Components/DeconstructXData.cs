@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Grasshopper.Kernel;
-using Rhino.Geometry;
+﻿using Assembler.Properties;
 using AssemblerLib;
-using Assembler.Properties;
+using Grasshopper.Kernel;
+using System;
 
 namespace Assembler
 {
@@ -32,11 +29,11 @@ namespace Assembler
         /// Registers all the output parameters for this component.
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
-        {
+        { 
             pManager.AddTextParameter("Label", "L", "Label for the data", GH_ParamAccess.item);
-            pManager.AddGenericParameter("Data", "D", "Data", GH_ParamAccess.list);
-            pManager.AddPlaneParameter("Reference Plane", "P", "Reference plane for extended data", GH_ParamAccess.item);
             pManager.AddTextParameter("AssemblyObject Name reference", "N", "AssemblyObject name to which XData is associated", GH_ParamAccess.item);
+            pManager.AddPlaneParameter("Reference Plane", "P", "Reference plane for extended data", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Data", "D", "Data", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -49,9 +46,9 @@ namespace Assembler
             if (!DA.GetData(0, ref xd)) return;
 
             DA.SetData(0, xd.label);
-            DA.SetDataList(1, xd.data);
+            DA.SetData(1, xd.AOName);
             DA.SetData(2, xd.refPlane);
-            DA.SetData(3, xd.AOName);
+            DA.SetDataList(3, xd.data);
         }
 
         /// <summary>
@@ -81,7 +78,7 @@ namespace Assembler
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("0a291f0f-c1c2-45e3-9630-d09c60a1d5d3"); }
+            get { return new Guid("6F1C531D-33E9-44F2-912A-086CD7717526"); }
         }
     }
 }

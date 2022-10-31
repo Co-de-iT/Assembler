@@ -13,6 +13,9 @@ Install ***Assembler*** via Rhino Package Manager.
 - [Example Files](https://drive.google.com/file/d/1qnprauLZAfjruvcM0hTRckd6zSUlkDAe/view?usp=sharing)
 - [AssemblerLib API Documentation](https://drive.google.com/file/d/1v8xk-zqJCgIcm5H6vk6AS1f2M3cjsY64/view?usp=sharing)
 
+## Changelog
+See the [Changelog](https://raw.githubusercontent.com/Co-de-iT/Assembler/main/Changelog.md) page.
+
 ---
 
 This work is [licensed](LICENSE) under a GNU General Public License v3.0 (you can make commercial use, distribute and modify this project, but must **disclose** the source code with the license and copyright notice)

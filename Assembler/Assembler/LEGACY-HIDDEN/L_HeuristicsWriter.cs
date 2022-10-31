@@ -78,7 +78,7 @@ namespace Assembler
             // scan all components as potential receivers
             for (int rOi = 0; rOi < components.Length; rOi++)
             {
-                // scan all handles
+                // scan all handlesTree
                 for (int rHi = 0; rHi < components[rOi].handles.Length; rHi++)
                 {
                     // scan all components as potential senders
@@ -86,10 +86,10 @@ namespace Assembler
                     {
                         // exclude self if selfObject is False
                         if (rOi == sOi && !selfObject) continue;
-                        // scan potential sender handles
+                        // scan potential sender handlesTree
                         for (int sHi = 0; sHi < components[sOi].handles.Length; sHi++)
                         {
-                            // exclude handles attaching to self if selfHType is False
+                            // exclude handlesTree attaching to self if selfHType is False
                             if (rOi == sOi && rHi == sHi && !selfHType) continue;
                             // if handle types match or cross type is True generate heuristic
                             if (components[rOi].handles[rHi].type == components[sOi].handles[sHi].type || crossT)

@@ -25,10 +25,9 @@ namespace Assembler
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddCurveParameter("Polyline", "LP", "L-shaped Polyline", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Rotation angles", "R", "Rotation angles in degrees - as List", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Rotation angles", "R", "Rotation angles in degrees - as List", GH_ParamAccess.list, new List<double> { 0.0 });
             pManager.AddIntegerParameter("Type", "T", "Handle type", GH_ParamAccess.item, 0);
             pManager.AddNumberParameter("Weight", "W", "Handle Weight", GH_ParamAccess.item, 1.0);
-            pManager[3].Optional = true; // weight is optional
         }
 
         /// <summary>
@@ -47,46 +46,41 @@ namespace Assembler
         {
             // get data
             Handle handle;
-            Curve pCurve = null;
-            Polyline poly;
-            List<double> rot = new List<double>();
+            Curve polylineAsCurve = null;
+            Polyline polyLineL;
+            List<double> rotationsList = new List<double>();
             int type = 0;
-            double w = 1.0;
+            double weight = 1.0;
 
             // sanity checks
-            if (!DA.GetData(0, ref pCurve)) return;
-            if (!DA.GetDataList(1, rot)) return;
-            if (!DA.GetData(2, ref type)) return;
-            if (!DA.GetData(3, ref w))
-                // if weights are not given as input, set them to a defalult of 1.0 for each handle
-                w = 1.0;
+            if (!DA.GetData(0, ref polylineAsCurve)) return;
+            if (!DA.GetDataList(1, rotationsList)) return;
+            DA.GetData(2, ref type);
+            DA.GetData(3, ref weight);
 
-            if (pCurve == null)
+            if (polylineAsCurve == null)
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Please provide an L-shaped polyline");
 
-            if (rot == null || rot.Count == 0)
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Please specify one or more rotations");
-
-
-            if (!pCurve.TryGetPolyline(out poly))
+            if (rotationsList == null || rotationsList.Count == 0)
             {
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Please feed a L-shaped polyline");
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Please specify one or more rotations");
                 return;
             }
-            if (poly.Count != 3)
+
+            if (!polylineAsCurve.TryGetPolyline(out polyLineL))
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Please feed an L-shaped polyline");
+                return;
+            }
+
+            if (polyLineL.Count != 3)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Polyline must have 3 points and be L-shaped");
                 return;
             }
 
-
             // create handle
-
-            if (rot == null || rot.Count == 0)
-                rot = new List<double> { 0.0 };
-
-            handle = new Handle(poly, type, w, rot);
-
+            handle = new Handle(polyLineL, type, weight, rotationsList);
 
             // output handle
             DA.SetData(0, handle);

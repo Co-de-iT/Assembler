@@ -205,6 +205,12 @@ namespace Assembler.Utils
             args.Pipeline.DrawMeshWires(Value.collisionMesh, Color.Black, 1);
             args.Pipeline.DrawLine(Value.referencePlane.Origin, Value.referencePlane.Origin + Value.referencePlane.XAxis, Color.Red, 1);
             args.Pipeline.DrawLine(Value.referencePlane.Origin, Value.referencePlane.Origin + Value.referencePlane.YAxis, Color.Green, 1);
+            args.Pipeline.DrawArrow(new Line(Value.referencePlane.Origin - Value.referencePlane.ZAxis, Value.direction, 2), Color.DarkViolet);
+            foreach (Handle h in Value.handles)
+            {
+                args.Pipeline.DrawPolyline(new Point3d[] { h.sender.Origin + h.sender.XAxis, h.sender.Origin, h.sender.Origin + h.sender.YAxis },
+                    Utilities.AOTypePalette[h.type]);
+            }
         }
 
         #endregion
@@ -216,7 +222,7 @@ namespace Assembler.Utils
         // [w][r] collisionMesh
         // [w][r] offsetMesh
         // [w][r] referencePlane
-        // [w][r] handles
+        // [w][r] handlesTree
         // [w][r] direction
         // [w][r] type
         // [w][r] name
@@ -280,7 +286,7 @@ namespace Assembler.Utils
 
             // serialize Handles
             // key struture: "Handle_<index>_<field>"
-            // get number of handles
+            // get number of handlesTree
             writer.SetInt32(IoHandlesCountKey, Value.handles.Length);
             // serialize them
             for (int i = 0; i < Value.handles.Length; i++)
@@ -320,14 +326,14 @@ namespace Assembler.Utils
 
             // occludedNeighbours
             string occludedNeighbours = OccludeNeighboursToString(m_value.occludedNeighbours);
-            writer.SetString(IoOccludedNeighboursKey,occludedNeighbours);
+            writer.SetString(IoOccludedNeighboursKey, occludedNeighbours);
 
             // weight
             writer.SetDouble(IoWeightKey, Value.weight);
-            
+
             // idleWeight
             writer.SetDouble(IoIdleWeightKey, Value.idleWeight);
-            
+
             // iWeight
             writer.SetInt32(IoIWeightKey, Value.iWeight);
 
@@ -395,7 +401,7 @@ namespace Assembler.Utils
                     new Vector3d(pl.XAxis.x, pl.XAxis.y, pl.XAxis.z), new Vector3d(pl.YAxis.x, pl.YAxis.y, pl.YAxis.z));
             }
 
-            // deserialize handles
+            // deserialize handlesTree
             if (reader.ItemExists(IoHandlesCountKey))
             {
                 int nHandles = reader.GetInt32(IoHandlesCountKey);
@@ -452,7 +458,7 @@ namespace Assembler.Utils
 
             // deserialize weight
             m_value.weight = reader.GetDouble(IoWeightKey);
-            
+
             // deserialize idleWeight
             m_value.idleWeight = reader.GetDouble(IoIdleWeightKey);
 

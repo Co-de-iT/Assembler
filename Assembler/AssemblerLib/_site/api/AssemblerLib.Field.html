@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class Field
    ">
-    <meta name="generator" content="docfx 2.59.2.0">
+    <meta name="generator" content="docfx 2.59.4.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -186,7 +186,7 @@
     <pre><code class="lang-csharp hljs">public class Field</code></pre>
   </div>
   <h5 id="AssemblerLib_Field_remarks"><strong>Remarks</strong></h5>
-  <div class="markdown level0 remarks"><p>test if field improves transforming scalars to integer values - i.e. input desired precision (3, 4, etc.) 
+  <div class="markdown level0 remarks"><p>Test if field improves transforming scalars to integer values - i.e. input desired precision (3, 4, etc.) 
 and multiply 0-1 * 10^precision.
 Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to speed up vector field computations?</p>
 </div>
@@ -229,7 +229,7 @@ Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to sp
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Field(Box b, double resX, double resY, double resZ)</code></pre>
+    <pre><code class="lang-csharp hljs">public Field(Box box, double resX, double resY, double resZ)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -243,7 +243,7 @@ Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to sp
     <tbody>
       <tr>
         <td><span class="xref">Rhino.Geometry.Box</span></td>
-        <td><span class="parametername">b</span></td>
+        <td><span class="parametername">box</span></td>
         <td></td>
       </tr>
       <tr>
@@ -272,7 +272,7 @@ Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to sp
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Field(Box b, int n)</code></pre>
+    <pre><code class="lang-csharp hljs">public Field(Box box, int n)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -286,7 +286,7 @@ Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to sp
     <tbody>
       <tr>
         <td><span class="xref">Rhino.Geometry.Box</span></td>
-        <td><span class="parametername">b</span></td>
+        <td><span class="parametername">box</span></td>
         <td></td>
       </tr>
       <tr>
@@ -305,7 +305,7 @@ Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to sp
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Field(Box b, int nX, int nY, int nZ)</code></pre>
+    <pre><code class="lang-csharp hljs">public Field(Box box, int nX, int nY, int nZ)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -319,7 +319,7 @@ Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to sp
     <tbody>
       <tr>
         <td><span class="xref">Rhino.Geometry.Box</span></td>
-        <td><span class="parametername">b</span></td>
+        <td><span class="parametername">box</span></td>
         <td></td>
       </tr>
       <tr>
@@ -583,6 +583,32 @@ Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to sp
     <tbody>
       <tr>
         <td><span class="xref">System.Drawing.Color</span>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="AssemblerLib_Field_MaxDistSquare_" data-uid="AssemblerLib.Field.MaxDistSquare*"></a>
+  <h4 id="AssemblerLib_Field_MaxDistSquare" data-uid="AssemblerLib.Field.MaxDistSquare">MaxDistSquare</h4>
+  <div class="markdown level1 summary"><p>Maximum distance (square, for faster calculations) after which a point is considered outside the Field</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double MaxDistSquare { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Double</span></td>
         <td></td>
       </tr>
     </tbody>

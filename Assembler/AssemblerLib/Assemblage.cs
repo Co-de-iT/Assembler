@@ -33,8 +33,7 @@ namespace AssemblerLib
 
         #region properties
         /// <summary>
-        /// The sequential list of <see cref="AssemblyObject"/>s in the assemblage
-        /// convert to DataTree in which each Branch Path is the AInd
+        /// The sequential DataTree of <see cref="AssemblyObject"/>s in the Assemblage, each Branch Path is the object AInd
         /// </summary>
         public DataTree<AssemblyObject> AssemblyObjects
         { get; internal set; }
@@ -263,7 +262,7 @@ namespace AssemblerLib
             // build the dictionary (needed by AssignType)
             AOSetDictionary = Utilities.BuildDictionary(this.AOSet);
 
-            // if there is a previous AssemblyObjects list opoulate, else start with one object
+            // if there is a previous AssemblyObjects list popoulate, else start with one object
             if (pAO != null && pAO.Count > 0) PopulateAssemblage(pAO);
             else StartAssemblage(startType, startPlane);
 
@@ -340,7 +339,7 @@ namespace AssemblerLib
         {
             nextAInd = 0;
             // previous objects are checked against the dictionary
-            // - if they are not part of the existing set, a new type is added
+            // if they are not part of the existing set, a new type is added
 
             // checks if AssemblyObjects need to be reindexed (ex. two or more with same AInd)
             bool reIndex = false;
@@ -365,7 +364,6 @@ namespace AssemblerLib
                     // add new type object to the dictionary candidates
                     AssemblyObject AOnewType = Utilities.Clone(pAO[i]);
                     AOnewType.type = newTypeIndex;
-                    //AOnewType.AInd = -1; // reset its AInd (Clone() does it already)
                     newTypes.Add(AOnewType);
                     newTypeIndex++;
                 }
@@ -397,7 +395,7 @@ namespace AssemblerLib
             DataTree<Rule> heuT = new DataTree<Rule>();
             for (int k = 0; k < heu.Count; k++)
             {
-                //          split by list of rules (,)
+                //             split by list of rules (,)
                 string[] rComp = heu[k].Split(new[] { ',' });
 
                 int rT, rH, rR, sT, sH;
@@ -419,7 +417,8 @@ namespace AssemblerLib
                     // receiver handle index and rotation
                     rH = Convert.ToInt32(rRot[0]);
                     rRA = Convert.ToDouble(rRot[1]);
-                    rR = AOSet[rT].handles[rH].rDictionary[rRA]; // using rotations
+                    // using rotations
+                    rR = AOSet[rT].handles[rH].rDictionary[rRA];
 
                     heuT.Add(new Rule(rec[0], rT, rH, rR, rRA, sen[0], sT, sH, w), new GH_Path(k, rT));
                 }
@@ -459,7 +458,7 @@ namespace AssemblerLib
                     // custom mode - method assigned in scripted component
                     break;
                 case 0:
-                    environmentCheck = (AssemblyObject sO) => { return false; }; // anonymous function (avoids env check entirely)
+                    environmentCheck = (AssemblyObject sO) => { return false; };
                     break;
                 case 1:
                     environmentCheck = EnvClashCollision;
@@ -488,7 +487,7 @@ namespace AssemblerLib
                     break;
                 case 0:
                     // random selection among available objects
-                    computeReceiverValue = ComputeRZero; // ComputeRRandom;
+                    computeReceiverValue = ComputeRZero;
                     selectReceiver = SelectRandomIndex;
                     break;
                 case 1:
@@ -694,9 +693,17 @@ namespace AssemblerLib
                 // select receiver from list of available values
                 // sequential receiver index in the available objects AInd list
                 int availableSeqIndex = selectReceiver(availableReceiverValues.ToArray());
+
                 // convert sequential index into AInd and find its related branch Path
                 i_receiverAInd = availableObjects[availableSeqIndex];
                 i_receiverSeqBranchInd = AssemblyObjects.Paths.IndexOf(new GH_Path(i_receiverAInd));
+
+                // check if the related AssemblyObject is outside the Field
+                if (IsReceiverOutsideField())
+                {
+                    MarkAsUnreachable(availableSeqIndex);
+                    continue;
+                }
 
                 // . . . . . . .    1.1 candidates retrieval attempt
 
@@ -709,13 +716,37 @@ namespace AssemblerLib
                 {
                     // bookkeeping
                     // if an object cannot receive candidates, it is marked as unreachable (neither fully occupied nor occluded, yet nothing can be added to it)
-                    unreachableObjects.Add(i_receiverAInd);
-                    availableObjects.RemoveAt(availableSeqIndex);
-                    availableReceiverValues.RemoveAt(availableSeqIndex);
+                    MarkAsUnreachable(availableSeqIndex);
                 }
             }
 
             return CandidateObjects.Count > 0;
+        }
+
+        private void MarkAsUnreachable(int availableSeqIndex)
+        {
+            unreachableObjects.Add(i_receiverAInd);
+            availableObjects.RemoveAt(availableSeqIndex);
+            availableReceiverValues.RemoveAt(availableSeqIndex);
+        }
+
+        /// <summary>
+        /// Tests whether the currently picked receiving <see cref="AssemblyObject"/> is outside the Field
+        /// </summary>
+        /// <param name="availableSeqIndex"></param>
+        /// <returns></returns>
+        private bool IsReceiverOutsideField()
+        {
+            // if Field is null and receiver Selection mode is not 1 or 2 return False
+            if (ExogenousSettings.field == null || HeuristicsSettings.receiverSelectionMode < 1 || HeuristicsSettings.receiverSelectionMode > 2)
+                return false;
+
+            Point3d origin = AssemblyObjects.Branch(i_receiverSeqBranchInd)[0].referencePlane.Origin;
+            int closestPointInd = ExogenousSettings.field.GetClosestIndex(origin);
+            Point3d fieldClosestPoint = ExogenousSettings.field.GetPoints()[closestPointInd];
+            double distanceSquared = origin.DistanceToSquared(fieldClosestPoint);
+
+            return distanceSquared > ExogenousSettings.field.MaxDistSquare;
         }
 
         /// <summary>

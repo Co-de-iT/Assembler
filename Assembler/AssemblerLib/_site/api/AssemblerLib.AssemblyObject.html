@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class AssemblyObject
    ">
-    <meta name="generator" content="docfx 2.59.2.0">
+    <meta name="generator" content="docfx 2.59.4.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -204,151 +204,6 @@
   
   
   <a id="AssemblerLib_AssemblyObject__ctor_" data-uid="AssemblerLib.AssemblyObject.#ctor*"></a>
-  <h4 id="AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_AssemblerLib_Handle___Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_String_System_Int32_System_Double_System_Boolean_System_Collections_Generic_List_AssemblerLib_AssemblyObject__" data-uid="AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.String,System.Int32,System.Double,System.Boolean,System.Collections.Generic.List{AssemblerLib.AssemblyObject})">AssemblyObject(Mesh, Handle[], Plane, Vector3d, String, Int32, Double, Boolean, List&lt;AssemblyObject&gt;)</h4>
-  <div class="markdown level1 summary"><p>Builds a composite AssemblyObject from a list of children, a custom collisionMesh, and a custom set of Handles - Children objects are NOT IMPLEMENTED YET</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public AssemblyObject(Mesh collisionMesh, Handle[] handles, Plane referencePlane, Vector3d direction, string name, int type, double weight, bool absoluteZLock, List&lt;AssemblyObject&gt; children)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Rhino.Geometry.Mesh</span></td>
-        <td><span class="parametername">collisionMesh</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="AssemblerLib.Handle.html">Handle</a>[]</td>
-        <td><span class="parametername">handles</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">Rhino.Geometry.Plane</span></td>
-        <td><span class="parametername">referencePlane</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">Rhino.Geometry.Vector3d</span></td>
-        <td><span class="parametername">direction</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">name</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">type</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Double</span></td>
-        <td><span class="parametername">weight</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td><span class="parametername">absoluteZLock</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>&gt;</td>
-        <td><span class="parametername">children</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="AssemblerLib_AssemblyObject__ctor_" data-uid="AssemblerLib.AssemblyObject.#ctor*"></a>
-  <h4 id="AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_AssemblerLib_Handle___Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_String_System_Int32_System_Double_System_Int32_System_Boolean_" data-uid="AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.String,System.Int32,System.Double,System.Int32,System.Boolean)">AssemblyObject(Mesh, Handle[], Plane, Vector3d, String, Int32, Double, Int32, Boolean)</h4>
-  <div class="markdown level1 summary"><p>Builds an AssemblyObject from all required parameters</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public AssemblyObject(Mesh collisionMesh, Handle[] handles, Plane referencePlane, Vector3d direction, string name, int type, double weight, int iWeight, bool worldZLock)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Rhino.Geometry.Mesh</span></td>
-        <td><span class="parametername">collisionMesh</span></td>
-        <td><p>Mesh for collision calculation</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="AssemblerLib.Handle.html">Handle</a>[]</td>
-        <td><span class="parametername">handles</span></td>
-        <td><p>handles for assemblage</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">Rhino.Geometry.Plane</span></td>
-        <td><span class="parametername">referencePlane</span></td>
-        <td><p>reference Plane</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">Rhino.Geometry.Vector3d</span></td>
-        <td><span class="parametername">direction</span></td>
-        <td><p>direction for Vector field interaction</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">name</span></td>
-        <td><p>object type name</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">type</span></td>
-        <td><p>object type id</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Double</span></td>
-        <td><span class="parametername">weight</span></td>
-        <td><p>scalar for density operations or field interactions</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td><span class="parametername">iWeight</span></td>
-        <td><p>integer Weight for Weighted Random choice during assemblage</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td><span class="parametername">worldZLock</span></td>
-        <td><p>lock orientation of Z axis to World Z axis</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="AssemblerLib_AssemblyObject__ctor_" data-uid="AssemblerLib.AssemblyObject.#ctor*"></a>
   <h4 id="AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_Rhino_Geometry_Mesh_AssemblerLib_Handle___Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_Int32_System_Collections_Generic_List_System_Int32____System_String_System_Int32_System_Double_System_Double_System_Int32_System_Collections_Generic_List_AssemblerLib_Support__System_Int32_System_Boolean_System_Boolean_System_Collections_Generic_List_AssemblerLib_AssemblyObject__System_Collections_Generic_List_System_Int32____System_Double_System_Double_" data-uid="AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,Rhino.Geometry.Mesh,AssemblerLib.Handle[],Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.Int32,System.Collections.Generic.List{System.Int32[]},System.String,System.Int32,System.Double,System.Double,System.Int32,System.Collections.Generic.List{AssemblerLib.Support},System.Int32,System.Boolean,System.Boolean,System.Collections.Generic.List{AssemblerLib.AssemblyObject},System.Collections.Generic.List{System.Int32[]},System.Double,System.Double)">AssemblyObject(Mesh, Mesh, Handle[], Plane, Vector3d, Int32, List&lt;Int32[]&gt;, String, Int32, Double, Double, Int32, List&lt;Support&gt;, Int32, Boolean, Boolean, List&lt;AssemblyObject&gt;, List&lt;Int32[]&gt;, Double, Double)</h4>
   <div class="markdown level1 summary"><p>Constructor used for JSON deserialization
 This constructor DOES NOT execute a deep copy of data
@@ -536,6 +391,150 @@ public AssemblyObject(Mesh collisionMesh, Mesh offsetMesh, Handle[] handles, Pla
       </tr>
     </tbody>
   </table>
+  
+  
+  <a id="AssemblerLib_AssemblyObject__ctor_" data-uid="AssemblerLib.AssemblyObject.#ctor*"></a>
+  <h4 id="AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_System_Collections_Generic_IEnumerable_AssemblerLib_Handle__Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_String_System_Int32_System_Double_System_Boolean_System_Collections_Generic_List_AssemblerLib_AssemblyObject__" data-uid="AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,System.Collections.Generic.IEnumerable{AssemblerLib.Handle},Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.String,System.Int32,System.Double,System.Boolean,System.Collections.Generic.List{AssemblerLib.AssemblyObject})">AssemblyObject(Mesh, IEnumerable&lt;Handle&gt;, Plane, Vector3d, String, Int32, Double, Boolean, List&lt;AssemblyObject&gt;)</h4>
+  <div class="markdown level1 summary"><p>Builds a composite AssemblyObject from a list of children, a custom collisionMesh, and a custom set of Handles - Children objects are NOT IMPLEMENTED YET</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AssemblyObject(Mesh collisionMesh, IEnumerable&lt;Handle&gt; handles, Plane referencePlane, Vector3d direction, string name, int type, double weight, bool absoluteZLock, List&lt;AssemblyObject&gt; children)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Rhino.Geometry.Mesh</span></td>
+        <td><span class="parametername">collisionMesh</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="AssemblerLib.Handle.html">Handle</a>&gt;</td>
+        <td><span class="parametername">handles</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">Rhino.Geometry.Plane</span></td>
+        <td><span class="parametername">referencePlane</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">Rhino.Geometry.Vector3d</span></td>
+        <td><span class="parametername">direction</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">type</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Double</span></td>
+        <td><span class="parametername">weight</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">absoluteZLock</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>&gt;</td>
+        <td><span class="parametername">children</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="AssemblerLib_AssemblyObject__ctor_" data-uid="AssemblerLib.AssemblyObject.#ctor*"></a>
+  <h4 id="AssemblerLib_AssemblyObject__ctor_Rhino_Geometry_Mesh_System_Collections_Generic_IEnumerable_AssemblerLib_Handle__Rhino_Geometry_Plane_Rhino_Geometry_Vector3d_System_String_System_Int32_System_Double_System_Int32_System_Boolean_" data-uid="AssemblerLib.AssemblyObject.#ctor(Rhino.Geometry.Mesh,System.Collections.Generic.IEnumerable{AssemblerLib.Handle},Rhino.Geometry.Plane,Rhino.Geometry.Vector3d,System.String,System.Int32,System.Double,System.Int32,System.Boolean)">AssemblyObject(Mesh, IEnumerable&lt;Handle&gt;, Plane, Vector3d, String, Int32, Double, Int32, Boolean)</h4>
+  <div class="markdown level1 summary"><p>Builds an AssemblyObject from all required parameters</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AssemblyObject(Mesh collisionMesh, IEnumerable&lt;Handle&gt; handles, Plane referencePlane, Vector3d direction, string name, int type, double weight, int iWeight, bool worldZLock)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Rhino.Geometry.Mesh</span></td>
+        <td><span class="parametername">collisionMesh</span></td>
+        <td><p>Mesh for collision calculation</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="AssemblerLib.Handle.html">Handle</a>&gt;</td>
+        <td><span class="parametername">handles</span></td>
+        <td><a class="xref" href="AssemblerLib.Handle.html">Handle</a>s for <a class="xref" href="AssemblerLib.Assemblage.html">Assemblage</a></td>
+      </tr>
+      <tr>
+        <td><span class="xref">Rhino.Geometry.Plane</span></td>
+        <td><span class="parametername">referencePlane</span></td>
+        <td><p>Reference Plane</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Rhino.Geometry.Vector3d</span></td>
+        <td><span class="parametername">direction</span></td>
+        <td><p>Direction for Vector <a class="xref" href="AssemblerLib.Field.html">Field</a> interaction</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>AssemblyObject kind name</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">type</span></td>
+        <td><p>AssemblyObject type id</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Double</span></td>
+        <td><span class="parametername">weight</span></td>
+        <td><p>Scalar for density operations or field interactions</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">iWeight</span></td>
+        <td><p>Integer Weight</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">worldZLock</span></td>
+        <td><p>Lock orientation of reference Plane Z-axis to World Z-axis</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <h3 id="fields">Fields
   </h3>
   
@@ -716,7 +715,7 @@ public AssemblyObject(Mesh collisionMesh, Mesh offsetMesh, Handle[] handles, Pla
   
   
   <h4 id="AssemblerLib_AssemblyObject_occludedNeighbours" data-uid="AssemblerLib.AssemblyObject.occludedNeighbours">occludedNeighbours</h4>
-  <div class="markdown level1 summary"><p>List of 2 indices (AInd, handle index) occluded by this object</p>
+  <div class="markdown level1 summary"><p>List <a class="xref" href="AssemblerLib.AssemblyObject.html">AssemblyObject</a>s occluded by this object and their respective <a class="xref" href="AssemblerLib.Handle.html">Handle</a></p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>

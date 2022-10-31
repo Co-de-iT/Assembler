@@ -4,7 +4,7 @@ using Rhino.Geometry;
 namespace AssemblerLib
 {
     /// <summary>
-    /// Stores a lists of scalar, vector and integer weights values
+    /// Stores arrays of scalar, vector and integer weight values
     /// </summary>
     public class Tensor
     {

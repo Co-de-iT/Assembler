@@ -3,6 +3,9 @@
 
 namespace AssemblerLib
 {
+    /// <summary>
+    /// A structure that manages settings for Heuristics (rules, criteria)
+    /// </summary>
     public struct HeuristicsSettings
     {
         /// <summary>

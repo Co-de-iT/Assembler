@@ -68,7 +68,11 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\ConstructAssemblyObject.cs" />
     <Compile Include="Components\ConstructHandle.cs" />
+    <Compile Include="Components\ConstructXData.cs" />
+    <Compile Include="Components\DeconstructAssemblyObject.cs" />
+    <Compile Include="Components\DeconstructXData.cs" />
     <Compile Include="Components\DisplayHandles.cs" />
     <Compile Include="Components\ResetAssemblyObject.cs" />
     <Compile Include="Exogenous\ConstructFieldSparse.cs" />
@@ -91,19 +95,19 @@
     <Compile Include="Heuristics\HeuristicsDisplayEx.cs" />
     <Compile Include="LEGACY-HIDDEN\L_AssociateXData.cs" />
     <Compile Include="Exogenous\ColorField.cs" />
-    <Compile Include="Components\ConstructAssemblyObject.cs" />
+    <Compile Include="LEGACY-HIDDEN\L_ConstructAssemblyObject.cs" />
     <Compile Include="LEGACY-HIDDEN\H_ConstructCompositeAO.cs" />
     <Compile Include="LEGACY-HIDDEN\L_ConstructFieldMeshN.cs" />
     <Compile Include="LEGACY-HIDDEN\L_ConstructFieldMeshXYZ.cs" />
     <Compile Include="Exogenous\ConstructFieldN.cs" />
     <Compile Include="Exogenous\ConstructFieldXYZ.cs" />
     <Compile Include="LEGACY-HIDDEN\L_ConstructHandles.cs" />
-    <Compile Include="Components\ConstructXData.cs" />
+    <Compile Include="LEGACY-HIDDEN\L_ConstructXData.cs" />
     <Compile Include="Post Processing\DeconstructAssemblage.cs" />
-    <Compile Include="Components\DeconstructAssemblyObject.cs" />
+    <Compile Include="LEGACY-HIDDEN\L_DeconstructAssemblyObject.cs" />
     <Compile Include="Exogenous\DeconstructField.cs" />
     <Compile Include="Components\DeconstructHandle.cs" />
-    <Compile Include="Components\DeconstructXData.cs" />
+    <Compile Include="LEGACY-HIDDEN\L_DeconstructXData.cs" />
     <Compile Include="Post Processing\DisplayCandidates.cs" />
     <Compile Include="LEGACY-HIDDEN\L_DisplayHandle.cs" />
     <Compile Include="Exogenous\ExogenousSettingsComponent.cs" />
