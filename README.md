@@ -14,7 +14,7 @@ Install ***Assembler*** via Rhino Package Manager.
 - [AssemblerLib API Documentation](https://drive.google.com/file/d/1v8xk-zqJCgIcm5H6vk6AS1f2M3cjsY64/view?usp=sharing)
 
 ## Changelog
-See the [Changelog](https://raw.githubusercontent.com/Co-de-iT/Assembler/main/Changelog.md) page.
+See the [Changelog](https://github.com/Co-de-iT/Assembler/blob/main/Changelog.md) page.
 
 ---
 
