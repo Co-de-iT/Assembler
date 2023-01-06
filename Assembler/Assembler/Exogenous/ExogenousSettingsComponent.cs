@@ -18,7 +18,6 @@ namespace Assembler
         private Mesh _container;
         private List<Mesh> _solids;
         private List<Mesh> _voids;
-        //private List<Color> _color;
         private readonly Color containerColor = Color.Black;
         private readonly Color solidColor = Color.FromArgb(115, 124, 148);
         private readonly Color voidColor = Color.FromArgb(146, 51, 51);
@@ -82,7 +81,7 @@ namespace Assembler
         {
             // exogenous
             List<Mesh> ME = new List<Mesh>();
-            DA.GetDataList("Environment Meshes", ME);
+            if (!DA.GetDataList("Environment Meshes", ME) || ME == null) ME = new List<Mesh>();
 
             // check environment meshes and remove nulls and invalids
             int meshCount = ME.Count;
@@ -95,6 +94,9 @@ namespace Assembler
 
             int eM = 0;
             DA.GetData("Environment Mode", ref eM);
+            // if there are no Environment Meshes, set environment Mode to 0 (ignore)
+            if (ME.Count == 0) eM = 0;
+
             Field F = null;
             if (!DA.GetData("Field", ref F)) F = null;
             double fT = 0;
@@ -139,22 +141,22 @@ namespace Assembler
             ExogenousSettings ES = new ExogenousSettings(ME, eM, F, fT, sandbox, hasContainer);
 
             // assign Display geometries
-            foreach (MeshEnvironment mEnv in ES.environmentMeshes)
+            foreach (MeshEnvironment mEnv in ES.EnvironmentMeshes)
             {
-                switch (mEnv.type)
+                switch (mEnv.Type)
                 {
-                    case MeshEnvironment.Type.Void: // controls only centroid in/out
-                        _voids.Add(mEnv.mesh);
+                    case MeshEnvironment.EnvType.Void: // controls only centroid in/out
+                        _voids.Add(mEnv.Mesh);
                         break;
-                    case MeshEnvironment.Type.Solid:
-                        _solids.Add(mEnv.mesh);
+                    case MeshEnvironment.EnvType.Solid:
+                        _solids.Add(mEnv.Mesh);
                         break;
-                    case MeshEnvironment.Type.Container:
-                        _container = mEnv.mesh;
+                    case MeshEnvironment.EnvType.Container:
+                        _container = mEnv.Mesh;
                         break;
                 }
 
-                _clip.Union(mEnv.mesh.GetBoundingBox(false));
+                _clip.Union(mEnv.Mesh.GetBoundingBox(false));
             }
 
             // output data
@@ -218,6 +220,8 @@ namespace Assembler
         //Draw all wires and points in this method.
         public override void DrawViewportWires(IGH_PreviewArgs args)
         {
+            if (Locked) return;
+
             if (base.Attributes.Selected)
             {
                 args.Display.DrawMeshWires(_container, args.WireColour_Selected, args.DefaultCurveThickness);

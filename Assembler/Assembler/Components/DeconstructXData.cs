@@ -47,8 +47,8 @@ namespace Assembler
 
             DA.SetData(0, xd.label);
             DA.SetData(1, xd.AOName);
-            DA.SetData(2, xd.refPlane);
-            DA.SetDataList(3, xd.data);
+            DA.SetData(2, xd.ReferencePlane);
+            DA.SetDataList(3, xd.Data);
         }
 
         /// <summary>

@@ -72,10 +72,10 @@ namespace Assembler
                 {
                     // if the object does not match XData associated type go on
                     //if (AOa[i].type != xD[j].objectType) continue;
-                    if (!String.Equals(AO[i].name, xD[j].AOName)) continue;
+                    if (!String.Equals(AO[i].Name, xD[j].AOName)) continue;
 
                     xdC = new XData(xD[j]);
-                    orient = Transform.PlaneToPlane(xdC.refPlane, AO[i].referencePlane);
+                    orient = Transform.PlaneToPlane(xdC.ReferencePlane, AO[i].ReferencePlane);
                     xdC.Transform(orient);
                     orientedXData.Add(xdC);
                     

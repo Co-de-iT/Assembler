@@ -5,6 +5,7 @@ using Rhino.Geometry;
 using GH_IO.Serialization;
 using System;
 using Assembler.Utils;
+using AssemblerLib.Utils;
 
 namespace Assembler
 {
@@ -66,7 +67,7 @@ namespace Assembler
 
         public AssemblageGoo DuplicateAssemblage()
         {
-            return new AssemblageGoo(Value == null? new Assemblage():Utilities.Clone(Value));
+            return new AssemblageGoo(Value == null? new Assemblage():AssemblageUtils.Clone(Value));
         }
 
         public override BoundingBox GetBoundingBox(Transform xform)

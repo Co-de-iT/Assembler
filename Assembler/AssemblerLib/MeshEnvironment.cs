@@ -11,8 +11,8 @@ namespace AssemblerLib
         /// <summary>
         /// Mesh
         /// </summary>
-        public Mesh mesh;
-        public enum Type : ushort { Void = 0, Solid = 1, Container = 2 } // cannot use negative values with ushort
+        public Mesh Mesh { get; }
+        public enum EnvType : ushort { Void = 0, Solid = 1, Container = 2 } // cannot use negative values with ushort
         /// <summary>
         /// defines the EnvironmentMesh type
         /// <list type="bullet">
@@ -21,7 +21,7 @@ namespace AssemblerLib
         /// <item><description>2 - Container</description></item>
         /// </list>
         /// </summary>
-        public Type type;
+        public EnvType Type { get; }
 
         //private Polyline[] intersections, overlaps;
         //private Mesh overlapsMesh;
@@ -30,29 +30,29 @@ namespace AssemblerLib
         /// Constructs a <see cref="MeshEnvironment"/> from a Mesh and an explicit type
         /// </summary>
         /// <param name="mesh"></param>
-        /// <param name="type">the <see cref="Type"/> of Environment mesh to build</param>
-        public MeshEnvironment(Mesh mesh, int type)
+        /// <param name="type">the <see cref="EnvType"/> of Environment mesh to build</param>
+        public MeshEnvironment(Mesh Mesh, int Type)
         {
-            this.mesh = mesh;
-            this.mesh.RebuildNormals();
-            switch (type)
+            this.Mesh = Mesh;
+            this.Mesh.RebuildNormals();
+            switch (Type)
             {
                 case 0: // void
-                    if (this.mesh.Volume() < 0)
-                        this.mesh.Flip(true, true, true);
+                    if (this.Mesh.Volume() < 0)
+                        this.Mesh.Flip(true, true, true);
                     break;
                 case 1: // solid
                     goto case 0;
                 case 2: // container
-                    if (this.mesh.Volume() > 0)
-                        this.mesh.Flip(true, true, true);
+                    if (this.Mesh.Volume() > 0)
+                        this.Mesh.Flip(true, true, true);
                     break;
                 default: // any other value is converted to solid
-                    type = 1;
+                    Type = 1;
                     break;
             }
 
-            this.type = (Type)type;
+            this.Type = (EnvType)Type;
         }
 
         /// <summary>
@@ -68,9 +68,9 @@ namespace AssemblerLib
         /// <param name="other"></param>
         public MeshEnvironment(MeshEnvironment other)
         {
-            mesh = new Mesh();
-            mesh.CopyFrom(other.mesh);
-            type = other.type;
+            Mesh = new Mesh();
+            Mesh.CopyFrom(other.Mesh);
+            Type = other.Type;
         }
 
         /// <summary>
@@ -80,8 +80,8 @@ namespace AssemblerLib
         /// <returns>True if a point is invalid (inside an obstacle or void, or outside a container)</returns>
         public bool IsPointInvalid(Point3d P)
         {
-            bool result = mesh.IsPointInside(P, 0, false);
-            if (type == Type.Container) result = !result;
+            bool result = Mesh.IsPointInside(P, 0, false);
+            if (Type == EnvType.Container) result = !result;
 
             return result;
         }
@@ -93,13 +93,13 @@ namespace AssemblerLib
         /// <returns>true if collision happens</returns>
         public bool CollisionCheck(Mesh otherMesh)
         {
-            return Rhino.Geometry.Intersect.Intersection.MeshMeshFast(otherMesh, mesh).Length > 0;
+            return Rhino.Geometry.Intersect.Intersection.MeshMeshFast(otherMesh, Mesh).Length > 0;
 
             // this might be a candidate upgrade, but it's slower than the above
-            //return Rhino.Geometry.Intersect.MeshClash.Search(m, mesh, Utilities.RhinoAbsoluteTolerance, 0).Length > 0;
+            //return Rhino.Geometry.Intersect.MeshClash.Search(m, mesh, Constants.RhinoAbsoluteTolerance, 0).Length > 0;
 
             // this is impossibly slow (like, 20x slower than the obsolete method)
-            //return Rhino.Geometry.Intersect.Intersection.MeshMesh(new Mesh[] { m, mesh }, Utilities.RhinoAbsoluteTolerance, out intersections, false, out overlaps, false,
+            //return Rhino.Geometry.Intersect.Intersection.MeshMesh(new Mesh[] { m, mesh }, Constants.RhinoAbsoluteTolerance, out intersections, false, out overlaps, false,
             //   out overlapsMesh, null, System.Threading.CancellationToken.None, null);
         }
 

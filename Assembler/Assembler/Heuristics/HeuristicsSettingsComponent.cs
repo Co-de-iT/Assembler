@@ -86,28 +86,28 @@ namespace Assembler
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             // heuristics
-            GH_Structure<GH_String> HeuSets;
-            if (!DA.GetDataTree(0, out HeuSets)) return;
-            if (HeuSets.IsEmpty || HeuSets == null || HeuSets.Branches[0].Count == 0)
+            GH_Structure<GH_String> HeuristicsGHStruct;
+            if (!DA.GetDataTree(0, out HeuristicsGHStruct)) return;
+            if (HeuristicsGHStruct.IsEmpty || HeuristicsGHStruct == null || HeuristicsGHStruct.Branches[0].Count == 0)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Please provide at least one Heuristic string");
                 return;
             }
-            List<string> HeS = new List<string>();
-            for (int i = 0; i < HeuSets.Branches.Count; i++)
+            List<string> HeuristicsStrings = new List<string>();
+            for (int i = 0; i < HeuristicsGHStruct.Branches.Count; i++)
             {
-                HeS.Add(string.Join(",", HeuSets.Branches[i].Select(s => s.Value).ToList()));
+                HeuristicsStrings.Add(string.Join(",", HeuristicsGHStruct.Branches[i].Select(s => s.Value).ToList()));
             }
 
-            int cH = 0;
-            DA.GetData("Current Heuristics", ref cH);
-            int HeM = 0;
-            DA.GetData("Heuristics Mode", ref HeM);
+            int currentHeuristics = 0;
+            DA.GetData("Current Heuristics", ref currentHeuristics);
+            int HeuristicsMode = 0;
+            DA.GetData("Heuristics Mode", ref HeuristicsMode);
 
             // criteria selectors
-            int Rsm = 0, Ssm = 0;
-            DA.GetData("Receiver Selection Mode", ref Rsm);
-            DA.GetData("Sender (Rule) Selection Mode", ref Ssm);
+            int ReceiverSelectionMode = 0, SenderSelectionMode = 0;
+            DA.GetData("Receiver Selection Mode", ref ReceiverSelectionMode);
+            DA.GetData("Sender (Rule) Selection Mode", ref SenderSelectionMode);
 
             // __________________ autoList - Receiver Selection Mode __________________
 
@@ -129,12 +129,12 @@ namespace Assembler
                     vListReceiver.ListItems.Add(new GH_ValueListItem("Scalar Field interpolated", "2"));
                     vListReceiver.ListItems.Add(new GH_ValueListItem("Dense Packing", "3"));
 
-                    vListReceiver.ListItems[0].Value.CastTo(out Rsm);
+                    vListReceiver.ListItems[0].Value.CastTo(out ReceiverSelectionMode);
                 }
             }
             catch
             {
-                // handlesTree anything that is not a value list
+                // Handles anything that is not a value list
             }
 
             // __________________ autoList - Sender (rule) Selection Mode __________________
@@ -164,15 +164,15 @@ namespace Assembler
                     vListSender.ListItems.Add(new GH_ValueListItem("Minimum local AABB diagonal", "8"));
                     vListSender.ListItems.Add(new GH_ValueListItem("Weighted Random Choice", "9"));
 
-                    vListSender.ListItems[0].Value.CastTo(out Ssm);
+                    vListSender.ListItems[0].Value.CastTo(out SenderSelectionMode);
                 }
             }
             catch
             {
-                // handlesTree anything that is not a value list
+                // Handles anything that is not a value list
             }
 
-            HeuristicsSettings HS = new HeuristicsSettings(HeS, cH, HeM, Rsm, Ssm);
+            HeuristicsSettings HS = new HeuristicsSettings(HeuristicsStrings, currentHeuristics, HeuristicsMode, ReceiverSelectionMode, SenderSelectionMode);
 
             DA.SetData(0, HS);
         }

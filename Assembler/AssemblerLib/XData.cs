@@ -12,7 +12,7 @@ namespace AssemblerLib
         /// <summary>
         /// generic data container as list
         /// </summary>
-        public List<object> data;
+        public List<object> Data;
         /// <summary>
         /// label for the XData
         /// </summary>
@@ -20,9 +20,9 @@ namespace AssemblerLib
         /// <summary>
         /// Reference Plane for XData
         /// </summary>
-        public Plane refPlane;
+        public Plane ReferencePlane;
         /// <summary>
-        /// AssemblyObject name for XData association
+        /// AssemblyObject Name for XData association
         /// </summary>
         public readonly string AOName;
 
@@ -38,15 +38,15 @@ namespace AssemblerLib
         /// <summary>
         /// Constructs an Xdata item
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="label"></param>
-        /// <param name="refPlane"></param>
+        /// <param name="Data"></param>
+        /// <param name="Label"></param>
+        /// <param name="ReferencePlane"></param>
         /// <param name="AOName"></param>
-        public XData(List<object> data, string label, Plane refPlane, string AOName)
+        public XData(List<object> Data, string Label, Plane ReferencePlane, string AOName)
         {
-            this.data = data;
-            this.label = label;
-            this.refPlane = refPlane;
+            this.Data = Data;
+            this.label = Label;
+            this.ReferencePlane = ReferencePlane;
             this.AOName = AOName;
         }
 
@@ -57,11 +57,11 @@ namespace AssemblerLib
         public XData(XData otherXData)
         {
             label = otherXData.label;
-            refPlane = otherXData.refPlane;
+            ReferencePlane = otherXData.ReferencePlane;
             AOName = otherXData.AOName;
-            object[] dArray = new object[otherXData.data.Count];
-            otherXData.data.CopyTo(dArray);
-            data = dArray.ToList();
+            object[] dArray = new object[otherXData.Data.Count];
+            otherXData.Data.CopyTo(dArray);
+            Data = dArray.ToList();
         }
 
         /// <summary>
@@ -70,40 +70,40 @@ namespace AssemblerLib
         /// <param name="xForm">Transformation to apply</param>
         public void Transform(Transform xForm)
         {
-            refPlane.Transform(xForm);
+            ReferencePlane.Transform(xForm);
             List<object> tData = new List<object>();
 
             GeometryBase g, gT;
-            Point3d p;
-            Vector3d v;
-            Plane pl;
-            for (int i = 0; i < data.Count; i++)
+
+            for (int i = 0; i < Data.Count; i++)
             {
 
-                g = data[i] as GeometryBase;
+                g = Data[i] as GeometryBase;
                 if (g == null)
                 {
-                    // since Point3d, Vector3d & Plane are Structures, the as GeometryBase cast doesn't catch them (returns null)
+                    // since Point3d, Vector3d, Line & Plane are Structures, the as GeometryBase cast doesn't catch them (returns null)
                     // However, they need to be transformed, so....
-                    if (data[i] is Point3d)
+                    if (Data[i] is Point3d pd)
                     {
-                        p = (Point3d)data[i];
-                        p.Transform(xForm);
-                        tData.Add(p);
+                        pd.Transform(xForm);
+                        tData.Add(pd);
                     }
-                    else if (data[i] is Vector3d)
+                    else if (Data[i] is Vector3d vd)
                     {
-                        v = (Vector3d)data[i];
-                        v.Transform(xForm);
-                        tData.Add(v);
+                        vd.Transform(xForm);
+                        tData.Add(vd);
                     }
-                    else if (data[i] is Plane)
+                    else if (Data[i] is Plane pld)
                     {
-                        pl = (Plane)data[i];
-                        pl.Transform(xForm);
-                        tData.Add(pl);
+                        pld.Transform(xForm);
+                        tData.Add(pld);
                     }
-                    else tData.Add(data[i]);
+                    else if (Data[i] is Line ld)
+                    {
+                        ld.Transform(xForm);
+                        tData.Add(ld);
+                    }
+                    else tData.Add(Data[i]);
                 }
                 else
                 {
@@ -113,12 +113,12 @@ namespace AssemblerLib
                 }
             }
 
-            data = tData;
+            Data = tData;
         }
 
         public override string ToString()
         {
-            return string.Format("XData {0} . AO {1} . {2} data object(s)", label, AOName, data.Count);
+            return string.Format("XData {0} . AO {1} . {2} data object(s)", label, AOName, Data.Count);
         }
     }
 }

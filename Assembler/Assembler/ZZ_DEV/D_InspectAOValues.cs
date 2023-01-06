@@ -49,9 +49,9 @@ namespace Assembler
             if (!DA.GetData("Assembly Object", ref GH_AO)) return;
             AO = GH_AO.Value;
 
-            DA.SetData(0, AO.receiverValue);
-            DA.SetData(1, AO.senderValue);
-            DA.SetData(2, AO.iWeight);
+            DA.SetData(0, AO.ReceiverValue);
+            DA.SetData(1, AO.SenderValue);
+            DA.SetData(2, AO.IWeight);
         }
 
         /// <summary>

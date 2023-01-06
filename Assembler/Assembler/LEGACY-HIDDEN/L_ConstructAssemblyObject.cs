@@ -105,7 +105,7 @@ namespace Assembler
             }
 
             DA.GetData("Direction", ref directionVector);
-            // if direction is null or zero return
+            // if Direction is null or zero return
             if (directionVector == null || directionVector == Vector3d.Zero)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Direction vector is zero or invalid");

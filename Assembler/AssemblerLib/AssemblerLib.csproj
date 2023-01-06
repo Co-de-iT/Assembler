@@ -83,6 +83,17 @@
     <Compile Include="Support.cs" />
     <Compile Include="Tensor.cs" />
     <Compile Include="Utilities.cs" />
+    <Compile Include="Utils\AssemblageUtils.cs" />
+    <Compile Include="Utils\AssemblyObjectUtils.cs" />
+    <Compile Include="Utils\Constants.cs" />
+    <Compile Include="Utils\DataUtils.cs" />
+    <Compile Include="Utils\FileUtils.cs" />
+    <Compile Include="Utils\HandleUtils.cs" />
+    <Compile Include="Utils\MathUtils.cs" />
+    <Compile Include="Utils\MeshUtils.cs" />
+    <Compile Include="Utils\RuleUtils.cs" />
+    <Compile Include="Utils\SupportUtils.cs" />
+    <Compile Include="Utils\VectorUtils.cs" />
     <Compile Include="XData.cs" />
   </ItemGroup>
   <ItemGroup>

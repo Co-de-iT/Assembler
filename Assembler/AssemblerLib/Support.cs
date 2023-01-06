@@ -12,24 +12,24 @@ namespace AssemblerLib
         /// <summary>
         /// Support line
         /// </summary>
-        public Line line;
+        public Line Line;
 
         /// <summary>
         /// initial length of the support
         /// </summary>
-        public readonly double initLength;
+        public double InitLength;
 
         /// <summary>
         /// connected flag - true if support intersects a nearby geometry
         /// </summary>
         public bool Connected
-            { get { return neighbourObject != -1; } }
+            { get { return NeighbourObject != -1; } }
 
         /// <summary>
         /// Index of neighbour AssemblyObject connected by the support
         /// -1 if free, -2 if connected to an <see cref="MeshEnvironment"/> obstacle
         /// </summary>
-        public int neighbourObject;
+        public int NeighbourObject;
 
         /// <summary>
         /// Construct a support from another Support (Clone with connectivity)
@@ -37,24 +37,24 @@ namespace AssemblerLib
         /// <param name="other"></param>
         public Support(Support other)
         {
-            line = other.line;
-            initLength = other.initLength;
+            Line = other.Line;
+            InitLength = other.InitLength;
             //connected = other.connected;
-            neighbourObject = other.neighbourObject;
+            NeighbourObject = other.NeighbourObject;
         }
 
         /// <summary>
-        /// Construct a support from origin point, direction vector and length
+        /// Construct a support from origin point, Direction vector and length
         /// </summary>
         /// <param name="origin"></param>
         /// <param name="direction"></param>
         /// <param name="length"></param>
         public Support(Point3d origin, Vector3d direction, double length)
         {
-            line = new Line(origin, direction, length);
-            initLength = length;
+            Line = new Line(origin, direction, length);
+            InitLength = length;
             //connected = false;
-            neighbourObject = -1;
+            NeighbourObject = -1;
         }
 
         /// <summary>
@@ -63,10 +63,10 @@ namespace AssemblerLib
         /// <param name="line"></param>
         public Support(Line line)
         {
-            this.line = line;
-            initLength = line.Length;
+            this.Line = line;
+            InitLength = line.Length;
             //connected = false;
-            neighbourObject = -1;
+            NeighbourObject = -1;
         }
 
         /// <summary>
@@ -74,10 +74,10 @@ namespace AssemblerLib
         /// </summary>
         public void Reset()
         {
-            if (line.Length != initLength)
-                line.To = line.From + (line.UnitTangent * initLength);
+            if (Line.Length != InitLength)
+                Line = new Line(Line.From, Line.From + (Line.UnitTangent * InitLength));
             //connected = false;
-            neighbourObject = -1;
+            NeighbourObject = -1;
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace AssemblerLib
         /// <param name="xForm"></param>
         public void Transform(Transform xForm)
         {
-            line.Transform(xForm);
+            Line.Transform(xForm);
         }
     }
 }

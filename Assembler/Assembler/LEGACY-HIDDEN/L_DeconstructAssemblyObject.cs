@@ -68,24 +68,24 @@ namespace Assembler
             nObj++;
 
             // output data
-            DA.SetData("Name", AO.name);
-            DA.SetData("Collision Mesh", AO.collisionMesh);
-            DA.SetData("Reference Plane", AO.referencePlane);
-            DA.SetData("Direction", AO.direction);
-            DA.SetData("Weight", AO.weight);
+            DA.SetData("Name", AO.Name);
+            DA.SetData("Collision Mesh", AO.CollisionMesh);
+            DA.SetData("Reference Plane", AO.ReferencePlane);
+            DA.SetData("Direction", AO.Direction);
+            DA.SetData("Weight", AO.Weight);
             DA.SetDataTree(5, onTree);
-            DA.SetDataList("Handles", AO.handles);
+            DA.SetDataList("Handles", AO.Handles);
             //if (AO.children != null)
             //    DA.SetDataList("Children", AO.children.Select(ao => new AssemblyObjectGoo(ao)).ToList());
-            DA.SetData("Z Lock", AO.worldZLock);
+            DA.SetData("Z Lock", AO.WorldZLock);
         }
 
         DataTree<GH_Integer> OccludedAOs(AssemblyObject AO)
         {
             DataTree<GH_Integer> occludedTree = new DataTree<GH_Integer>();
 
-            for (int i = 0; i < AO.occludedNeighbours.Count; i++)
-                occludedTree.AddRange(AO.occludedNeighbours[i].Select(x => new GH_Integer(x)).ToList(), new GH_Path(nObj, i));
+            for (int i = 0; i < AO.OccludedNeighbours.Count; i++)
+                occludedTree.AddRange(AO.OccludedNeighbours[i].Select(x => new GH_Integer(x)).ToList(), new GH_Path(nObj, i));
 
             return occludedTree;
         }

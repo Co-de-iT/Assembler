@@ -9,11 +9,11 @@ namespace AssemblerLib
     public readonly struct Rule
     {
         /// <summary>
-        /// Sender object name
+        /// Sender object Name
         /// </summary>
         public readonly string senderName;
         /// <summary>
-        /// Receiver object name
+        /// Receiver object Name
         /// </summary>
         public readonly string receiverName;
         /// <summary>
@@ -48,12 +48,12 @@ namespace AssemblerLib
         /// <summary>
         /// Constructs a Rule from constituting parameters
         /// </summary>
-        /// <param name="receiverName">Receiver object name</param>
+        /// <param name="receiverName">Receiver object Name</param>
         /// <param name="rT">Receiver object type</param>
         /// <param name="rH">Receiver handle index</param>
         /// <param name="rR">Receiver rotation index</param>
         /// <param name="rRA">Receiver rotation angle (in degrees)</param>
-        /// <param name="senderName">Sender object name</param>
+        /// <param name="senderName">Sender object Name</param>
         /// <param name="sT">Sender object type</param>
         /// <param name="sH">Sender handle index</param>
         /// <param name="iWeight">Rule integer weight</param>
@@ -108,7 +108,7 @@ namespace AssemblerLib
             // receiver handle index and rotation
             rH = Convert.ToInt32(rRot[0]);
             rRA = Convert.ToDouble(rRot[1]);
-            rR = AOset[rT].handles[rH].rDictionary[rRA]; // using rotations
+            rR = AOset[rT].Handles[rH].RDictionary[rRA]; // using rotations
         }
 
         /// <summary>

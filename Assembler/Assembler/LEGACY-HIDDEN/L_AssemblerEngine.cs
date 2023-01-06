@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
+﻿using Assembler.Properties;
+using Assembler.Utils;
+using AssemblerLib;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using AssemblerLib;
-using Assembler.Properties;
-using Assembler.Utils;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Assembler
 {

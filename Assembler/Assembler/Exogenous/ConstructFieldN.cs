@@ -17,6 +17,10 @@ namespace Assembler
               "Constructs an empty Field from a Box\nN cells along largest Box dimension",
               "Assembler", "Exogenous")
         {
+            // this hides the component preview when placed onto the canvas
+            // source: http://frasergreenroyd.com/how-to-stop-components-from-automatically-displaying-results-in-grasshopper/
+            IGH_PreviewObject prevObj = (IGH_PreviewObject)this;
+            prevObj.Hidden = true;
         }
 
         /// <summary>

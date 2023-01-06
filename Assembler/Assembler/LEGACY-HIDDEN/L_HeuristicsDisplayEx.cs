@@ -145,7 +145,7 @@ namespace Assembler
                 rH = Convert.ToInt32(rRot[0]);
                 //rR = Convert.ToInt32(rRot[1]);
                 rRA = Convert.ToDouble(rRot[1]);
-                rR = AOset[rT].handles[rH].rDictionary[rRA]; // using rotations
+                rR = AOset[rT].Handles[rH].RDictionary[rRA]; // using rotations
 
                 heuT.Add(new Rule(rec[0], rT, rH, rR, rRA, sen[0], sT, sH, w), new GH_Path(rT));
                 heS.Add(rComp[i], new GH_Path(rT));
@@ -211,7 +211,7 @@ namespace Assembler
                     sender = Utilities.Clone(AO[sT]);//new AssemblyObject(AO[sT]);
 
                     // generate transformation orient: sender to receiver
-                    Transform orient = Transform.PlaneToPlane(sender.handles[sH].sender, receiver.handles[rH].receivers[rR]);
+                    Transform orient = Transform.PlaneToPlane(sender.Handles[sH].Sender, receiver.Handles[rH].Receivers[rR]);
 
                     // orient sender AssemblyObject
                     sender.Transform(orient);
@@ -222,10 +222,10 @@ namespace Assembler
                         for (int k = 0; k < xDCatalog.Count; k++)
                         {
                             // receiver XData
-                            if (String.Equals(xDCatalog[k].AOName, receiver.name))
+                            if (String.Equals(xDCatalog[k].AOName, receiver.Name))
                                 recGeom = new XData(xDCatalog[k]);
                             // sender XData
-                            if (String.Equals(xDCatalog[k].AOName, sender.name))
+                            if (String.Equals(xDCatalog[k].AOName, sender.Name))
                             {
                                 senGeom = new XData(xDCatalog[k]);
                                 senGeom.Transform(orient);
@@ -233,8 +233,8 @@ namespace Assembler
                         }
                     }
                     // calculate Bounding Box and compare size to initial parameters
-                    BoundingBox bb = receiver.collisionMesh.GetBoundingBox(false);
-                    bb.Union(sender.collisionMesh.GetBoundingBox(false));
+                    BoundingBox bb = receiver.CollisionMesh.GetBoundingBox(false);
+                    bb.Union(sender.CollisionMesh.GetBoundingBox(false));
 
                     // record center plane of AO combination
                     bbCenters.Add(bb.Center, Hr.Paths[i].AppendElement(j));
@@ -262,7 +262,7 @@ namespace Assembler
                     }
 
                     // rewrite rule for display and add to the text Tree (just for Heuristic Display component)
-                    //string rule = receiver.name + "|" + rH + "=" + rR + "(" + receiver.handlesTree[rH].rRotations[rR] + ")" + "<" + sender.name + "|" + sH;
+                    //string rule = receiver.Name + "|" + rH + "=" + rR + "(" + receiver.handlesTree[rH].rRotations[rR] + ")" + "<" + sender.Name + "|" + sH;
                     //rulesText.Add(rule, Hr.Paths[i].AppendElement(j));
 
                     // calculate next grid position

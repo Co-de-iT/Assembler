@@ -5,6 +5,7 @@ using Grasshopper;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
+using Rhino.Geometry;
 using System;
 using System.Linq;
 
@@ -67,16 +68,22 @@ namespace Assembler
             // increase counter for occluded objects
             nObj++;
 
+            // unweld collision mesh for output
+            Mesh collisionMesh = new Mesh();
+            collisionMesh.CopyFrom(AO.CollisionMesh);
+            collisionMesh.Unweld(0, true);
+            GH_Mesh gh_collisionMesh = new GH_Mesh(collisionMesh);
+
             // output data
-            DA.SetData("Name", AO.name);
-            DA.SetData("Collision Mesh", AO.collisionMesh);
-            DA.SetData("Reference Plane", AO.referencePlane);
-            DA.SetData("Direction", AO.direction);
-            DA.SetDataList("Handles", AO.handles);
-            DA.SetData("Weight", AO.weight);
+            DA.SetData("Name", AO.Name);
+            DA.SetData("Collision Mesh", gh_collisionMesh);
+            DA.SetData("Reference Plane", AO.ReferencePlane);
+            DA.SetData("Direction", AO.Direction);
+            DA.SetDataList("Handles", AO.Handles);
+            DA.SetData("Weight", AO.Weight);
             DA.SetDataTree(6, onTree);
-            DA.SetData("Z Lock", AO.worldZLock);
-            DA.SetData("Receiver value", AO.receiverValue);
+            DA.SetData("Z Lock", AO.WorldZLock);
+            DA.SetData("Receiver value", AO.ReceiverValue);
             //if (AO.children != null)
             //    DA.SetDataList("Children", AO.children.Select(ao => new AssemblyObjectGoo(ao)).ToList());
         }
@@ -85,8 +92,9 @@ namespace Assembler
         {
             DataTree<GH_Integer> occludedTree = new DataTree<GH_Integer>();
 
-            for (int i = 0; i < AO.occludedNeighbours.Count; i++)
-                occludedTree.AddRange(AO.occludedNeighbours[i].Select(x => new GH_Integer(x)).ToList(), new GH_Path(nObj, i));
+            for (int i = 0; i < AO.OccludedNeighbours.Count; i++)
+                occludedTree.AddRange(AO.OccludedNeighbours[i].Select(x => new GH_Integer(x)).ToList(), new GH_Path(AO.AInd, i));
+                //occludedTree.AddRange(AO.OccludedNeighbours[i].Select(x => new GH_Integer(x)).ToList(), new GH_Path(nObj, i));
 
             return occludedTree;
         }

@@ -16,6 +16,10 @@ namespace Assembler
               "Extract the Type of an AssemblyObject",
               "Assembler", "Post Processing")
         {
+            // this hides the component preview when placed onto the canvas
+            // source: http://frasergreenroyd.com/how-to-stop-components-from-automatically-displaying-results-in-grasshopper/
+            IGH_PreviewObject prevObj = (IGH_PreviewObject)this;
+            prevObj.Hidden = true;
         }
 
         /// <summary>
@@ -46,7 +50,7 @@ namespace Assembler
 
             AO = GH_AO.Value;
 
-            int type = AO.type;
+            int type = AO.Type;
             DA.SetData(0, type);
         }
 

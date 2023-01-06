@@ -1,6 +1,7 @@
 ﻿using Assembler.Properties;
 using Assembler.Utils;
 using AssemblerLib;
+using AssemblerLib.Utils;
 using Grasshopper;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
@@ -30,6 +31,10 @@ namespace Assembler
               "Display Heuristics as visual combination of AssemblyObjects - extended version",
               "Assembler", "Heuristics")
         {
+            // this hides the component preview when placed onto the canvas
+            // source: http://frasergreenroyd.com/how-to-stop-components-from-automatically-displaying-results-in-grasshopper/
+            IGH_PreviewObject prevObj = (IGH_PreviewObject)this;
+            prevObj.Hidden = true;
         }
 
         /// <summary>
@@ -68,7 +73,10 @@ namespace Assembler
             // sanity check on inputs
             if (!DA.GetDataList("AssemblyObjects Set", GH_AOs)) return;
 
-            AOs = GH_AOs.Select(ao => ao.Value).ToList();
+            AOs = GH_AOs.Where(a => a != null).Select(ao => ao.Value).ToList();
+
+            if (AOs.Count == 0)
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Please provide at least one valid AssemblyObject");
 
             List<string> HeS = new List<string>();
             if (!DA.GetDataList("Heuristics Set", HeS)) return;
@@ -87,7 +95,7 @@ namespace Assembler
             AssemblyObject[] components = AOs.ToArray();
 
             // build Component catalog
-            catalog = Utilities.BuildDictionary(components);
+            catalog = AssemblageUtils.BuildDictionary(components);
 
             // build Heuristics Tree
             // heuristics string in tree format for manual selection in GH
@@ -96,7 +104,7 @@ namespace Assembler
                 HeSTree.Add(HeS[i], new GH_Path(i));
 
             // build Rules list
-            List<Rule> HeR = Utilities.HeuristicsRulesFromString(AOs, catalog, HeS);
+            List<Rule> HeR = RuleUtils.HeuristicsRulesFromString(AOs, catalog, HeS);
 
             AOpairs = GeneratePairs(components, HeR, P, xS, yS, nR);
             AOoutput = AOsToGoo(AOpairs);
@@ -152,18 +160,18 @@ namespace Assembler
                 loc.Origin = new Point3d(countX, countY, 0);
 
                 // choose components
-                receiver = Utilities.Clone(AO[rT]);
-                sender = Utilities.Clone(AO[sT]);
+                receiver = AssemblyObjectUtils.Clone(AO[rT]);
+                sender = AssemblyObjectUtils.Clone(AO[sT]);
 
                 // generate transformation orient: sender to receiver
-                Transform orient = Transform.PlaneToPlane(sender.handles[sH].sender, receiver.handles[rH].receivers[rR]);
+                Transform orient = Transform.PlaneToPlane(sender.Handles[sH].Sender, receiver.Handles[rH].Receivers[rR]);
 
                 // orient sender AssemblyObject
                 sender.Transform(orient);
 
                 // calculate Bounding Box and compare size to initial parameters
-                BoundingBox bb = receiver.collisionMesh.GetBoundingBox(false);
-                bb.Union(sender.collisionMesh.GetBoundingBox(false));
+                BoundingBox bb = receiver.CollisionMesh.GetBoundingBox(false);
+                bb.Union(sender.CollisionMesh.GetBoundingBox(false));
 
                 // record center plane of AO combination
                 bbCenters.Add(bb.Center, new GH_Path(i));
@@ -181,7 +189,7 @@ namespace Assembler
                 textLocations.Add(loc, new GH_Path(i));
 
                 // fill coherence pattern & orient extra geometry only if valid combination
-                bool valid = !Utilities.CollisionCheckPair(receiver, sender);
+                bool valid = !AssemblageUtils.CollisionCheckPair(receiver, sender);
                 coherencePattern.Add(valid, new GH_Path(i));
 
                 // calculate next grid position

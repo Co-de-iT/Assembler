@@ -1,42 +1,43 @@
-﻿using Rhino.Geometry;
+﻿using AssemblerLib.Utils;
+using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 
 namespace AssemblerLib
 {
     /// <summary>
-    /// Handle structure for connection handles
+    /// Handle structure for connection Handles
     /// </summary>
     public struct Handle
     {
         /// <summary>
         /// Sender plane
         /// </summary>
-        public Plane sender;
+        public Plane Sender;
         /// <summary>
         /// Receiver planes
         /// </summary>
-        public Plane[] receivers;
+        public Plane[] Receivers;
         /// <summary>
         /// Handle type identifier
         /// </summary>
-        public int type;
+        public int Type;
         /// <summary>
         /// Receiver rotations
         /// </summary>
-        public double[] rRotations;
+        public double[] Rotations;
         /// <summary>
         /// Rotations dictionary (degrees, index)
         /// </summary>
-        public Dictionary<double, int> rDictionary;
+        public Dictionary<double, int> RDictionary;
         /// <summary>
-        /// weight
+        /// Weight
         /// </summary>
-        public double weight;
+        public double Weight;
         /// <summary>
-        /// initial value of <see cref="weight"/> (for resetting purposes)
+        /// initial value of <see cref="Weight"/> (for resetting purposes)
         /// </summary>
-        public double idleWeight;
+        public double IdleWeight;
         /// <summary>
         /// Occupancy status
         /// <list type="bullet">
@@ -45,7 +46,7 @@ namespace AssemblerLib
         /// <item><description>1 connected</description></item>
         /// </list>
         /// </summary>
-        public int occupancy;
+        public int Occupancy;
         /// <summary>
         /// Neighbour object index
         /// <list type="bullet">
@@ -53,7 +54,7 @@ namespace AssemblerLib
         /// <item><description>index of connected neighbour object - when handle is connected or occluded by another <see cref="AssemblyObject"/></description></item>
         /// </list>
         /// </summary>
-        public int neighbourObject;
+        public int NeighbourObject;
         /// <summary>
         /// Neighbour handle index
         /// <list type="bullet">
@@ -61,7 +62,7 @@ namespace AssemblerLib
         /// <item><description>neighbour object's handle index - when handle is connected</description></item>
         /// </list>
         /// </summary>
-        public int neighbourHandle;
+        public int NeighbourHandle;
 
         /// <summary>
         /// Builds a Handle from an L-shaped polyline, Handle type and List of rotations
@@ -80,29 +81,29 @@ namespace AssemblerLib
         /// <param name="type">The Handle type</param>
         /// <param name="weight">The Handle weight</param>
         /// <param name="rotations">List of rotation angles in receiver mode</param>
-        public Handle(Plane plane, int type, double weight, List<double> rotations)
+        public Handle(Plane plane, int Type, double Weight, List<double> rotations)
         {
-            this.type = type;
-            this.weight = weight;
-            idleWeight = weight;
-            occupancy = 0;
-            neighbourObject = -1;
-            neighbourHandle = -1;
+            this.Type = Type;
+            this.Weight = Weight;
+            IdleWeight = Weight;
+            Occupancy = 0;
+            NeighbourObject = -1;
+            NeighbourHandle = -1;
             // sender plane
-            sender = plane;
-            rRotations = rotations.ToArray();
-            rDictionary = new Dictionary<double, int>();
-            // generate relative receiving handles
-            receivers = new Plane[rotations.Count];
+            Sender = plane;
+            Rotations = rotations.ToArray();
+            RDictionary = new Dictionary<double, int>();
+            // generate relative receiving Handles
+            Receivers = new Plane[rotations.Count];
             for (int i = 0; i < rotations.Count; i++)
             {
-                receivers[i] = sender;
+                Receivers[i] = Sender;
                 // first rotate
-                receivers[i].Rotate(Utilities.DegreesToRadians(rotations[i]), receivers[i].ZAxis); // rotations arrive in degrees
+                Receivers[i].Rotate(MathUtils.DegreesToRadians(rotations[i]), Receivers[i].ZAxis); // rotations arrive in degrees
                 // then flip
-                receivers[i].Rotate(Math.PI, receivers[i].YAxis);
+                Receivers[i].Rotate(Math.PI, Receivers[i].YAxis);
                 // add rotation to dictionary
-                rDictionary.Add(rotations[i], i);
+                RDictionary.Add(rotations[i], i);
             }
         }
 
@@ -112,9 +113,9 @@ namespace AssemblerLib
         /// <param name="Xform">Transformation to apply</param>
         public void Transform(Transform Xform)
         {
-            sender.Transform(Xform);
+            Sender.Transform(Xform);
             // DO NOT use foreach - it does not work (you cannot change parts of a looping variable)
-            for (int i = 0; i < receivers.Length; i++) receivers[i].Transform(Xform);
+            for (int i = 0; i < Receivers.Length; i++) Receivers[i].Transform(Xform);
         }
 
         /// <summary>
@@ -128,7 +129,7 @@ namespace AssemblerLib
         /// <returns>The Occupancy status as string</returns>
         public string HandleStatus()
         {
-            switch (occupancy)
+            switch (Occupancy)
             {
                 case -1: return "Occluded";
                 case 0: return "Available";
@@ -139,7 +140,7 @@ namespace AssemblerLib
 
         public override string ToString()
         {
-            return string.Format("Handle type {0} . {1} rotations . {2}", type, rRotations.Length, HandleStatus());
+            return string.Format("Handle type {0} . {1} rotations . {2}", Type, Rotations.Length, HandleStatus());
         }
 
     }

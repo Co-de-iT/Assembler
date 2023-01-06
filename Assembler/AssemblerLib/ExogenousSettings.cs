@@ -11,7 +11,7 @@ namespace AssemblerLib
         /// <summary>
         /// List of environment Meshes
         /// </summary>
-        public readonly List<MeshEnvironment> environmentMeshes;
+        public List<MeshEnvironment> EnvironmentMeshes { get; private set; }
         /// <summary>
         /// interaction mode with the environment Meshes
         /// <list type="bullet">
@@ -20,39 +20,39 @@ namespace AssemblerLib
         /// <item><description>2 - container inclusion</description></item>
         /// </list>
         /// </summary>
-        public readonly int environmentMode;
+        public readonly int EnvironmentMode;
         /// <summary>
-        /// <see cref="Field"/> used by the Assemblage
+        /// <see cref="AssemblerLib.Field"/> used by the Assemblage
         /// </summary>
-        public readonly Field field;
+        public Field Field { get; }
         /// <summary>
-        /// <see cref="Field"/> threshold for scalar values
+        /// <see cref="AssemblerLib.Field"/> threshold for scalar values
         /// </summary>
-        public readonly double fieldScalarThreshold;
+        public readonly double FieldScalarThreshold;
         /// <summary>
         /// Sandbox - NOT IMPLEMENTED YET
         /// </summary>
-        public Box sandBox;
+        public Box SandBox;
 
         /// <summary>
         /// Constructs an ExogenousSettings instance from required parameters
         /// </summary>
         /// <param name="meshes"></param>
-        /// <param name="environmentMode">sets the <see cref="environmentMode"/></param>
-        /// <param name="field">Field used by the Assemblage</param>
-        /// <param name="fieldScalarThreshold">threshold for scalar values</param>
-        /// <param name="sandBox">NOT IMPLEMENTED YET - use a Box.Unset here in case you need to call this constructor</param>
+        /// <param name="EnvironmentMode">sets the <see cref="EnvironmentMode"/></param>
+        /// <param name="Field">Field used by the Assemblage</param>
+        /// <param name="FieldScalarThreshold">threshold for scalar values</param>
+        /// <param name="SandBox">NOT IMPLEMENTED YET - use a Box.Unset here in case you need to call this constructor</param>
         /// <param name="hasContainer">True if the first mesh in the meshes list should be considered as a container</param>
-        public ExogenousSettings(List<Mesh> meshes, int environmentMode, Field field, double fieldScalarThreshold, Box sandBox, bool hasContainer)
+        public ExogenousSettings(List<Mesh> meshes, int EnvironmentMode, Field Field, double FieldScalarThreshold, Box SandBox, bool hasContainer)
         {
             // invalid meshes should be filtered out before sending the list to this struct
-            environmentMeshes = new List<MeshEnvironment>();
+            EnvironmentMeshes = new List<MeshEnvironment>();
 
             // if there is a container, add it to the environment meshes list and remove it from the meshes list
             if (hasContainer && meshes.Count > 0)
             {
                 if (meshes[0].Volume() > 0) meshes[0].Flip(true, true, true);
-                environmentMeshes.Add(new MeshEnvironment(meshes[0], 2));
+                EnvironmentMeshes.Add(new MeshEnvironment(meshes[0], 2));
                 meshes.RemoveAt(0);
             }
 
@@ -62,14 +62,14 @@ namespace AssemblerLib
             {
                 // Volume value separates void (<0) from solids (>0)
                 label = meshes[i].Volume() < 0 ? 0 : 1;
-                environmentMeshes.Add(new MeshEnvironment(meshes[i], label));
+                EnvironmentMeshes.Add(new MeshEnvironment(meshes[i], label));
             }
 
-            // if the mesh list is empty, force environmentMode to 0
-            this.environmentMode = environmentMeshes.Count == 0 ? 0 : environmentMode;
-            this.field = field;
-            this.fieldScalarThreshold = fieldScalarThreshold;
-            this.sandBox = sandBox;
+            // if the mesh list is empty, force EnvironmentMode to 0
+            this.EnvironmentMode = EnvironmentMeshes.Count == 0 ? 0 : EnvironmentMode;
+            this.Field = Field;
+            this.FieldScalarThreshold = FieldScalarThreshold;
+            this.SandBox = SandBox;
         }
     }
 }

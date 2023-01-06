@@ -29,7 +29,8 @@ namespace Assembler
 
         public override string ToString()
         {
-            return string.Format("{0}|{1}={2}<{3}|{4}%0", Value.rT, Value.rH, Value.rRA, Value.sT, Value.sH, Value.iWeight);
+            return $"{Value.rT}|{Value.rH}={Value.rRA}<{Value.sT}|{Value.sH}%{Value.iWeight}";
+            //return string.Format("{0}|{1}={2}<{3}|{4}%{5}", Value.rT, Value.rH, Value.rRA, Value.sT, Value.sH, Value.iWeight);
         }
     }
 }

@@ -11,18 +11,15 @@ namespace AssemblerLib
         /// <summary>
         /// Array of scalar values
         /// </summary>
-        public double[] Scalars
-        { get; set; }
+        public double[] Scalars;
         /// <summary>
         /// Array of Vector values
         /// </summary>
-        public Vector3d[] Vectors
-        { get; set; }
+        public Vector3d[] Vectors;
         /// <summary>
         /// Array of integer weights
         /// </summary>
-        public int[] IWeights
-        { get; set; }
+        public int[] IWeights;
 
         /*
          FUTURE IMPLEMENTATION

@@ -1,4 +1,5 @@
-﻿using Grasshopper;
+﻿using AssemblerLib.Utils;
+using Grasshopper;
 using Grasshopper.GUI.Gradient;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
@@ -22,13 +23,13 @@ namespace AssemblerLib
     /// Stores spatially-distributed scalar, vector and integer weights values
     /// </summary>
     /// <remarks>
-    /// Test if field improves transforming scalars to integer values - i.e. input desired precision (3, 4, etc.) 
+    /// Test if Field improves transforming scalars to integer values - i.e. input desired precision (3, 4, etc.) 
     /// and multiply 0-1 * 10^precision.
-    /// Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to speed up vector field computations?</remarks>
+    /// Similarly, a LUT for Vector angles might be done (a Math.Cos lookup table) to speed up vector Field computations?</remarks>
     public class Field
     {
         /// <summary>
-        /// Array of Tensor points in the field
+        /// Array of Tensor points in the Field
         /// </summary>
         public Tensor[] Tensors
         { get; set; }
@@ -112,8 +113,8 @@ namespace AssemblerLib
             PopulateField(scalars, vectors, iWeights);
 
             // convert Topology DataTree to bidimensional array of neighbours
-            if (Topology != null) this.Topology = Utilities.ToJaggedArray(Topology);
-            if (TransCoeff != null) this.TransCoeff = Utilities.ToJaggedArray(TransCoeff);
+            if (Topology != null) this.Topology = DataUtils.ToJaggedArray(Topology);
+            if (TransCoeff != null) this.TransCoeff = DataUtils.ToJaggedArray(TransCoeff);
             ComputeSearchRadiusAndMaxDist();
         }
 
@@ -145,8 +146,8 @@ namespace AssemblerLib
             PopulateField(scalar, vector, iWeights);
 
             // convert Topology DataTree to bidimensional array of neighbours
-            if (Topology != null) this.Topology = Utilities.ToJaggedArray(Topology);
-            if (TransCoeff != null) this.TransCoeff = Utilities.ToJaggedArray(TransCoeff);
+            if (Topology != null) this.Topology = DataUtils.ToJaggedArray(Topology);
+            if (TransCoeff != null) this.TransCoeff = DataUtils.ToJaggedArray(TransCoeff);
             ComputeSearchRadiusAndMaxDist();
 
             // initialize Tensors array
@@ -174,8 +175,8 @@ namespace AssemblerLib
             pointsTree = RTree.CreateFromPointArray(points);
 
             // convert Topology DataTree to bidimensional array of neighbours
-            if (Topology != null) this.Topology = Utilities.ToJaggedArray(Topology);
-            if (TransCoeff != null) this.TransCoeff = Utilities.ToJaggedArray(TransCoeff);
+            if (Topology != null) this.Topology = DataUtils.ToJaggedArray(Topology);
+            if (TransCoeff != null) this.TransCoeff = DataUtils.ToJaggedArray(TransCoeff);
             ComputeSearchRadiusAndMaxDist();
 
             // initialize Tensors array
@@ -186,7 +187,7 @@ namespace AssemblerLib
         #region Dense Field Constructors
 
         /// <summary>
-        /// constructs an empty field from a Box, with individual resolutions in X, Y, and Z
+        /// constructs an empty Field from a Box, with individual resolutions in X, Y, and Z
         /// </summary>
         /// <param name="box"></param>
         /// <param name="resX"></param>
@@ -204,7 +205,7 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// constructs an empty field from a Box, with individual number of points in X, Y, and Z
+        /// constructs an empty Field from a Box, with individual number of points in X, Y, and Z
         /// </summary>
         /// <param name="box"></param>
         /// <param name="nX"></param>
@@ -216,7 +217,7 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// constructs an empty field from a Box, with n points on the largest dimension and according numbers on other
+        /// constructs an empty Field from a Box, with n points on the largest dimension and according numbers on other
         /// </summary>
         /// <param name="box"></param>
         /// <param name="n"></param>
@@ -254,8 +255,8 @@ namespace AssemblerLib
 
             pointsTree = RTree.CreateFromPointArray(points);
 
-            if (points.Count == 1) searchRadius = box.BoundingBox.Diagonal.Length * 0.6;
-            else searchRadius = points[0].DistanceTo(points[1]) * 1.2;
+            if (points.Count == 1) searchRadius = box.BoundingBox.Diagonal.Length * 0.5 * Constants.SafeScaleMultiplier;
+            else searchRadius = points[0].DistanceTo(points[1]) * Constants.SafeScaleMultiplier;
             MaxDistSquare = searchRadius * searchRadius;
 
             // initialize Tensors array
@@ -464,7 +465,7 @@ namespace AssemblerLib
         {
             if (scalarValues.Count != points.Count) return false;
 
-            scalarValues = Utilities.NormalizeRange(scalarValues);
+            scalarValues = MathUtils.NormalizeRange(scalarValues);
 
             if (Tensors[0] == null)
                 Tensors = scalarValues.Select(s => new Tensor(new[] { s })).ToArray();
@@ -483,7 +484,7 @@ namespace AssemblerLib
         {
             if (scalarValues.BranchCount != points.Count) return false;
 
-            scalarValues = Utilities.NormalizeRanges(scalarValues);
+            scalarValues = MathUtils.NormalizeRanges(scalarValues);
 
             if (Tensors[0] == null)
                 for (int i = 0; i < scalarValues.BranchCount; i++)
@@ -532,7 +533,7 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// Populate field with weights distribution - 1 value per Field point
+        /// Populate Field with weights distribution - 1 value per Field point
         /// </summary>
         /// <param name="iWeights"></param>
         /// <returns></returns>
@@ -540,7 +541,7 @@ namespace AssemblerLib
         {
             if (iWeights.Count != points.Count) return false;
 
-            //iWeights = Utilities.NormalizeRange(iWeights);
+            //iWeights = MathUtils.NormalizeRange(iWeights);
 
             if (Tensors[0] == null)
                 Tensors = iWeights.Select(s => new Tensor(new[] { s })).ToArray();
@@ -551,7 +552,7 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// Populate field with weights distribution
+        /// Populate Field with weights distribution - multiple values per Field point
         /// </summary>
         /// <param name="iWeights"></param>
         /// <returns>true if operation was successful</returns>
@@ -572,7 +573,7 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// Populate field with weights distribution
+        /// Populate Field with weights distribution - multiple values per Field point
         /// </summary>
         /// <param name="iWeights"></param>
         /// <returns>true if operation was successful</returns>
@@ -649,6 +650,7 @@ namespace AssemblerLib
         }
 
         #endregion Populate methods
+
         /// <summary>
         /// Computes search radius for sparse Fields
         /// </summary>
@@ -679,13 +681,13 @@ namespace AssemblerLib
                         dist = points[i].DistanceTo(points[Topology[i][j]]);
                         if (dist > radius) radius = dist;
                     }
-                searchRadius = radius * 1.2;
+                searchRadius = radius * Constants.SafeScaleMultiplier;
                 MaxDistSquare = radius * radius;
             }
         }
 
         /// <summary>
-        /// Generates Colors according to scalar values at given index in the field;
+        /// Generates Colors according to scalar values at given index in the Field;
         /// threshold is used when blend is false
         /// </summary>
         /// <param name="i_colors"></param>
@@ -737,7 +739,7 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// Distribute iWeights according to scalar values in the field at index ind
+        /// Distribute iWeights according to scalar values in the Field at index ind
         /// </summary>
         /// <param name="weights"></param>
         /// <param name="threshold"></param>
@@ -923,7 +925,7 @@ namespace AssemblerLib
         {
             // find neighbours in Assemblage (remove receving object?)
             List<int> neighInd = new List<int>();
-            // collision radius is a field of AssemblyObjects
+            // collision radius is a Field of AssemblyObjects
             pointsTree.Search(new Sphere(P, searchRadius), (object sender, RTreeEventArgs e) =>
             {
                 // recover the AssemblyObject index related to the found centroid

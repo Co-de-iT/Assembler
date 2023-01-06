@@ -84,7 +84,7 @@ namespace Assembler
             if (cm == null) return;
             // if reference plane is null return
             if (rp == null) return;
-            // if direction is null or zero return
+            // if Direction is null or zero return
             if (d == null || d == Vector3d.Zero) return;
             // if children are null or empty return
             if (AOchildren == null || AOchildren.Count == 0) return;

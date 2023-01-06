@@ -117,6 +117,8 @@ namespace Assembler
         //Draw all wires and points in this method.
         public override void DrawViewportWires(IGH_PreviewArgs args)
         {
+            if (Locked) return;
+
             if (_cloud == null)
                 return;
             if (base.Attributes.Selected) thickness = 4; else thickness = 2;

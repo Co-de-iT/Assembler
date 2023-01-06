@@ -53,7 +53,7 @@ namespace Assembler
             List<Line> lines = new List<Line>();
 
             foreach (Support s in AO.supports)
-                lines.Add(s.line);
+                lines.Add(s.Line);
 
             DA.SetDataList(0, lines);
             DA.SetData(1, AO.minSupports);

@@ -1,6 +1,7 @@
 ﻿using Assembler.Properties;
 using Assembler.Utils;
 using AssemblerLib;
+using AssemblerLib.Utils;
 using GH_IO.Serialization;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
@@ -12,26 +13,30 @@ namespace Assembler
 {
     public class ConstructAssemblyObject : GH_Component
     {
-        // this should be the rightful implementation (see https://developer.rhino3d.com/api/grasshopper/html/5f6a9f31-8838-40e6-ad37-a407be8f2c15.htm)
-        // but it screws up existing components (must be manually replaced in definitions!)
-        // so I'm doing it "old school"
-        private bool worldZLock = false;
-        //public bool WorldZLock
-        //{
-        //    get { return worldZLock; }
-        //    set
-        //    {
-        //        worldZLock = value;
-        //        if (worldZLock)
-        //        {
-        //            Message = "World Z Lock";
-        //        }
-        //        else
-        //        {
-        //            Message = "";
-        //        }
-        //    }
-        //}
+        // see https://developer.rhino3d.com/api/grasshopper/html/5f6a9f31-8838-40e6-ad37-a407be8f2c15.htm
+        private bool m_worldZLock = false;
+        public bool WorldZLock
+        {
+            get { return m_worldZLock; }
+            set
+            {
+                m_worldZLock = value;
+                if (m_worldZLock)
+                {
+                    Message = "World Z Lock";
+                }
+                else
+                {
+                    Message = "";
+                }
+            }
+        }
+        /// <summary>
+        /// Because of its use in the Write method,
+        /// the value of this string is shared AMONG ALL COMPONENTS of a library!
+        /// "ZLockAO" is accessible (and modifyable) by other components!
+        /// </summary>
+        private string ZLockName = "ZLockAO";
 
         /// <summary>
         /// Initializes a new instance of the ConstructAssemblyObject class.
@@ -41,10 +46,10 @@ namespace Assembler
               "Construct an Assembly Object from relevant data",
               "Assembler", "Components")
         {
-            //Absolute = false;//GetValue("ZLock", false);
-            worldZLock = GetValue("ZLockAO", false);
-            UpdateMessage();
-            ExpireSolution(true);
+            // this hides the component preview when placed onto the canvas
+            // source: http://frasergreenroyd.com/how-to-stop-components-from-automatically-displaying-results-in-grasshopper/
+            IGH_PreviewObject prevObj = (IGH_PreviewObject)this;
+            prevObj.Hidden = true;
         }
 
         /// <summary>
@@ -102,7 +107,7 @@ namespace Assembler
             }
 
             DA.GetData("Direction", ref directionVector);
-            // if direction is null or zero return
+            // if Direction is null or zero return
             if (directionVector == null || directionVector == Vector3d.Zero)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Direction vector is zero or invalid");
@@ -120,10 +125,10 @@ namespace Assembler
             }
 
             // purge nulls from Handles list
-            handlesList = Utilities.PurgeNullHandlesFromList(handlesList);
+            handlesList = HandleUtils.PurgeNullHandlesFromList(handlesList);
 
-            // construct the AssemblyObject                                                                                         v iWeight v Zlock
-            AssemblyObject AO = new AssemblyObject(collisionMesh, handlesList, referencePlane, directionVector, name, type, weight, -1, worldZLock);
+            // construct the AssemblyObject                                                                                iWeight --v  v-- Zlock
+            AssemblyObject AO = new AssemblyObject(collisionMesh, handlesList, referencePlane, directionVector, name, type, weight, -1, WorldZLock);
 
             DA.SetData(0, new AssemblyObjectGoo(AO));
 
@@ -132,7 +137,7 @@ namespace Assembler
         public override void AppendAdditionalMenuItems(ToolStripDropDown menu)
         {
             Menu_AppendSeparator(menu);
-            ToolStripMenuItem toolStripMenuItem = Menu_AppendItem(menu, "World Z lock", ZLock_click, true, worldZLock);// GetValue("Z Lock", false));
+            ToolStripMenuItem toolStripMenuItem = Menu_AppendItem(menu, "World Z lock", ZLock_click, true, WorldZLock);
             toolStripMenuItem.ToolTipText = "When active (and if the check option is active in the Engine) the object will be placed ony with its reference Plane Z axis parallel to the World Z axis";
             Menu_AppendSeparator(menu);
         }
@@ -140,29 +145,19 @@ namespace Assembler
         private void ZLock_click(object sender, EventArgs e)
         {
             RecordUndoEvent("World Z lock");
-            worldZLock = !GetValue("ZLockAO", false);
-            SetValue("ZLockAO", worldZLock);
-            UpdateMessage();
+            WorldZLock = !WorldZLock;
             ExpireSolution(true);
-        }
-
-        private void UpdateMessage()
-        {
-            Message = worldZLock ? "World Z Lock" : "";
         }
 
         public override bool Write(GH_IWriter writer)
         {
-            // NOTE: the value in between "" is shared AMONG ALL COMPONENTS of a library!
-            // ZLockAO is accessible (and modifyable) by other components!
-            writer.SetBoolean("ZLockAO", worldZLock);
+            writer.SetBoolean(ZLockName, WorldZLock);
             return base.Write(writer);
         }
 
         public override bool Read(GH_IReader reader)
         {
-            reader.TryGetBoolean("ZLockAO", ref worldZLock);
-            UpdateMessage();
+            WorldZLock = reader.GetBoolean(ZLockName);
             return base.Read(reader);
         }
 

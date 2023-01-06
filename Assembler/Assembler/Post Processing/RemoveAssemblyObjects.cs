@@ -1,5 +1,6 @@
 ﻿using Assembler.Properties;
 using AssemblerLib;
+using AssemblerLib.Utils;
 using Grasshopper.Kernel;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,10 @@ namespace Assembler
               "Removes AssemblyObjects from an Assemblage given their indexes - updating Topology",
               "Assembler", "Post Processing")
         {
+            // this hides the component preview when placed onto the canvas
+            // source: http://frasergreenroyd.com/how-to-stop-components-from-automatically-displaying-results-in-grasshopper/
+            IGH_PreviewObject prevObj = (IGH_PreviewObject)this;
+            prevObj.Hidden = true;
         }
 
         /// <summary>
@@ -47,10 +52,10 @@ namespace Assembler
             List<int> indexes = new List<int>();
             if (!DA.GetDataList(1, indexes)) return;
 
-            Assemblage AOaCopy = Utilities.Clone(AOa);
+            Assemblage AOaCopy = AssemblageUtils.Clone(AOa);
 
             for (int i = 0; i < indexes.Count; i++)
-                Utilities.RemoveAssemblyObject(AOaCopy, indexes[i]);
+                AssemblageUtils.RemoveAssemblyObject(AOaCopy, indexes[i]);
 
             DA.SetData(0, AOaCopy);
 

@@ -18,7 +18,7 @@ namespace Assembler
             {
                 AssemblerEngine engineX = (AssemblerEngine)this.Owner;
                 engineX.ExpireSolution(true);
-                result = GH_ObjectResponse.Handled;// 3;
+                result = GH_ObjectResponse.Handled;
             }
             else
             {

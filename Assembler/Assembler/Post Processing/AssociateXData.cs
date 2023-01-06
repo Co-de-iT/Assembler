@@ -22,6 +22,10 @@ namespace Assembler
               "Associates XData to a list of AssemblyObjects\nMake sure the XData matches the corresponding AssemblyObject kinds present in the list",
               "Assembler", "Post Processing")
         {
+            // this hides the component preview when placed onto the canvas
+            // source: http://frasergreenroyd.com/how-to-stop-components-from-automatically-displaying-results-in-grasshopper/
+            IGH_PreviewObject prevObj = (IGH_PreviewObject)this;
+            prevObj.Hidden = true;
         }
 
         /// <summary>
@@ -88,10 +92,10 @@ namespace Assembler
                     {
 
                         // if the object does not match XData associated kind go on
-                        if (!String.Equals(AOs[i].name, xD[k].AOName)) continue;
+                        if (!String.Equals(AOs[i].Name, xD[k].AOName)) continue;
 
                         XData xdC = new XData(xD[k]);
-                        Transform orient = Transform.PlaneToPlane(xdC.refPlane, AOs[i].referencePlane);
+                        Transform orient = Transform.PlaneToPlane(xdC.ReferencePlane, AOs[i].ReferencePlane);
                         xdC.Transform(orient);
                         orientedXData.Add(xdC);
                     }

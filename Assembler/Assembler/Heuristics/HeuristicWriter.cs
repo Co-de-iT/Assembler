@@ -66,7 +66,10 @@ namespace Assembler
             if (GH_AOs == null || GH_AOs.Count == 0)
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Please provide at least one valid AssemblyObject");
 
-            AOs = GH_AOs.Select(ao => ao.Value).ToList();
+            AOs = GH_AOs.Where(a=>a!=null).Select(ao => ao.Value).ToList();
+
+            if (AOs.Count == 0)
+                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Please provide at least one valid AssemblyObject");
 
             List<string> Hc = new List<string>();
 
@@ -76,19 +79,19 @@ namespace Assembler
 
             if (Hc == null || Hc.Count == 0)
             {
-                Heuristics = H_Writer(AOs.ToArray(), noSelfObjectConnection, noSelfHandleConnection, crossTypeConnection);
+                Heuristics = WriteRules(AOs.ToArray(), noSelfObjectConnection, noSelfHandleConnection, crossTypeConnection);
             }
             else
             {
-                DataTree<int> HandCorr = BuildHCorr(Hc);
-                Heuristics = H_Writer(AOs.ToArray(), HandCorr, noSelfObjectConnection);
+                DataTree<int> HandlesCompatibilityTree = BuildHandleCompatibilityTree(Hc);
+                Heuristics = WriteRules(AOs.ToArray(), HandlesCompatibilityTree, noSelfObjectConnection);
             }
 
             DA.SetDataList(0, Heuristics);
 
         }
 
-        private DataTree<int> BuildHCorr(List<string> Hc)
+        private DataTree<int> BuildHandleCompatibilityTree(List<string> Hc)
         {
             HashSet<int> pool = new HashSet<int>();
             DataTree<int> HCorr = new DataTree<int>();
@@ -127,7 +130,7 @@ namespace Assembler
             return (HandCorr.Branch(new GH_Path(typeR)).Contains(typeS));
         }
 
-        private List<string> H_Writer(AssemblyObject[] components, bool noSelfObject, bool noSelfHandle, bool crossType)
+        private List<string> WriteRules(AssemblyObject[] components, bool noSelfObject, bool noSelfHandle, bool crossType)
         {
             List<string> hsList = new List<string>();
             string hs;
@@ -143,7 +146,7 @@ namespace Assembler
             for (int rOi = 0; rOi < components.Length; rOi++)
             {
                 // scan all handlesTree
-                for (int rHi = 0; rHi < components[rOi].handles.Length; rHi++)
+                for (int rHi = 0; rHi < components[rOi].Handles.Length; rHi++)
                 {
                     // scan all components as potential senders
                     for (int sOi = 0; sOi < components.Length; sOi++)
@@ -151,17 +154,17 @@ namespace Assembler
                         // exclude self if selfObject is False
                         if (rOi == sOi && noSelfObject) continue;
                         // scan potential sender handlesTree
-                        for (int sHi = 0; sHi < components[sOi].handles.Length; sHi++)
+                        for (int sHi = 0; sHi < components[sOi].Handles.Length; sHi++)
                         {
                             // exclude handlesTree attaching to self if selfHType is False
                             if (rOi == sOi && rHi == sHi && noSelfHandle) continue;
                             // if handle types match or cross type is True generate heuristic
-                            if (components[rOi].handles[rHi].type == components[sOi].handles[sHi].type || crossType)
+                            if (components[rOi].Handles[rHi].Type == components[sOi].Handles[sHi].Type || crossType)
                             {
                                 // consider all receiver rotations
-                                for (int rRi = 0; rRi < components[rOi].handles[rHi].receivers.Length; rRi++)
+                                for (int rRi = 0; rRi < components[rOi].Handles[rHi].Receivers.Length; rRi++)
                                 {
-                                    hs = string.Format("{0}|{1}={2}<{3}|{4}%0", components[rOi].name, rHi, components[rOi].handles[rHi].rRotations[rRi], components[sOi].name, sHi);
+                                    hs = WriteRuleString(components, rOi, rHi, sOi, sHi, rRi);
                                     hsList.Add(hs);
                                 }
                             }
@@ -173,7 +176,7 @@ namespace Assembler
             return hsList;
         }
 
-        private List<string> H_Writer(AssemblyObject[] components, DataTree<int> HandCorr, bool noSelfObject)
+        private List<string> WriteRules(AssemblyObject[] components, DataTree<int> HandCorr, bool noSelfObject)
         {
             List<string> hsList = new List<string>();
             string hs;
@@ -189,7 +192,7 @@ namespace Assembler
             for (int rOi = 0; rOi < components.Length; rOi++)
             {
                 // scan all handlesTree
-                for (int rHi = 0; rHi < components[rOi].handles.Length; rHi++)
+                for (int rHi = 0; rHi < components[rOi].Handles.Length; rHi++)
                 {
                     // scan all components as potential senders
                     for (int sOi = 0; sOi < components.Length; sOi++)
@@ -197,15 +200,15 @@ namespace Assembler
                         // exclude self if selfObject is False
                         if (rOi == sOi && noSelfObject) continue;
                         // scan potential sender handlesTree
-                        for (int sHi = 0; sHi < components[sOi].handles.Length; sHi++)
+                        for (int sHi = 0; sHi < components[sOi].Handles.Length; sHi++)
                         {
                             // if handle types are compatible according to the Compatibility rules
-                            if (IsCompatible(components[rOi].handles[rHi].type, components[sOi].handles[sHi].type, HandCorr))
+                            if (IsCompatible(components[rOi].Handles[rHi].Type, components[sOi].Handles[sHi].Type, HandCorr))
                             {
                                 // consider all receiver rotations
-                                for (int rRi = 0; rRi < components[rOi].handles[rHi].receivers.Length; rRi++)
+                                for (int rRi = 0; rRi < components[rOi].Handles[rHi].Receivers.Length; rRi++)
                                 {
-                                    hs = string.Format("{0}|{1}={2}<{3}|{4}%0", components[rOi].name, rHi, components[rOi].handles[rHi].rRotations[rRi], components[sOi].name, sHi);
+                                    hs = WriteRuleString(components, rOi, rHi, sOi, sHi, rRi);
                                     hsList.Add(hs);
                                 }
                             }
@@ -216,6 +219,13 @@ namespace Assembler
 
             return hsList;
         }
+
+        private static string WriteRuleString(AssemblyObject[] components, int rOi, int rHi, int sOi, int sHi, int rRi)
+        {
+            return $"{components[rOi].Name}|{rHi}={components[rOi].Handles[rHi].Rotations[rRi]}<{components[sOi].Name}|{sHi}%1";
+        }
+
+
 
         public override void AppendAdditionalMenuItems(ToolStripDropDown menu)
         {

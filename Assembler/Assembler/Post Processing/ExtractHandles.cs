@@ -2,6 +2,7 @@
 using Assembler.Utils;
 using AssemblerLib;
 using Grasshopper.Kernel;
+using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using System;
 
@@ -10,7 +11,7 @@ namespace Assembler
     public class ExtractHandles : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the ExtractSenderHandlesPlanes class.
+        /// Initializes a new instance of the ExtractHandles class.
         /// </summary>
         public ExtractHandles()
           : base("Extract Handles", "AOeHandles",
@@ -35,6 +36,9 @@ namespace Assembler
             pManager.AddPlaneParameter("Handles Sender Planes", "SP", "Sender Planes of each Handle in the AssemblyObject", GH_ParamAccess.list);
             pManager.AddIntegerParameter("Handles Types", "T", "Type of each Handle in the AssemblyObject", GH_ParamAccess.list);
             pManager.AddNumberParameter("Handles Weights", "W", "Weight of each Handle in the AssemblyObject", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("Handle Occupancy", "hO", "Handle Occupancy status\n-1 occluded\n0 available\n1 connected", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("Neighbour Object index", "nO", "Neighbour Object\nindex of neighbour AssemblyObject (connected or occluding)\n-1 if Handle is available", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("Neighbour Handle index", "nH", "Neighbour Handle\nindex of neighbour AssemblyObject's connected Handle\n-1 if Handle is available or occluded", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -49,20 +53,29 @@ namespace Assembler
 
             AO = GH_AO.Value;
 
-            GH_Plane[] hSPlanes = new GH_Plane[AO.handles.Length];
-            GH_Integer[] hTypes = new GH_Integer[AO.handles.Length];
-            GH_Number[] hWeights = new GH_Number[AO.handles.Length];
+            GH_Plane[] hSPlanes = new GH_Plane[AO.Handles.Length];
+            GH_Integer[] hTypes = new GH_Integer[AO.Handles.Length];
+            GH_Number[] hWeights = new GH_Number[AO.Handles.Length];
+            GH_Integer[] hOccupancy = new GH_Integer[AO.Handles.Length];
+            GH_Integer[] nObject = new GH_Integer[AO.Handles.Length];
+            GH_Integer[] nHandle = new GH_Integer[AO.Handles.Length];
 
-            for (int i = 0; i < AO.handles.Length; i++)
+            for (int i = 0; i < AO.Handles.Length; i++)
             {
-                hSPlanes[i] = new GH_Plane(AO.handles[i].sender);
-                hTypes[i] = new GH_Integer(AO.handles[i].type);
-                hWeights[i] = new GH_Number(AO.handles[i].weight);
+                hSPlanes[i] = new GH_Plane(AO.Handles[i].Sender);
+                hTypes[i] = new GH_Integer(AO.Handles[i].Type);
+                hWeights[i] = new GH_Number(AO.Handles[i].Weight);
+                hOccupancy[i] = new GH_Integer(AO.Handles[i].Occupancy);
+                nObject[i] = new GH_Integer(AO.Handles[i].NeighbourObject);
+                nHandle[i] = new GH_Integer(AO.Handles[i].NeighbourHandle);
             }
 
             DA.SetDataList(0, hSPlanes);
             DA.SetDataList(1, hTypes);
             DA.SetDataList(2, hWeights);
+            DA.SetDataList(3, hOccupancy);
+            DA.SetDataList(4, nObject);
+            DA.SetDataList(5, nHandle);
         }
 
         /// <summary>
@@ -92,7 +105,7 @@ namespace Assembler
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("8f3c72d5-1256-4798-b28f-2703cefb7ffc"); }
+            get { return new Guid("932DF300-D9FF-4628-8B18-2E369A21FED0"); }
         }
     }
 }

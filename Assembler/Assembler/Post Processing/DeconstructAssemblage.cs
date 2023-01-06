@@ -17,6 +17,10 @@ namespace Assembler
               "Deconstructs an Assemblage\nTree Branch indexes are the unique indexes of objects in the assemblage",
               "Assembler", "Post Processing")
         {
+            // this hides the component preview when placed onto the canvas
+            // source: http://frasergreenroyd.com/how-to-stop-components-from-automatically-displaying-results-in-grasshopper/
+            IGH_PreviewObject prevObj = (IGH_PreviewObject)this;
+            prevObj.Hidden = true;
         }
 
         /// <summary>
@@ -37,6 +41,7 @@ namespace Assembler
             pManager.AddIntegerParameter("Receiver Objects Indexes", "rOi", "The tree of receiver Objects indexes in the Assemblage", GH_ParamAccess.tree);
             pManager.AddIntegerParameter("Available Object indexes", "avO", "List of unique Assemblage indexes for AssemblyObjects with available Handles", GH_ParamAccess.list);
             pManager.AddIntegerParameter("Unreachable Object indexes", "unO", "List of unique Assemblage indexes for unreachable AssemblyObjects", GH_ParamAccess.list);
+            pManager.HideParameter(0);
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using Assembler.Properties;
 using AssemblerLib;
+using AssemblerLib.Utils;
 using Grasshopper;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
@@ -20,6 +21,10 @@ namespace Assembler
               "Populates a Field with Scalar, Vector, and integer Weight values (optional)",
               "Assembler", "Exogenous")
         {
+            // this hides the component preview when placed onto the canvas
+            // source: http://frasergreenroyd.com/how-to-stop-components-from-automatically-displaying-results-in-grasshopper/
+            IGH_PreviewObject prevObj = (IGH_PreviewObject)this;
+            prevObj.Hidden = true;
         }
 
         /// <summary>
@@ -60,9 +65,9 @@ namespace Assembler
             DA.GetDataTree(2, out vectors);
             DA.GetDataTree(3, out iWeights);
 
-            DataTree<double> scalarsTree = Utilities.GHS2TreeDoubles(scalars);
-            DataTree<Vector3d> vectorsTree = Utilities.GHS2TreeVectors(vectors);
-            DataTree<int> iWeightsTree = Utilities.GHS2TreeIntegers(iWeights);
+            DataTree<double> scalarsTree = DataUtils.GHS2TreeDoubles(scalars);
+            DataTree<Vector3d> vectorsTree = DataUtils.GHS2TreeVectors(vectors);
+            DataTree<int> iWeightsTree = DataUtils.GHS2TreeIntegers(iWeights);
 
             fPop = new Field(f);
 

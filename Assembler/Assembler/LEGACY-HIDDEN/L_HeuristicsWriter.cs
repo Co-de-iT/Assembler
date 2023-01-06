@@ -79,7 +79,7 @@ namespace Assembler
             for (int rOi = 0; rOi < components.Length; rOi++)
             {
                 // scan all handlesTree
-                for (int rHi = 0; rHi < components[rOi].handles.Length; rHi++)
+                for (int rHi = 0; rHi < components[rOi].Handles.Length; rHi++)
                 {
                     // scan all components as potential senders
                     for (int sOi = 0; sOi < components.Length; sOi++)
@@ -87,18 +87,18 @@ namespace Assembler
                         // exclude self if selfObject is False
                         if (rOi == sOi && !selfObject) continue;
                         // scan potential sender handlesTree
-                        for (int sHi = 0; sHi < components[sOi].handles.Length; sHi++)
+                        for (int sHi = 0; sHi < components[sOi].Handles.Length; sHi++)
                         {
                             // exclude handlesTree attaching to self if selfHType is False
                             if (rOi == sOi && rHi == sHi && !selfHType) continue;
                             // if handle types match or cross type is True generate heuristic
-                            if (components[rOi].handles[rHi].type == components[sOi].handles[sHi].type || crossT)
+                            if (components[rOi].Handles[rHi].Type == components[sOi].Handles[sHi].Type || crossT)
                             {
                                 // consider all receiver rotations
-                                for (int rRi = 0; rRi < components[rOi].handles[rHi].receivers.Length; rRi++)
+                                for (int rRi = 0; rRi < components[rOi].Handles[rHi].Receivers.Length; rRi++)
                                 {
-                                    hs = string.Format("{0}|{1}={2}<{3}|{4}%0", components[rOi].name, rHi, components[rOi].handles[rHi].rRotations[rRi], components[sOi].name, sHi);
-                                    //hs = string.Format("{0}|{1}={2}<{3}|{4}%0", components[rOi].name, rHi, rRi, components[sOi].name, sHi);
+                                    hs = string.Format("{0}|{1}={2}<{3}|{4}%0", components[rOi].Name, rHi, components[rOi].Handles[rHi].Rotations[rRi], components[sOi].Name, sHi);
+                                    //hs = string.Format("{0}|{1}={2}<{3}|{4}%0", components[rOi].Name, rHi, rRi, components[sOi].Name, sHi);
                                     hsList.Add(hs);
                                 }
                             }

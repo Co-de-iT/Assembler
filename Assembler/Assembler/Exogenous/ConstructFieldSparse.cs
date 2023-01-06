@@ -1,5 +1,6 @@
 ﻿using Assembler.Properties;
 using AssemblerLib;
+using AssemblerLib.Utils;
 using Grasshopper;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
@@ -20,6 +21,10 @@ namespace Assembler
               "Constructs an empty Field from a sparse list of points and optional topology information",
               "Assembler", "Exogenous")
         {
+            // this hides the component preview when placed onto the canvas
+            // source: http://frasergreenroyd.com/how-to-stop-components-from-automatically-displaying-results-in-grasshopper/
+            IGH_PreviewObject prevObj = (IGH_PreviewObject)this;
+            prevObj.Hidden = true;
         }
 
         /// <summary>
@@ -67,10 +72,10 @@ namespace Assembler
             {
                 if (GH_topology.Branches.Count != points.Count)
                     AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Topology tree branches must match number of points");
-                topology = Utilities.GHS2TreeIntegers(GH_topology);
+                topology = DataUtils.GHS2TreeIntegers(GH_topology);
                 if (GH_transCoeff == null || GH_transCoeff.IsEmpty)
                     transCoeff = ComputeTransCoeff(points, topology);
-                else transCoeff = Utilities.GHS2TreeDoubles(GH_transCoeff);
+                else transCoeff = DataUtils.GHS2TreeDoubles(GH_transCoeff);
             }
 
             Field f = new Field(points, topology, transCoeff);

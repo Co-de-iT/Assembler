@@ -53,14 +53,14 @@ namespace Assembler
             if(!DA.GetData(0, ref h)) return;
             
             // output data
-            DA.SetData(0, h.sender);
-            DA.SetDataList(1, h.receivers);
-            DA.SetDataList(2, h.rRotations);
-            DA.SetData(3, h.type);
-            DA.SetData(4, h.weight);
-            DA.SetData(5, h.occupancy);
-            DA.SetData(6, h.neighbourObject);
-            DA.SetData(7, h.neighbourHandle);
+            DA.SetData(0, h.Sender);
+            DA.SetDataList(1, h.Receivers);
+            DA.SetDataList(2, h.Rotations);
+            DA.SetData(3, h.Type);
+            DA.SetData(4, h.Weight);
+            DA.SetData(5, h.Occupancy);
+            DA.SetData(6, h.NeighbourObject);
+            DA.SetData(7, h.NeighbourHandle);
         }
 
         /// <summary>

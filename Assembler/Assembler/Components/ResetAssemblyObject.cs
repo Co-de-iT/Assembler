@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Assembler.Properties;
 using Assembler.Utils;
 using AssemblerLib;
+using AssemblerLib.Utils;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 
@@ -18,6 +20,10 @@ namespace Assembler
               "Resets an AssemblyObject's values to default",
               "Assembler", "Components")
         {
+            // this hides the component preview when placed onto the canvas
+            // source: http://frasergreenroyd.com/how-to-stop-components-from-automatically-displaying-results-in-grasshopper/
+            IGH_PreviewObject prevObj = (IGH_PreviewObject)this;
+            prevObj.Hidden = true;
         }
 
         /// <summary>
@@ -48,7 +54,17 @@ namespace Assembler
             if (!DA.GetData(0, ref GH_AO)) return;
             AO = GH_AO.Value;
 
-            AOreset = Utilities.Clone(AO);
+            // this fixes compatibility issues with saved assemblages prior to version 1.1.9
+            // Rotations and RDictionary were null in those cases
+            for (int i = 0; i < AO.Handles.Length; i++)
+            {
+                if (AO.Handles[i].Rotations == null)
+                    AO.Handles[i].Rotations = new double[0];
+                if (AO.Handles[i].RDictionary == null)
+                    AO.Handles[i].RDictionary = new Dictionary<double, int>();
+            }
+
+            AOreset = AssemblyObjectUtils.Clone(AO);
 
             DA.SetData(0, new AssemblyObjectGoo(AOreset));
         }

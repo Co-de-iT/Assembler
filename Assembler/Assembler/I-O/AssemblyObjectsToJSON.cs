@@ -1,6 +1,7 @@
 ﻿using Assembler.Properties;
 using Assembler.Utils;
 using AssemblerLib;
+using AssemblerLib.Utils;
 using Grasshopper.Kernel;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,10 @@ namespace Assembler
               "Save a list of AssemblyObjects to a JSON file - brute force method",
               "Assembler", "I/O")
         {
+            // this hides the component preview when placed onto the canvas
+            // source: http://frasergreenroyd.com/how-to-stop-components-from-automatically-displaying-results-in-grasshopper/
+            IGH_PreviewObject prevObj = (IGH_PreviewObject)this;
+            prevObj.Hidden = true;
         }
 
         String info;
@@ -67,7 +72,7 @@ namespace Assembler
             if (AOs == null) return;
 
             if (save)
-                info = "Last assemblage saved as " + Utilities.AssemblageToJSONdump(AOs, path, name);
+                info = "Last assemblage saved as " + FileUtils.AssemblageToJSONdump(AOs, path, name);
 
             DA.SetData("info", info);
         }

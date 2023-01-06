@@ -14,9 +14,42 @@ namespace Assembler
 {
     public class AssemblerEngine : GH_Component
     {
+        // see https://developer.rhino3d.com/api/grasshopper/html/5f6a9f31-8838-40e6-ad37-a407be8f2c15.htm
+        private bool m_checkWZLock = false;
+        public bool CheckWZLock
+        {
+            get { return m_checkWZLock; }
+            set
+            {
+                m_checkWZLock = value;
+                if (m_checkWZLock)
+                {
+                    Message = "World Z Lock\n";
+                }
+                else
+                {
+                    Message = "";
+                }
+            }
+        }
 
-        private bool checkWZLock;
-        private bool useSupports;
+        private bool m_useSupports = false;
+        public bool UseSupports
+        {
+            get { return m_useSupports; }
+            set
+            {
+                m_useSupports = value;
+                if (m_useSupports)
+                {
+                    Message += "Supports";
+                }
+                else
+                {
+                    Message += "";
+                }
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the AssemblerEngineX class.
@@ -26,10 +59,10 @@ namespace Assembler
               "Assembler Engine\nWhere the magic happens...",
               "Assembler", "Engine")
         {
-            checkWZLock = GetValue("ZLockCheck", false);
-            useSupports = GetValue("UseSupports", false);
-            UpdateMessage();
-            ExpireSolution(true);
+            // this hides the component preview when placed onto the canvas
+            // source: http://frasergreenroyd.com/how-to-stop-components-from-automatically-displaying-results-in-grasshopper/
+            IGH_PreviewObject prevObj = (IGH_PreviewObject)this;
+            prevObj.Hidden = true;
         }
 
         Assemblage AOa;
@@ -122,27 +155,27 @@ namespace Assembler
             if (!DA.GetData("Exogenous Settings", ref ES))
                 ES = new ExogenousSettings(new List<Mesh>(), 0, null, 0, Box.Unset, false);
 
-            // check field-dependent variables
-            if (ES.field == null)
+            // check Field-dependent variables
+            if (ES.Field == null && HS.IsFieldDependent)
             {
-                string fieldMsg = " is Field dependent but no Field is provided";
-
-                if (HS.heuristicsMode == 1)
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Heuristics Settings are Field dependent but no Field is provided\nCheck HeM, RsM and SsM parameters");
+                return;
+            }
+            else if (HS.HeuristicsMode == 1)
+            {
+                if (ES.Field.GetiWeights().BranchCount == 0)
                 {
-                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Heuristics mode" + fieldMsg);
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Heuristics mode (HeM) is Field dependent but Field has no iWeights");
                     return;
                 }
-
-                if (HS.receiverSelectionMode == 1 || HS.receiverSelectionMode == 2)
+                else
                 {
-                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Receiver selection Mode" + fieldMsg);
-                    return;
-                }
-
-                if (HS.ruleSelectionMode > 0 && HS.ruleSelectionMode < 5)
-                {
-                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Sender (Rule) selection Mode" + fieldMsg);
-                    return;
+                    int maxIWeight = ES.Field.GetiWeights().AllData().Max();
+                    if (maxIWeight > HS.HeuSetsString.Count)
+                    {
+                        AddRuntimeMessage(GH_RuntimeMessageLevel.Error, $"The provided Field iWeights require at least {maxIWeight + 1} Heuristics Sets (HeS)");
+                        return;
+                    }
                 }
             }
 
@@ -162,8 +195,12 @@ namespace Assembler
 
             if (reset || AOa == null)
             {
-                AOs = GH_AOs.Select(ao => ao.Value).ToList();
-                AOpa = GH_AOpa.Select(ao => ao.Value).ToList();
+                AOs = GH_AOs.Where(a => a != null).Select(ao => ao.Value).ToList();
+                if (AOs.Count < GH_AOs.Count)
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, $"{GH_AOs.Count - AOs.Count} null AssemblyObjects were removed from the set");
+                AOpa = GH_AOpa.Where(a => a != null).Select(ao => ao.Value).ToList();
+                if (AOpa.Count < GH_AOpa.Count)
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, $"{GH_AOpa.Count - AOpa.Count} null AssemblyObjects were removed from the set");
                 AOa = new Assemblage(AOs, AOpa, startReferencePlane, startingObjectType, HS, ES);
                 AOa.ResetSettings(HS, ES);
             }
@@ -177,9 +214,9 @@ namespace Assembler
                 AOa.ResetSettings(HS, ES);
 
             // World Z-Lock
-            AOa.CheckWorldZLock = checkWZLock;
+            AOa.CheckWorldZLock = CheckWZLock;
             // use supports
-            AOa.UseSupports = useSupports;
+            AOa.UseSupports = UseSupports;
 
             //
             // . . . . . . . . . . . . 3. Update Assemblage & Component
@@ -208,57 +245,42 @@ namespace Assembler
         public override void AppendAdditionalMenuItems(ToolStripDropDown menu)
         {
             Menu_AppendSeparator(menu);
-            ToolStripMenuItem toolStripMenuItem = Menu_AppendItem(menu, "Check World Z lock", ZLock_click, true, checkWZLock);
+            ToolStripMenuItem toolStripMenuItem = Menu_AppendItem(menu, "Check World Z lock", ZLock_click, true, CheckWZLock);
             toolStripMenuItem.ToolTipText = "Checks World Z axis orientation for AssemblyObjects with World Z lock enabled";
-            //ToolStripMenuItem toolStripMenuItem1 = Menu_AppendItem(menu, "Use Supports", Supports_click, true, useSupports);
-            //toolStripMenuItem1.ToolTipText = "Use supports (if present in AssemblyObjects) for Assemblage coherence\nNOT YET IMPLEMENTED";
+#if DEBUG
+            ToolStripMenuItem toolStripMenuItem1 = Menu_AppendItem(menu, "Use Supports", Supports_click, true, UseSupports);
+            toolStripMenuItem1.ToolTipText = "Use supports (if present in AssemblyObjects) for Assemblage coherence\nNOT YET IMPLEMENTED";
+#endif
             Menu_AppendSeparator(menu);
         }
 
         private void ZLock_click(object sender, EventArgs e)
         {
             RecordUndoEvent("Check World Z lock");
-            checkWZLock = !GetValue("ZLockCheck", false);
-            SetValue("ZLockCheck", checkWZLock);
-
-            // set component message
-            UpdateMessage();
+            CheckWZLock = !CheckWZLock;
             ExpireSolution(true);
         }
 
         private void Supports_click(object sender, EventArgs e)
         {
             RecordUndoEvent("Use Supports");
-            useSupports = !GetValue("UseSupports", false);
-            SetValue("UseSupports", useSupports);
-
-            // set component message
-            UpdateMessage();
+            UseSupports = !UseSupports;
             ExpireSolution(true);
-        }
-
-        private void UpdateMessage()
-        {
-            Message = checkWZLock ? "World Z Lock\n" : "";
-#if DEBUG
-            Message += useSupports ? "Supports" : "";
-#endif
         }
 
         public override bool Write(GH_IWriter writer)
         {
             // NOTE: the value in between "" is shared AMONG ALL COMPONENTS of a library!
             // for instance, ZLockCheck is accessible (and modifyable) by other components!
-            writer.SetBoolean("ZLockCheck", checkWZLock);
-            writer.SetBoolean("UseSupports", useSupports);
+            writer.SetBoolean("ZLockCheck", CheckWZLock);
+            writer.SetBoolean("UseSupports", UseSupports);
             return base.Write(writer);
         }
 
         public override bool Read(GH_IReader reader)
         {
-            reader.TryGetBoolean("ZLockCheck", ref checkWZLock);
-            reader.TryGetBoolean("UseSupports", ref useSupports);
-            UpdateMessage();
+            CheckWZLock = reader.GetBoolean("ZLockCheck");
+            UseSupports = reader.GetBoolean("UseSupports");
             return base.Read(reader);
         }
 

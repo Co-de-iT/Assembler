@@ -176,7 +176,7 @@ namespace Assembler
             // build edge catalog
             edgeCatalog = new GH_Line[components.Length][];
             for (int i = 0; i < edgeCatalog.Length; i++)
-                edgeCatalog[i] = GetSihouette(components[i].collisionMesh);
+                edgeCatalog[i] = GetSihouette(components[i].CollisionMesh);
 
             // build Colors and materials catalogs
             colorCatalog = Cols.ToArray();
@@ -255,7 +255,7 @@ namespace Assembler
                 // receiver handle index and rotation
                 rH = Convert.ToInt32(rRot[0]);
                 rRA = Convert.ToDouble(rRot[1]);
-                rR = AOset[rT].handles[rH].rDictionary[rRA]; // using rotations
+                rR = AOset[rT].Handles[rH].RDictionary[rRA]; // using rotations
 
                 heuT.Add(new Rule(rec[0], rT, rH, rR, rRA, sen[0], sT, sH, w), new GH_Path(rT));
             }
@@ -330,7 +330,7 @@ namespace Assembler
                     senEdges = edgeCatalog[sT].Select(l => new GH_Line(l)).ToList();
 
                     // generate transformation orient: sender to receiver
-                    Transform orient = Transform.PlaneToPlane(sender.handles[sH].sender, receiver.handles[rH].receivers[rR]);
+                    Transform orient = Transform.PlaneToPlane(sender.Handles[sH].Sender, receiver.Handles[rH].Receivers[rR]);
 
                     // orient sender AssemblyObject
                     sender.Transform(orient);
@@ -345,10 +345,10 @@ namespace Assembler
                         for (int k = 0; k < xDCatalog.Count; k++)
                         {
                             // receiver XData
-                            if (String.Equals(xDCatalog[k].AOName, receiver.name))
+                            if (String.Equals(xDCatalog[k].AOName, receiver.Name))
                                 recGeom = new XData(xDCatalog[k]);
                             // sender XData
-                            if (String.Equals(xDCatalog[k].AOName, sender.name))
+                            if (String.Equals(xDCatalog[k].AOName, sender.Name))
                             {
                                 senGeom = new XData(xDCatalog[k]);
                                 senGeom.Transform(orient);
@@ -356,8 +356,8 @@ namespace Assembler
                         }
                     }
                     // calculate Bounding Box and compare size to initial parameters
-                    BoundingBox bb = receiver.collisionMesh.GetBoundingBox(false);
-                    bb.Union(sender.collisionMesh.GetBoundingBox(false));
+                    BoundingBox bb = receiver.CollisionMesh.GetBoundingBox(false);
+                    bb.Union(sender.CollisionMesh.GetBoundingBox(false));
 
                     // record center plane of AO combination
                     bbCenters.Add(bb.Center, Hr.Paths[i].AppendElement(j));
@@ -402,7 +402,7 @@ namespace Assembler
                 }
             }
 
-            // calculate textSize
+            // calculate _textSize
             textSize = sX * 0.025;
 
             // loop2:
@@ -457,13 +457,13 @@ namespace Assembler
             for (int i = 0; i < Aopairs.BranchCount; i++)
                 for (int j = 0; j < Aopairs.Branches[i].Count; j++)
                 {
-                    m = Aopairs.Branches[i][j].collisionMesh;
+                    m = Aopairs.Branches[i][j].CollisionMesh;
                     _clip = BoundingBox.Union(_clip, m.GetBoundingBox(false));
 
                     if (coherencePattern.Branches[i][0])
                     {
                         _mesh.Add(m);
-                        typeIndex = AOpairs.Branches[i][j].type;
+                        typeIndex = AOpairs.Branches[i][j].Type;
                         if (!haveXData) eColor = Color.Black;
                         else eColor = srMode ? srPalette[j] : colorCatalog[typeIndex];
                         edgeColor.Add(eColor, new GH_Path(i));
@@ -488,7 +488,7 @@ namespace Assembler
 
                 for (int i = 0; i < xDataTree.BranchCount; i++)
                     if (xDataTree.Branches[i][0] != null)
-                        for (int j = 0; j < xDataTree.Branches[i][0].data.Count; j++)
+                        for (int j = 0; j < xDataTree.Branches[i][0].Data.Count; j++)
                         {
                             // Point3d are the exception as they are a struct and a cast to GeometryBase is null
                             /*
@@ -496,11 +496,11 @@ namespace Assembler
                             as GeometryBase - ObjectType Rhino.DocObjects.ObjectType.Point
                             If they appear as set of coordinates (as is the case of XData), they are Point3d (struct)
                              */
-                            if (xDataTree.Branches[i][0].data[j] is Point3d)
-                                eg_Points.Add((Point3d)xDataTree.Branches[i][0].data[j]);
+                            if (xDataTree.Branches[i][0].Data[j] is Point3d)
+                                eg_Points.Add((Point3d)xDataTree.Branches[i][0].Data[j]);
                             else
                             {
-                                GeometryBase gb = xDataTree.Branches[i][0].data[j] as GeometryBase;
+                                GeometryBase gb = xDataTree.Branches[i][0].Data[j] as GeometryBase;
 
                                 if (gb != null)
                                 {
@@ -587,7 +587,7 @@ namespace Assembler
                 drawText.VerticalAlignment = Rhino.DocObjects.TextVerticalAlignment.Top;
                 args.Display.Draw3dText(drawText, Color.Black);
                 drawText.Dispose();
-                //args.Display.Draw3dText(rulesText.Branches[i][0], Color.Black, textLocations.Branches[i][0], textSize, "Lucida Console",
+                //args.Display.Draw3dText(rulesText.Branches[i][0], Color.Black, textLocations.Branches[i][0], _textSize, "Lucida Console",
                 //    false, false, Rhino.DocObjects.TextHorizontalAlignment.Center, Rhino.DocObjects.TextVerticalAlignment.Top);
 
                 drawText = new Text3d(string.Format("{0}", i), numberLocations.Branches[i][0], textSize * 0.8);
@@ -596,7 +596,7 @@ namespace Assembler
                 drawText.VerticalAlignment = Rhino.DocObjects.TextVerticalAlignment.Bottom;
                 args.Display.Draw3dText(drawText, Color.DimGray);
                 drawText.Dispose();
-                //args.Display.Draw3dText(string.Format("{0}", i), Color.DimGray, numberLocations.Branches[i][0], textSize * 0.8, "Lucida Console",
+                //args.Display.Draw3dText(string.Format("{0}", i), Color.DimGray, numberLocations.Branches[i][0], _textSize * 0.8, "Lucida Console",
                 //false, false, Rhino.DocObjects.TextHorizontalAlignment.Center, Rhino.DocObjects.TextVerticalAlignment.Bottom);
             }
 

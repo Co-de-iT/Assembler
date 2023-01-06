@@ -49,7 +49,7 @@ namespace Assembler
             AO = GH_AO.Value;
 
             Mesh m = new Mesh();
-            m.CopyFrom(AO.collisionMesh);
+            m.CopyFrom(AO.CollisionMesh);
             m.Unweld(0, true);
             GH_Mesh gm = new GH_Mesh(m);
             DA.SetData(0, gm);

@@ -1,6 +1,7 @@
 ﻿using Assembler.Properties;
 using Assembler.Utils;
 using AssemblerLib;
+using AssemblerLib.Utils;
 using Grasshopper.Kernel;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,10 @@ namespace Assembler
               "Load a list of AssemblyObjects from a JSON file saved with brute force method",
               "Assembler", "I/O")
         {
+            // this hides the component preview when placed onto the canvas
+            // source: http://frasergreenroyd.com/how-to-stop-components-from-automatically-displaying-results-in-grasshopper/
+            IGH_PreviewObject prevObj = (IGH_PreviewObject)this;
+            prevObj.Hidden = true;
         }
 
         /// <summary>
@@ -55,7 +60,7 @@ namespace Assembler
                 return;
             }
 
-            AOs = Utilities.AssemblageFromJSONdump(Path);
+            AOs = FileUtils.AssemblageFromJSONdump(Path);
 
             List<AssemblyObjectGoo> GH_AOs = AOs.Select(ao => new AssemblyObjectGoo(ao)).ToList();
 

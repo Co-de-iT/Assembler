@@ -18,6 +18,10 @@ namespace Assembler
               "Extract connection data from an Assemblage",
               "Assembler", "Post Processing")
         {
+            // this hides the component preview when placed onto the canvas
+            // source: http://frasergreenroyd.com/how-to-stop-components-from-automatically-displaying-results-in-grasshopper/
+            IGH_PreviewObject prevObj = (IGH_PreviewObject)this;
+            prevObj.Hidden = true;
         }
 
         /// <summary>
@@ -33,9 +37,9 @@ namespace Assembler
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddIntegerParameter("Handle Occupancy", "hO", "Handle Occupancy status\n-1 occluded\n0 available\n1 connected", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("Neighbour Object index", "nO", "Neighbour Object\nindex of neighbour AssemblyObject (connected or occluding)\n-1 if Handle is available", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("Neighbour Handle index", "nH", "Neighbour Handle\nindex of neighbour AssemblyObject's connected Handle\n-1 if Handle is available or occluded", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Handle Occupancy", "hO", "Handle Occupancy status\n-1 occluded\n0 available\n1 connected", GH_ParamAccess.tree);
+            pManager.AddIntegerParameter("Neighbour Object index", "nO", "Neighbour Object\nindex of neighbour AssemblyObject (connected or occluding)\n-1 if Handle is available", GH_ParamAccess.tree);
+            pManager.AddIntegerParameter("Neighbour Handle index", "nH", "Neighbour Handle\nindex of neighbour AssemblyObject's connected Handle\n-1 if Handle is available or occluded", GH_ParamAccess.tree);
         }
 
         /// <summary>
@@ -63,11 +67,11 @@ namespace Assembler
             {
                 //Topology main path is the object AInd
                 p = new GH_Path(0, AO[i].AInd);
-                foreach (Handle h in AO[i].handles)
+                foreach (Handle h in AO[i].Handles)
                 {
-                    hOTree.Append(new GH_Integer(h.occupancy), p);
-                    nOTree.Append(new GH_Integer(h.neighbourObject), p);
-                    nHTree.Append(new GH_Integer(h.neighbourHandle), p);
+                    hOTree.Append(new GH_Integer(h.Occupancy), p);
+                    nOTree.Append(new GH_Integer(h.NeighbourObject), p);
+                    nHTree.Append(new GH_Integer(h.NeighbourHandle), p);
                 }
 
             }

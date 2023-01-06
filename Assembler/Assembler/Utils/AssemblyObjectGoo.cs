@@ -1,4 +1,5 @@
 ﻿using AssemblerLib;
+using AssemblerLib.Utils;
 using GH_IO.Serialization;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
@@ -45,7 +46,7 @@ namespace Assembler.Utils
 
         public AssemblyObjectGoo DuplicateAssemblyObject()
         {
-            return new AssemblyObjectGoo(Value == null ? new AssemblyObject() : Utilities.CloneWithConnectivity(Value));
+            return new AssemblyObjectGoo(Value == null ? new AssemblyObject() : AssemblyObjectUtils.CloneWithConnectivity(Value));
         }
 
         #endregion
@@ -70,7 +71,7 @@ namespace Assembler.Utils
         {
             get
             {
-                if (Value == null || Value.collisionMesh == null) return false;
+                if (Value == null || Value.CollisionMesh == null) return false;
                 return true;
             }
         }
@@ -87,7 +88,7 @@ namespace Assembler.Utils
         public override string ToString()
         {
             if (Value == null) return "Null AssemblyObject";
-            return "AssemblyObject " + Value.name + ", with " + Value.handles.Length + " Handles";
+            return "AssemblyObject " + Value.Name + ", with " + Value.Handles.Length + " Handles";
         }
 
         public override string TypeName
@@ -105,14 +106,14 @@ namespace Assembler.Utils
             get
             {
                 if (Value == null) { return BoundingBox.Empty; }
-                return Value.collisionMesh.GetBoundingBox(false);
+                return Value.CollisionMesh.GetBoundingBox(false);
             }
         }
 
         public override BoundingBox GetBoundingBox(Transform xform)
         {
             if (Value == null) { return BoundingBox.Empty; }
-            return Value.collisionMesh.GetBoundingBox(xform);
+            return Value.CollisionMesh.GetBoundingBox(xform);
         }
 
 
@@ -134,17 +135,75 @@ namespace Assembler.Utils
                 return true;
             }
 
-            // Cast to Mesh
-            if (typeof(Q).IsAssignableFrom(typeof(Mesh)))
+            // Cast to Mesh > Collision Mesh
+            if (typeof(Q).IsAssignableFrom(typeof(GH_Mesh)))
             {
                 if (Value == null)
                     target = default(Q);
                 else
-                    target = (Q)(object)Value.collisionMesh.DuplicateShallow();
+                    target = (Q)(object)new GH_Mesh(Value.CollisionMesh);
                 return true;
             }
 
-            // Todo: cast to Plane and/or point (reference Plane), vector (direction)
+            // Cast to Plane > Reference plane
+            if (typeof(Q).IsAssignableFrom(typeof(GH_Plane)))
+            {
+                if (Value == null)
+                    target = default(Q);
+                else
+                    target = (Q)(object)new GH_Plane(Value.ReferencePlane);
+                return true;
+            }
+
+            // Cast to Point > Reference plane Origin
+            if (typeof(Q).IsAssignableFrom(typeof(GH_Point)))
+            {
+                if (Value == null)
+                    target = default(Q);
+                else
+                    target = (Q)(object)new GH_Point(Value.ReferencePlane.Origin);
+                return true;
+            }
+
+            // Cast to Vector > Direction vector
+            if (typeof(Q).IsAssignableFrom(typeof(GH_Vector)))
+            {
+                if (Value == null)
+                    target = default(Q);
+                else
+                    target = (Q)(object)new GH_Vector(Value.Direction);
+                return true;
+            }
+
+            // Cast to Integer > type
+            if (typeof(Q).IsAssignableFrom(typeof(GH_Integer)))
+            {
+                if (Value == null)
+                    target = default(Q);
+                else
+                    target = (Q)(object)new GH_Integer(Value.Type);
+                return true;
+            }
+
+            // Cast to Number > weight
+            if (typeof(Q).IsAssignableFrom(typeof(GH_Number)))
+            {
+                if (Value == null)
+                    target = default(Q);
+                else
+                    target = (Q)(object)new GH_Number(Value.Weight);
+                return true;
+            }
+
+            // Cast to Boolean > Z-Lock
+            if (typeof(Q).IsAssignableFrom(typeof(GH_Boolean)))
+            {
+                if (Value == null)
+                    target = default(Q);
+                else
+                    target = (Q)(object)new GH_Boolean(Value.WorldZLock);
+                return true;
+            }
 
             target = default(Q);
             return false;
@@ -172,9 +231,9 @@ namespace Assembler.Utils
         public override IGH_GeometricGoo Transform(Transform xform)
         {
             if (Value == null) return null;
-            if (Value.collisionMesh == null) return null;
+            if (Value.CollisionMesh == null) return null;
 
-            AssemblyObject AOclone = Utilities.CloneWithConnectivity(Value);
+            AssemblyObject AOclone = AssemblyObjectUtils.CloneWithConnectivity(Value);
             AOclone.Transform(xform);
             return (new AssemblyObjectGoo(AOclone));
         }
@@ -195,21 +254,22 @@ namespace Assembler.Utils
         public void DrawViewportMeshes(GH_PreviewMeshArgs args)
         {
             Mesh m = new Mesh();
-            m.CopyFrom(Value.collisionMesh);
+            m.CopyFrom(Value.CollisionMesh);
             m.Unweld(0, true);
             args.Pipeline.DrawMeshShaded(m, new Rhino.Display.DisplayMaterial(Color.White, 0.7));
         }
 
         public void DrawViewportWires(GH_PreviewWireArgs args)
         {
-            args.Pipeline.DrawMeshWires(Value.collisionMesh, Color.Black, 1);
-            args.Pipeline.DrawLine(Value.referencePlane.Origin, Value.referencePlane.Origin + Value.referencePlane.XAxis, Color.Red, 1);
-            args.Pipeline.DrawLine(Value.referencePlane.Origin, Value.referencePlane.Origin + Value.referencePlane.YAxis, Color.Green, 1);
-            args.Pipeline.DrawArrow(new Line(Value.referencePlane.Origin - Value.referencePlane.ZAxis, Value.direction, 2), Color.DarkViolet);
-            foreach (Handle h in Value.handles)
+            args.Pipeline.DrawMeshWires(Value.CollisionMesh, Color.Black, 1);
+            args.Pipeline.DrawLine(Value.ReferencePlane.Origin, Value.ReferencePlane.Origin + Value.ReferencePlane.XAxis, Color.Red, 1);
+            args.Pipeline.DrawLine(Value.ReferencePlane.Origin, Value.ReferencePlane.Origin + Value.ReferencePlane.YAxis, Color.Green, 1);
+            args.Pipeline.DrawArrow(new Line(Value.ReferencePlane.Origin - Value.ReferencePlane.ZAxis, Value.Direction, 2), Color.DarkViolet);
+            foreach (Handle h in Value.Handles)
             {
-                args.Pipeline.DrawPolyline(new Point3d[] { h.sender.Origin + h.sender.XAxis, h.sender.Origin, h.sender.Origin + h.sender.YAxis },
-                    Utilities.AOTypePalette[h.type]);
+                args.Pipeline.DrawPolyline(new Point3d[] { h.Sender.Origin + h.Sender.XAxis, h.Sender.Origin, h.Sender.Origin + h.Sender.YAxis },
+                    Color.FromKnownColor(Constants.KnownColorList[h.Type % Constants.KnownColorList.Count]), 3);
+                //Constants.AOTypePalette[h.Type % Constants.AOTypePalette.Length], 3);
             }
         }
 
@@ -219,15 +279,15 @@ namespace Assembler.Utils
 
         // things that must be (de)serialized - [w] serialized - [r] deserialized
         //
-        // [w][r] collisionMesh
-        // [w][r] offsetMesh
-        // [w][r] referencePlane
+        // [w][r] CollisionMesh
+        // [w][r] OffsetMesh
+        // [w][r] ReferencePlane
         // [w][r] handlesTree
-        // [w][r] direction
+        // [w][r] Direction
         // [w][r] type
-        // [w][r] name
+        // [w][r] Name
         // [w][r] aInd
-        // [w][r] occludedNeighbours
+        // [w][r] OccludedNeighbours
         // [w][r] weight
         // [w][r] iWeight
         // [w][r] supports
@@ -274,79 +334,79 @@ namespace Assembler.Utils
             if (Value == null) return false;
 
             // serialize meshes
-            byte[] collisionMeshByte = GH_Convert.CommonObjectToByteArray(Value.collisionMesh);
-            byte[] offsetMeshByte = GH_Convert.CommonObjectToByteArray(Value.offsetMesh);
+            byte[] collisionMeshByte = GH_Convert.CommonObjectToByteArray(Value.CollisionMesh);
+            byte[] offsetMeshByte = GH_Convert.CommonObjectToByteArray(Value.OffsetMesh);
             writer.SetByteArray(IoCollisionMeshKey, collisionMeshByte);
             writer.SetByteArray(IoOffsetMeshKey, offsetMeshByte);
 
             // serialize reference Plane
-            Plane p = Value.referencePlane;
+            Plane p = Value.ReferencePlane;
             writer.SetPlane(IoRefPlaneKey, new GH_IO.Types.GH_Plane(
                     p.OriginX, p.OriginY, p.OriginZ, p.XAxis.X, p.XAxis.Y, p.XAxis.Z, p.YAxis.X, p.YAxis.Y, p.YAxis.Z));
 
             // serialize Handles
-            // key struture: "Handle_<index>_<field>"
+            // key struture: "Handle_<index>_<Field>"
             // get number of handlesTree
-            writer.SetInt32(IoHandlesCountKey, Value.handles.Length);
+            writer.SetInt32(IoHandlesCountKey, Value.Handles.Length);
             // serialize them
-            for (int i = 0; i < Value.handles.Length; i++)
+            for (int i = 0; i < Value.Handles.Length; i++)
             {
-                Handle h = Value.handles[i];
+                Handle h = Value.Handles[i];
 
                 // serialize number values
-                writer.SetInt32(IoHandleKey + i.ToString() + IoHTypeKey, h.type);
-                writer.SetDouble(IoHandleKey + i.ToString() + IoHWeightKey, h.weight);
-                writer.SetDouble(IoHandleKey + i.ToString() + IoHIdleWeightKey, h.idleWeight);
-                writer.SetInt32(IoHandleKey + i.ToString() + IoHOccupancyKey, h.occupancy);
-                writer.SetInt32(IoHandleKey + i.ToString() + IoHNeighObjKey, h.neighbourObject);
-                writer.SetInt32(IoHandleKey + i.ToString() + IoHNeighHandKey, h.neighbourHandle);
+                writer.SetInt32(IoHandleKey + i.ToString() + IoHTypeKey, h.Type);
+                writer.SetDouble(IoHandleKey + i.ToString() + IoHWeightKey, h.Weight);
+                writer.SetDouble(IoHandleKey + i.ToString() + IoHIdleWeightKey, h.IdleWeight);
+                writer.SetInt32(IoHandleKey + i.ToString() + IoHOccupancyKey, h.Occupancy);
+                writer.SetInt32(IoHandleKey + i.ToString() + IoHNeighObjKey, h.NeighbourObject);
+                writer.SetInt32(IoHandleKey + i.ToString() + IoHNeighHandKey, h.NeighbourHandle);
 
                 // serialize sender plane
-                p = h.sender;
+                p = h.Sender;
                 writer.SetPlane(IoHandleKey + i.ToString() + IoSPlaneKey, new GH_IO.Types.GH_Plane(
                     p.OriginX, p.OriginY, p.OriginZ, p.XAxis.X, p.XAxis.Y, p.XAxis.Z, p.YAxis.X, p.YAxis.Y, p.YAxis.Z));
 
                 // serialize rotations (receiver planes will be reconstructed on deserialization)
-                writer.SetDoubleArray(IoHandleKey + i.ToString() + IoRrotKey, h.rRotations);
+                writer.SetDoubleArray(IoHandleKey + i.ToString() + IoRrotKey, h.Rotations);
 
             }
 
-            // serialize direction
-            Vector3d dir = Value.direction;
+            // serialize Direction
+            Vector3d dir = Value.Direction;
             writer.SetPoint3D(IoDirectionKey, new GH_IO.Types.GH_Point3D(dir.X, dir.Y, dir.Z));
 
             // serialize type
-            writer.SetInt32(IoTypeKey, Value.type);
+            writer.SetInt32(IoTypeKey, Value.Type);
 
-            // serialize name
-            writer.SetString(IoNameKey, Value.name);
+            // serialize Name
+            writer.SetString(IoNameKey, Value.Name);
 
             // aInd
             writer.SetInt32(IoaIndKey, Value.AInd);
 
-            // occludedNeighbours
-            string occludedNeighbours = OccludeNeighboursToString(m_value.occludedNeighbours);
+            // OccludedNeighbours
+            string occludedNeighbours = OccludeNeighboursToString(m_value.OccludedNeighbours);
             writer.SetString(IoOccludedNeighboursKey, occludedNeighbours);
 
             // weight
-            writer.SetDouble(IoWeightKey, Value.weight);
+            writer.SetDouble(IoWeightKey, Value.Weight);
 
             // idleWeight
-            writer.SetDouble(IoIdleWeightKey, Value.idleWeight);
+            writer.SetDouble(IoIdleWeightKey, Value.IdleWeight);
 
             // iWeight
-            writer.SetInt32(IoIWeightKey, Value.iWeight);
+            writer.SetInt32(IoIWeightKey, Value.IWeight);
 
             // serialize Supports
             writer.SetInt32(IoSupportsCountKey, Value.supports.Count);
-            // key structure: "Support_<index>_<field>"
+            // key structure: "Support_<index>_<Field>"
             for (int i = 0; i < Value.supports.Count; i++)
             {
                 Support s = Value.supports[i];
-                writer.SetInt32(IoSupportKey + i.ToString() + "_neighbourObject", s.neighbourObject);
-                writer.SetDouble(IoSupportKey + i.ToString() + "_initLength", s.initLength);
+                writer.SetInt32(IoSupportKey + i.ToString() + "_neighbourObject", s.NeighbourObject);
+                writer.SetDouble(IoSupportKey + i.ToString() + "_initLength", s.InitLength);
 
-                Line l = s.line;
+                Line l = s.Line;
                 writer.SetLine(IoSupportKey + i.ToString() + "_line", new GH_IO.Types.GH_Line(
                     l.FromX, l.FromY, l.FromZ, l.ToX, l.ToY, l.ToZ));
             }
@@ -358,11 +418,11 @@ namespace Assembler.Utils
             writer.SetBoolean(IoSupportedKey, Value.supported);
 
             // absoluteZLock
-            writer.SetBoolean(IoAbsZlockKey, Value.worldZLock);
+            writer.SetBoolean(IoAbsZlockKey, Value.WorldZLock);
 
-            // field values
-            writer.SetDouble(IoReceiverValueKey, Value.receiverValue);
-            writer.SetDouble(IoSenderValueKey, Value.senderValue);
+            // Field values
+            writer.SetDouble(IoReceiverValueKey, Value.ReceiverValue);
+            writer.SetDouble(IoSenderValueKey, Value.SenderValue);
 
             // children
             //if (m_value.children != null || m_value.children.Count > 0)
@@ -386,18 +446,18 @@ namespace Assembler.Utils
             // deserialize meshes
             if (reader.ItemExists(IoCollisionMeshKey))
             {
-                m_value.collisionMesh = GH_Convert.ByteArrayToCommonObject<Mesh>(reader.GetByteArray(IoCollisionMeshKey));
+                m_value.CollisionMesh = GH_Convert.ByteArrayToCommonObject<Mesh>(reader.GetByteArray(IoCollisionMeshKey));
             }
             if (reader.ItemExists(IoOffsetMeshKey))
             {
-                m_value.offsetMesh = GH_Convert.ByteArrayToCommonObject<Mesh>(reader.GetByteArray(IoOffsetMeshKey));
+                m_value.OffsetMesh = GH_Convert.ByteArrayToCommonObject<Mesh>(reader.GetByteArray(IoOffsetMeshKey));
             }
 
-            // deserialize referencePlane
+            // deserialize ReferencePlane
             if (reader.ItemExists(IoRefPlaneKey))
             {
                 var pl = reader.GetPlane(IoRefPlaneKey);
-                m_value.referencePlane = new Plane(new Point3d(pl.Origin.x, pl.Origin.y, pl.Origin.z),
+                m_value.ReferencePlane = new Plane(new Point3d(pl.Origin.x, pl.Origin.y, pl.Origin.z),
                     new Vector3d(pl.XAxis.x, pl.XAxis.y, pl.XAxis.z), new Vector3d(pl.YAxis.x, pl.YAxis.y, pl.YAxis.z));
             }
 
@@ -405,7 +465,7 @@ namespace Assembler.Utils
             if (reader.ItemExists(IoHandlesCountKey))
             {
                 int nHandles = reader.GetInt32(IoHandlesCountKey);
-                m_value.handles = new Handle[nHandles];
+                m_value.Handles = new Handle[nHandles];
 
                 for (int i = 0; i < nHandles; i++)
                 {
@@ -428,42 +488,42 @@ namespace Assembler.Utils
 
                     // construct base handle
                     Handle h = new Handle(sp, hType, hWeight, rRot.ToList());
-                    h.idleWeight = hidleWeight;
+                    h.IdleWeight = hidleWeight;
 
                     // add connectivity status
-                    h.occupancy = reader.GetInt32(IoHandleKey + i.ToString() + IoHOccupancyKey);
-                    h.neighbourObject = reader.GetInt32(IoHandleKey + i.ToString() + IoHNeighObjKey);
-                    h.neighbourHandle = reader.GetInt32(IoHandleKey + i.ToString() + IoHNeighHandKey);
+                    h.Occupancy = reader.GetInt32(IoHandleKey + i.ToString() + IoHOccupancyKey);
+                    h.NeighbourObject = reader.GetInt32(IoHandleKey + i.ToString() + IoHNeighObjKey);
+                    h.NeighbourHandle = reader.GetInt32(IoHandleKey + i.ToString() + IoHNeighHandKey);
 
                     // add to array
-                    m_value.handles[i] = h;
+                    m_value.Handles[i] = h;
                 }
             }
 
-            // deserialize direction
+            // deserialize Direction
             var p = reader.GetPoint3D(IoDirectionKey);
-            m_value.direction = new Vector3d(p.x, p.y, p.z);
+            m_value.Direction = new Vector3d(p.x, p.y, p.z);
 
             // deserialize type
-            m_value.type = reader.GetInt32(IoTypeKey);
+            m_value.Type = reader.GetInt32(IoTypeKey);
 
-            // deserialize name
-            m_value.name = reader.GetString(IoNameKey);
+            // deserialize Name
+            m_value.Name = reader.GetString(IoNameKey);
 
             // deserialize aInd
             m_value.AInd = reader.GetInt32(IoaIndKey);
 
-            // deserialize occludedNeighbours
-            m_value.occludedNeighbours = OccludedNeighboursFromString(reader.GetString(IoOccludedNeighboursKey));
+            // deserialize OccludedNeighbours
+            m_value.OccludedNeighbours = OccludedNeighboursFromString(reader.GetString(IoOccludedNeighboursKey));
 
             // deserialize weight
-            m_value.weight = reader.GetDouble(IoWeightKey);
+            m_value.Weight = reader.GetDouble(IoWeightKey);
 
             // deserialize idleWeight
-            m_value.idleWeight = reader.GetDouble(IoIdleWeightKey);
+            m_value.IdleWeight = reader.GetDouble(IoIdleWeightKey);
 
             // deserialize iWeight
-            m_value.iWeight = reader.GetInt32(IoIWeightKey);
+            m_value.IWeight = reader.GetInt32(IoIWeightKey);
 
             // deserialize supports
             int nSupports = reader.GetInt32(IoSupportsCountKey);
@@ -487,10 +547,10 @@ namespace Assembler.Utils
                 s = new Support(sLine);
                 // rescale line and reassign
                 sLine.Length = currLen;
-                s.line = sLine;
+                s.Line = sLine;
                 // assign remaining values
                 //s.connected = connected;
-                s.neighbourObject = neighObj;
+                s.NeighbourObject = neighObj;
 
                 // add to object
                 m_value.supports.Add(s);
@@ -504,11 +564,11 @@ namespace Assembler.Utils
             m_value.supported = reader.GetBoolean(IoSupportedKey);
 
             // deserialize absoluteZLock
-            m_value.worldZLock = reader.GetBoolean(IoAbsZlockKey);
+            m_value.WorldZLock = reader.GetBoolean(IoAbsZlockKey);
 
-            // deserialize field values
-            m_value.receiverValue = reader.GetDouble(IoReceiverValueKey);
-            m_value.senderValue = reader.GetDouble(IoSenderValueKey);
+            // deserialize Field values
+            m_value.ReceiverValue = reader.GetDouble(IoReceiverValueKey);
+            m_value.SenderValue = reader.GetDouble(IoSenderValueKey);
 
             return true;
         }
@@ -560,15 +620,15 @@ namespace Assembler.Utils
 
         public void BakeGeometry(RhinoDoc doc, ObjectAttributes att, List<Guid> obj_ids)
         {
-            // bakes collisionMesh 
-            obj_ids.Add(doc.Objects.AddMesh(m_value.collisionMesh));
+            // bakes CollisionMesh 
+            obj_ids.Add(doc.Objects.AddMesh(m_value.CollisionMesh));
             // bake reference plane as L polyline
-            obj_ids.Add(doc.Objects.AddPolyline(PlaneToPoints(m_value.referencePlane)));
-            // bake direction as line
-            obj_ids.Add(doc.Objects.AddLine(m_value.referencePlane.Origin, m_value.referencePlane.Origin + m_value.direction));
+            obj_ids.Add(doc.Objects.AddPolyline(PlaneToPoints(m_value.ReferencePlane)));
+            // bake Direction as line
+            obj_ids.Add(doc.Objects.AddLine(m_value.ReferencePlane.Origin, m_value.ReferencePlane.Origin + m_value.Direction));
             // bake  Handles as L polylines
-            for (int i = 0; i < m_value.handles.Length; i++)
-                obj_ids.Add(doc.Objects.AddPolyline(PlaneToPoints(m_value.handles[i].sender)));
+            for (int i = 0; i < m_value.Handles.Length; i++)
+                obj_ids.Add(doc.Objects.AddPolyline(PlaneToPoints(m_value.Handles[i].Sender)));
         }
 
         Point3d[] PlaneToPoints(Plane p)

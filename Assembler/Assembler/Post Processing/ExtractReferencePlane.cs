@@ -49,7 +49,7 @@ namespace Assembler
 
             AO = GH_AO.Value;
 
-            Plane p = AO.referencePlane;
+            Plane p = AO.ReferencePlane;
             DA.SetData(0, p);
         }
 

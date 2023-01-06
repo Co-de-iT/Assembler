@@ -1,5 +1,6 @@
 ﻿using Assembler.Properties;
 using AssemblerLib;
+using AssemblerLib.Utils;
 using Grasshopper.Kernel;
 using System;
 
@@ -57,8 +58,10 @@ namespace Assembler
                 DA.SetDataTree(3, f.GetGH_iWeights());
             }
             DA.SetDataList(4, f.Colors);
-            DA.SetDataTree(5, Utilities.ToDataTree(f.Topology));
-            DA.SetDataTree(6, Utilities.ToDataTree(f.TransCoeff));
+            if (f.Topology != null)
+                DA.SetDataTree(5, DataUtils.ToDataTree(f.Topology));
+            if (f.TransCoeff != null)
+                DA.SetDataTree(6, DataUtils.ToDataTree(f.TransCoeff));
         }
 
         /// <summary>

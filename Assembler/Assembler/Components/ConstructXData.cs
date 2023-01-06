@@ -18,6 +18,10 @@ namespace Assembler
               "Construct an XData instance\nXData can be any kind of Xtended/Xtra data (Geometry, String, Numbers, ...) associated to an AssemblyObject Type",
               "Assembler", "Components")
         {
+            // this hides the component preview when placed onto the canvas
+            // source: http://frasergreenroyd.com/how-to-stop-components-from-automatically-displaying-results-in-grasshopper/
+            IGH_PreviewObject prevObj = (IGH_PreviewObject)this;
+            prevObj.Hidden = true;
         }
 
         /// <summary>
@@ -58,7 +62,7 @@ namespace Assembler
 
 
             List<object> data = ConvertGoo(dataGoo);
-            XData xd = new XData(data, label, AO.referencePlane, AO.name);
+            XData xd = new XData(data, label, AO.ReferencePlane, AO.Name);
 
             DA.SetData(0, xd);
         }
@@ -76,7 +80,11 @@ namespace Assembler
 
             foreach (IGH_Goo ig in dataGoo)
             {
-                ig.CastTo<object>(out ob);
+                if (ig == null) ob = null; 
+                else
+                {
+                    ig.CastTo<object>(out ob);
+                }
 
                 data.Add(ob);
             }

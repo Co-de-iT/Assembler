@@ -1,5 +1,6 @@
 ﻿using Assembler.Utils;
 using AssemblerLib;
+using AssemblerLib.Utils;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System;
@@ -58,9 +59,9 @@ namespace Assembler
             minSupports = Math.Min(minSupports, supportLines.Count);
 
             // create a new AO to avoid retroactive changes (AO is passed to this component as reference)
-            newAO = Utilities.Clone(AO);
+            newAO = AssemblyObjectUtils.Clone(AO);
             
-            if (Utilities.SetSupports(newAO, supportLines, minSupports))
+            if (SupportUtils.SetSupports(newAO, supportLines, minSupports))
                 DA.SetData(0, new AssemblyObjectGoo(newAO));
         }
 
