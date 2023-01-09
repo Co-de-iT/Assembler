@@ -788,11 +788,13 @@ namespace Assembler
             }
 
             // invalid cases
-            if (invalidDisplayEdges == null || invalidDisplayEdges.BranchCount == 0) return;
-            att.LayerIndex = CreateChildLayer(doc, HDparent, InvalidLayerName, Color.Black);
+            if (invalidDisplayEdges != null && invalidDisplayEdges.BranchCount > 0)
+            {
+                att.LayerIndex = CreateChildLayer(doc, HDparent, InvalidLayerName, Color.Black);
 
-            foreach (GH_Line edge in invalidDisplayEdges.AllData())
-                doc.Objects.AddLine(edge.Value, att);
+                foreach (GH_Line edge in invalidDisplayEdges.AllData())
+                    doc.Objects.AddLine(edge.Value, att);
+            }
 
             // XData
             if (_XDitems == null || _XDitems.Count == 0) return;
