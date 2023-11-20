@@ -59,20 +59,7 @@ namespace AssemblerLib.Utils
         /// <returns></returns>
         internal static List<double> NormalizeRange(List<double> values)
         {
-            double vMin = values.Min();
-            double vMax = values.Max();
-
-            // if ghNumbers are identical, prevent division by 0
-            if (vMin == vMax) return values.Select(x => 0.5).ToList();
-
-            double den = 1 / (vMax - vMin);
-
-            List<double> normVal = new List<double>();
-
-            for (int i = 0; i < values.Count; i++)
-                normVal.Add((values[i] - vMin) * den);
-
-            return normVal;
+            return NormalizeRange(values.ToArray()).ToList();
         }
 
         /// <summary>
@@ -112,8 +99,11 @@ namespace AssemblerLib.Utils
 
             // recompute values, preventing division by 0
             for (int i = 0; i < values.Length; i++)
+            {
+                normVal[i] = new double[values[i].Length];
                 for (int j = 0; j < values[i].Length; j++)
                     normVal[i][j] = vMin[j] == vMax[j] ? 0.5 : (values[i][j] - vMin[j]) * den[j];
+            }
 
             return normVal;
         }
@@ -125,13 +115,14 @@ namespace AssemblerLib.Utils
         /// <returns></returns>
         internal static DataTree<double> NormalizeRanges(DataTree<double> values)
         {
-            IList<GH_Path> paths = values.Paths;
+            List<GH_Path> paths = values.Paths.ToList();
             double[][] valuesArray = DataUtils.ToJaggedArray(values);
             double[][] normValuesArray = NormalizeRanges(valuesArray);
 
-            DataTree<double> normVal = DataUtils.ToDataTree(normValuesArray);
-            for (int i = 0; i < normVal.Paths.Count; i++)
-                normVal.Paths[i] = paths[i];
+            DataTree<double> normVal = new DataTree<double>();
+
+            for (int i = 0; i < normValuesArray.Length; i++)
+                normVal.AddRange(normValuesArray[i], paths[i]);
 
             return normVal;
         }

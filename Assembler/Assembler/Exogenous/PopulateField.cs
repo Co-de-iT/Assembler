@@ -55,12 +55,12 @@ namespace Assembler
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            Field f = null, fPop;
+            Field emptyField = null, populatedField;
             GH_Structure<GH_Number> scalars;
             GH_Structure<GH_Vector> vectors;
             GH_Structure<GH_Integer> iWeights;
 
-            if (!DA.GetData(0, ref f)) return;
+            if (!DA.GetData(0, ref emptyField)) return;
             DA.GetDataTree(1, out scalars);
             DA.GetDataTree(2, out vectors);
             DA.GetDataTree(3, out iWeights);
@@ -69,25 +69,19 @@ namespace Assembler
             DataTree<Vector3d> vectorsTree = DataUtils.GHS2TreeVectors(vectors);
             DataTree<int> iWeightsTree = DataUtils.GHS2TreeIntegers(iWeights);
 
-            fPop = new Field(f);
+            populatedField = new Field(emptyField);
 
             if (scalarsTree != null && scalarsTree.BranchCount > 0)
-                if (scalarsTree.BranchCount == 1)
-                    fPop.PopulateScalars(scalarsTree.Branches[0]);
-                else fPop.PopulateScalars(scalarsTree);
+                populatedField.PopulateScalars(scalarsTree);
 
             if (vectorsTree != null && vectorsTree.BranchCount > 0)
-                if (vectorsTree.BranchCount == 1)
-                    fPop.PopulateVectors(vectorsTree.Branches[0]);
-                else fPop.PopulateVectors(vectorsTree);
+                populatedField.PopulateVectors(vectorsTree);
 
             if (iWeightsTree != null && iWeightsTree.BranchCount > 0)
-                if(iWeightsTree.BranchCount == 1)
-                fPop.PopulateiWeights(iWeightsTree.Branches[0]);
-                else fPop.PopulateiWeights(iWeightsTree);
+                populatedField.PopulateiWeights(iWeightsTree);
 
             // output populated Field
-            DA.SetData(0, fPop);
+            DA.SetData(0, populatedField);
         }
 
         /// <summary>

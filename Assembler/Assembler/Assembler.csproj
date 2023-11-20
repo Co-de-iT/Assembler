@@ -75,9 +75,12 @@
     <Compile Include="Components\DeconstructXData.cs" />
     <Compile Include="Components\DisplayHandles.cs" />
     <Compile Include="Components\ResetAssemblyObject.cs" />
+    <Compile Include="Exogenous\ConstructFieldN.cs" />
     <Compile Include="Exogenous\ConstructFieldSparse.cs" />
+    <Compile Include="Heuristics\HeuristicsDisplay.cs" />
     <Compile Include="Post Processing\DisplayAssemblage.cs" />
     <Compile Include="Post Processing\ExtractHandles.cs" />
+    <Compile Include="Post Processing\RemoveAssemblyObjects.cs" />
     <Compile Include="ZZ_DEV\D_MyCustomPreviewComponent.cs" />
     <Compile Include="ZZ_DEV\D_SetSupports.cs" />
     <Compile Include="ZZ_DEV\D_ExtractSupports.cs" />
@@ -93,7 +96,7 @@
     <Compile Include="Post Processing\AssociateXData.cs" />
     <Compile Include="LEGACY-HIDDEN\L_DisplayAssemblage.cs" />
     <Compile Include="ZZ_DEV\D_ExtractOffsetMesh.cs" />
-    <Compile Include="Heuristics\HeuristicsDisplay.cs" />
+    <Compile Include="LEGACY-HIDDEN\LL_HeuristicsDisplay.cs" />
     <Compile Include="Heuristics\HeuristicsDisplayEx.cs" />
     <Compile Include="LEGACY-HIDDEN\L_AssociateXData.cs" />
     <Compile Include="Exogenous\ColorField.cs" />
@@ -101,7 +104,7 @@
     <Compile Include="LEGACY-HIDDEN\H_ConstructCompositeAO.cs" />
     <Compile Include="LEGACY-HIDDEN\L_ConstructFieldMeshN.cs" />
     <Compile Include="LEGACY-HIDDEN\L_ConstructFieldMeshXYZ.cs" />
-    <Compile Include="Exogenous\ConstructFieldN.cs" />
+    <Compile Include="LEGACY-HIDDEN\L_ConstructFieldN.cs" />
     <Compile Include="Exogenous\ConstructFieldXYZ.cs" />
     <Compile Include="LEGACY-HIDDEN\L_ConstructHandles.cs" />
     <Compile Include="LEGACY-HIDDEN\L_ConstructXData.cs" />
@@ -134,7 +137,7 @@
     <Compile Include="LEGACY-HIDDEN\L_TransformAssemblyObject.cs" />
     <Compile Include="Components\TransformXData.cs" />
     <Compile Include="Heuristics\WeighHeuristics.cs" />
-    <Compile Include="Post Processing\RemoveAssemblyObjects.cs" />
+    <Compile Include="LEGACY-HIDDEN\L_RemoveAssemblyObjects.cs" />
     <Compile Include="Utils\AssemblyObjectGHParam.cs" />
     <Compile Include="Utils\AssemblageGoo.cs" />
     <Compile Include="Utils\AssemblyObjectGoo.cs" />

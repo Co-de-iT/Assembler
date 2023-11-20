@@ -19,7 +19,7 @@ namespace AssemblerLib
     // Apparently that copy is not a variable and cannot be changed."
     public class AssemblyObject
     {
-        #region properties
+        #region fields
 
         /// <summary>
         /// A Mesh for collision detections
@@ -91,11 +91,10 @@ namespace AssemblerLib
         /// </summary>
         public bool WorldZLock;
 
-        #endregion properties
+        #endregion fields
 
-        #region fields
+        #region experimental features
 
-        // internal and experimental features
         /// <summary>
         /// List of optional children objects (for composite object) - NOT IMPLEMENTED YET
         /// </summary>
@@ -117,7 +116,7 @@ namespace AssemblerLib
         /// </summary>
         public bool supported;
 
-        #endregion fields
+        #endregion experimental features
 
         #region constructors
         /// <summary>

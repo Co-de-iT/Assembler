@@ -440,7 +440,7 @@ namespace AssemblerLib
             // cloning by value data (primitives and structs)
             clonedAOa.HeuristicsSettings = AOa.HeuristicsSettings;
             clonedAOa.ExogenousSettings = AOa.ExogenousSettings;
-            clonedAOa.currentHeuristics = AOa.currentHeuristics;
+            clonedAOa.currentHeuristicsIndex = AOa.currentHeuristicsIndex;
             clonedAOa.CollisionRadius = AOa.CollisionRadius;
             clonedAOa.CheckWorldZLock = AOa.CheckWorldZLock;
             clonedAOa.E_sandbox = AOa.E_sandbox;

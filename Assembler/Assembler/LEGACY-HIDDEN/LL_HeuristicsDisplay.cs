@@ -20,7 +20,8 @@ using System.Windows.Forms;
 
 namespace Assembler
 {
-    public class HeuristicsDisplay : GH_CustomPreviewComponent
+    [Obsolete]
+    public class LL_HeuristicsDisplay : GH_CustomPreviewComponent
     {
         private List<GH_CustomPreviewItem> _items;
         private List<GH_CustomPreviewItem> _XDitems;
@@ -66,7 +67,7 @@ namespace Assembler
         /// <summary>
         /// Initializes a new instance of the HeuristicDisplay class.
         /// </summary>
-        public HeuristicsDisplay()
+        public LL_HeuristicsDisplay()
           : base()
         {
             Name = "Heuristic Display";
@@ -92,12 +93,11 @@ namespace Assembler
             pManager.AddTextParameter("Heuristics Set", "HeS", "Heuristics Set", GH_ParamAccess.list);
             pManager.AddNumberParameter("X size", "Xs", "Cell size along X direction as % of Bounding Box", GH_ParamAccess.item, 1.2);
             pManager.AddNumberParameter("Y size", "Ys", "Cell size along Y direction as % of Bounding Box", GH_ParamAccess.item, 1.2);
-            pManager.AddNumberParameter("Text size", "Ts", "Text size as % of default size\nDefault size is computed proportionally to geometry size", GH_ParamAccess.item, 1.0);
             pManager.AddIntegerParameter("n. Rows", "nR", "number of rows", GH_ParamAccess.item, 10);
             pManager.AddColourParameter("Colors", "C", "Colors (OPTIONAL)\n2 colors for Sender-Receiver display mode (receiver first)\nOne color for component type for Display by type", GH_ParamAccess.list);
 
             pManager[2].Optional = true; // XData is optional
-            pManager[8].Optional = true; // Colors are optional
+            pManager[7].Optional = true; // Colors are optional
         }
 
         /// <summary>
@@ -140,16 +140,14 @@ namespace Assembler
             Point3d P = new Point3d();
             double xS = double.NaN;
             double yS = double.NaN;
-            double tS = double.NaN;
             int nR = 1;
 
-            // update message (otherwise component does not show message when loading a file containing it)
+            // update message (component does not show message when loading a file containing it)
             UpdateMessage();
 
             DA.GetData("Origin Point", ref P);
             DA.GetData("X size", ref xS);
             DA.GetData("Y size", ref yS);
-            DA.GetData("Text size", ref tS);
             DA.GetData("n. Rows", ref nR);
 
             if (!DA.GetDataList("Colors", InputColors))
@@ -220,7 +218,7 @@ namespace Assembler
                     break;
             }
 
-            AOpairs = GeneratePairs(components, HeR, P, xS, yS, tS, nR);
+            AOpairs = GeneratePairs(components, HeR, P, xS, yS, nR);
             SetPreviewData(AOpairs, xData, srMode);
         }
 
@@ -235,7 +233,7 @@ namespace Assembler
 
         }
 
-        private DataTree<AssemblyObject> GeneratePairs(AssemblyObject[] AO, List<Rule> Hr, Point3d O, double padX, double padY, double textSizeMult, int nR)
+        private DataTree<AssemblyObject> GeneratePairs(AssemblyObject[] AO, List<Rule> Hr, Point3d O, double padX, double padY, int nR)
         {
             DataTree<AssemblyObject> AOpairs = new DataTree<AssemblyObject>();
             AssemblyObject senderAO, receiverAO;
@@ -371,7 +369,7 @@ namespace Assembler
             }
 
             // calculate _textSize
-            _textSize = sX * 0.025 * textSizeMult;
+            _textSize = sX * 0.025;
 
             // loop2:
             // scale point grid positions by final sX, sY, sZ
@@ -829,7 +827,7 @@ namespace Assembler
                 doc.Objects.AddPoint(p, att);
         }
 
-        private int CreateChildLayer(RhinoDoc doc, Layer parent, string childName, Color childColor)
+        private int CreateChildLayer(Rhino.RhinoDoc doc, Layer parent, string childName, Color childColor)
         {
             Layer child;
 
@@ -932,7 +930,7 @@ namespace Assembler
         /// </summary>
         public override GH_Exposure Exposure
         {
-            get { return GH_Exposure.primary; }
+            get { return GH_Exposure.hidden; }
         }
 
         /// <summary>
@@ -953,7 +951,7 @@ namespace Assembler
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("55875EBA-05FA-4F28-915B-F83C8B1A67ED"); }
+            get { return new Guid("f653df39-e14a-42a6-b9dd-fbc83cb95e61"); }
         }
     }
 }

@@ -7,12 +7,13 @@ using System.Collections.Generic;
 
 namespace Assembler
 {
-    public class RemoveAssemblyObjects : GH_Component
+    [Obsolete]
+    public class L_RemoveAssemblyObjects : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the RemoveAssemblyObjects class.
         /// </summary>
-        public RemoveAssemblyObjects()
+        public L_RemoveAssemblyObjects()
           : base("Remove AssemblyObjects", "AORem",
               "Removes AssemblyObjects from an Assemblage given their indexes - updating Topology",
               "Assembler", "Post Processing")
@@ -38,7 +39,6 @@ namespace Assembler
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("Assemblage", "AOa", "The modified Assemblage", GH_ParamAccess.item);
-            pManager.AddBooleanParameter("Results", "r", "Removal attempt results\nTrue - success, False - failure", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -55,13 +55,10 @@ namespace Assembler
 
             Assemblage AOaCopy = AssemblageUtils.Clone(AOa);
 
-            //for (int i = 0; i < indexes.Count; i++)
-            //    AssemblageUtils.RemoveAssemblyObject(AOaCopy, indexes[i]);
-
-            bool[] results = AssemblageUtils.RemoveAssemblyObjects(AOaCopy, indexes);
+            for (int i = 0; i < indexes.Count; i++)
+                AssemblageUtils.RemoveAssemblyObject(AOaCopy, indexes[i]);
 
             DA.SetData(0, AOaCopy);
-            DA.SetDataList(1, results);
 
         }
 
@@ -72,7 +69,7 @@ namespace Assembler
         /// </summary>
         public override GH_Exposure Exposure
         {
-            get { return GH_Exposure.quinary; }
+            get { return GH_Exposure.hidden; }
         }
 
         /// <summary>
@@ -93,7 +90,7 @@ namespace Assembler
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("DCC691EE-7B57-4556-BAE2-60C877004983"); }
+            get { return new Guid("3e77b75a-2368-4d56-a310-e3cb97451844"); }
         }
     }
 }

@@ -71,6 +71,9 @@ namespace Assembler
 
             DataTree<XData> XDataTree = new DataTree<XData>();
 
+            // ensure paths to avoid missing branches in case of no XData to associate
+            for(int i=0; i< GH_AOs.PathCount; i++)
+                XDataTree.EnsurePath(GH_AOs.Paths[i].AppendElement(0));
 
             XData[][] assemblageXD = new XData[AOs.Count][];
             GH_Path[] assemblagePaths = new GH_Path[AOPaths.Count];

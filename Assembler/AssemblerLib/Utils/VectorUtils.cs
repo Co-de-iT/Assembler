@@ -25,7 +25,7 @@ namespace AssemblerLib.Utils
         }
 
         /// <summary>
-        /// Removes duplicate ghVectors (within tolerance) from an array, returning only unique ghVectors
+        /// Removes duplicate Vectors (within tolerance) from an array, returning only unique Vectors
         /// </summary>
         /// <param name="vectors"></param>
         /// <param name="angleTolerance"></param>

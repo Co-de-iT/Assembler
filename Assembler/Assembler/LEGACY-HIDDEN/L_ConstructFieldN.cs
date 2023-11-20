@@ -7,13 +7,14 @@ using System;
 
 namespace Assembler
 {
-    public class ConstructFieldN : GH_Component
+    [Obsolete]
+    public class L_ConstructFieldN : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the ConstructFieldN class.
+        /// Initializes a new instance of the ConstructField class.
         /// </summary>
-        public ConstructFieldN()
-           : base("Construct Field N", "AFieldN",
+        public L_ConstructFieldN()
+          : base("Construct Field N", "AFieldN",
               "Constructs an empty Field from a Box\nN cells along largest Box dimension",
               "Assembler", "Exogenous")
         {
@@ -42,7 +43,6 @@ namespace Assembler
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("Field", "F", "Empty Field", GH_ParamAccess.item);
-            pManager.AddVectorParameter("Field cells dimensions", "Fd", "Vector with number of cells in XYZ direction", GH_ParamAccess.item);
             pManager.AddPointParameter("Field Points", "P", "Field Points", GH_ParamAccess.list);
         }
 
@@ -92,11 +92,17 @@ namespace Assembler
 
             f = new Field(fieldBox, nCells);
 
-            Vector3d fieldCellsDims = new Vector3d(f.Nx, f.Ny, f.Nz);
-
             DA.SetData("Field", f);
-            DA.SetData("Field cells dimensions", fieldCellsDims);
             DA.SetDataList("Field Points", f.GetGH_Points());
+        }
+
+        /// <summary>
+        /// Exposure override for position in the Subcategory (options primary to septenary)
+        /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
+        /// </summary>
+        public override GH_Exposure Exposure
+        {
+            get { return GH_Exposure.hidden; }
         }
 
         /// <summary>
@@ -117,7 +123,7 @@ namespace Assembler
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("82A182B8-7311-4ADA-8071-CCF4C7A240DE"); }
+            get { return new Guid("6831298c-4748-4be6-96e2-f9ff6e04809b"); }
         }
     }
 }

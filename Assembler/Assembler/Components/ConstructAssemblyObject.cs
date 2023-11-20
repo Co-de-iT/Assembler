@@ -138,7 +138,8 @@ namespace Assembler
         {
             Menu_AppendSeparator(menu);
             ToolStripMenuItem toolStripMenuItem = Menu_AppendItem(menu, "World Z lock", ZLock_click, true, WorldZLock);
-            toolStripMenuItem.ToolTipText = "When active (and if the check option is active in the Engine) the object will be placed ony with its reference Plane Z axis parallel to the World Z axis";
+            toolStripMenuItem.ToolTipText = "When active (and if the corresponding check Z lock option is active in the Engine)\n" +
+                "the object will be placed only with its reference Plane Z axis parallel to the World Z axis";
             Menu_AppendSeparator(menu);
         }
 

@@ -1,9 +1,6 @@
 ﻿using Rhino.Geometry;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AssemblerLib.Graph
 {
@@ -50,11 +47,48 @@ namespace AssemblerLib.Graph
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="AOa"></param>
+        /// <remarks>INCOMPLETE - solve the indexing-AInd problem</remarks>
+        public Graph(Assemblage AOa)
+        {
+            Nodes = new List<Node>();
+            Connections = new List<Connection>();
+            // populate the data arrays
+            List<Point3d> locations = new List<Point3d>();
+            int[][] topology = new int[AOa.AssemblyObjects.BranchCount][];
+            double[] weights = new double[AOa.AssemblyObjects.BranchCount];
+            int[] iWeights = new int[AOa.AssemblyObjects.BranchCount];
+            List<int> neighbours;
+            // create nodes
+            for (int i = 0; i > AOa.AssemblyObjects.BranchCount; i++)
+            {
+                // make node and add it to the list
+                AssemblyObject AO = AOa.AssemblyObjects[new Grasshopper.Kernel.Data.GH_Path(i), 0];
+                Nodes.Add(new Node(AO.ReferencePlane.Origin, AO.AInd, AO.Weight, AO.IWeight));
+
+                neighbours = new List<int>();
+                // populate topology array
+                for (int j = 0; j < AO.Handles.Length; j++)
+                {
+                    if (AO.Handles[j].Occupancy == 0) continue;
+                    if (AO.Handles[j].Occupancy == 1)
+                    {
+                        neighbours.Add(AO.Handles[j].NeighbourObject); // these are Ainds
+                    }
+                }
+                topology[i] = neighbours.ToArray();
+            }
+
+        }
+
         void GenerateGraph(List<Point3d> locations, int[][] topology, double[] weights, int[] iWeights)
         {
             // create nodes
             for (int i = 0; i < topology.Length; i++)
-                Nodes.Add(new Node(locations[i],i,weights[i], iWeights[i]));
+                Nodes.Add(new Node(locations[i], i, weights[i], iWeights[i]));
 
             int connCount = 0;
             int otherNode;
@@ -68,14 +102,14 @@ namespace AssemblerLib.Graph
 
                     // otherwise create connection and update data
                     Connection newConn = new Connection(Nodes[i], Nodes[j], connCount);
-                        // update nodes and connection
-                        Nodes[i].connections.Add(newConn);
-                        Nodes[j].connections.Add(newConn);
-                        Nodes[i].neighbours.Add(Nodes[j]);
-                        Nodes[j].neighbours.Add(Nodes[i]);
-                        newConn.CalculateWeights();
-                        Connections.Add(newConn);
-                        connCount++;
+                    // update nodes and connection
+                    Nodes[i].connections.Add(newConn);
+                    Nodes[j].connections.Add(newConn);
+                    Nodes[i].neighbours.Add(Nodes[j]);
+                    Nodes[j].neighbours.Add(Nodes[i]);
+                    newConn.ComputeWeights();
+                    Connections.Add(newConn);
+                    connCount++;
                 }
 
         }

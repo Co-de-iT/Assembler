@@ -1,6 +1,7 @@
 ﻿using Assembler.Properties;
 using Assembler.Utils;
 using AssemblerLib;
+using AssemblerLib.Utils;
 using GH_IO.Serialization;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
@@ -52,7 +53,16 @@ namespace Assembler
         }
 
         /// <summary>
-        /// Initializes a new instance of the AssemblerEngineX class.
+        /// Because of their use in the Write method,
+        /// the value of these strings is shared AMONG ALL COMPONENTS of a library!
+        /// "ZLockCheck" & "UseSupports" are accessible (and modifyable) by other components!
+        /// </summary>
+        private string WZLockName = "ZLockCheck";
+        // for next major release, call it WZLockCheck - changing the name breaks the engine in the example files!
+        private string UseSupportsName = "UseSupports";
+
+        /// <summary>
+        /// Initializes a new instance of the AssemblerEngine class.
         /// </summary>
         public AssemblerEngine()
           : base("Assembler Engine", "AOaEngine",
@@ -181,10 +191,10 @@ namespace Assembler
 
             // . . . . controls
             bool go = false, step = false, reset = false, resetEx = false;
-            int nInt = 0, maxObj = 0;
+            int nIterations = 0, maxObj = 0;
             DA.GetData("Go", ref go);
             DA.GetData("Step", ref step);
-            DA.GetData("N. Iterations", ref nInt);
+            DA.GetData("N. Iterations", ref nIterations);
             DA.GetData("Target Max n. Objects", ref maxObj);
             DA.GetData("Reset Settings", ref resetEx);
             DA.GetData("Reset", ref reset);
@@ -230,11 +240,27 @@ namespace Assembler
                 return;
             }
 
-            if ((go || (step && pending)) && AOa.AssemblyObjects.DataCount < maxObj)
+            if (go || (step && pending))
             {
-                for (int i = 0; i < nInt; i++)
+                int iterations, AOcount = AOa.AssemblyObjects.DataCount;
+                if (AOcount > maxObj - nIterations)
+                    iterations = maxObj - AOcount;
+                else iterations = nIterations;
+
+                for (int i = 0; i < iterations; i++)
                     AOa.Update();
+
+                // trim AssemblyObjects excess
+                if (AOcount > maxObj)
+                {
+                    for (int i = AOcount - 1; i >= maxObj; i--)
+                        AssemblageUtils.RemoveAssemblyObject(AOa, AOa.AssemblyObjects.Paths[i][0]);
+
+                    AOa.ResetSettings(HS, ES);
+                }
+
                 ExpireSolution(true);
+
                 if (pending) pending = false;
             }
 
@@ -249,7 +275,7 @@ namespace Assembler
             toolStripMenuItem.ToolTipText = "Checks World Z axis orientation for AssemblyObjects with World Z lock enabled";
 #if DEBUG
             ToolStripMenuItem toolStripMenuItem1 = Menu_AppendItem(menu, "Use Supports", Supports_click, true, UseSupports);
-            toolStripMenuItem1.ToolTipText = "Use supports (if present in AssemblyObjects) for Assemblage coherence\nNOT YET IMPLEMENTED";
+            toolStripMenuItem1.ToolTipText = "Use supports (if present in AssemblyObjects) for Assemblage coherence\nDEBUG MODE - NOT YET IMPLEMENTED";
 #endif
             Menu_AppendSeparator(menu);
         }
@@ -272,15 +298,15 @@ namespace Assembler
         {
             // NOTE: the value in between "" is shared AMONG ALL COMPONENTS of a library!
             // for instance, ZLockCheck is accessible (and modifyable) by other components!
-            writer.SetBoolean("ZLockCheck", CheckWZLock);
-            writer.SetBoolean("UseSupports", UseSupports);
+            writer.SetBoolean(WZLockName, CheckWZLock);
+            writer.SetBoolean(UseSupportsName, UseSupports);
             return base.Write(writer);
         }
 
         public override bool Read(GH_IReader reader)
         {
-            CheckWZLock = reader.GetBoolean("ZLockCheck");
-            UseSupports = reader.GetBoolean("UseSupports");
+            CheckWZLock = reader.GetBoolean(WZLockName);
+            UseSupports = reader.GetBoolean(UseSupportsName);
             return base.Read(reader);
         }
 

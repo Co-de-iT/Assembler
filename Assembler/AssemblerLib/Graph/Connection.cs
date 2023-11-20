@@ -30,10 +30,10 @@ namespace AssemblerLib.Graph
             this.to = to;
             this.index = index;
             bidirectional = true;
-            CalculateWeights();
+            ComputeWeights();
         }
 
-        public void CalculateWeights()
+        public void ComputeWeights()
         {
             weight = 0.5 * (from.weight + to.weight);
             iWeight = (int)0.5 * (from.iWeight + to.iWeight);

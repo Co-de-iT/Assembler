@@ -103,59 +103,59 @@ namespace AssemblerLib.Utils
             return fileName;
         }
 
+        ///// <summary>
+        ///// Saves an array of strings to a file in a given path
+        ///// </summary>
+        ///// <param name="directory"></param>
+        ///// <param name="fileName"></param>
+        ///// <param name="data"></param>
+        //public static void SaveStringsToFile(string directory, string fileName, string[] data)
+        //{
+
+        //    if (!System.IO.Directory.Exists(directory)) System.IO.Directory.CreateDirectory(directory);
+
+        //    string target = directory + fileName;
+
+        //    System.IO.File.WriteAllLines(target, data);
+        //}
+        ///// <summary>
+        ///// Appends string data to an existing file
+        ///// </summary>
+        ///// <param name="directory">The existing file directory</param>
+        ///// <param name="fileName"></param>
+        ///// <param name="data"></param>
+        //public static void AppendToFile(string directory, string fileName, string data)
+        //{
+        //    string path = directory + fileName;
+        //    var writer = System.IO.File.AppendText(path);
+        //    writer.WriteLine(data);
+        //    writer.Close();
+        //}
+
         /// <summary>
-        /// Saves an array of strings to a file in a given path
+        /// Serializes a list of <see cref="AssemblyObject"/>s into a JSON string array for subsequent file saving
         /// </summary>
-        /// <param name="directory"></param>
-        /// <param name="fileName"></param>
-        /// <param name="data"></param>
-        public static void SaveStringsToFile(string directory, string fileName, string[] data)
-        {
-
-            if (!System.IO.Directory.Exists(directory)) System.IO.Directory.CreateDirectory(directory);
-
-            string target = directory + fileName;
-
-            System.IO.File.WriteAllLines(target, data);
-        }
-        /// <summary>
-        /// Appends string data to an existing file
-        /// </summary>
-        /// <param name="directory">The existing file directory</param>
-        /// <param name="fileName"></param>
-        /// <param name="data"></param>
-        public static void AppendToFile(string directory, string fileName, string data)
-        {
-            string path = directory + fileName;
-            var writer = System.IO.File.AppendText(path);
-            writer.WriteLine(data);
-            writer.Close();
-        }
-
-        /// <summary>
-        /// Serializes an assemblage into a string array for subsequent file saving
-        /// </summary>
-        /// <param name="assemblage"></param>
+        /// <param name="AOList"></param>
         /// <returns></returns>
-        internal static string[] SerializeAssemblage(List<AssemblyObject> assemblage)
+        internal static string[] SerializeAssemblage(List<AssemblyObject> AOList)
         {
-            string[] AOjson = new string[assemblage.Count];
+            string[] AOjson = new string[AOList.Count];
 
-            if (assemblage.Count < 1000)
-                for (int i = 0; i < assemblage.Count; i++)
+            if (AOList.Count < 1000)
+                for (int i = 0; i < AOList.Count; i++)
 
-                    AOjson[i] = JsonConvert.SerializeObject(assemblage[i]);
+                    AOjson[i] = JsonConvert.SerializeObject(AOList[i]);
             else
-                Parallel.For(0, assemblage.Count, i =>
+                Parallel.For(0, AOList.Count, i =>
                 {
-                    AOjson[i] = JsonConvert.SerializeObject(assemblage[i]);
+                    AOjson[i] = JsonConvert.SerializeObject(AOList[i]);
                 });
 
             return AOjson;
         }
 
         /// <summary>
-        /// Deserializes a string array into an AssemblyObject assemblage after file loading
+        /// Deserializes a string array into an <see cref="AssemblyObject"/> list after file loading
         /// </summary>
         /// <param name="AOjson"></param>
         /// <returns></returns>

@@ -376,7 +376,7 @@ namespace AssemblerLib.Utils
             // cloning by value data (primitives and structs)
             clonedAOa.HeuristicsSettings = AOa.HeuristicsSettings;
             clonedAOa.ExogenousSettings = AOa.ExogenousSettings;
-            clonedAOa.currentHeuristics = AOa.currentHeuristics;
+            clonedAOa.currentHeuristicsIndex = AOa.currentHeuristicsIndex;
             clonedAOa.CollisionRadius = AOa.CollisionRadius;
             clonedAOa.CheckWorldZLock = AOa.CheckWorldZLock;
             clonedAOa.E_sandbox = AOa.E_sandbox;
@@ -394,10 +394,6 @@ namespace AssemblerLib.Utils
             clonedAOa.AssemblageRules = new DataTree<string>(AOa.AssemblageRules, r => r);
             clonedAOa.ReceiverAIndexes = new DataTree<int>(AOa.ReceiverAIndexes, i => i);
             clonedAOa.AssemblyObjects = new DataTree<AssemblyObject>(AOa.AssemblyObjects, ao => AssemblyObjectUtils.CloneWithConnectivity(ao));
-            // clone AssemblyObjects (OLD)
-            //clonedAOa.AssemblyObjects = new DataTree<AssemblyObject>();
-            //for (int i = 0; i < AOa.AssemblyObjects.BranchCount; i++)
-            //    clonedAOa.AssemblyObjects.Add(CloneWithConnectivity(AOa.AssemblyObjects.Branches[i][0]), AOa.AssemblyObjects.Paths[i]);
 
             // clone Lists
             clonedAOa.availableObjects = AOa.availableObjects.Select(av => av).ToList();
@@ -430,14 +426,21 @@ namespace AssemblerLib.Utils
             if (!AOa.AssemblyObjects.PathExists(AOPath)) return false;
 
             AssemblyObject AO = AOa.AssemblyObjects[AOPath, 0];
+            int neighAInd;
+            GH_Path neighPath;
+            bool updateNeighbourStatus;
 
             // . . . Topology operations
             // update connected AO Handles
             for (int i = 0; i < AO.Handles.Length; i++)
             {
+                // if handle is free, continue
+                if (AO.Handles[i].Occupancy == 0) continue;
+
                 // AInd of neighbour object
-                int neighAInd = AO.Handles[i].NeighbourObject;
-                GH_Path neighPath = new GH_Path(neighAInd);
+                neighAInd = AO.Handles[i].NeighbourObject;
+                neighPath = new GH_Path(neighAInd);
+                updateNeighbourStatus = false;
 
                 // free connected Handles
                 if (AO.Handles[i].Occupancy == 1)
@@ -445,6 +448,8 @@ namespace AssemblerLib.Utils
                     AOa.AssemblyObjects[neighPath, 0].Handles[AO.Handles[i].NeighbourHandle].Occupancy = 0;
                     AOa.AssemblyObjects[neighPath, 0].Handles[AO.Handles[i].NeighbourHandle].NeighbourObject = -1;
                     AOa.AssemblyObjects[neighPath, 0].Handles[AO.Handles[i].NeighbourHandle].NeighbourHandle = -1;
+                    // flag for neighbour status update
+                    updateNeighbourStatus = true;
                 }
                 // update occluding objects
                 else if (AO.Handles[i].Occupancy == -1)
@@ -452,22 +457,47 @@ namespace AssemblerLib.Utils
                     // scan OccludedNeighbours list of neighbour occluded object
                     for (int j = AOa.AssemblyObjects[neighPath, 0].OccludedNeighbours.Count - 1; j >= 0; j--)
                     {
-                        // if AInd and Handle match, remove entry
+                        // if AInd and Handle match
                         if (AOa.AssemblyObjects[neighPath, 0].OccludedNeighbours[j][0] == AO.AInd &&
                            AOa.AssemblyObjects[neighPath, 0].OccludedNeighbours[j][1] == i)
+                        {
+                            // remove entry
                             AOa.AssemblyObjects[neighPath, 0].OccludedNeighbours.RemoveAt(j);
+                            // flag for neighbour status update
+                            updateNeighbourStatus = true;
+                        }
                     }
                     //AOa.AssemblyObjects[neighPath, 0].OccludedNeighbours.Remove(new int[] { AO.AInd, i });
                 }
+
+                // update neighbour available/unreachable status
+                if (updateNeighbourStatus)
+                    MakeAOAvailable(AOa, neighAInd, neighPath);
+                //{
+                //    // if neighbour is in unreachable remove from list
+                //    if (AOa.unreachableObjects.Contains(neighAInd)) AOa.unreachableObjects.Remove(neighAInd);
+                //    // if not in available yet add to available list and add its receiver value to the list
+                //    if (!AOa.availableObjects.Contains(neighAInd))
+                //    {
+                //        AOa.availableObjects.Add(neighAInd);
+                //        AOa.availableReceiverValues.Add(AOa.AssemblyObjects[neighPath, 0].ReceiverValue);
+                //    }
+
+                //}
             }
 
             // check its occluded objects
             for (int i = 0; i < AO.OccludedNeighbours.Count; i++)
             {
                 GH_Path occludePath = new GH_Path(AO.OccludedNeighbours[i][0]);
+                int occludedAInd = AO.OccludedNeighbours[i][0];
+                int occludedHandleIndex = AO.OccludedNeighbours[i][1];
                 // free occluded handle
-                AOa.AssemblyObjects[occludePath, 0].Handles[AO.OccludedNeighbours[i][1]].Occupancy = 0;
-                AOa.AssemblyObjects[occludePath, 0].Handles[AO.OccludedNeighbours[i][1]].NeighbourObject = -1;
+                AOa.AssemblyObjects[occludePath, 0].Handles[occludedHandleIndex].Occupancy = 0;
+                AOa.AssemblyObjects[occludePath, 0].Handles[occludedHandleIndex].NeighbourObject = -1;
+                // Update available/unreachable status
+                MakeAOAvailable(AOa, occludedAInd, occludePath);
+                
             }
 
             // remove from used rules
@@ -488,10 +518,48 @@ namespace AssemblerLib.Utils
             AOa.centroidsTree.Remove(AO.ReferencePlane.Origin, AO.AInd);
 
             // remove from AssemblyObject list
-            AOa.AssemblyObjects.RemovePath(AO.AInd);
+            AOa.AssemblyObjects.RemovePath(AOPath);//AO.AInd);
 
             return true;
         }
 
+        /// <summary>
+        /// Remove a collection of <see cref="AssemblyObject"/>s from an <see cref="Assemblage"/>, updating Topology information
+        /// </summary>
+        /// <param name="AOa">The Assemblage to remove from</param>
+        /// <param name="AIndexes">the Assemblage Indexes of the AssemblyObjects to remove</param>
+        /// <returns>an array of booleans, one for each index - true if successful, false otherwise</returns>
+        public static bool[] RemoveAssemblyObjects(Assemblage AOa, IEnumerable<int> AIndexes)
+        {
+            bool[] result = new bool[AIndexes.Count()];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = RemoveAssemblyObject(AOa, AIndexes.ElementAt<int>(i));
+            return result;
+        }
+
+        /// <summary>
+        /// Updates AO status, eventually removing it from Unreachable and adding it to Available list if not there already
+        /// </summary>
+        /// <param name="AOa">The assemblage to modify</param>
+        /// <param name="AInd">The <see cref="AssemblyObject"/> to update</param>
+        /// <param name="AOPath">The <see cref="AssemblyObject"/> path</param>
+        private static void MakeAOAvailable(Assemblage AOa, int AInd, GH_Path AOPath)
+        {
+            // if neighbour is in unreachable remove from list
+            if (AOa.unreachableObjects.Contains(AInd)) AOa.unreachableObjects.Remove(AInd);
+            // if not in available yet add to available list and add its receiver value to the list
+            if (!AOa.availableObjects.Contains(AInd))
+            {
+                AOa.availableObjects.Add(AInd);
+                AOa.availableReceiverValues.Add(AOa.AssemblyObjects[AOPath, 0].ReceiverValue);
+            }
+        }
+
+        /// <summary>
+        /// Updates AO status, eventually removing it from Unreachable and adding it to Available list if not there already
+        /// </summary>
+        /// <param name="AOa">The assemblage to modify</param>
+        /// <param name="AInd">The <see cref="AssemblyObject"/> to update</param>
+        public static void MakeAOAvailable(Assemblage AOa, int AInd) => MakeAOAvailable(AOa, AInd, new GH_Path(AInd));
     }
 }

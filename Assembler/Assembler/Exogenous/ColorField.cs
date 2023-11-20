@@ -62,17 +62,17 @@ namespace Assembler
 
             coloredField = new Field(field);
 
-            List<Color> C = new List<Color>();
-            DA.GetDataList(1, C);
-            //if (!DA.GetDataList(1, C)) return;
-            if (C == null || C.Count == 0) C = new List<Color> { Color.Red, Color.FromArgb(0, 128, 255) };
-            if (C.Count > 0 && C.Count < 2)
+            List<Color> colors = new List<Color>();
+            DA.GetDataList(1, colors);
+
+            if (colors == null || colors.Count == 0) colors = new List<Color> { Color.Red, Color.FromArgb(0, 128, 255) };
+            if (colors.Count > 0 && colors.Count < 2)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "You must provide at least 2 Colors");
                 return;
             }
-            int ind = 0;
-            DA.GetData("Index", ref ind);
+            int index = 0;
+            DA.GetData("Index", ref index);
 
             if (coloredField.Tensors[0] == null)
             {
@@ -80,16 +80,16 @@ namespace Assembler
                 return;
             }
 
-            if (coloredField.Tensors[0].Scalars == null || ind > coloredField.Tensors[0].Scalars.Length)
+            if (coloredField.Tensors[0].Scalars == null || index > coloredField.Tensors[0].Scalars.Length)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Field does not contain scalar values at specified index");
                 return;
             }
 
-            double thres = 0.5;
-            DA.GetData("Threshold", ref thres);
+            double threshold = 0.5;
+            DA.GetData("Threshold", ref threshold);
 
-            coloredField.GenerateScalarColors(C, ind, thres, blend);
+            coloredField.GenerateScalarColors(colors, index, threshold, blend);
 
             _cloud = new PointCloud();
             _cloud.AddRange(coloredField.GetPoints(), coloredField.Colors);

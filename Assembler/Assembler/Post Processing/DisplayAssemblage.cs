@@ -122,7 +122,6 @@ namespace Assembler
 
                     Parallel.For(0, colors.Length, i =>
                     {
-                        //int AOInd = AOa.AssemblyObjects.Paths[i][0];
                         int AOInd = AOa.AssemblyObjects.Branches[i][0].AInd;
                         if (availableObjects.Contains(AOInd)) colors[i] = Color.White;
                         else if (unreachableObjects.Contains(AOInd)) colors[i] = Color.FromArgb(194, 199, 137);
@@ -140,9 +139,7 @@ namespace Assembler
                 case "Z Value": // zHeight
                     BoundingBox AOaBBox = BoundingBox.Empty;
                     for (int i = 0; i < AOa.AssemblyObjects.BranchCount; i++)
-                        AOaBBox.Union(AOa.AssemblyObjects.Branches[i][0].CollisionMesh.GetBoundingBox(false)); //ao.ReferencePlane.Origin
-                    //foreach (AssemblyObject ao in AOa.assemblyObjects.AllData())
-                    //    AOaBBox.Union(ao.CollisionMesh.GetBoundingBox(false)); //ao.ReferencePlane.Origin
+                        AOaBBox.Union(AOa.AssemblyObjects.Branches[i][0].CollisionMesh.GetBoundingBox(false));
                     double minZ = AOaBBox.Min.Z;
                     double maxZ = AOaBBox.Max.Z;
                     double invZSpan = 1 / (maxZ - minZ);
@@ -154,12 +151,21 @@ namespace Assembler
                     });
                     break;
                 case "AO Weights": // AssemblyObject Weight
+                    double[] weights = new double[colors.Length];
                     Parallel.For(0, colors.Length, i =>
                     {
-                        colors[i] = GH_Gradient.GreyScale().ColourAt(AOa.AssemblyObjects.Branches[i][0].Weight);
+                        weights[i] = AOa.AssemblyObjects.Branches[i][0].Weight;
+                    });
+                    double minWeight = weights.Min();
+                    double maxWeight = weights.Max();
+                    double denominator = minWeight == maxWeight ? 0 : 1.0 / (maxWeight - minWeight);
+                    Parallel.For(0, colors.Length, i =>
+                    {
+                        colors[i] = GH_Gradient.GreyScale().ColourAt((weights[i] - minWeight) * denominator);
                     });
                     break;
                 case "Connectedness": // connectedness (n. of non-free handlesTree/total handlesTree)
+                    // maybe change to n. of connected Handles over total (exclude occluded Handles)
                     Parallel.For(0, colors.Length, i =>
                     {
                         double connectedness = 1 - (AOa.AssemblyObjects.Branches[i][0].Handles.Where(h => h.Occupancy == 0).Sum(x => 1) / (double)(AOa.AssemblyObjects.Branches[i][0].Handles.Length));
@@ -192,7 +198,7 @@ namespace Assembler
                     double min = rValues.Min();
                     double max = rValues.Max();
                     // avoid division by 0
-                    double factor = min == max ? 0 : 1 / (max - min);
+                    double factor = min == max ? 0 : 1.0 / (max - min);
                     Parallel.For(0, colors.Length, i =>
                     {
                         double receiverParam = (AOa.AssemblyObjects.Branches[i][0].ReceiverValue - min) * factor;
@@ -215,8 +221,8 @@ namespace Assembler
                             AOCollisionMaxVolume = AOsetCollisionVolumes[i];
                     }
 
-                    double referenceVolume = 1 / (AOCollisionMaxVolume * 8);// equals to a box twice the scale
-                    //double[] localDensities = new double[colors.Length];
+                    double referenceVolume = 1.0 / (AOCollisionMaxVolume * 8);// equals to a box twice the scale
+
                     Parallel.For(0, colors.Length, i =>
                     {
                         // get collision volume for the present object
@@ -298,7 +304,7 @@ namespace Assembler
             ToolStripMenuItem toolStripMenuItem10 = Menu_AppendItem(menu, "Receiver Values", ReceiverValues_Click, true, GetValue("OutputType", "Objects") == "Receiver Values");
             toolStripMenuItem10.ToolTipText = "Receiver value of each AssemblyObject - white (minimum), dark red (maximum)";
             ToolStripMenuItem toolStripMenuItem11 = Menu_AppendItem(menu, "Local Density", LocalDensity_Click, true, GetValue("OutputType", "Objects") == "Local Density");
-            toolStripMenuItem11.ToolTipText = "Bounding Box volume of each AssemblyObject and its connected or occluded neighbours / their cumulative Bounding Box volume";
+            toolStripMenuItem11.ToolTipText = "Sum of the Bounding Box volumes of the AssemblyObject and its connected or occluded neighbours / (the volume of the Bounding Box for the largest AO in the AOSet scaled 2x)";
             Menu_AppendSeparator(menu);
         }
 

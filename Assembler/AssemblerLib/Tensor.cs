@@ -27,6 +27,7 @@ namespace AssemblerLib
         as single values or arrays (single and multi-dimensional) of any type
          */
 
+        #region Constructors
         /// <summary>
         /// Constructs a Tensor from constituting parameters (scalars, vectors, integers)
         /// </summary>
@@ -77,33 +78,40 @@ namespace AssemblerLib
         {
             this.IWeights = (int[])IWeights;
         }
+        #endregion
 
+        #region Getters
         /// <summary>
-        /// Gets first scalar value
+        /// Gets Scalar value at index
         /// </summary>
+        /// <param name="index">index at which read the value - opitonal (default is 0)</param>
         /// <returns>scalar value at index 0</returns>
-        public double GetScalar()
+        public double GetScalar(int index=0)
         {
-            return Scalars[0];
+            return Scalars[index];
         }
 
         /// <summary>
-        /// Gets first Vector value
+        /// Gets Vector value at index
         /// </summary>
+        /// <param name="index">index at which read the value - opitonal (default is 0)</param>
         /// <returns>vector value at index 0</returns>
-        public Vector3d GetVector()
+        public Vector3d GetVector(int index=0)
         {
-            return Vectors[0];
+            return Vectors[index];
         }
 
         /// <summary>
-        /// Gets first iWeight value
+        /// Gets iWeight value at index
         /// </summary>
+        /// <param name="index">index at which read the value - opitonal (default is 0)</param>
         /// <returns>iWeight value at index 0</returns>
-        public int GetiWeight()
+        public int GetiWeight(int index = 0)
         {
-            return IWeights[0];
+            return IWeights[index];
         }
+
+        #endregion
 
         /// <summary>
         /// Operator + for Tensor
