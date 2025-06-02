@@ -10,8 +10,8 @@ Install ***Assembler*** via Rhino Package Manager.
 
 
 - [Plugin Documentation](https://ale2x72.notion.site/Assembler-Documentation-aa694addf78a4263bd1d066ff8019dbb)
-- [Example Files](https://drive.google.com/file/d/1dKpeKsSR5snZpCmZjxtzpxq8BjWJwkJo/view?usp=share_link)
-- [AssemblerLib API Documentation](https://drive.google.com/file/d/1Rp4u6f3wbaAjA0NpPUaTN9uMPxcAq5ZE/view?usp=share_link)
+- [Example Files](https://drive.google.com/drive/folders/1zSShD9ps5ss8v0rUWPQDAsB1oWE--Gdy?usp=sharing) - pick the file matching your version
+- [AssemblerLib API Documentation](https://drive.google.com/file/d/1Dra7aW7uVo20ipA4OXINzcrtOwXyV4lW/view?usp=drive_link)
 
 ## Changelog
 See the [Changelog](/CHANGELOG/Changelog.md) page.
