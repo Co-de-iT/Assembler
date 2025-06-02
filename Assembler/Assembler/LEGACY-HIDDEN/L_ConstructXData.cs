@@ -85,6 +85,15 @@ namespace Assembler
         }
 
         /// <summary>
+        /// Exposure override for position in the Subcategory (options primary to septenary)
+        /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
+        /// </summary>
+        public override GH_Exposure Exposure
+        {
+            get { return GH_Exposure.hidden; }
+        }
+
+        /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
         protected override System.Drawing.Bitmap Icon
@@ -93,17 +102,8 @@ namespace Assembler
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.Construct_XData;
+                return Resources.L_Construct_XData;
             }
-        }
-
-        /// <summary>
-        /// Exposure override for position in the Subcategory (options primary to septenary)
-        /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
-        /// </summary>
-        public override GH_Exposure Exposure
-        {
-            get { return GH_Exposure.hidden; }
         }
 
         /// <summary>

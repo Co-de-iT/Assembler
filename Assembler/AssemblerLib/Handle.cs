@@ -13,11 +13,11 @@ namespace AssemblerLib
         /// <summary>
         /// Sender plane
         /// </summary>
-        public Plane Sender;
+        public Plane SenderPlane;
         /// <summary>
         /// Receiver planes
         /// </summary>
-        public Plane[] Receivers;
+        public Plane[] ReceiverPlanes;
         /// <summary>
         /// Handle type identifier
         /// </summary>
@@ -26,6 +26,10 @@ namespace AssemblerLib
         /// Receiver rotations
         /// </summary>
         public double[] Rotations;
+        /// <summary>
+        /// Records used rotation (-1 at start)
+        /// </summary>
+        public int RotationIndex;
         /// <summary>
         /// Rotations dictionary (degrees, index)
         /// </summary>
@@ -44,9 +48,11 @@ namespace AssemblerLib
         /// <item><description>-1 occluded</description></item>
         /// <item><description>0 available</description></item>
         /// <item><description>1 connected</description></item>
+        /// <item><description>2 contact - secondary connection</description></item>
         /// </list>
         /// </summary>
         public int Occupancy;
+        //public enum OccupancyStatus : int { Occluded = -1, Available = 0, Connected = 1, Contact = 2 }
         /// <summary>
         /// Neighbour object index
         /// <list type="bullet">
@@ -90,18 +96,19 @@ namespace AssemblerLib
             NeighbourObject = -1;
             NeighbourHandle = -1;
             // sender plane
-            Sender = plane;
+            SenderPlane = plane;
             Rotations = rotations.ToArray();
+            RotationIndex = -1;
             RDictionary = new Dictionary<double, int>();
             // generate relative receiving Handles
-            Receivers = new Plane[rotations.Count];
+            ReceiverPlanes = new Plane[rotations.Count];
             for (int i = 0; i < rotations.Count; i++)
             {
-                Receivers[i] = Sender;
-                // first rotate
-                Receivers[i].Rotate(MathUtils.DegreesToRadians(rotations[i]), Receivers[i].ZAxis); // rotations arrive in degrees
+                ReceiverPlanes[i] = SenderPlane;
+                // first rotate              (rotations arrive in degrees)
+                ReceiverPlanes[i].Rotate(MathUtils.DegreesToRadians(rotations[i]), ReceiverPlanes[i].ZAxis);
                 // then flip
-                Receivers[i].Rotate(Math.PI, Receivers[i].YAxis);
+                ReceiverPlanes[i].Rotate(Math.PI, ReceiverPlanes[i].YAxis);
                 // add rotation to dictionary
                 RDictionary.Add(rotations[i], i);
             }
@@ -113,9 +120,9 @@ namespace AssemblerLib
         /// <param name="Xform">Transformation to apply</param>
         public void Transform(Transform Xform)
         {
-            Sender.Transform(Xform);
+            SenderPlane.Transform(Xform);
             // DO NOT use foreach - it does not work (you cannot change parts of a looping variable)
-            for (int i = 0; i < Receivers.Length; i++) Receivers[i].Transform(Xform);
+            for (int i = 0; i < ReceiverPlanes.Length; i++) ReceiverPlanes[i].Transform(Xform);
         }
 
         /// <summary>
@@ -124,6 +131,7 @@ namespace AssemblerLib
         /// <item><description>Occluded</description></item>
         /// <item><description>Available</description></item>
         /// <item><description>Connected</description></item>
+        /// <item><description>Contact (secondary connection)</description></item>
         /// </list>
         /// </summary>
         /// <returns>The Occupancy status as string</returns>
@@ -134,6 +142,7 @@ namespace AssemblerLib
                 case -1: return "Occluded";
                 case 0: return "Available";
                 case 1: return "Connected";
+                case 2: return "Contact";
                 default: return "";
             }
         }
@@ -143,5 +152,26 @@ namespace AssemblerLib
             return string.Format("Handle type {0} . {1} rotations . {2}", Type, Rotations.Length, HandleStatus());
         }
 
+        ///// <summary>
+        ///// Equals check if Handles have the same type, IdleWeight and Rotations
+        ///// </summary>
+        ///// <param name="A"></param>
+        ///// <param name="B"></param>
+        ///// <returns>true if Handles are considered equal</returns>
+        //public static bool operator ==(Handle A, Handle B)
+        //{
+        //    bool equals = true;
+
+        //    if(A.Type != B.Type) return false;
+        //    if(A.Rotations.Length != B.Rotations.Length) return false;
+        //    for (int i = 0; i < A.Rotations.Length; i++)
+        //        if (A.Rotations[i] != B.Rotations[i]) return false;
+
+        //    if(A.IdleWeight != B.IdleWeight) return false;
+
+        //    return equals;
+        //}
+
+        //public static bool operator !=(Handle A, Handle B) => !(A == B);
     }
 }

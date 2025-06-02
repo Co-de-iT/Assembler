@@ -5,6 +5,7 @@ using Rhino.Geometry;
 using AssemblerLib;
 using Assembler.Properties;
 using Assembler.Utils;
+using AssemblerLib.Utils;
 
 namespace Assembler
 {
@@ -54,10 +55,19 @@ namespace Assembler
             AO = GH_AO.Value;
 
             // make a new AssemblyObject to avoid byRef retroactive transformations
-            AssemblyObject AOt = Utilities.Clone(AO);//new AssemblyObject(AO);
+            AssemblyObject AOt = AssemblyObjectUtils.Clone(AO);//new AssemblyObject(AO);
             AOt.Transform(X);
 
             DA.SetData(0, new AssemblyObjectGoo(AOt));
+        }
+
+        /// <summary>
+        /// Exposure override for position in the Subcategory (options primary to septenary)
+        /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
+        /// </summary>
+        public override GH_Exposure Exposure
+        {
+            get { return GH_Exposure.hidden; }
         }
 
         /// <summary>
@@ -69,17 +79,8 @@ namespace Assembler
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.Transform_AO;
+                return Resources.L_Transform_AO;
             }
-        }
-
-        /// <summary>
-        /// Exposure override for position in the Subcategory (options primary to septenary)
-        /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
-        /// </summary>
-        public override GH_Exposure Exposure
-        {
-            get { return GH_Exposure.hidden; }
         }
 
         /// <summary>

@@ -83,14 +83,14 @@ namespace AssemblerLib.Utils
         /// <typeparam Name="TValue"></typeparam>
         /// <param name="original"></param>
         /// <returns>The cloned Dictionary</returns>
-        /// <remarks>as seen here: https://stackoverflow.com/questions/139592/what-is-the-best-way-to-clone-deep-copy-a-net-generic-dictionarystring-t</remarks>
+        /// <remarks>as seen [here](https://stackoverflow.com/questions/139592/what-is-the-best-way-to-clone-deep-copy-a-net-generic-dictionarystring-t)</remarks>
         public static Dictionary<TKey, TValue> CloneDictionaryWithValues<TKey, TValue>(Dictionary<TKey, TValue> original)
         {
             Dictionary<TKey, TValue> copy = new Dictionary<TKey, TValue>(original.Count, original.Comparer);
+
             foreach (KeyValuePair<TKey, TValue> entry in original)
-            {
                 copy.Add(entry.Key, (TValue)entry.Value);
-            }
+
             return copy;
         }
 
@@ -103,7 +103,7 @@ namespace AssemblerLib.Utils
         /// <param name="fromKey"></param>
         /// <param name="toKey"></param>
         /// <returns>true if successful</returns>
-        /// <remarks>as seen here: https://stackoverflow.com/questions/6499334/best-way-to-change-dictionary-key</remarks>
+        /// <remarks>as seen [here](https://stackoverflow.com/questions/6499334/best-way-to-change-dictionary-key)</remarks>
         public static bool RenameKey<TKey, TValue>(Dictionary<TKey, TValue> dictionary, TKey fromKey, TKey toKey)
         {
             TValue value = dictionary[fromKey];
@@ -160,5 +160,49 @@ namespace AssemblerLib.Utils
 
             return rhInt;
         }
+
+        /// <summary>
+        /// Converts a boolean Data Tree into a GH_Structure of GH_Boolean
+        /// </summary>
+        /// <param name="booleanDataTree"></param>
+        /// <returns></returns>
+        public static GH_Structure<GH_Boolean> ToGHBooleanTree(DataTree<bool> booleanDataTree)
+        {
+            GH_Structure<GH_Boolean> outGHst = new GH_Structure<GH_Boolean>();
+
+            for (int i = 0; i < booleanDataTree.BranchCount; i++)
+                outGHst.AppendRange(booleanDataTree.Branches[i].Select(x => new GH_Boolean(x)).ToList(), booleanDataTree.Paths[i]);
+
+            return outGHst;
+        }
+        /// <summary>
+        /// Converts a string Data Tree into a GH_Structure of GH_String
+        /// </summary>
+        /// <param name="stringDataTree"></param>
+        /// <returns></returns>
+        public static GH_Structure<GH_String> ToGHStringTree(DataTree<string> stringDataTree)
+        {
+            GH_Structure<GH_String> outGHst = new GH_Structure<GH_String>();
+
+            for (int i = 0; i < stringDataTree.BranchCount; i++)
+                outGHst.AppendRange(stringDataTree.Branches[i].Select(x => new GH_String(x)).ToList(), stringDataTree.Paths[i]);
+
+            return outGHst;
+        }
+        /// <summary>
+        /// Converts a Plane Data Tree into a GH_Structure of GH_Plane
+        /// </summary>
+        /// <param name="planeDataTree"></param>
+        /// <returns></returns>
+        public static GH_Structure<GH_Plane> ToGHPlaneTree(DataTree<Plane> planeDataTree)
+        {
+            GH_Structure<GH_Plane> outGHst = new GH_Structure<GH_Plane>();
+
+            for (int i = 0; i < planeDataTree.BranchCount; i++)
+                outGHst.AppendRange(planeDataTree.Branches[i].Select(x => new GH_Plane(x)).ToList(), planeDataTree.Paths[i]);
+
+            return outGHst;
+        }
+
     }
 }

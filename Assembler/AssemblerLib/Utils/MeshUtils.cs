@@ -9,28 +9,29 @@ namespace AssemblerLib.Utils
 {
     public static class MeshUtils
     {
+        // BUG: this does not work as intended - using Rhino Mesh class method instead
         /// <summary>
         /// Checks if a point P is inside a Mesh by checking the number of intersections of a line
         /// from a point outside to the test point
         /// even number of intersections is outside, odd is inside.
-        /// see this thread for this and more methods: https://twitter.com/OskSta/status/1491716992931356672
+        /// see [this thread](https://twitter.com/OskSta/status/1491716992931356672) for this and more methods
         /// </summary>
         /// <param name="mesh"></param>
         /// <param name="testPoint"></param>
         /// <returns>True if point is inside, False otherwise</returns>
+        /// <exclude>Exclude from documentation</exclude>
         public static bool IsPointInMesh(Mesh mesh, Point3d testPoint)
         {
             // this point must be OUTSIDE of the Mesh
             Point3d from = (Point3d)(mesh.Vertices[0] + mesh.Normals[0]);
-            int[] faceIds;
             // even number of intersections: point is outside, otherwise point is inside
-            return (Intersection.MeshLine(mesh, new Line(from, testPoint), out faceIds).Length % 2 != 0);
+            return (Intersection.MeshLine(mesh, new Line(from, testPoint), out _).Length % 2 != 0);
         }
 
         /// <summary>
         /// Improves Mesh Offset using a bespoke method for Mesh normal calculation, based on face angle weighing
-        /// reference: https://stackoverflow.com/questions/25100120/how-does-blender-calculate-vertex-normals
-        /// and: http://www.bytehazard.com/articles/vertnorm.html
+        /// see [here](https://stackoverflow.com/questions/25100120/how-does-blender-calculate-vertex-normals)
+        /// and [here](http://www.bytehazard.com/articles/vertnorm.html)
         /// </summary>
         /// <param name="mesh"></param>
         /// <param name="offsetDistance"></param>
@@ -144,12 +145,11 @@ namespace AssemblerLib.Utils
         /// Returns Mesh edges whose faces stand at an angle larger than the tolerance
         /// </summary>
         /// <param name="mesh">The input Mesh</param>
-        /// <param name="angleTolerance">The angle tolerance in radians - default is Math.PI * 0.25 = 45°</param>
+        /// <param name="angleTolerance">The angle tolerance in radians (ignore edges whose faces meet at an angle larger than this) - default is Math.PI * 0.25 = 45°</param>
         /// <returns>Edges as an array of GH_Lines</returns>
-        public static GH_Line[] GetSihouette(Mesh mesh, double angleTolerance = Math.PI * 0.25)
+        public static GH_Line[] GetSilhouette(Mesh mesh, double angleTolerance = Math.PI * 0.25)
         {
             ConcurrentBag<GH_Line> lines = new ConcurrentBag<GH_Line>();
-            //double angleTolerance = Math.PI * 0.25; // angle tolerance  ignore edges whose faces meet at an angle larger than this
 
             mesh.Normals.ComputeNormals();
             Rhino.Geometry.Collections.MeshTopologyEdgeList topologyEdges = mesh.TopologyEdges;

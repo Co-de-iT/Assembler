@@ -1,4 +1,5 @@
 ﻿using Rhino.Geometry;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,6 +13,7 @@ namespace AssemblerLib.Utils
         /// </summary>
         /// <param name="AO">the <see cref="AssemblyObject"/> to check</param>
         /// <returns>true if the Z axis of the object Reference Plane is oriented along the World Z</returns>
+        /// <exclude>Exclude from documentation</exclude>
         public static bool AbsoluteZCheck(AssemblyObject AO) => AO.ReferencePlane.ZAxis * Vector3d.ZAxis == 1;
 
         /// <summary>
@@ -23,7 +25,36 @@ namespace AssemblerLib.Utils
         public static bool AbsoluteZCheck(AssemblyObject AO, double tol) => 1 - (AO.ReferencePlane.ZAxis * Vector3d.ZAxis) <= tol;
 
         /// <summary>
-        /// Clones an <see cref="AssemblyObject"/> as an asset, resetting connectivity information
+        /// Resets an AssemblyObject to "factory values"
+        /// </summary>
+        /// <param name="AO">the <see cref="AssemblyObject"/> to reset</param>
+        /// <returns>A reset AssemblyObject</returns>
+        /// <param name="resetTopology"></param><param name="resetReceiverValue"></param><param name="resetSenderValue"></param>
+        public static AssemblyObject Reset(AssemblyObject AO, bool resetTopology = true, bool resetReceiverValue = true, bool resetSenderValue = true)
+        {
+            AssemblyObject AOreset;
+
+            // this fixes compatibility issues with saved assemblages prior to version 1.1.9
+            // Rotations and RDictionary were null in those cases
+            for (int i = 0; i < AO.Handles.Length; i++)
+            {
+                if (AO.Handles[i].Rotations == null)
+                    AO.Handles[i].Rotations = new double[0];
+                if (AO.Handles[i].RDictionary == null)
+                    AO.Handles[i].RDictionary = new Dictionary<double, int>();
+            }
+
+            if (resetTopology) AOreset = Clone(AO);
+            else AOreset = CloneWithConnectivityAndValues(AO);
+
+            if (resetReceiverValue) AOreset.ReceiverValue = double.NaN;
+            if (resetSenderValue) AOreset.SenderValue = double.NaN;
+
+            return AOreset;
+        }
+
+        /// <summary>
+        /// Clones an <see cref="AssemblyObject"/> as an asset, resetting connectivity information and Sender/Receiver values
         /// </summary>
         /// <param name="AO"></param>
         /// <returns>a cloned AssemblyObejct asset</returns>
@@ -72,7 +103,7 @@ namespace AssemblerLib.Utils
         /// </summary>
         /// <param name="AO">The Original <see cref="AssemblyObject"/></param>
         /// <returns>A duplicated AssemblyObject with the same connectivity of the source</returns>
-        /// <remarks>Useful for previous assemblages and the Goo wrapper</remarks>
+        /// <remarks>Useful for previous assemblages</remarks>
         public static AssemblyObject CloneWithConnectivity(AssemblyObject AO)
         {
             // make a fresh new clone
@@ -95,6 +126,23 @@ namespace AssemblerLib.Utils
             }
 
             return AOcloneConnect;
+        }
+
+        /// <summary>
+        /// Duplicates an <see cref="AssemblyObject"/> preserving connectivity and Sender/Receiver values
+        /// </summary>
+        /// <param name="AO">The Original <see cref="AssemblyObject"/></param>
+        /// <returns>A duplicated AssemblyObject with the same connectivity and sender/receiver values of the source</returns>
+        /// <remarks>Useful for previous assemblages and the Goo wrapper</remarks>
+        public static AssemblyObject CloneWithConnectivityAndValues(AssemblyObject AO)
+        {
+            // make a fresh new clone
+            AssemblyObject AOcloneConnectValues = CloneWithConnectivity(AO);
+
+            AOcloneConnectValues.ReceiverValue = AO.ReceiverValue;
+            AOcloneConnectValues.SenderValue = AO.SenderValue;
+
+            return AOcloneConnectValues;
         }
 
         /// <summary>

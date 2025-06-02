@@ -14,7 +14,7 @@ using System.Linq;
 namespace Assembler.Utils
 {
     /*
-     see these links to implement persistent parameter:
+    SOURCE: see these links to implement persistent parameter:
     https://gist.github.com/petrasvestartas/0d4bc6b8b2926f488ef36bd327f273ad
     https://gist.github.com/petrasvestartas/352e7e948411a9145ab7e1575505c2d1
      */
@@ -33,8 +33,8 @@ namespace Assembler.Utils
                 AO = new AssemblyObject();
             //Value = AO;
             m_value = AO;
-            // check this: I used Value here but the examples I've seen use m_value. What's the difference? Investigate
-            // see https://discourse.mcneel.com/t/gh-geometricgoo-constructor-advice-needed/93803
+            // TODO: check this: I used Value here but the examples I've seen use m_value. What's the difference? Investigate
+            // SOURCE: see https://discourse.mcneel.com/t/gh-geometricgoo-constructor-advice-needed/93803
             // see Boat.cs example by David Rutten here:
             // https://www.grasshopper3d.com/forum/topics/custom-data-type-gh-geometricgoo-or-gh-goo?commentId=2985220%3AComment%3A586611
         }
@@ -46,7 +46,7 @@ namespace Assembler.Utils
 
         public AssemblyObjectGoo DuplicateAssemblyObject()
         {
-            return new AssemblyObjectGoo(Value == null ? new AssemblyObject() : AssemblyObjectUtils.CloneWithConnectivity(Value));
+            return new AssemblyObjectGoo(Value == null ? new AssemblyObject() : AssemblyObjectUtils.CloneWithConnectivityAndValues(Value));
         }
 
         #endregion
@@ -233,7 +233,7 @@ namespace Assembler.Utils
             if (Value == null) return null;
             if (Value.CollisionMesh == null) return null;
 
-            AssemblyObject AOclone = AssemblyObjectUtils.CloneWithConnectivity(Value);
+            AssemblyObject AOclone = AssemblyObjectUtils.CloneWithConnectivityAndValues(Value);
             AOclone.Transform(xform);
             return (new AssemblyObjectGoo(AOclone));
         }
@@ -267,9 +267,8 @@ namespace Assembler.Utils
             args.Pipeline.DrawArrow(new Line(Value.ReferencePlane.Origin - Value.ReferencePlane.ZAxis, Value.Direction, 2), Color.DarkViolet);
             foreach (Handle h in Value.Handles)
             {
-                args.Pipeline.DrawPolyline(new Point3d[] { h.Sender.Origin + h.Sender.XAxis, h.Sender.Origin, h.Sender.Origin + h.Sender.YAxis },
-                    Color.FromKnownColor(Constants.KnownColorList[h.Type % Constants.KnownColorList.Count]), 3);
-                //Constants.AOTypePalette[h.Type % Constants.AOTypePalette.Length], 3);
+                args.Pipeline.DrawPolyline(new Point3d[] { h.SenderPlane.Origin + h.SenderPlane.XAxis, h.SenderPlane.Origin, h.SenderPlane.Origin + h.SenderPlane.YAxis },
+                Constants.HTypePalette[h.Type % Constants.HTypePalette.Length], 3);
             }
         }
 
@@ -294,6 +293,8 @@ namespace Assembler.Utils
         // [w][r] minSupports
         // [w][r] supported
         // [w][r] absoluteZLock
+        // [w][r] receiverValue
+        // [w][r] senderValue
 
         private const string IoCollisionMeshKey = "CollisionMesh";
         private const string IoOffsetMeshKey = "OffsetMesh";
@@ -302,7 +303,7 @@ namespace Assembler.Utils
         private const string IoHandlesCountKey = "HandlesCount";
         private const string IoHandleKey = "Handle_";
         private const string IoRrotKey = "_Rrotations";
-        private const string IoRPlaneKey = "_RPlane_";
+        //private const string IoRPlaneKey = "_RPlane_";
         private const string IoSPlaneKey = "_SPlane";
         private const string IoHWeightKey = "_Weight";
         private const string IoHIdleWeightKey = "_idleWeight";
@@ -362,7 +363,7 @@ namespace Assembler.Utils
                 writer.SetInt32(IoHandleKey + i.ToString() + IoHNeighHandKey, h.NeighbourHandle);
 
                 // serialize sender plane
-                p = h.Sender;
+                p = h.SenderPlane;
                 writer.SetPlane(IoHandleKey + i.ToString() + IoSPlaneKey, new GH_IO.Types.GH_Plane(
                     p.OriginX, p.OriginY, p.OriginZ, p.XAxis.X, p.XAxis.Y, p.XAxis.Z, p.YAxis.X, p.YAxis.Y, p.YAxis.Z));
 
@@ -628,7 +629,7 @@ namespace Assembler.Utils
             obj_ids.Add(doc.Objects.AddLine(m_value.ReferencePlane.Origin, m_value.ReferencePlane.Origin + m_value.Direction));
             // bake  Handles as L polylines
             for (int i = 0; i < m_value.Handles.Length; i++)
-                obj_ids.Add(doc.Objects.AddPolyline(PlaneToPoints(m_value.Handles[i].Sender)));
+                obj_ids.Add(doc.Objects.AddPolyline(PlaneToPoints(m_value.Handles[i].SenderPlane)));
         }
 
         Point3d[] PlaneToPoints(Plane p)

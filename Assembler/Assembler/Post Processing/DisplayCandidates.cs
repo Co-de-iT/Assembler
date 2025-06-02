@@ -46,7 +46,7 @@ namespace Assembler
             Assemblage AOa = null;
             if (!DA.GetData(0, ref AOa)) return;
             
-            List<AssemblyObjectGoo> candidates = AOa.CandidateObjects.Select(ao => new AssemblyObjectGoo(ao)).ToList();
+            List<AssemblyObjectGoo> candidates = AOa.i_CandidateObjects.Select(ao => new AssemblyObjectGoo(ao)).ToList();
 
             DA.SetDataList("Candidate Objects", candidates);
         }

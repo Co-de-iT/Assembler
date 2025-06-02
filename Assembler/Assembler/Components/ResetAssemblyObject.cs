@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Assembler.Properties;
+﻿using Assembler.Properties;
 using Assembler.Utils;
 using AssemblerLib;
 using AssemblerLib.Utils;
 using Grasshopper.Kernel;
-using Rhino.Geometry;
+using System;
 
 namespace Assembler
 {
@@ -32,6 +29,9 @@ namespace Assembler
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("AssemblyObject", "AO", "An AssemblyObject", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("Reset Topology", "T", "Reset AO's Handles connectivity data", GH_ParamAccess.item, true);
+            pManager.AddBooleanParameter("Reset Receiver value", "Rv", "Reset AO's Receiver value", GH_ParamAccess.item, true);
+            pManager.AddBooleanParameter("Reset Sender value", "Sv", "Reset AO's Sender value", GH_ParamAccess.item, true);
         }
 
         /// <summary>
@@ -53,20 +53,23 @@ namespace Assembler
             // sanity check on inputs
             if (!DA.GetData(0, ref GH_AO)) return;
             AO = GH_AO.Value;
+            bool topo = true, rv = true, sv = true;
+            DA.GetData("Reset Topology", ref topo);
+            DA.GetData("Reset Receiver value", ref rv);
+            DA.GetData("Reset Sender value", ref sv);
 
-            // this fixes compatibility issues with saved assemblages prior to version 1.1.9
-            // Rotations and RDictionary were null in those cases
-            for (int i = 0; i < AO.Handles.Length; i++)
-            {
-                if (AO.Handles[i].Rotations == null)
-                    AO.Handles[i].Rotations = new double[0];
-                if (AO.Handles[i].RDictionary == null)
-                    AO.Handles[i].RDictionary = new Dictionary<double, int>();
-            }
-
-            AOreset = AssemblyObjectUtils.Clone(AO);
+            AOreset = AssemblyObjectUtils.Reset(AO, topo, rv, sv);
 
             DA.SetData(0, new AssemblyObjectGoo(AOreset));
+        }
+
+        /// <summary>
+        /// Exposure override for position in the Subcategory (options primary to septenary)
+        /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
+        /// </summary>
+        public override GH_Exposure Exposure
+        {
+            get { return GH_Exposure.primary; }
         }
 
         /// <summary>
@@ -83,20 +86,11 @@ namespace Assembler
         }
 
         /// <summary>
-        /// Exposure override for position in the Subcategory (options primary to septenary)
-        /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
-        /// </summary>
-        public override GH_Exposure Exposure
-        {
-            get { return GH_Exposure.primary; }
-        }
-
-        /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("81A630BA-1B6F-423E-AFD5-2535F371507E"); }
+            get { return new Guid("0D2E90ED-5385-4633-BCE3-5E093CEE2B60"); }
         }
     }
 }

@@ -63,9 +63,9 @@ namespace Assembler.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap AO_param {
+        internal static System.Drawing.Bitmap AO_Param {
             get {
-                object obj = ResourceManager.GetObject("AO_param", resourceCulture);
+                object obj = ResourceManager.GetObject("AO_Param", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +103,9 @@ namespace Assembler.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Assembler_Engine_X {
+        internal static System.Drawing.Bitmap Assembler_Icon {
             get {
-                object obj = ResourceManager.GetObject("Assembler_Engine_X", resourceCulture);
+                object obj = ResourceManager.GetObject("Assembler_Icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +113,9 @@ namespace Assembler.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Assembler_Icon {
+        internal static System.Drawing.Bitmap Assembler_Setup {
             get {
-                object obj = ResourceManager.GetObject("Assembler_Icon", resourceCulture);
+                object obj = ResourceManager.GetObject("Assembler_Setup", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +133,9 @@ namespace Assembler.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Associate_XData_OLD {
+        internal static System.Drawing.Bitmap Clone_Assemblage {
             get {
-                object obj = ResourceManager.GetObject("Associate_XData_OLD", resourceCulture);
+                object obj = ResourceManager.GetObject("Clone_Assemblage", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -143,19 +143,9 @@ namespace Assembler.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Color_Field_attractors {
+        internal static System.Drawing.Bitmap Color_Field_Scalars {
             get {
-                object obj = ResourceManager.GetObject("Color_Field_attractors", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Color_Field_scalars {
-            get {
-                object obj = ResourceManager.GetObject("Color_Field_scalars", resourceCulture);
+                object obj = ResourceManager.GetObject("Color_Field_Scalars", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -173,16 +163,6 @@ namespace Assembler.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Construct_compositeAO {
-            get {
-                object obj = ResourceManager.GetObject("Construct_compositeAO", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap Construct_Handle {
             get {
                 object obj = ResourceManager.GetObject("Construct_Handle", resourceCulture);
@@ -193,9 +173,9 @@ namespace Assembler.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Construct_Handle_OLD {
+        internal static System.Drawing.Bitmap Construct_XData {
             get {
-                object obj = ResourceManager.GetObject("Construct_Handle_OLD", resourceCulture);
+                object obj = ResourceManager.GetObject("Construct_XData", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -203,9 +183,9 @@ namespace Assembler.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Construct_XData {
+        internal static System.Drawing.Bitmap Debug_Display {
             get {
-                object obj = ResourceManager.GetObject("Construct_XData", resourceCulture);
+                object obj = ResourceManager.GetObject("Debug_Display", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -283,19 +263,9 @@ namespace Assembler.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Etract_AOSet {
+        internal static System.Drawing.Bitmap Exogenous_Settings {
             get {
-                object obj = ResourceManager.GetObject("Etract_AOSet", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Exogenous_settings {
-            get {
-                object obj = ResourceManager.GetObject("Exogenous_settings", resourceCulture);
+                object obj = ResourceManager.GetObject("Exogenous_Settings", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -306,6 +276,16 @@ namespace Assembler.Properties {
         internal static System.Drawing.Bitmap Extract_AOSet {
             get {
                 object obj = ResourceManager.GetObject("Extract_AOSet", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Extract_AOSet_from_AOs {
+            get {
+                object obj = ResourceManager.GetObject("Extract_AOSet_from_AOs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -373,9 +353,9 @@ namespace Assembler.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Field_from_Box_N {
+        internal static System.Drawing.Bitmap Field_From_Geometry_N {
             get {
-                object obj = ResourceManager.GetObject("Field_from_Box_N", resourceCulture);
+                object obj = ResourceManager.GetObject("Field_From_Geometry_N", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -383,9 +363,9 @@ namespace Assembler.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Field_from_Box_XYZ {
+        internal static System.Drawing.Bitmap Field_From_Geometry_Res {
             get {
-                object obj = ResourceManager.GetObject("Field_from_Box_XYZ", resourceCulture);
+                object obj = ResourceManager.GetObject("Field_From_Geometry_Res", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -393,29 +373,9 @@ namespace Assembler.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Field_from_Mesh_N {
+        internal static System.Drawing.Bitmap Field_From_Geometry_XYZ {
             get {
-                object obj = ResourceManager.GetObject("Field_from_Mesh_N", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Field_from_Mesh_XYZ {
-            get {
-                object obj = ResourceManager.GetObject("Field_from_Mesh_XYZ", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Field_N_OLD {
-            get {
-                object obj = ResourceManager.GetObject("Field_N_OLD", resourceCulture);
+                object obj = ResourceManager.GetObject("Field_From_Geometry_XYZ", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -433,9 +393,9 @@ namespace Assembler.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Field_XYZ_OLD {
+        internal static System.Drawing.Bitmap Heuristics_Display {
             get {
-                object obj = ResourceManager.GetObject("Field_XYZ_OLD", resourceCulture);
+                object obj = ResourceManager.GetObject("Heuristics_Display", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -443,49 +403,9 @@ namespace Assembler.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap FlamIcon {
+        internal static System.Drawing.Bitmap Heuristics_Display_X {
             get {
-                object obj = ResourceManager.GetObject("FlamIcon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Heuristics_Dispay {
-            get {
-                object obj = ResourceManager.GetObject("Heuristics_Dispay", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Heuristics_Dispay_OLD {
-            get {
-                object obj = ResourceManager.GetObject("Heuristics_Dispay_OLD", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Heuristics_Dispay_X {
-            get {
-                object obj = ResourceManager.GetObject("Heuristics_Dispay_X", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Heuristics_Dispay_X_OLD {
-            get {
-                object obj = ResourceManager.GetObject("Heuristics_Dispay_X_OLD", resourceCulture);
+                object obj = ResourceManager.GetObject("Heuristics_Display_X", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -513,9 +433,179 @@ namespace Assembler.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Heuristics_Writer_OLD {
+        internal static System.Drawing.Bitmap L_Assembler_Engine {
             get {
-                object obj = ResourceManager.GetObject("Heuristics_Writer_OLD", resourceCulture);
+                object obj = ResourceManager.GetObject("L_Assembler_Engine", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap L_Assembler_Engine_X {
+            get {
+                object obj = ResourceManager.GetObject("L_Assembler_Engine_X", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap L_Associate_XData {
+            get {
+                object obj = ResourceManager.GetObject("L_Associate_XData", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap L_Construct_AO {
+            get {
+                object obj = ResourceManager.GetObject("L_Construct_AO", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap L_Construct_Handle {
+            get {
+                object obj = ResourceManager.GetObject("L_Construct_Handle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap L_Construct_XData {
+            get {
+                object obj = ResourceManager.GetObject("L_Construct_XData", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap L_Deconstruct_AO {
+            get {
+                object obj = ResourceManager.GetObject("L_Deconstruct_AO", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap L_Deconstruct_XData {
+            get {
+                object obj = ResourceManager.GetObject("L_Deconstruct_XData", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap L_Display_Assemblage {
+            get {
+                object obj = ResourceManager.GetObject("L_Display_Assemblage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap L_Display_Handle {
+            get {
+                object obj = ResourceManager.GetObject("L_Display_Handle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap L_Extract_Sender_Handles_Planes {
+            get {
+                object obj = ResourceManager.GetObject("L_Extract_Sender_Handles_Planes", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap L_Field_from_Mesh_N {
+            get {
+                object obj = ResourceManager.GetObject("L_Field_from_Mesh_N", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap L_Field_from_Mesh_XYZ {
+            get {
+                object obj = ResourceManager.GetObject("L_Field_from_Mesh_XYZ", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap L_Heuristics_Display {
+            get {
+                object obj = ResourceManager.GetObject("L_Heuristics_Display", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap L_Heuristics_Display_X {
+            get {
+                object obj = ResourceManager.GetObject("L_Heuristics_Display_X", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap L_Heuristics_Writer {
+            get {
+                object obj = ResourceManager.GetObject("L_Heuristics_Writer", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap L_Remove_AssemblyObject {
+            get {
+                object obj = ResourceManager.GetObject("L_Remove_AssemblyObject", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap L_Transform_AO {
+            get {
+                object obj = ResourceManager.GetObject("L_Transform_AO", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -526,26 +616,6 @@ namespace Assembler.Properties {
         internal static System.Drawing.Bitmap Populate_Field {
             get {
                 object obj = ResourceManager.GetObject("Populate_Field", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Populate_Field_iW_attractors {
-            get {
-                object obj = ResourceManager.GetObject("Populate_Field_iW_attractors", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Populate_Field_iW_scalars {
-            get {
-                object obj = ResourceManager.GetObject("Populate_Field_iW_scalars", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -573,9 +643,19 @@ namespace Assembler.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Transform_AO {
+        internal static System.Drawing.Bitmap Select_Receiver {
             get {
-                object obj = ResourceManager.GetObject("Transform_AO", resourceCulture);
+                object obj = ResourceManager.GetObject("Select_Receiver", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Select_Sender {
+            get {
+                object obj = ResourceManager.GetObject("Select_Sender", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -596,16 +676,6 @@ namespace Assembler.Properties {
         internal static System.Drawing.Bitmap Weigh_Rules {
             get {
                 object obj = ResourceManager.GetObject("Weigh_Rules", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Weigh_Rules_2 {
-            get {
-                object obj = ResourceManager.GetObject("Weigh_Rules_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

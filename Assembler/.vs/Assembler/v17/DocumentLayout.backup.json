@@ -1,0 +1,511 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{DC05FFEC-A67E-44DA-8A15-656816D92AC7}|Assembler\\Assembler.csproj|C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\assembler\\engine\\assemblageselectsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC05FFEC-A67E-44DA-8A15-656816D92AC7}|Assembler\\Assembler.csproj|solutionrelative:assembler\\engine\\assemblageselectsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC05FFEC-A67E-44DA-8A15-656816D92AC7}|Assembler\\Assembler.csproj|c:\\users\\aless\\documents\\_code\\gh code\\@ assembler\\assembler\\assembler\\info.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC05FFEC-A67E-44DA-8A15-656816D92AC7}|Assembler\\Assembler.csproj|solutionrelative:assembler\\info.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|c:\\users\\aless\\documents\\_code\\gh code\\@ assembler\\assembler\\assemblerlib\\properties\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|solutionrelative:assemblerlib\\properties\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC05FFEC-A67E-44DA-8A15-656816D92AC7}|Assembler\\Assembler.csproj|c:\\users\\aless\\documents\\_code\\gh code\\@ assembler\\assembler\\assembler\\properties\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC05FFEC-A67E-44DA-8A15-656816D92AC7}|Assembler\\Assembler.csproj|solutionrelative:assembler\\properties\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|c:\\users\\aless\\documents\\_code\\gh code\\@ assembler\\assembler\\assemblerlib\\assemblage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|solutionrelative:assemblerlib\\assemblage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC05FFEC-A67E-44DA-8A15-656816D92AC7}|Assembler\\Assembler.csproj|c:\\users\\aless\\documents\\_code\\gh code\\@ assembler\\assembler\\assembler\\components\\constructxdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC05FFEC-A67E-44DA-8A15-656816D92AC7}|Assembler\\Assembler.csproj|solutionrelative:assembler\\components\\constructxdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\assemblerlib\\utils\\constants.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|solutionrelative:assemblerlib\\utils\\constants.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC05FFEC-A67E-44DA-8A15-656816D92AC7}|Assembler\\Assembler.csproj|c:\\users\\aless\\documents\\_code\\gh code\\@ assembler\\assembler\\assembler\\utils\\assemblyobjectghparam.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC05FFEC-A67E-44DA-8A15-656816D92AC7}|Assembler\\Assembler.csproj|solutionrelative:assembler\\utils\\assemblyobjectghparam.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC05FFEC-A67E-44DA-8A15-656816D92AC7}|Assembler\\Assembler.csproj|c:\\users\\aless\\documents\\_code\\gh code\\@ assembler\\assembler\\assembler\\engine\\assemblagesetup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC05FFEC-A67E-44DA-8A15-656816D92AC7}|Assembler\\Assembler.csproj|solutionrelative:assembler\\engine\\assemblagesetup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC05FFEC-A67E-44DA-8A15-656816D92AC7}|Assembler\\Assembler.csproj|c:\\users\\aless\\documents\\_code\\gh code\\@ assembler\\assembler\\assembler\\post processing\\aosetfromaolist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC05FFEC-A67E-44DA-8A15-656816D92AC7}|Assembler\\Assembler.csproj|solutionrelative:assembler\\post processing\\aosetfromaolist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC05FFEC-A67E-44DA-8A15-656816D92AC7}|Assembler\\Assembler.csproj|C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\assembler\\components\\constructhandle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC05FFEC-A67E-44DA-8A15-656816D92AC7}|Assembler\\Assembler.csproj|solutionrelative:assembler\\components\\constructhandle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC05FFEC-A67E-44DA-8A15-656816D92AC7}|Assembler\\Assembler.csproj|C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\assembler\\exogenous\\exogenoussettingscomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC05FFEC-A67E-44DA-8A15-656816D92AC7}|Assembler\\Assembler.csproj|solutionrelative:assembler\\exogenous\\exogenoussettingscomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC05FFEC-A67E-44DA-8A15-656816D92AC7}|Assembler\\Assembler.csproj|C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\assembler\\engine\\assemblageselectreceiver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC05FFEC-A67E-44DA-8A15-656816D92AC7}|Assembler\\Assembler.csproj|solutionrelative:assembler\\engine\\assemblageselectreceiver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC05FFEC-A67E-44DA-8A15-656816D92AC7}|Assembler\\Assembler.csproj|C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\assembler\\utils\\assemblagegoo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC05FFEC-A67E-44DA-8A15-656816D92AC7}|Assembler\\Assembler.csproj|solutionrelative:assembler\\utils\\assemblagegoo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\assemblerlib\\assemblyobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|solutionrelative:assemblerlib\\assemblyobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC05FFEC-A67E-44DA-8A15-656816D92AC7}|Assembler\\Assembler.csproj|C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\assembler\\utils\\assemblyobjectgoo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC05FFEC-A67E-44DA-8A15-656816D92AC7}|Assembler\\Assembler.csproj|solutionrelative:assembler\\utils\\assemblyobjectgoo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|c:\\users\\aless\\documents\\_code\\gh code\\@ assembler\\assembler\\assemblerlib\\utils\\datautils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|solutionrelative:assemblerlib\\utils\\datautils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\assemblerlib\\utils\\assemblageutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|solutionrelative:assemblerlib\\utils\\assemblageutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\assemblerlib\\heuristicssettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|solutionrelative:assemblerlib\\heuristicssettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\assemblerlib\\utils\\computingrsmethods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|solutionrelative:assemblerlib\\utils\\computingrsmethods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\assemblerlib\\delegatetypes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|solutionrelative:assemblerlib\\delegatetypes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\assemblerlib\\enumerables.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|solutionrelative:assemblerlib\\enumerables.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\assemblerlib\\iterationvariables.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|solutionrelative:assemblerlib\\iterationvariables.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\assemblerlib\\utils\\supportutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|solutionrelative:assemblerlib\\utils\\supportutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\assemblerlib\\support.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|solutionrelative:assemblerlib\\support.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\assemblerlib\\utils\\iassemblyobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|solutionrelative:assemblerlib\\utils\\iassemblyobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\assemblerlib\\handle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|solutionrelative:assemblerlib\\handle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\assemblerlib\\utils\\assemblyobjectutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|solutionrelative:assemblerlib\\utils\\assemblyobjectutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\assemblerlib\\utils\\xdatautils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E86F65ED-AE31-47A6-AB39-D99368C02ABD}|AssemblerLib\\AssemblerLib.csproj|solutionrelative:assemblerlib\\utils\\xdatautils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 358,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{25f7e850-ffa1-11d0-b63f-00a0c922e851}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ConstructXData.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\Assembler\\Components\\ConstructXData.cs",
+              "RelativeDocumentMoniker": "Assembler\\Components\\ConstructXData.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\Assembler\\Components\\ConstructXData.cs",
+              "RelativeToolTip": "Assembler\\Components\\ConstructXData.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAUwBkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-02T08:40:24.795Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AssemblyObjectGHParam.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\Assembler\\Utils\\AssemblyObjectGHParam.cs",
+              "RelativeDocumentMoniker": "Assembler\\Utils\\AssemblyObjectGHParam.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\Assembler\\Utils\\AssemblyObjectGHParam.cs",
+              "RelativeToolTip": "Assembler\\Utils\\AssemblyObjectGHParam.cs",
+              "ViewState": "AgIAAHYAAAAAAAAAAAAAAHYAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-02T08:40:21.921Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AssemblageSetup.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\Assembler\\Engine\\AssemblageSetup.cs",
+              "RelativeDocumentMoniker": "Assembler\\Engine\\AssemblageSetup.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\Assembler\\Engine\\AssemblageSetup.cs",
+              "RelativeToolTip": "Assembler\\Engine\\AssemblageSetup.cs",
+              "ViewState": "AgIAAMsAAAAAAAAAAAAswN8AAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-02T08:40:20.066Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AssemblageSelectSender.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\Assembler\\Engine\\AssemblageSelectSender.cs",
+              "RelativeDocumentMoniker": "Assembler\\Engine\\AssemblageSelectSender.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\Assembler\\Engine\\AssemblageSelectSender.cs",
+              "RelativeToolTip": "Assembler\\Engine\\AssemblageSelectSender.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-10T09:21:54.311Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AOSetFromAOList.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\Assembler\\Post Processing\\AOSetFromAOList.cs",
+              "RelativeDocumentMoniker": "Assembler\\Post Processing\\AOSetFromAOList.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\Assembler\\Post Processing\\AOSetFromAOList.cs",
+              "RelativeToolTip": "Assembler\\Post Processing\\AOSetFromAOList.cs",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAAAEAAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-02T08:40:18.98Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ConstructHandle.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\Assembler\\Components\\ConstructHandle.cs",
+              "RelativeDocumentMoniker": "Assembler\\Components\\ConstructHandle.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\Assembler\\Components\\ConstructHandle.cs",
+              "RelativeToolTip": "Assembler\\Components\\ConstructHandle.cs",
+              "ViewState": "AgIAAF4AAAAAAAAAAAAAAF4AAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-12T14:09:11.524Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "AssemblageSelectReceiver.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\Assembler\\Engine\\AssemblageSelectReceiver.cs",
+              "RelativeDocumentMoniker": "Assembler\\Engine\\AssemblageSelectReceiver.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\Assembler\\Engine\\AssemblageSelectReceiver.cs",
+              "RelativeToolTip": "Assembler\\Engine\\AssemblageSelectReceiver.cs",
+              "ViewState": "AgIAAG4AAAAAAAAAAAAAAG4AAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T14:46:01.362Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "AssemblageGoo.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\Assembler\\Utils\\AssemblageGoo.cs",
+              "RelativeDocumentMoniker": "Assembler\\Utils\\AssemblageGoo.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\Assembler\\Utils\\AssemblageGoo.cs",
+              "RelativeToolTip": "Assembler\\Utils\\AssemblageGoo.cs",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAAAFgAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T11:31:14.703Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "AssemblyObjectGoo.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\Assembler\\Utils\\AssemblyObjectGoo.cs",
+              "RelativeDocumentMoniker": "Assembler\\Utils\\AssemblyObjectGoo.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\Assembler\\Utils\\AssemblyObjectGoo.cs",
+              "RelativeToolTip": "Assembler\\Utils\\AssemblyObjectGoo.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABIAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-29T16:41:15.038Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 368,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Info.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\Assembler\\Info.cs",
+              "RelativeDocumentMoniker": "Assembler\\Info.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\Assembler\\Info.cs",
+              "RelativeToolTip": "Assembler\\Info.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-02T13:00:21.913Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AssemblyInfo.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Properties\\AssemblyInfo.cs",
+              "RelativeDocumentMoniker": "AssemblerLib\\Properties\\AssemblyInfo.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Properties\\AssemblyInfo.cs",
+              "RelativeToolTip": "AssemblerLib\\Properties\\AssemblyInfo.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-02T13:00:03.058Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AssemblyInfo.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\Assembler\\Properties\\AssemblyInfo.cs",
+              "RelativeDocumentMoniker": "Assembler\\Properties\\AssemblyInfo.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\Assembler\\Properties\\AssemblyInfo.cs",
+              "RelativeToolTip": "Assembler\\Properties\\AssemblyInfo.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-02T12:59:43.842Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "DataUtils.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Utils\\DataUtils.cs",
+              "RelativeDocumentMoniker": "AssemblerLib\\Utils\\DataUtils.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Utils\\DataUtils.cs",
+              "RelativeToolTip": "AssemblerLib\\Utils\\DataUtils.cs",
+              "ViewState": "AgIAAFUAAAAAAAAAAAAzwGkAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-02T08:33:49.588Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "ExogenousSettingsComponent.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\Assembler\\Exogenous\\ExogenousSettingsComponent.cs",
+              "RelativeDocumentMoniker": "Assembler\\Exogenous\\ExogenousSettingsComponent.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\Assembler\\Exogenous\\ExogenousSettingsComponent.cs",
+              "RelativeToolTip": "Assembler\\Exogenous\\ExogenousSettingsComponent.cs",
+              "ViewState": "AgIAAOwAAAAAAAAAAAAQwAEBAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T10:45:22.424Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Assemblage.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Assemblage.cs",
+              "RelativeDocumentMoniker": "AssemblerLib\\Assemblage.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Assemblage.cs",
+              "RelativeToolTip": "AssemblerLib\\Assemblage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFoCAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-29T08:39:59.203Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "AssemblyObject.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\AssemblyObject.cs",
+              "RelativeDocumentMoniker": "AssemblerLib\\AssemblyObject.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\AssemblyObject.cs",
+              "RelativeToolTip": "AssemblerLib\\AssemblyObject.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-29T16:40:18.511Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "AssemblageUtils.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Utils\\AssemblageUtils.cs",
+              "RelativeDocumentMoniker": "AssemblerLib\\Utils\\AssemblageUtils.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Utils\\AssemblageUtils.cs",
+              "RelativeToolTip": "AssemblerLib\\Utils\\AssemblageUtils.cs",
+              "ViewState": "AgIAALwBAAAAAAAAAAAvwMwBAABSAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-29T20:20:19.133Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Enumerables.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Enumerables.cs",
+              "RelativeDocumentMoniker": "AssemblerLib\\Enumerables.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Enumerables.cs",
+              "RelativeToolTip": "AssemblerLib\\Enumerables.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAkAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-29T16:36:09.403Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "DelegateTypes.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\DelegateTypes.cs",
+              "RelativeDocumentMoniker": "AssemblerLib\\DelegateTypes.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\DelegateTypes.cs",
+              "RelativeToolTip": "AssemblerLib\\DelegateTypes.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-31T09:48:58.455Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Constants.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Utils\\Constants.cs",
+              "RelativeDocumentMoniker": "AssemblerLib\\Utils\\Constants.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Utils\\Constants.cs",
+              "RelativeToolTip": "AssemblerLib\\Utils\\Constants.cs",
+              "ViewState": "AgIAAD4AAAAAAAAAAAAAAEQAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-31T13:09:41.828Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "HeuristicsSettings.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\HeuristicsSettings.cs",
+              "RelativeDocumentMoniker": "AssemblerLib\\HeuristicsSettings.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\HeuristicsSettings.cs",
+              "RelativeToolTip": "AssemblerLib\\HeuristicsSettings.cs",
+              "ViewState": "AgIAALAAAAAAAAAAAAAAAHoAAABdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T10:02:11.447Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "ComputingRSMethods.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Utils\\ComputingRSMethods.cs",
+              "RelativeDocumentMoniker": "AssemblerLib\\Utils\\ComputingRSMethods.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Utils\\ComputingRSMethods.cs",
+              "RelativeToolTip": "AssemblerLib\\Utils\\ComputingRSMethods.cs",
+              "ViewState": "AgIAAEQBAAAAAAAAAAAQwHABAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T07:45:12.213Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Support.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Support.cs",
+              "RelativeDocumentMoniker": "AssemblerLib\\Support.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Support.cs",
+              "RelativeToolTip": "AssemblerLib\\Support.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-29T20:17:32.439Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "IterationVariables.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\IterationVariables.cs",
+              "RelativeDocumentMoniker": "AssemblerLib\\IterationVariables.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\IterationVariables.cs",
+              "RelativeToolTip": "AssemblerLib\\IterationVariables.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-31T16:01:08.035Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "SupportUtils.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Utils\\SupportUtils.cs",
+              "RelativeDocumentMoniker": "AssemblerLib\\Utils\\SupportUtils.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Utils\\SupportUtils.cs",
+              "RelativeToolTip": "AssemblerLib\\Utils\\SupportUtils.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-29T20:18:59.41Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "IAssemblyObject.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Utils\\IAssemblyObject.cs",
+              "RelativeDocumentMoniker": "AssemblerLib\\Utils\\IAssemblyObject.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Utils\\IAssemblyObject.cs",
+              "RelativeToolTip": "AssemblerLib\\Utils\\IAssemblyObject.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-29T20:31:58.088Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "Handle.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Handle.cs",
+              "RelativeDocumentMoniker": "AssemblerLib\\Handle.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Handle.cs",
+              "RelativeToolTip": "AssemblerLib\\Handle.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAUwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-31T09:40:53.019Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "XDataUtils.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Utils\\XDataUtils.cs",
+              "RelativeDocumentMoniker": "AssemblerLib\\Utils\\XDataUtils.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Utils\\XDataUtils.cs",
+              "RelativeToolTip": "AssemblerLib\\Utils\\XDataUtils.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-29T17:11:38.608Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "AssemblyObjectUtils.cs",
+              "DocumentMoniker": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Utils\\AssemblyObjectUtils.cs",
+              "RelativeDocumentMoniker": "AssemblerLib\\Utils\\AssemblyObjectUtils.cs",
+              "ToolTip": "C:\\Users\\aless\\Documents\\_code\\GH code\\@ Assembler\\Assembler\\AssemblerLib\\Utils\\AssemblyObjectUtils.cs",
+              "RelativeToolTip": "AssemblerLib\\Utils\\AssemblyObjectUtils.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAAAA8AAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-29T16:25:36.786Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

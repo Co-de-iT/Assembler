@@ -5,6 +5,7 @@ using AssemblerLib.Utils;
 using Grasshopper;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
+using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
@@ -15,13 +16,15 @@ namespace Assembler
     public class HeuristicsDisplayEx : GH_Component
     {
 
-        private Dictionary<string, int> catalog;
+        private Dictionary<string, int> AOcatalog;
         DataTree<AssemblyObject> AOpairs;
         DataTree<AssemblyObjectGoo> AOoutput;
+        private DataTree<Plane> gridPlanes;
         DataTree<Plane> textLocations;
-        DataTree<Plane> numberLocations;
+        //DataTree<Plane> numberLocations;
         DataTree<Point3d> bbCenters;
         DataTree<bool> coherencePattern;
+        private readonly double _textShift = 0.45;
 
         /// <summary>
         /// Initializes a new instance of the HeuristicsDisplayEx class.
@@ -42,7 +45,7 @@ namespace Assembler
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("Origin Point", "P", "Origin Point for Display", GH_ParamAccess.item, new Point3d());
+            pManager.AddPlaneParameter("Origin Plane", "P", "Origin Plane for Display", GH_ParamAccess.item, Plane.WorldXY);
             pManager.AddGenericParameter("AssemblyObjects Set", "AOs", "List of Assembly Objects in the set", GH_ParamAccess.list);
             pManager.AddTextParameter("Heuristics Set", "HeS", "Heuristics Set", GH_ParamAccess.list);
             pManager.AddNumberParameter("X size", "Xs", "Cell size along X direction as % of Bounding Box", GH_ParamAccess.item, 1.2);
@@ -58,7 +61,7 @@ namespace Assembler
             pManager.AddGenericParameter("AssemblyObject pairs", "AO", "Receiver/Sender pairs", GH_ParamAccess.tree);
             pManager.AddTextParameter("Heuristics Set Tree", "HeT", "Heuristics rules Set Tree", GH_ParamAccess.tree);
             pManager.AddBooleanParameter("Coherence Pattern", "cP", "Pattern of valid/invalid combinations", GH_ParamAccess.tree);
-            pManager.AddPointParameter("Text base points", "tP", "Locations for text placement", GH_ParamAccess.tree);
+            pManager.AddPlaneParameter("Text base plane", "tP", "Locations for text placement", GH_ParamAccess.tree);
         }
 
         /// <summary>
@@ -68,73 +71,78 @@ namespace Assembler
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             List<AssemblyObjectGoo> GH_AOs = new List<AssemblyObjectGoo>();
-            List<AssemblyObject> AOs = new List<AssemblyObject>();
+            List<AssemblyObject> AOset = new List<AssemblyObject>();
 
-            // sanity check on inputs
+            // sanity check on mandatory inputs
             if (!DA.GetDataList("AssemblyObjects Set", GH_AOs)) return;
 
-            AOs = GH_AOs.Where(a => a != null).Select(ao => ao.Value).ToList();
+            AOset = GH_AOs.Where(a => a != null).Select(ao => ao.Value).ToList();
 
-            if (AOs.Count == 0)
+            if (AOset.Count == 0)
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Please provide at least one valid AssemblyObject");
 
             List<string> HeS = new List<string>();
             if (!DA.GetDataList("Heuristics Set", HeS)) return;
 
             // get the rest of inputs
-            Point3d P = new Point3d();
+            Plane P = new Plane();
             double xS = double.NaN;
             double yS = double.NaN;
             int nR = 1;
-            DA.GetData("Origin Point", ref P);
+            DA.GetData("Origin Plane", ref P);
             DA.GetData("X size", ref xS);
             DA.GetData("Y size", ref yS);
             DA.GetData("n. Rows", ref nR);
 
             // cast input to AssemblyObject type
-            AssemblyObject[] components = AOs.ToArray();
+            AssemblyObject[] components = AOset.ToArray();
 
             // build Component catalog
-            catalog = AssemblageUtils.BuildDictionary(components);
+            AOcatalog = AssemblageUtils.BuildDictionary(components);
 
             // build Heuristics Tree
             // heuristics string in tree format for manual selection in GH
             DataTree<string> HeSTree = new DataTree<string>();
             for (int i = 0; i < HeS.Count; i++)
-                HeSTree.Add(HeS[i], new GH_Path(i));
+                HeSTree.Add(HeS[i], new GH_Path(DA.Iteration, i));
 
             // build Rules list
-            List<Rule> HeR = RuleUtils.HeuristicsRulesFromString(AOs, catalog, HeS);
+            List<Rule> HeR = RuleUtils.HeuristicsRulesFromString(AOset, AOcatalog, HeS);
 
-            AOpairs = GeneratePairs(components, HeR, P, xS, yS, nR);
+            AOpairs = GeneratePairs(components, HeR, P, xS, yS, nR, DA.Iteration);
             AOoutput = AOsToGoo(AOpairs);
+            GH_Structure<GH_Boolean> coherencePattern_GH = DataUtils.ToGHBooleanTree(coherencePattern);
+            GH_Structure<GH_String> HeSTree_GH = DataUtils.ToGHStringTree(HeSTree);
+            GH_Structure<GH_Plane> textLocations_GH = DataUtils.ToGHPlaneTree(textLocations);
 
             // output data
             DA.SetDataTree(0, AOoutput);
-            DA.SetDataTree(1, HeSTree);
-            DA.SetDataTree(2, coherencePattern);
-            DA.SetDataTree(3, textLocations);
+            DA.SetDataTree(1, HeSTree_GH);
+            DA.SetDataTree(2, coherencePattern_GH);
+            DA.SetDataTree(3, textLocations_GH);
         }
 
-        private DataTree<AssemblyObject> GeneratePairs(AssemblyObject[] AO, List<Rule> Hr, Point3d O, double padX, double padY, int nR)
+        private DataTree<AssemblyObject> GeneratePairs(AssemblyObject[] AOSet, List<Rule> heuristicsRules, Plane basePlane, double padX, double padY, int nRows, int iteration)
         {
             DataTree<AssemblyObject> AOpairs = new DataTree<AssemblyObject>();
-            AssemblyObject sender, receiver;
+            AssemblyObject senderAO, receiverAO;
 
+            gridPlanes = new DataTree<Plane>();
             textLocations = new DataTree<Plane>();
-            numberLocations = new DataTree<Plane>();
+            //numberLocations = new DataTree<Plane>();
             bbCenters = new DataTree<Point3d>();
             coherencePattern = new DataTree<bool>();
 
-            double sX = 0, sY = 0, sZ = 0;
+            double sizeX = 0, sizeY = 0, sizeZ = 0;
 
-            int rT, rH, sT, sH, rR;
-            Plane loc;
+            Rule rule;
+            Plane locationPlane;
+            Transform orientS_to_R;
 
             int countY = 0, countX = 0;
-            int total = Hr.Count;
-            // int rowElements = (total / nR) + 1;
-            int rowElements = (int)Math.Ceiling(total / (double)nR);
+            int total = heuristicsRules.Count;
+            int rowElements = (int)Math.Ceiling(total / (double)nRows);
+            bool valid;
 
             // sequence
             // loop 1:
@@ -145,52 +153,48 @@ namespace Assembler
             // calculate consistency (collisions)
             // if consistent, orient extra geometry (sender to receiver)
 
-            for (int i = 0; i < Hr.Count; i++)
+            for (int i = 0; i < heuristicsRules.Count; i++)
             {
-                rT = Hr[i].rT;
 
-                // extract rule parameters
-                rH = Hr[i].rH;
-                sT = Hr[i].sT;
-                sH = Hr[i].sH;
-                rR = Hr[i].rR;
+                // extract rule
+                rule = heuristicsRules[i];
 
-                // define location as point grid position (countX, countY)
-                loc = Plane.WorldXY;
-                loc.Origin = new Point3d(countX, countY, 0);
+                // define point grid locations (countX, countY)
+                locationPlane = basePlane;
+                locationPlane.Origin = basePlane.PointAt(countX, countY, 0);
 
-                // choose components
-                receiver = AssemblyObjectUtils.Clone(AO[rT]);
-                sender = AssemblyObjectUtils.Clone(AO[sT]);
+                // choose choose sender & receiver AO from catalog
+                receiverAO = AssemblyObjectUtils.Clone(AOSet[rule.rT]);
+                senderAO = AssemblyObjectUtils.Clone(AOSet[rule.sT]);
 
                 // generate transformation orient: sender to receiver
-                Transform orient = Transform.PlaneToPlane(sender.Handles[sH].Sender, receiver.Handles[rH].Receivers[rR]);
+                orientS_to_R = Transform.PlaneToPlane(senderAO.Handles[rule.sH].SenderPlane, receiverAO.Handles[rule.rH].ReceiverPlanes[rule.rR]);
 
                 // orient sender AssemblyObject
-                sender.Transform(orient);
+                senderAO.Transform(orientS_to_R);
 
                 // calculate Bounding Box and compare size to initial parameters
-                BoundingBox bb = receiver.CollisionMesh.GetBoundingBox(false);
-                bb.Union(sender.CollisionMesh.GetBoundingBox(false));
+                BoundingBox bb = receiverAO.CollisionMesh.GetBoundingBox(false);
+                bb.Union(senderAO.CollisionMesh.GetBoundingBox(false));
 
                 // record center plane of AO combination
                 bbCenters.Add(bb.Center, new GH_Path(i));
 
                 // retain largest dimensions (for grid final size)
-                sX = Math.Max(sX, bb.Diagonal.X);
-                sY = Math.Max(sY, bb.Diagonal.Y);
-                sZ = Math.Max(sZ, bb.Diagonal.Z);
+                sizeX = Math.Max(sizeX, bb.Diagonal.X);
+                sizeY = Math.Max(sizeY, bb.Diagonal.Y);
+                sizeZ = Math.Max(sizeZ, bb.Diagonal.Z);
 
                 // add AssemblyObjects to DataTree - same path of heuristic + one more index for rotations
-                AOpairs.Add(receiver, new GH_Path(i));
-                AOpairs.Add(sender, new GH_Path(i));
+                AOpairs.Add(receiverAO, new GH_Path(i));
+                AOpairs.Add(senderAO, new GH_Path(i));
 
                 // add point grid location to tree
-                textLocations.Add(loc, new GH_Path(i));
+                gridPlanes.Add(locationPlane, new GH_Path(i));
 
                 // fill coherence pattern & orient extra geometry only if valid combination
-                bool valid = !AssemblageUtils.CollisionCheckPair(receiver, sender);
-                coherencePattern.Add(valid, new GH_Path(i));
+                valid = !AssemblageUtils.IsAOCollidingWithAnother(receiverAO, senderAO);
+                coherencePattern.Add(valid, new GH_Path(iteration, i));
 
                 // calculate next grid position
                 countX++;
@@ -201,31 +205,46 @@ namespace Assembler
                 }
             }
 
+            // define origin point transformation
+            Transform translateAndScale = Transform.Multiply(Transform.Translation(0, 0, sizeZ * 0.5), Transform.Scale(basePlane, sizeX * padX, sizeY * padY, 0));
+
+            // define local variables
+            Plane AOPlane, textPlane;//, numberPlane;
+            Point3d AOLoc, textLoc, originLoc; //, numLoc;
+
             // loop2:
             // scale point grid positions by final sX, sY, sZ
             // move all elements (AO geometries, edges, extra geometries) in position
             for (int i = 0; i < AOpairs.BranchCount; i++)
             {
-                Point3d newLoc = textLocations.Branches[i][0].Origin;
-                newLoc.X = O.X + (newLoc.X + 0.5) * sX * padX;
-                newLoc.Y = O.Y + (newLoc.Y + 0.5) * sY * padY;
-                newLoc.Z = O.Z + sZ * 0.5;
-                Point3d textLoc = new Point3d(newLoc.X, newLoc.Y - 0.45 * sY, 0);
-                Point3d numLoc = new Point3d(newLoc.X, newLoc.Y - 0.35 * sY, 0);
-                Plane textPlane = Plane.WorldXY;
-                Plane numberPlane = Plane.WorldXY;
-                textPlane.Origin = textLoc;
-                numberPlane.Origin = numLoc;
-                // record final text position
-                textLocations.Branches[i][0] = textPlane;
-                numberLocations.Add(numberPlane, new GH_Path(i));
+                // compute final plane position
+                originLoc = gridPlanes.Branches[i][0].Origin;
+                originLoc.Transform(translateAndScale);
 
-                // define transformation
-                Transform move = Transform.Translation(newLoc - bbCenters.Branches[i][0]);
+                AOPlane = basePlane;
+                textPlane = basePlane;
+                //numberPlane = basePlane;
+                AOPlane.Origin = originLoc;
+
+                AOLoc = AOPlane.Origin;
+                textLoc = AOLoc - basePlane.YAxis * _textShift * sizeY * padY;
+                textLoc -= basePlane.ZAxis * sizeZ * 0.5;
+                //numLoc = textLoc + basePlane.YAxis * _textSize * 2;
+                textPlane.Origin = textLoc;
+                //numberPlane.Origin = numLoc;
+
+                // record final text position
+                textLocations.Add(textPlane, new GH_Path(i));
+                //numberLocations.Add(numberPlane, new GH_Path(i));
+
+                // define AO transformation
+                Plane from = Plane.WorldXY;
+                from.Origin = bbCenters.Branches[i][0];
+                Transform orientAO = Transform.PlaneToPlane(from, AOPlane);
 
                 // transfer AssemblyObjects
                 foreach (AssemblyObject ao in AOpairs.Branches[i])
-                    ao.Transform(move);
+                    ao.Transform(orientAO);
 
             }
             return AOpairs;
@@ -255,7 +274,7 @@ namespace Assembler
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.Heuristics_Dispay_X;
+                return Resources.Heuristics_Display_X;
             }
         }
 
@@ -273,7 +292,7 @@ namespace Assembler
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("617948af-0e27-468b-a60b-4399e49a2fd9"); }
+            get { return new Guid("C42BFDAF-3632-47B1-9910-F5A27711838F"); }
         }
     }
 }

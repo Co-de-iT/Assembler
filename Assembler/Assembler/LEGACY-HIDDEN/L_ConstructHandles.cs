@@ -89,7 +89,7 @@ namespace Assembler
                 }
                 if (!po.TryGetPolyline(out p))
                 {
-                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Please feed a L-shaped polyline");
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Please provide an L-shaped polyline");
                     return;
                 }
                 if (p.Count != 3)
@@ -121,6 +121,15 @@ namespace Assembler
         }
 
         /// <summary>
+        /// Exposure override for position in the Subcategory (options primary to septenary)
+        /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
+        /// </summary>
+        public override GH_Exposure Exposure
+        {
+            get { return GH_Exposure.hidden; }
+        }
+
+        /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
         protected override System.Drawing.Bitmap Icon
@@ -129,17 +138,8 @@ namespace Assembler
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.Construct_Handle;
+                return Resources.L_Construct_Handle;
             }
-        }
-
-        /// <summary>
-        /// Exposure override for position in the Subcategory (options primary to septenary)
-        /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
-        /// </summary>
-        public override GH_Exposure Exposure
-        {
-            get { return GH_Exposure.hidden; }
         }
 
         /// <summary>

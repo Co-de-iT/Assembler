@@ -39,13 +39,13 @@ namespace AssemblerLib
         /// Constructs an Xdata item
         /// </summary>
         /// <param name="Data"></param>
-        /// <param name="Label"></param>
+        /// <param name="label"></param>
         /// <param name="ReferencePlane"></param>
         /// <param name="AOName"></param>
-        public XData(List<object> Data, string Label, Plane ReferencePlane, string AOName)
+        public XData(List<object> Data, string label, Plane ReferencePlane, string AOName)
         {
             this.Data = Data;
-            this.label = Label;
+            this.label = label;
             this.ReferencePlane = ReferencePlane;
             this.AOName = AOName;
         }
@@ -79,6 +79,7 @@ namespace AssemblerLib
             {
 
                 g = Data[i] as GeometryBase;
+
                 if (g == null)
                 {
                     // since Point3d, Vector3d, Line & Plane are Structures, the as GeometryBase cast doesn't catch them (returns null)

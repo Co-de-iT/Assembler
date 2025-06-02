@@ -42,7 +42,7 @@ namespace Assembler
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("XData", "XD", "XData oriented in the Assemblage", GH_ParamAccess.tree);
+            pManager.AddGenericParameter("XData", "XD", "XData oriented in the AssemblyObjects", GH_ParamAccess.tree);
         }
 
         /// <summary>
@@ -52,64 +52,64 @@ namespace Assembler
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             GH_Structure<IGH_Goo> GH_AOs = new GH_Structure<IGH_Goo>();
-            List<AssemblyObject> AOs = new List<AssemblyObject>();
-            List<GH_Path> AOPaths = new List<GH_Path>();
             List<XData> xD = new List<XData>();
 
             if (!DA.GetDataTree(0, out GH_AOs)) return;
             if (!DA.GetDataList(1, xD)) return;
 
+            List<AssemblyObject> AOs = new List<AssemblyObject>();
+            List<GH_Path> AOPaths = new List<GH_Path>();
+            DataTree<XData> XDataTree = new DataTree<XData>();
+            AssemblyObjectGoo AOGoo;
+
             // convert to AssemblyObject List + Path List
+            // Cannot do concurrent writing on a Data Tree in a Parallel Loop 
             for (int i = 0; i < GH_AOs.Branches.Count; i++)
                 for (int j = 0; j < GH_AOs.Branches[i].Count; j++)
                 {
-                    AssemblyObjectGoo ag = GH_AOs.Branches[i][j] as AssemblyObjectGoo;
-                    AOs.Add(ag.Value);
+                    AOGoo = GH_AOs.Branches[i][j] as AssemblyObjectGoo;
+                    AOs.Add(AOGoo.Value);
                     // make extra paths for each AssemblyObject
                     AOPaths.Add(GH_AOs.Paths[i].AppendElement(j));
                 }
 
-            DataTree<XData> XDataTree = new DataTree<XData>();
-
             // ensure paths to avoid missing branches in case of no XData to associate
-            for(int i=0; i< GH_AOs.PathCount; i++)
+            for (int i = 0; i < GH_AOs.PathCount; i++)
                 XDataTree.EnsurePath(GH_AOs.Paths[i].AppendElement(0));
 
             XData[][] assemblageXD = new XData[AOs.Count][];
-            GH_Path[] assemblagePaths = new GH_Path[AOPaths.Count];
 
-            // compare all AssemblyObjects with the list of XData ad orient any time a match is found
-            // Cannot do concurrent writing on a Data Tree in a Parallel Loop 
+            // compare all AssemblyObjects with the list of XData and orient any time a match is found
             Parallel.For(0, AOs.Count, i =>
-            //for (int i = 0; i < AOs.Count; i++)
             {
-                // copy path for AssemblyObject
-                assemblagePaths[i] = AOPaths[i];
                 // if AssemblyObject is null place null XData
                 if (AOs[i] == null)
                     assemblageXD[i] = null;
                 else
                 {
                     List<XData> orientedXData = new List<XData>();
-                    for (int k = 0; k < xD.Count; k++)
+                    for (int j = 0; j < xD.Count; j++)
                     {
+                        // if the object does not match XData's associated kind go on
+                        if (!String.Equals(AOs[i].Name, xD[j].AOName)) continue;
 
-                        // if the object does not match XData associated kind go on
-                        if (!String.Equals(AOs[i].Name, xD[k].AOName)) continue;
-
-                        XData xdC = new XData(xD[k]);
+                        XData xdC = new XData(xD[j]);
                         Transform orient = Transform.PlaneToPlane(xdC.ReferencePlane, AOs[i].ReferencePlane);
                         xdC.Transform(orient);
                         orientedXData.Add(xdC);
                     }
                     assemblageXD[i] = orientedXData.ToArray();
+
+                    // Cleaner but slower alternative
+                    // TODO: why is this slower? Investigate
+                    //assemblageXD[i] = XDataUtils.AssociateXDataToAO(AOs[i], xD).ToArray();
                 }
             });
 
             // the output is a Tree as there might be multiple XData associated with the same AssemblyObject type
             // The Branch Path is the AssemblyObject AInd
             for (int i = 0; i < assemblageXD.Length; i++)
-                XDataTree.AddRange(assemblageXD[i], assemblagePaths[i]);
+                XDataTree.AddRange(assemblageXD[i], AOPaths[i]);
 
             DA.SetDataTree(0, XDataTree);
         }

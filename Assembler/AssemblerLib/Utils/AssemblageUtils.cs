@@ -19,7 +19,7 @@ namespace AssemblerLib.Utils
         /// <param name="sO">The sender <see cref="AssemblyObject"/> to check</param>
         /// <param name="neighbourIndexes">array of neighbour AssemblyObjects Aind</param>
         /// <returns>true if a collision exists</returns>
-        internal static bool CollisionCheckInAssemblage(Assemblage AOa, AssemblyObject sO, out int[] neighbourIndexes)
+        internal static bool IsAOCollidingWithAssemblage(Assemblage AOa, AssemblyObject sO, out int[] neighbourIndexes)
         {
             neighbourIndexes = null;
             // get first vertex as Point3d for inclusion check
@@ -31,7 +31,7 @@ namespace AssemblerLib.Utils
             AOa.centroidsTree.Search(new Sphere(sO.ReferencePlane.Origin, AOa.CollisionRadius), (sender, args) =>
             {
                 // recover the AssemblyObject AInd related to the found centroid
-                neighList.Add(AOa.centroidsAO[args.Id]);
+                neighList.Add(AOa.centroidsAInds[args.Id]);
             });
 
             // check for no neighbours
@@ -69,8 +69,8 @@ namespace AssemblerLib.Utils
         /// </summary>
         /// <param name="AO"></param>
         /// <param name="neighbours"></param>
-        /// <returns></returns>
-        internal static bool CollisionCheckNeighbours(AssemblyObject AO, List<AssemblyObject> neighbours)
+        /// <returns>true if a collision exists</returns>
+        internal static bool IsAOCollidingWithNeighbours(AssemblyObject AO, List<AssemblyObject> neighbours)
         {
 
             // get first vertex as Point3d for inclusion check
@@ -95,22 +95,22 @@ namespace AssemblerLib.Utils
         /// <summary>
         /// Collision Check between 2 <see cref="AssemblyObject"/>
         /// </summary>
-        /// <param name="receiver"></param>
-        /// <param name="sender"></param>
+        /// <param name="AO"></param>
+        /// <param name="otherAO"></param>
         /// <returns>True if objects are colliding or one contains the other</returns>
-        public static bool CollisionCheckPair(AssemblyObject receiver, AssemblyObject sender)
+        public static bool IsAOCollidingWithAnother(AssemblyObject AO, AssemblyObject otherAO)
         {
             // mesh collision test
-            if (Intersection.MeshMeshFast(receiver.CollisionMesh, sender.OffsetMesh).Length > 0)
+            if (Intersection.MeshMeshFast(AO.CollisionMesh, otherAO.OffsetMesh).Length > 0)
                 return true;
 
             // mesh inclusion test - uses first vertex as Point3d for inclusion check
-            Point3d rOfirstVertex = receiver.OffsetMesh.Vertices[0];
-            if (sender.CollisionMesh.IsPointInside(rOfirstVertex, Constants.RhinoAbsoluteTolerance, true))
+            Point3d AOfirstVertex = AO.OffsetMesh.Vertices[0];
+            if (otherAO.CollisionMesh.IsPointInside(AOfirstVertex, Constants.RhinoAbsoluteTolerance, true))
                 return true;
 
-            Point3d sOfirstVertex = sender.OffsetMesh.Vertices[0];
-            if (receiver.CollisionMesh.IsPointInside(sOfirstVertex, Constants.RhinoAbsoluteTolerance, true))
+            Point3d otherAOfirstVertex = otherAO.OffsetMesh.Vertices[0];
+            if (AO.CollisionMesh.IsPointInside(otherAOfirstVertex, Constants.RhinoAbsoluteTolerance, true))
                 return true;
 
             return false;
@@ -119,22 +119,22 @@ namespace AssemblerLib.Utils
         /// <summary>
         /// Collision Check between 2 Meshes
         /// </summary>
-        /// <param name="test"></param>
-        /// <param name="surroundings"></param>
+        /// <param name="AO"><see cref="AssemblyObject"/> to check</param>
+        /// <param name="surroundings">Mesh of external geometry</param>
         /// <returns>True if objects are colliding or one contains the other</returns>
-        public static bool CollisionCheckMeshes(Mesh test, Mesh surroundings)
+        public static bool IsAOCollidingWithMeshes(AssemblyObject AO, Mesh surroundings)
         {
             // mesh collision test
-            if (Intersection.MeshMeshFast(test, surroundings).Length > 0)
+            if (Intersection.MeshMeshFast(AO.CollisionMesh, surroundings).Length > 0)
                 return true;
 
             // mesh inclusion test - uses first vertex as Point3d for inclusion check
-            Point3d testFirstVertex = test.Vertices[0];
+            Point3d testFirstVertex = AO.CollisionMesh.Vertices[0];
             if (surroundings.IsPointInside(testFirstVertex, Constants.RhinoAbsoluteTolerance, true))
                 return true;
 
             Point3d sFirstVertex = surroundings.Vertices[0];
-            if (test.IsPointInside(sFirstVertex, Constants.RhinoAbsoluteTolerance, true))
+            if (AO.CollisionMesh.IsPointInside(sFirstVertex, Constants.RhinoAbsoluteTolerance, true))
                 return true;
 
             return false;
@@ -146,6 +146,62 @@ namespace AssemblerLib.Utils
                 a.Min.Y <= b.Max.Y && a.Max.Y >= b.Min.Y &&
                 a.Min.Z <= b.Max.Z && a.Max.Z >= b.Min.Z);
         }
+
+        /// <summary>
+        /// Checks environment compatibility of an AssemblyObject
+        /// </summary>
+        /// <param name="AO"><see cref="AssemblyObject"/> to verify</param>
+        /// <param name="EnvironmentMeshes"></param>
+        /// <returns>true if an object is not compatible with the <see cref="MeshEnvironment"/>s</returns>
+        /// <remarks>An eventual Container is checked using collision mode</remarks>
+        //internal static bool EnvironmentClashCollision(AssemblyObject AO, List<MeshEnvironment> EnvironmentMeshes)
+        //{
+        //    foreach (MeshEnvironment mEnv in EnvironmentMeshes)
+        //    {
+
+        //        switch (mEnv.Type)
+        //        {
+        //            case EnvironmentType.Void: // controls only centroid in/out
+        //                if (mEnv.IsPointInvalid(AO.ReferencePlane.Origin)) return true;
+        //                break;
+        //            case EnvironmentType.Solid:
+        //                if (mEnv.CollisionCheck(AO.CollisionMesh)) return true;
+        //                goto case EnvironmentType.Void;
+        //            case EnvironmentType.Container:
+        //                goto case EnvironmentType.Solid;
+        //        }
+        //    }
+
+        //    return false;
+        //}
+
+        /// <summary>
+        /// Checks environment compatibility of an AssemblyObject
+        /// </summary>
+        /// <param name="AO"><see cref="AssemblyObject"/> to verify</param>
+        /// <param name="EnvironmentMeshes"></param>
+        /// <returns>true if an object is not compatible with the <see cref="MeshEnvironment"/>s</returns>
+        /// <remarks>An eventual Container is checked using inclusion mode</remarks>
+        //internal static bool EnvironmentClashInclusion(AssemblyObject AO, List<MeshEnvironment> EnvironmentMeshes)
+        //{
+        //    foreach (MeshEnvironment mEnv in EnvironmentMeshes)
+        //    {
+
+        //        switch (mEnv.Type)
+        //        {
+        //            case EnvironmentType.Void: // controls only centroid in/out
+        //                if (mEnv.IsPointInvalid(AO.ReferencePlane.Origin)) return true;
+        //                break;
+        //            case EnvironmentType.Solid:
+        //                if (mEnv.CollisionCheck(AO.CollisionMesh)) return true;
+        //                goto case EnvironmentType.Void;
+        //            case EnvironmentType.Container:
+        //                goto case EnvironmentType.Void;
+        //        }
+        //    }
+
+        //    return false;
+        //}
 
         #endregion Collision Utilities
 
@@ -162,8 +218,7 @@ namespace AssemblerLib.Utils
         {
             AssemblyObject AO = AOa.AssemblyObjects[new GH_Path(AO_AInd), 0];
             bool obstruct = false;
-            Line ray;
-            int[] faceIDs;
+            //Line ray;
 
             // check two-way: 
             // 1. object Handles connected or obstructed by neighbours
@@ -191,17 +246,15 @@ namespace AssemblerLib.Utils
                     {
                         // if sO handle is not available continue
                         if (AO.Handles[k].Occupancy != 0) continue;
-                        // ANY Handle (type independent) who is accidentally in contact is considered connected by default
-                        // maybe set an option for strict type or rule based check if necessary
-                        // for rule based checks, newly placed AO is treated as sender, neighbour is treated as receiver
-                        // if (RuleExist(AOa, AO.type, AOa.assemblyObjects[index].type, AO.Handles[k].type, AOa.assemblyObjects[index].Handles[j].type))
-                        // if Handles are of the same type...
+
+                        // ANY Handle (type independent) who is accidentally in contact is registered as secondary connection (Occupancy = 2)
+                        // if Handles are of the same type... (OPTIONAL CHECK)
                         // if (AO.Handles[k].type == AOa.assemblyObjects[index].Handles[j].type)
                         // ...and their distance is below absolute tolerance...
-                        if (AOa.AssemblyObjects.Branch(neighSeqInd)[0].Handles[j].Sender.Origin.DistanceToSquared(AO.Handles[k].Sender.Origin) < Constants.RhinoAbsoluteToleranceSquared)
+                        if (AOa.AssemblyObjects.Branch(neighSeqInd)[0].Handles[j].SenderPlane.Origin.DistanceToSquared(AO.Handles[k].SenderPlane.Origin) < Constants.RhinoAbsoluteToleranceSquared)
                         {
                             // ...update Handles
-                            HandleUtils.UpdateHandlesOnConnection(AO, k, AOa.AssemblyObjects.Branch(neighSeqInd)[0], j);
+                            HandleUtils.UpdateHandlesOnConnection(AO, k, AOa.AssemblyObjects.Branch(neighSeqInd)[0], j, 2);
                             connect = true;
                             break;
                         }
@@ -210,22 +263,8 @@ namespace AssemblerLib.Utils
                     if (connect) continue;
 
                     // CHECK OBSTRUCTION OF NEIGHBOUR HANDLES BY sO
-                    // shoot a line from the handle
-                    Plane hSender = AOa.AssemblyObjects.Branch(neighSeqInd)[0].Handles[j].Sender;
-                    ray = new Line(hSender.Origin - (hSender.ZAxis * Constants.ObstructionRayOffset), hSender.ZAxis * Constants.ObstructionRayLength);
-
-                    // if it intercepts the last added object
-                    if (Intersection.MeshLine(AO.CollisionMesh, ray, out faceIDs).Length != 0)
-                    {
-                        // change handle occupancy to -1 (occluded) and add Object index to occluded handle neighbourObject
-                        AOa.AssemblyObjects.Branch(neighSeqInd)[0].Handles[j].Occupancy = -1;
-                        AOa.AssemblyObjects.Branch(neighSeqInd)[0].Handles[j].NeighbourObject = AO_AInd;
-                        // update Object OccludedNeighbours status
-                        AOa.AssemblyObjects[new GH_Path(AO_AInd), 0].OccludedNeighbours.Add(new int[] { neighAInd, j });
-                        // change obstruct variable status
-                        obstruct = true;
-                    }
-
+                    obstruct |= HandleObstructionCheck(AOa.AssemblyObjects.Branch(neighSeqInd)[0],
+                        AOa.AssemblyObjects[new GH_Path(AO_AInd), 0], /*neighAInd, AO_AInd,*/ j);
                 }
 
                 // CHECK OBSTRUCTION OF sO HANDLES BY NEIGHBOUR
@@ -234,20 +273,8 @@ namespace AssemblerLib.Utils
                     // if sO handle is not available continue
                     if (AO.Handles[k].Occupancy != 0) continue;
 
-                    // shoot a line from the handle
-                    ray = new Line(AO.Handles[k].Sender.Origin - (AO.Handles[k].Sender.ZAxis * Constants.ObstructionRayOffset), AO.Handles[k].Sender.ZAxis * Constants.ObstructionRayLength);
-
-                    // if it intercepts the neighbour object
-                    if (Intersection.MeshLine(AOa.AssemblyObjects.Branch(neighSeqInd)[0].CollisionMesh, ray, out faceIDs).Length != 0)
-                    {
-                        // change handle occupancy to -1 (occluded) and add neighbour Object index to occluded handle neighbourObject
-                        AO.Handles[k].Occupancy = -1;
-                        AO.Handles[k].NeighbourObject = neighAInd;
-                        // update neighbourObject OccludedNeighbours status
-                        AOa.AssemblyObjects.Branch(neighSeqInd)[0].OccludedNeighbours.Add(new int[] { AO_AInd, k });
-                        // change obstruct variable status
-                        obstruct = true;
-                    }
+                    obstruct |= HandleObstructionCheck(AOa.AssemblyObjects[new GH_Path(AO_AInd), 0],
+                        AOa.AssemblyObjects.Branch(neighSeqInd)[0], /*AO_AInd, neighAInd,*/ k);
                 }
             }
             return obstruct;
@@ -261,8 +288,7 @@ namespace AssemblerLib.Utils
         internal static bool ObstructionCheckList(List<AssemblyObject> AOList)
         {
             bool obstruct = false;
-            Line ray;
-            int[] faceIDs;
+            //Line ray;
 
             // check two-way: 
             // 1. object Handles connected or obstructed by neighbours
@@ -290,10 +316,10 @@ namespace AssemblerLib.Utils
                             // if Handles are of the same type...
                             if (AOList[i].Handles[p].Type == AOList[j].Handles[k].Type)
                                 // ...and their distance is below absolute tolerance...
-                                if (AOList[j].Handles[k].Sender.Origin.DistanceToSquared(AOList[i].Handles[p].Sender.Origin) < Constants.RhinoAbsoluteToleranceSquared)
+                                if (AOList[j].Handles[k].SenderPlane.Origin.DistanceToSquared(AOList[i].Handles[p].SenderPlane.Origin) < Constants.RhinoAbsoluteToleranceSquared)
                                 {
-                                    // ...update Handles
-                                    HandleUtils.UpdateHandlesOnConnection(AOList[i], p, AOList[j], k);
+                                    // ...update Handles (these are all considered secondary connections)
+                                    HandleUtils.UpdateHandlesOnConnection(AOList[i], p, AOList[j], k, 2);
                                     connect = true;
                                     break;
                                 }
@@ -302,21 +328,7 @@ namespace AssemblerLib.Utils
                         if (connect) continue;
 
                         // CHECK OBSTRUCTION OF NEIGHBOUR HANDLES BY sO
-                        // shoot a line from the handle
-                        ray = new Line(AOList[j].Handles[k].Sender.Origin - (AOList[j].Handles[k].Sender.ZAxis * 0.1), AOList[j].Handles[k].Sender.ZAxis * 1.5);
-
-                        // if it intercepts the last added object
-                        if (Intersection.MeshLine(AOList[i].CollisionMesh, ray, out faceIDs).Length != 0)
-                        {
-                            // change handle occupancy to -1 (occluded) and add Object index to occluded handle neighbourObject
-                            AOList[j].Handles[k].Occupancy = -1;
-                            AOList[j].Handles[k].NeighbourObject = i;
-                            // update Object OccludedNeighbours status
-                            AOList[i].OccludedNeighbours.Add(new int[] { j, k });
-                            // change obstruct variable status
-                            obstruct = true;
-                        }
-
+                        obstruct = HandleObstructionCheck(AOList[j], AOList[i], j, i, k);
                     }
 
                     // CHECK OBSTRUCTION OF sO HANDLES BY NEIGHBOUR
@@ -325,30 +337,74 @@ namespace AssemblerLib.Utils
                         // if sO handle is not available continue
                         if (AOList[i].Handles[k].Occupancy != 0) continue;
 
-                        // shoot a line from the handle
-                        ray = new Line(AOList[i].Handles[k].Sender.Origin - (AOList[i].Handles[k].Sender.ZAxis * 0.1), AOList[i].Handles[k].Sender.ZAxis * 1.5);
-
-                        // if it intercepts the neighbour object
-                        if (Intersection.MeshLine(AOList[j].CollisionMesh, ray, out faceIDs).Length != 0)
-                        {
-                            // change handle occupancy to -1 (occluded) and add neighbour Object index to occluded handle neighbourObject
-                            AOList[i].Handles[k].Occupancy = -1;
-                            AOList[i].Handles[k].NeighbourObject = j;
-                            // update neighbourObject OccludedNeighbours status
-                            AOList[j].OccludedNeighbours.Add(new int[] { i, k });
-                            // change obstruct variable status
-                            obstruct = true;
-                        }
+                        obstruct = HandleObstructionCheck(AOList[i], AOList[j], i, j, k);
                     }
                 }
             }
+            return obstruct;
+        }
+        private static bool HandleObstructionCheck(AssemblyObject AO, AssemblyObject otherAO, int handleInd)
+        {
+            return HandleObstructionCheck(AO, otherAO, AO.AInd, otherAO.AInd, handleInd);
+        }
+        private static bool HandleObstructionCheck(AssemblyObject AO, AssemblyObject otherAO, int AInd, int otherInd, int handleInd)
+        {
+            bool obstruct = false;
+            Line ray;
+            Plane hSender = AO.Handles[handleInd].SenderPlane;
+
+            // shoot a line from the handle
+            ray = new Line(hSender.Origin - (hSender.ZAxis * Constants.ObstructionRayOffset), hSender.ZAxis * Constants.ObstructionRayLength);
+
+            // if it intercepts the otherAO
+            if (Intersection.MeshLine(otherAO.CollisionMesh, ray, out _).Length != 0)
+            {
+                // change Handle occupancy to -1 (occluded) and add otherAO index to its NeighbourObject
+                AO.Handles[handleInd].Occupancy = -1;
+                AO.Handles[handleInd].NeighbourObject = otherInd;
+                // update otherAO OccludedNeighbours status
+                otherAO.OccludedNeighbours.Add(new int[] { AInd, handleInd });
+                // change obstruct variable status
+                obstruct = true;
+            }
+
             return obstruct;
         }
 
         #endregion Obstruction Utilities
 
         /// <summary>
-        /// Builds the Dictionary of AssemblyObjects
+        /// Extract the AOset from a list of AssemblyObjects
+        /// </summary>
+        /// <param name="AOs">The initial list of <see cref="AssemblyObject"/></param>
+        /// <returns>the list of unique <see cref="AssemblyObject"/>s constituting the set</returns>
+        public static List<AssemblyObject> ExtractAOSet(List<AssemblyObject> AOs)
+        {
+            List<AssemblyObject> AOSet = new List<AssemblyObject>();
+
+            if (AOs.Count == 0) return null;
+
+            Dictionary<int, int> uniqueTypes = new Dictionary<int, int>
+            {
+                { AOs[0].Type, 0 } // type, list index
+            };
+
+            for (int i = 1; i < AOs.Count; i++)
+            {
+                if (!uniqueTypes.ContainsKey(AOs[i].Type))
+                    uniqueTypes.Add(AOs[i].Type, i);
+            }
+
+            foreach (KeyValuePair<int, int> pair in uniqueTypes)
+            {
+                AOSet.Add(AssemblyObjectUtils.Reset(AOs[pair.Value]));
+            }
+
+            return AOSet;
+        }
+
+        /// <summary>
+        /// Builds the Dictionary of AssemblyObjects fomr an AOset
         /// </summary>
         /// <param name="AOset">the array of unique <see cref="AssemblyObject"/>s constituting the set</param>
         /// <returns>The (Name, type) Dictionary built from the AOSet</returns>
@@ -371,18 +427,21 @@ namespace AssemblerLib.Utils
         /// <returns>A cloned Assemblage</returns>
         public static Assemblage Clone(Assemblage AOa)
         {
-            Assemblage clonedAOa = new Assemblage();
-
-            // cloning by value data (primitives and structs)
-            clonedAOa.HeuristicsSettings = AOa.HeuristicsSettings;
-            clonedAOa.ExogenousSettings = AOa.ExogenousSettings;
-            clonedAOa.currentHeuristicsIndex = AOa.currentHeuristicsIndex;
-            clonedAOa.CollisionRadius = AOa.CollisionRadius;
-            clonedAOa.CheckWorldZLock = AOa.CheckWorldZLock;
-            clonedAOa.E_sandbox = AOa.E_sandbox;
-
+            Assemblage clonedAOa = new Assemblage
+            {
+                // cloning by value data (primitives and structs)
+                HeuristicsSettings = AOa.HeuristicsSettings,
+                ExogenousSettings = AOa.ExogenousSettings,
+                currentHeuristicsIndex = AOa.currentHeuristicsIndex,
+                CollisionRadius = AOa.CollisionRadius,
+                nextAInd = AOa.nextAInd,
+                CheckWorldZLock = AOa.CheckWorldZLock,
+                UseSupports = AOa.UseSupports,
+                E_sb = AOa.E_sb,
+                //E_sandbox = AOa.E_sandbox;
+                AOSet = new AssemblyObject[AOa.AOSet.Length]
+            };
             // clone AOSet
-            clonedAOa.AOSet = new AssemblyObject[AOa.AOSet.Length];
             for (int i = 0; i < AOa.AOSet.Length; i++)
                 clonedAOa.AOSet[i] = AssemblyObjectUtils.Clone(AOa.AOSet[i]);
 
@@ -393,26 +452,26 @@ namespace AssemblerLib.Utils
             clonedAOa.heuristicsTree = new DataTree<Rule>(AOa.heuristicsTree, r => r);
             clonedAOa.AssemblageRules = new DataTree<string>(AOa.AssemblageRules, r => r);
             clonedAOa.ReceiverAIndexes = new DataTree<int>(AOa.ReceiverAIndexes, i => i);
-            clonedAOa.AssemblyObjects = new DataTree<AssemblyObject>(AOa.AssemblyObjects, ao => AssemblyObjectUtils.CloneWithConnectivity(ao));
+            clonedAOa.AssemblyObjects = new DataTree<AssemblyObject>(AOa.AssemblyObjects, ao => AssemblyObjectUtils.CloneWithConnectivityAndValues(ao));
 
             // clone Lists
-            clonedAOa.availableObjects = AOa.availableObjects.Select(av => av).ToList();
-            clonedAOa.unreachableObjects = AOa.unreachableObjects.Select(ur => ur).ToList();
+            clonedAOa.availableObjectsAInds = AOa.availableObjectsAInds.Select(av => av).ToList();
+            clonedAOa.unreachableObjectsAInds = AOa.unreachableObjectsAInds.Select(ur => ur).ToList();
             clonedAOa.availableReceiverValues = AOa.availableReceiverValues.Select(arv => arv).ToList();
-            clonedAOa.centroidsAO = AOa.centroidsAO.Select(c => c).ToList();
+            clonedAOa.centroidsAInds = AOa.centroidsAInds.Select(c => c).ToList();
 
-            clonedAOa.centroidsTree = new RTree();//AOa.centroidsTree;
+            clonedAOa.centroidsTree = new RTree();
             for (int i = 0; i < AOa.AssemblyObjects.BranchCount; i++)
             {
                 // add object to the centroids tree
                 // future implementation: if object has children, insert all children centroids under the same AInd
                 clonedAOa.centroidsTree.Insert(AOa.AssemblyObjects.Branches[i][0].ReferencePlane.Origin, AOa.AssemblyObjects.Branches[i][0].AInd);
             }
-            //clonedAOa.handleTypes = AOa.handleTypes;
             // candidateObjects doesn't need cloning
             return clonedAOa;
         }
 
+        #region Topology Utilities
         /// <summary>
         /// Remove an <see cref="AssemblyObject"/> from an <see cref="Assemblage"/>, updating Topology information
         /// </summary>
@@ -442,8 +501,8 @@ namespace AssemblerLib.Utils
                 neighPath = new GH_Path(neighAInd);
                 updateNeighbourStatus = false;
 
-                // free connected Handles
-                if (AO.Handles[i].Occupancy == 1)
+                // free connected or contact Handles
+                if (AO.Handles[i].Occupancy >= 1)
                 {
                     AOa.AssemblyObjects[neighPath, 0].Handles[AO.Handles[i].NeighbourHandle].Occupancy = 0;
                     AOa.AssemblyObjects[neighPath, 0].Handles[AO.Handles[i].NeighbourHandle].NeighbourObject = -1;
@@ -473,17 +532,6 @@ namespace AssemblerLib.Utils
                 // update neighbour available/unreachable status
                 if (updateNeighbourStatus)
                     MakeAOAvailable(AOa, neighAInd, neighPath);
-                //{
-                //    // if neighbour is in unreachable remove from list
-                //    if (AOa.unreachableObjects.Contains(neighAInd)) AOa.unreachableObjects.Remove(neighAInd);
-                //    // if not in available yet add to available list and add its receiver value to the list
-                //    if (!AOa.availableObjects.Contains(neighAInd))
-                //    {
-                //        AOa.availableObjects.Add(neighAInd);
-                //        AOa.availableReceiverValues.Add(AOa.AssemblyObjects[neighPath, 0].ReceiverValue);
-                //    }
-
-                //}
             }
 
             // check its occluded objects
@@ -497,7 +545,6 @@ namespace AssemblerLib.Utils
                 AOa.AssemblyObjects[occludePath, 0].Handles[occludedHandleIndex].NeighbourObject = -1;
                 // Update available/unreachable status
                 MakeAOAvailable(AOa, occludedAInd, occludePath);
-                
             }
 
             // remove from used rules
@@ -506,13 +553,13 @@ namespace AssemblerLib.Utils
             AOa.ReceiverAIndexes.RemovePath(AO.AInd);
 
             // check if in available-unreachable objects and remove
-            if (AOa.availableObjects.Contains(AO.AInd))
+            if (AOa.availableObjectsAInds.Contains(AO.AInd))
             {
-                int avSeq = AOa.availableObjects.IndexOf(AO.AInd);
-                AOa.availableObjects.Remove(AO.AInd);
+                int avSeq = AOa.availableObjectsAInds.IndexOf(AO.AInd);
+                AOa.availableObjectsAInds.Remove(AO.AInd);
                 AOa.availableReceiverValues.RemoveAt(avSeq);
             }
-            else if (AOa.unreachableObjects.Contains(AO.AInd)) AOa.unreachableObjects.Remove(AO.AInd);
+            else if (AOa.unreachableObjectsAInds.Contains(AO.AInd)) AOa.unreachableObjectsAInds.Remove(AO.AInd);
 
             // remove from centroids tree
             AOa.centroidsTree.Remove(AO.ReferencePlane.Origin, AO.AInd);
@@ -541,16 +588,16 @@ namespace AssemblerLib.Utils
         /// Updates AO status, eventually removing it from Unreachable and adding it to Available list if not there already
         /// </summary>
         /// <param name="AOa">The assemblage to modify</param>
-        /// <param name="AInd">The <see cref="AssemblyObject"/> to update</param>
+        /// <param name="AInd">Index of the <see cref="AssemblyObject"/> to update</param>
         /// <param name="AOPath">The <see cref="AssemblyObject"/> path</param>
         private static void MakeAOAvailable(Assemblage AOa, int AInd, GH_Path AOPath)
         {
-            // if neighbour is in unreachable remove from list
-            if (AOa.unreachableObjects.Contains(AInd)) AOa.unreachableObjects.Remove(AInd);
+            // if AO AInd is in unreachable remove from list
+            if (AOa.unreachableObjectsAInds.Contains(AInd)) AOa.unreachableObjectsAInds.Remove(AInd);
             // if not in available yet add to available list and add its receiver value to the list
-            if (!AOa.availableObjects.Contains(AInd))
+            if (!AOa.availableObjectsAInds.Contains(AInd))
             {
-                AOa.availableObjects.Add(AInd);
+                AOa.availableObjectsAInds.Add(AInd);
                 AOa.availableReceiverValues.Add(AOa.AssemblyObjects[AOPath, 0].ReceiverValue);
             }
         }
@@ -559,7 +606,63 @@ namespace AssemblerLib.Utils
         /// Updates AO status, eventually removing it from Unreachable and adding it to Available list if not there already
         /// </summary>
         /// <param name="AOa">The assemblage to modify</param>
-        /// <param name="AInd">The <see cref="AssemblyObject"/> to update</param>
+        /// <param name="AInd">Index of the <see cref="AssemblyObject"/> to update</param>
         public static void MakeAOAvailable(Assemblage AOa, int AInd) => MakeAOAvailable(AOa, AInd, new GH_Path(AInd));
+
+        #endregion Topology Utilities
+
+        #region Compute Value Methods
+
+
+        #endregion Compute Value Methods
+
+        #region Select Value Methods
+
+        //public static int SelectRandomIndex(double[] values) => (int)(MathUtils.rnd.NextDouble() * values.Length);
+
+        //public static int SelectMinIndex(double[] values)
+        //{
+        //    double min = values[0];// double.MaxValue;
+        //    int minindex = 0;// -1;
+        //    for (int i = 1; i < values.Length; i++)
+        //    {
+        //        if (values[i] < min)
+        //        {
+        //            min = values[i];
+        //            minindex = i;
+        //        }
+        //    }
+
+        //    return minindex;
+        //}
+
+        //public static int SelectMaxIndex(double[] values)
+        //{
+        //    double max = values[0];//double.MinValue;
+        //    int maxindex = 0;//-1;
+        //    for (int i = 1; i < values.Length; i++)
+        //    {
+        //        if (values[i] > max)
+        //        {
+        //            max = values[i];
+        //            maxindex = i;
+        //        }
+        //    }
+
+        //    return maxindex;
+        //}
+
+        //public static int SelectWRCIndex(double[] values)
+        //{
+        //    // Weighted Random Choice among valid rules
+        //    int[] iWeights = values.Select(v => (int)(v * 1000)).ToArray();
+        //    int[] indexes = new int[values.Length];
+        //    for (int i = 0; i < values.Length; i++)
+        //        indexes[i] = i;
+
+        //    return MathUtils.WeightedRandomChoice(indexes, iWeights);
+        //}
+
+        #endregion Select Value Methods
     }
 }

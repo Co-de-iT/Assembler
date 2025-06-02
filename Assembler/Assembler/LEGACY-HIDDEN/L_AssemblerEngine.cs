@@ -1,34 +1,83 @@
 ﻿using Assembler.Properties;
 using Assembler.Utils;
 using AssemblerLib;
+using AssemblerLib.Utils;
+using GH_IO.Serialization;
 using Grasshopper.Kernel;
+using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace Assembler
 {
     [Obsolete]
     public class L_AssemblerEngine : GH_Component
     {
-        Assemblage AOa;
-        private bool pending = false;
+        // see https://developer.rhino3d.com/api/grasshopper/html/5f6a9f31-8838-40e6-ad37-a407be8f2c15.htm
+        private bool m_checkWZLock = false;
+        public bool CheckWZLock
+        {
+            get { return m_checkWZLock; }
+            set
+            {
+                m_checkWZLock = value;
+                if (m_checkWZLock)
+                {
+                    Message = "World Z Lock\n";
+                }
+                else
+                {
+                    Message = "";
+                }
+            }
+        }
 
-        // DIAGNOSTICS
-        //private System.Diagnostics.Stopwatch stopwatch;
-        //private long computeTime, otherTime;
-        //private string directory;
+        private bool m_useSupports = false;
+        public bool UseSupports
+        {
+            get { return m_useSupports; }
+            set
+            {
+                m_useSupports = value;
+                if (m_useSupports)
+                {
+                    Message += "Supports";
+                }
+                else
+                {
+                    Message += "";
+                }
+            }
+        }
+
+        /// <summary>
+        /// Because of their use in the Write method,
+        /// the value of these strings is shared AMONG ALL COMPONENTS of a library!
+        /// "ZLockCheck" & "UseSupports" are accessible (and modifyable) by other components!
+        /// </summary>
+        private string WZLockName = "ZLockCheck";
+        // for next major release, call it WZLockCheck - changing the name breaks the engine in the example files!
+        private string UseSupportsName = "UseSupports";
 
         /// <summary>
         /// Initializes a new instance of the AssemblerEngine class.
         /// </summary>
         public L_AssemblerEngine()
-          : base("Assembler Engine Simple", "AOEngS",
-              "Assembler Engine Simpe - OBSOLETE\nDo not use this anymore",
+          : base("Assembler Engine", "AOaEngine",
+              "Assembler Engine\nWhere the magic happens...",
               "Assembler", "Engine")
         {
+            // this hides the component preview when placed onto the canvas
+            // source: http://frasergreenroyd.com/how-to-stop-components-from-automatically-displaying-results-in-grasshopper/
+            IGH_PreviewObject prevObj = (IGH_PreviewObject)this;
+            prevObj.Hidden = true;
         }
+
+        Assemblage AOa;
+        private bool pending = false;
 
         /// <summary>
         /// Registers all the input parameters for this component.
@@ -36,27 +85,30 @@ namespace Assembler
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             // objects
-            pManager.AddGenericParameter("AssemblyObjects Set", "AOs", "List of Assembly Objects in the set", GH_ParamAccess.list);
-            pManager.AddGenericParameter("Previous Assemblage", "AOpa", "The list of AssemblyObjects in an existing Assemblage", GH_ParamAccess.list);
-            pManager.AddPlaneParameter("Starting Plane", "P", "Starting Plane for the Assemblage\nIgnored if a previous Assemblage is input", GH_ParamAccess.item, Plane.WorldXY);
-            pManager.AddIntegerParameter("Starting Object Type", "sO", "Index of starting object from the AO set\nIgnored if a previous Assemblage is input", GH_ParamAccess.item, 0);
+            pManager.AddGenericParameter("AssemblyObjects Set", "AOs", "List of unique AssemblyObjects composing the set", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Previous Assemblage", "AOpa", "List of preexisting AssemblyObjects, i.e. from an existing Assemblage (optional)", GH_ParamAccess.list);
+            pManager.AddPlaneParameter("Starting Plane", "P", "Starting Plane for the Assemblage\nIgnored if preexisting AssemblyObjects are present", GH_ParamAccess.item, Plane.WorldXY);
+            pManager.AddIntegerParameter("Starting Object Type", "sO", "Index of starting object from the AO set\nIgnored if preexisting AssemblyObjects are present", GH_ParamAccess.item, 0);
 
             pManager[1].Optional = true; // Previous Assemblage
 
             // heuristics
-            pManager.AddTextParameter("Heuristics String", "HeS", "Heuristics String", GH_ParamAccess.list);
-
-            // criteria selectors
+            pManager.AddGenericParameter("Heuristics Settings", "HS", "Heuristics Settings for the Assemblage", GH_ParamAccess.item);
 
             // exogenous
+            pManager.AddGenericParameter("Exogenous Settings", "ES", "Exogenous Settings for the Assemblage", GH_ParamAccess.item);
+            // exogenous settings are optional
+            pManager[5].Optional = true;
 
             // controls
-            pManager.AddBooleanParameter("Go", "go", "Run Assemblage continuously until it reaches the desired n. of objects", GH_ParamAccess.item, false);
+            pManager.AddBooleanParameter("Go", "go", "Run Assemblage continuously until it reaches the targeted max n. of objects", GH_ParamAccess.item, false);
             pManager.AddBooleanParameter("Step", "s", "Run an Assemblage step executing the specified n. of iterations", GH_ParamAccess.item, false);
             pManager.AddIntegerParameter("N. Iterations", "nI", "Number of iterations to execute at each step", GH_ParamAccess.item, 10);
-            pManager.AddIntegerParameter("Max n. Objects", "maxN", "The max n. of objects allowed in the assemblage", GH_ParamAccess.item, 1000);
-            pManager.AddBooleanParameter("Reset", "R", "Reset Assemblage", GH_ParamAccess.item, false);
-
+            pManager.AddIntegerParameter("Target Max n. Objects", "tN", "The target Max n. of objects allowed in the assemblage" +
+                "\nThis is an *approximate* target Assembler will try to reach, given the number of starting objects and iterations at each step" +
+                "\nWith 1 starting object (default), 100 items per step and a target of 950 you will get 1001 objects", GH_ParamAccess.item, 1000);
+            pManager.AddBooleanParameter("Reset Settings", "rS", "Reset Exogenous and Heuristics settings preserving the Assemblage", GH_ParamAccess.item, false);
+            pManager.AddBooleanParameter("Reset", "R", "Resets the Assemblage", GH_ParamAccess.item, false);
         }
 
         /// <summary>
@@ -68,23 +120,22 @@ namespace Assembler
             pManager.AddIntegerParameter("Assemblage Count", "c", "The number of objects in the Assemblage", GH_ParamAccess.item);
         }
 
+        //public override void CreateAttributes()
+        //{
+        //    m_attributes = new AssemblerEngine_Attributes(this);
+        //}
+
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            // DIAGNOSTICS
-            //if (stopwatch == null) stopwatch = new System.Diagnostics.Stopwatch();
-            //otherTime = stopwatch.ElapsedMilliseconds;
-            //stopwatch.Restart();
-
-
             //
             // . . . . . . . . . . . . 0. Sanity checks on input data
             //
 
-            // objects
+            // . . . . objects
             List<AssemblyObjectGoo> GH_AOs = new List<AssemblyObjectGoo>();
             List<AssemblyObjectGoo> GH_AOpa = new List<AssemblyObjectGoo>();
             List<AssemblyObject> AOs = new List<AssemblyObject>(), AOpa = new List<AssemblyObject>();
@@ -98,29 +149,55 @@ namespace Assembler
 
             DA.GetDataList("Previous Assemblage", GH_AOpa);
 
-            Plane P = new Plane();
-            DA.GetData("Starting Plane", ref P);
-            int sO = 0;
-            DA.GetData("Starting Object Type", ref sO);
 
-            // heuristics
-            List<string> HeS = new List<string>();
-            if (!DA.GetDataList("Heuristics String", HeS)) return;
-            if (HeS == null || HeS.Count == 0)
+            Plane startReferencePlane = new Plane();
+            DA.GetData("Starting Plane", ref startReferencePlane);
+            int startingObjectType = 0;
+            DA.GetData("Starting Object Type", ref startingObjectType);
+
+            // . . . . heuristics
+            HeuristicsSettings HS = new HeuristicsSettings();
+            if (!DA.GetData("Heuristics Settings", ref HS)) return;
+
+            // . . . . exogenous
+            ExogenousSettings ES = new ExogenousSettings();
+
+            Box sandbox = Box.Empty;
+            if (!DA.GetData("Exogenous Settings", ref ES))
+                ES = new ExogenousSettings(new List<Mesh>(), 0, null, 0, Box.Unset, false);
+
+            // check Field-dependent variables
+            if (ES.Field == null && HS.IsFieldDependent)
             {
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Please provide at least one Heuristic rule");
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Heuristics Settings are Field dependent but no Field is provided\nCheck HeM, RsM and SsM parameters");
                 return;
             }
+            else if (HS.HeuristicsMode == HeuristicModes.Field)
+            {
+                if (ES.Field.GetiWeights().BranchCount == 0)
+                {
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Heuristics mode (HeM) is Field dependent but Field has no iWeights");
+                    return;
+                }
+                else
+                {
+                    int maxIWeight = ES.Field.GetiWeights().AllData().Max();
+                    if (maxIWeight > HS.HeuSetsString.Count)
+                    {
+                        AddRuntimeMessage(GH_RuntimeMessageLevel.Error, $"The provided Field iWeights require at least {maxIWeight + 1} Heuristics Sets (HeS)");
+                        return;
+                    }
+                }
+            }
 
-            // criteria selectors
-
-            // controls
-            bool go = false, step = false, reset = false;
-            int nInt = 0, maxObj = 0;
+            // . . . . controls
+            bool go = false, step = false, reset = false, resetEx = false;
+            int nIterations = 0, maxObj = 0;
             DA.GetData("Go", ref go);
             DA.GetData("Step", ref step);
-            DA.GetData("N. Iterations", ref nInt);
-            DA.GetData("Max n. Objects", ref maxObj);
+            DA.GetData("N. Iterations", ref nIterations);
+            DA.GetData("Target Max n. Objects", ref maxObj);
+            DA.GetData("Reset Settings", ref resetEx);
             DA.GetData("Reset", ref reset);
 
             //
@@ -129,33 +206,34 @@ namespace Assembler
 
             if (reset || AOa == null)
             {
-                AOs = GH_AOs.Select(ao => ao.Value).ToList();
-                AOpa = GH_AOpa.Select(ao => ao.Value).ToList();
-                // join rules in a single line
-                List<string> HeuString = new List<string>();
-                HeuString.Add(string.Join(",", HeS));
-
-                // construct heuristics settings
-                HeuristicsSettings Heu = new HeuristicsSettings(HeuString, 0, 0, 0, 0);
-
-                // construct exogenous settings
-                ExogenousSettings Exo = new ExogenousSettings(new List<Mesh>(), 0, null, 0, Box.Unset, false);
-
-                // construct Assemblage
-                AOa = new Assemblage(AOs, AOpa, P, sO, Heu, Exo);
-
+                AOs = GH_AOs.Where(a => a != null).Select(ao => ao.Value).ToList();
+                if (AOs.Count < GH_AOs.Count)
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, $"{GH_AOs.Count - AOs.Count} null AssemblyObjects were removed from the set");
+                AOpa = GH_AOpa.Where(a => a != null).Select(ao => ao.Value).ToList();
+                if (AOpa.Count < GH_AOpa.Count)
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, $"{GH_AOpa.Count - AOpa.Count} null AssemblyObjects were removed from the set");
+                AOa = new Assemblage(AOs, AOpa, startReferencePlane, startingObjectType, HS, ES);
+                AOa.ResetAssemblageStatus(HS, ES);
             }
 
             //
             // . . . . . . . . . . . . 2. Update live variables
             //
 
+            // reset exogenous parameters if necessary (without resetting the assemblage)
+            if (resetEx) AOa.ResetAssemblageStatus(HS, ES);
+
+
+            // World Z-Lock
+            AOa.CheckWorldZLock = CheckWZLock;
+            // use supports
+            AOa.UseSupports = UseSupports;
 
             //
             // . . . . . . . . . . . . 3. Update Assemblage & Component
             //
 
-            // sometimes the toggle button gets stuck in the pressed event if the computation is intensive
+            // sometimes the toggle button gets stuck in the 'pressed' status if the computation is intensive,
             // leading to potential locks - this prevents it from happening
             if (step && !pending)
             {
@@ -163,38 +241,76 @@ namespace Assembler
                 return;
             }
 
-            if ((go || (step && pending)) && AOa.AssemblyObjects.BranchCount < maxObj)
+            if (go || (step && pending))
             {
-                for (int i = 0; i < nInt; i++)
-                    AOa.Update();
-                ExpireSolution(true);
-                if (pending) pending = false;
+                int iterations, AOcount = AOa.AssemblyObjects.DataCount;
+                if (AOcount > maxObj - nIterations)
+                    iterations = maxObj - AOcount;
+                else iterations = nIterations;
 
-                // DIAGNOSTICS
-                //computeTime = stopwatch.ElapsedMilliseconds;
-                //string data = string.Format("{0}, {1}", computeTime, otherTime);
-                //Utilities.AppendToFile(directory, "computeTimes.txt", data);
+                for (int i = 0; i < iterations; i++)
+                    AOa.Update();
+
+                // trim AssemblyObjects excess
+                if (AOcount > maxObj)
+                {
+                    for (int i = AOcount - 1; i >= maxObj; i--)
+                        AssemblageUtils.RemoveAssemblyObject(AOa, AOa.AssemblyObjects.Paths[i][0]);
+
+                    //AOa.ResetSettings(HS, ES);
+                    //AOa.ComputeReceiversValues();
+                    AOa.ResetAOsOccupancyStatus();
+                }
+
+                ExpireSolution(true);
+
+                if (pending) pending = false;
             }
 
             DA.SetData("Assemblage", AOa);
-            DA.SetData("Assemblage Count", AOa.AssemblyObjects.BranchCount);
-
-            // DIAGNOSTICS
-            // stopwatch.Restart();
-
+            DA.SetData("Assemblage Count", new GH_Integer(AOa.AssemblyObjects.DataCount));
         }
 
-        /// <summary>
-        /// Provides an Icon for the component.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
+        public override void AppendAdditionalMenuItems(ToolStripDropDown menu)
         {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return Resources.Assembler_Engine_X;
-            }
+            Menu_AppendSeparator(menu);
+            ToolStripMenuItem toolStripMenuItem = Menu_AppendItem(menu, "Check World Z lock", ZLock_click, true, CheckWZLock);
+            toolStripMenuItem.ToolTipText = "Checks World Z axis orientation for AssemblyObjects with World Z lock enabled";
+#if DEBUG
+            ToolStripMenuItem toolStripMenuItem1 = Menu_AppendItem(menu, "Use Supports", Supports_click, true, UseSupports);
+            toolStripMenuItem1.ToolTipText = "Use supports (if present in AssemblyObjects) for Assemblage coherence\nDEBUG MODE - NOT YET IMPLEMENTED";
+#endif
+            Menu_AppendSeparator(menu);
+        }
+
+        private void ZLock_click(object sender, EventArgs e)
+        {
+            RecordUndoEvent("Check World Z lock");
+            CheckWZLock = !CheckWZLock;
+            ExpireSolution(true);
+        }
+
+        private void Supports_click(object sender, EventArgs e)
+        {
+            RecordUndoEvent("Use Supports");
+            UseSupports = !UseSupports;
+            ExpireSolution(true);
+        }
+
+        public override bool Write(GH_IWriter writer)
+        {
+            // NOTE: the value in between "" is shared AMONG ALL COMPONENTS of a library!
+            // for instance, ZLockCheck is accessible (and modifyable) by other components!
+            writer.SetBoolean(WZLockName, CheckWZLock);
+            writer.SetBoolean(UseSupportsName, UseSupports);
+            return base.Write(writer);
+        }
+
+        public override bool Read(GH_IReader reader)
+        {
+            CheckWZLock = reader.GetBoolean(WZLockName);
+            UseSupports = reader.GetBoolean(UseSupportsName);
+            return base.Read(reader);
         }
 
         /// <summary>
@@ -207,11 +323,24 @@ namespace Assembler
         }
 
         /// <summary>
+        /// Provides an Icon for the component.
+        /// </summary>
+        protected override System.Drawing.Bitmap Icon
+        {
+            get
+            {
+                //You can add image files to your project resources and access them like this:
+                // return Resources.IconForThisComponent;
+                return Resources.L_Assembler_Engine;
+            }
+        }
+
+        /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("6d146ab7-f360-480b-9ef2-4ba79e0689b2"); }
+            get { return new Guid("c7b33596-c80e-43c1-a6e5-c90806944083"); }
         }
     }
 }

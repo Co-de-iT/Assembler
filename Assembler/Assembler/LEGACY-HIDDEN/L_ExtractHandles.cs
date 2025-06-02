@@ -56,7 +56,7 @@ namespace Assembler
 
             for (int i = 0; i < AO.Handles.Length; i++)
             {
-                hSPlanes[i] = new GH_Plane(AO.Handles[i].Sender);
+                hSPlanes[i] = new GH_Plane(AO.Handles[i].SenderPlane);
                 hTypes[i] = new GH_Integer(AO.Handles[i].Type);
                 hWeights[i] = new GH_Number(AO.Handles[i].Weight);
             }
@@ -64,6 +64,15 @@ namespace Assembler
             DA.SetDataList(0, hSPlanes);
             DA.SetDataList(1, hTypes);
             DA.SetDataList(2, hWeights);
+        }
+
+        /// <summary>
+        /// Exposure override for position in the Subcategory (options primary to septenary)
+        /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
+        /// </summary>
+        public override GH_Exposure Exposure
+        {
+            get { return GH_Exposure.hidden; }
         }
 
         /// <summary>
@@ -75,17 +84,8 @@ namespace Assembler
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.Extract_Sender_Handles_Planes;
+                return Resources.L_Extract_Sender_Handles_Planes;
             }
-        }
-
-        /// <summary>
-        /// Exposure override for position in the Subcategory (options primary to septenary)
-        /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
-        /// </summary>
-        public override GH_Exposure Exposure
-        {
-            get { return GH_Exposure.hidden; } //quarternary
         }
 
         /// <summary>

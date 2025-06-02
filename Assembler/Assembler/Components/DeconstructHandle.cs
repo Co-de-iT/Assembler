@@ -35,7 +35,7 @@ namespace Assembler
             pManager.AddNumberParameter("Receiver Planes rotations", "R", "Receiver Planes rotations", GH_ParamAccess.list);
             pManager.AddIntegerParameter("Handle Type", "T", "Handle Type", GH_ParamAccess.item);
             pManager.AddNumberParameter("Handle Weight", "W", "Handle Weight", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("Handle Occupancy", "hO", "Handle Occupancy status\n-1 occluded\n0 available\n1 connected", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Handle Occupancy", "hO", "Handle Occupancy status\n-1 occluded\n0 available\n1 connected\n2 contact", GH_ParamAccess.item);
             pManager.AddIntegerParameter("Neighbour Object index", "nO", "Neighbour Object\nindex of neighbour AssemblyObject\n-1 if Handle is available", GH_ParamAccess.item);
             pManager.AddIntegerParameter("Neighbour Handle index", "nH", "Neighbour Handle\nindex of neighbour AssemblyObject's Handle\n-1 if Handle is available or occluded", GH_ParamAccess.item);
 
@@ -53,14 +53,23 @@ namespace Assembler
             if(!DA.GetData(0, ref h)) return;
             
             // output data
-            DA.SetData(0, h.Sender);
-            DA.SetDataList(1, h.Receivers);
+            DA.SetData(0, h.SenderPlane);
+            DA.SetDataList(1, h.ReceiverPlanes);
             DA.SetDataList(2, h.Rotations);
             DA.SetData(3, h.Type);
             DA.SetData(4, h.Weight);
             DA.SetData(5, h.Occupancy);
             DA.SetData(6, h.NeighbourObject);
             DA.SetData(7, h.NeighbourHandle);
+        }
+
+        /// <summary>
+        /// Exposure override for position in the Subcategory (options primary to septenary)
+        /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
+        /// </summary>
+        public override GH_Exposure Exposure
+        {
+            get { return GH_Exposure.secondary; }
         }
 
         /// <summary>
@@ -74,15 +83,6 @@ namespace Assembler
                 // return Resources.IconForThisComponent;
                 return Resources.Deconstruct_Handle;
             }
-        }
-
-        /// <summary>
-        /// Exposure override for position in the Subcategory (options primary to septenary)
-        /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
-        /// </summary>
-        public override GH_Exposure Exposure
-        {
-            get { return GH_Exposure.secondary; }
         }
 
         /// <summary>

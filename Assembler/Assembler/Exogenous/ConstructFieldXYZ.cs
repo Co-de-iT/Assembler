@@ -14,7 +14,7 @@ namespace Assembler
         /// </summary>
         public ConstructFieldXYZ()
           : base("Construct Field XYZ", "AFieldXYZ",
-              "Constructs an empty Field from a Box\nIndividual n. of cells along Box XYZ dimensions",
+              "Constructs an empty Field from a 3D geometry, using its BoundingBox\nIndividual n. of cells along BoundingBox XYZ dimensions",
               "Assembler", "Exogenous")
         {
             // this hides the component preview when placed onto the canvas
@@ -112,7 +112,7 @@ namespace Assembler
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.Field_from_Box_XYZ;
+                return Resources.Field_From_Geometry_XYZ;
             }
         }
 

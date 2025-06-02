@@ -1,1 +1,0 @@
-This folder contains the images for the AssemblerLib.dll documentation generated with DocFx

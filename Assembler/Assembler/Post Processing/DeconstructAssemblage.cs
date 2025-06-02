@@ -4,6 +4,7 @@ using AssemblerLib;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using System;
+using System.Linq;
 
 namespace Assembler
 {
@@ -56,13 +57,13 @@ namespace Assembler
             GH_Structure<AssemblyObjectGoo> AOGooTree = new GH_Structure<AssemblyObjectGoo>();
 
             for (int i = 0; i < AOa.AssemblyObjects.BranchCount; i++)
-                AOGooTree.Append(new AssemblyObjectGoo(AOa.AssemblyObjects.Branches[i][0]), AOa.AssemblyObjects.Paths[i]);
+                AOGooTree.AppendRange(AOa.AssemblyObjects.Branches[i].Select(ao => new AssemblyObjectGoo(ao)), AOa.AssemblyObjects.Paths[i]);
 
             DA.SetDataTree(0, AOGooTree);
-            DA.SetDataTree(1, AOa.AssemblageRules);
-            DA.SetDataTree(2, AOa.ReceiverAIndexes);
-            DA.SetDataList("Available Object indexes", AOa.ExtractAvailableObjects());
-            DA.SetDataList("Unreachable Object indexes", AOa.ExtractUnreachableObjects());
+            DA.SetDataTree(1, AOa.ExtractRules());//AOa.AssemblageRules);
+            DA.SetDataTree(2, AOa.ExtractReceiverAIndexes());//AOa.ReceiverAIndexes);
+            DA.SetDataList("Available Object indexes", AOa.ExtractAvailableObjectsIndexes());
+            DA.SetDataList("Unreachable Object indexes", AOa.ExtractUnreachableObjectsIndexes());
 
         }
 

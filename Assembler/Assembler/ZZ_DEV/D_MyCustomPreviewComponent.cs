@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using Grasshopper.Kernel;
+﻿using Grasshopper.Kernel;
 using Grasshopper.Kernel.Components;
 using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
-using Rhino.Render;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace Assembler
 {
-    // Hmm... not working
-    // waiting for a reply here: https://discourse.mcneel.com/t/grasshopper-raytraced-display-pipeline/141408/7
+    // SOURCE: https://discourse.mcneel.com/t/grasshopper-raytraced-display-pipeline/141408/7
     public class D_MyCustomPreviewComponent : GH_CustomPreviewComponent
     {
         private List<GH_CustomPreviewItem> _items;
@@ -47,6 +45,7 @@ namespace Assembler
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
+            pManager.AddBooleanParameter("done", "D", "True when preview is done", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -55,51 +54,76 @@ namespace Assembler
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            IGH_GeometricGoo destination = null;
-            GH_Material destination2 = null;
-            if (DA.GetData(0, ref destination) && DA.GetData(1, ref destination2) && destination.IsValid)
+            IGH_GeometricGoo geometry = null;
+            GH_Material material = null;
+            if (DA.GetData(0, ref geometry) && DA.GetData(1, ref material) && geometry.IsValid)
             {
-                if (!(destination is IGH_PreviewData))
+                if (!(geometry is IGH_PreviewData))
                 {
-                    AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, destination.TypeName + " does not support previews");
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, geometry.TypeName + " does not support previews");
                 }
-                else if (destination2.Value != null)
+                else if (material.Value != null)
                 {
                     GH_CustomPreviewItem item = default(GH_CustomPreviewItem);
-                    item.Geometry = (IGH_PreviewData)destination;
-                    item.Shader = destination2.Value;
-                    item.Colour = destination2.Value.Diffuse;
-                    item.Material = destination2;
+
+                    // this does not preview in any mode
+                    //GH_Surface b = (GH_Surface)geometry;
+                    //item.Geometry = b;
+
+                    GH_Mesh gm = (GH_Mesh)geometry;
+                    item.Geometry = gm;
+                    //IGH_GeometricGoo gg = (IGH_GeometricGoo)gm;
+                    //item.Geometry = new GH_Mesh(m);
+                    //IGH_PreviewData pd = (IGH_PreviewData)gg;
+                    //item.Geometry = (IGH_PreviewData)geometry;
+
+                    item.Shader = material.Value;
+                    item.Colour = material.Value.Diffuse;
+                    item.Material = material;
+
                     _items.Add(item);
-                    _boundingBox.Union(destination.Boundingbox);
+                    _boundingBox.Union(geometry.Boundingbox);
                 }
             }
+
+            DA.SetData(0, true);
         }
-        public override void AppendRenderGeometry(GH_RenderArgs args)
+
+        protected override void AfterSolveInstance()
         {
-            GH_Document gH_Document = OnPingDocument();
-            if (gH_Document != null && (gH_Document.PreviewMode == GH_PreviewMode.Disabled || gH_Document.PreviewMode == GH_PreviewMode.Wireframe))
+            base.AfterSolveInstance();
+        }
+
+        public override void DrawViewportMeshes(IGH_PreviewArgs args)
+        {
+            if (this.Locked || _items.Count == 0)
+                return;
+            if (this.Attributes.Selected)
             {
+                GH_PreviewMeshArgs args2 = new GH_PreviewMeshArgs(args.Viewport, args.Display, args.ShadeMaterial_Selected, args.MeshingParameters);
+                foreach (GH_CustomPreviewItem item in _items)
+                    item.Geometry.DrawViewportMeshes(args2);
                 return;
             }
-            List<GH_CustomPreviewItem> items = _items;
-            if (items != null)
+            foreach (GH_CustomPreviewItem item in _items)
             {
-                items = new List<GH_CustomPreviewItem>(items);
-                if (items.Count != 0)
-                {
-                    foreach (GH_CustomPreviewItem item in items)
-                    {
-                        item.PushToRenderPipeline(args);
-                    }
-                }
+                GH_PreviewMeshArgs args2 = new GH_PreviewMeshArgs(args.Viewport, args.Display, item.Shader, args.MeshingParameters);
+                item.Geometry.DrawViewportMeshes(args2);
             }
+        }
+        [Obsolete]
+        public override void AppendRenderGeometry(GH_RenderArgs args)
+        {
+            if (_items != null && _items.Count != 0)
+                foreach (GH_CustomPreviewItem item in _items)
+                    item.PushToRenderPipeline(args);
         }
 
         protected override void BeforeSolveInstance()
         {
             _items = new List<GH_CustomPreviewItem>();
             _boundingBox = BoundingBox.Empty;
+            base.BeforeSolveInstance();
         }
 
         /// <summary>

@@ -22,7 +22,7 @@ namespace Assembler
         /// </summary>
         public ColorField()
           : base("Color Field", "AFCol",
-              "Generates Field Point colors by scalar values",
+              "Generates Field Point colors from scalar values",
               "Assembler", "Exogenous")
         {
             blend = GetValue("FieldColorBlend", false);
@@ -167,6 +167,15 @@ namespace Assembler
         }
 
         /// <summary>
+        /// Exposure override for position in the Subcategory (options primary to septenary)
+        /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
+        /// </summary>
+        public override GH_Exposure Exposure
+        {
+            get { return GH_Exposure.secondary; }
+        }
+
+        /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
         protected override System.Drawing.Bitmap Icon
@@ -175,17 +184,8 @@ namespace Assembler
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.Color_Field_scalars;
+                return Resources.Color_Field_Scalars;
             }
-        }
-
-        /// <summary>
-        /// Exposure override for position in the Subcategory (options primary to septenary)
-        /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
-        /// </summary>
-        public override GH_Exposure Exposure
-        {
-            get { return GH_Exposure.secondary; }
         }
 
         /// <summary>

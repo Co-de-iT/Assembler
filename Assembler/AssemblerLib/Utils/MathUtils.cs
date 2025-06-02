@@ -8,6 +8,16 @@ namespace AssemblerLib.Utils
 {
     public static class MathUtils
     {
+        public static readonly Random rnd = new Random();
+
+        //i = x < 0 ? -x : x;
+        internal static double Absv1(double x) => x < 0 ? -x : x;
+        //i = (x ^ (x >> 31)) - (x >> 31);
+        internal static double Absv2(double x)
+        {
+            Byte xb = (Byte)x;
+            return (xb ^ (xb >> 31)) - (xb >> 31);
+        }
 
         /// <summary>
         /// Converts an angle in degrees to radians
@@ -125,6 +135,42 @@ namespace AssemblerLib.Utils
                 normVal.AddRange(normValuesArray[i], paths[i]);
 
             return normVal;
+        }
+
+        /// <summary>
+        /// Performs a Weighted Random Choice given an array of weights
+        /// </summary>
+        /// <param name="weights"></param>
+        /// <returns>index of the selected weight</returns>
+        public static int WeightedRandomChoiceIndex(int[] weights)
+        {
+
+            int totWeights = weights.Sum(w => w);
+
+            int chosenInd = rnd.Next(totWeights);
+            int valueInd = 0;
+
+            while (chosenInd >= 0)
+            {
+                chosenInd -= weights[valueInd];
+                valueInd++;
+            }
+
+            valueInd -= 1;
+
+            return valueInd;
+        }
+
+        /// <summary>
+        /// Performs a Weighted Random Choice on a data array and corresponding weights
+        /// </summary>
+        /// <typeparam Name="T"></typeparam>
+        /// <param name="values"></param>
+        /// <param name="weights"></param>
+        /// <returns>the selected value</returns>
+        public static T WeightedRandomChoice<T>(T[] values, int[] weights)
+        {
+            return values[WeightedRandomChoiceIndex(weights)];
         }
     }
 }

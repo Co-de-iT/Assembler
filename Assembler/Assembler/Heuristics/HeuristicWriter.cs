@@ -162,7 +162,7 @@ namespace Assembler
                             if (components[rOi].Handles[rHi].Type == components[sOi].Handles[sHi].Type || crossType)
                             {
                                 // consider all receiver rotations
-                                for (int rRi = 0; rRi < components[rOi].Handles[rHi].Receivers.Length; rRi++)
+                                for (int rRi = 0; rRi < components[rOi].Handles[rHi].ReceiverPlanes.Length; rRi++)
                                 {
                                     hs = WriteRuleString(components, rOi, rHi, sOi, sHi, rRi);
                                     hsList.Add(hs);
@@ -206,7 +206,7 @@ namespace Assembler
                             if (IsCompatible(components[rOi].Handles[rHi].Type, components[sOi].Handles[sHi].Type, HandCorr))
                             {
                                 // consider all receiver rotations
-                                for (int rRi = 0; rRi < components[rOi].Handles[rHi].Receivers.Length; rRi++)
+                                for (int rRi = 0; rRi < components[rOi].Handles[rHi].ReceiverPlanes.Length; rRi++)
                                 {
                                     hs = WriteRuleString(components, rOi, rHi, sOi, sHi, rRi);
                                     hsList.Add(hs);

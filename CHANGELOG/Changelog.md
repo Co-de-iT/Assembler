@@ -1,6 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+- [1.3](1.3.md)
 - [1.2](1.2.md)
 - [1.1](1.1.md)
 

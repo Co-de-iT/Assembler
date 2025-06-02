@@ -7,6 +7,7 @@ namespace AssemblerLib
     /// <summary>
     /// Support class for embedded structural consistency - NOT IMPLEMENTED YET
     /// </summary>
+    /// <exclude>Exclude from documentation</exclude>
     public struct Support
     {
         /// <summary>

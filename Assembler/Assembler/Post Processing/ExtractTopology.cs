@@ -37,7 +37,7 @@ namespace Assembler
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddIntegerParameter("Handle Occupancy", "hO", "Handle Occupancy status\n-1 occluded\n0 available\n1 connected", GH_ParamAccess.tree);
+            pManager.AddIntegerParameter("Handle Occupancy", "hO", "Handle Occupancy status\n-1 occluded\n0 available\n1 connected\n2 contact", GH_ParamAccess.tree);
             pManager.AddIntegerParameter("Neighbour Object index", "nO", "Neighbour Object\nindex of neighbour AssemblyObject (connected or occluding)\n-1 if Handle is available", GH_ParamAccess.tree);
             pManager.AddIntegerParameter("Neighbour Handle index", "nH", "Neighbour Handle\nindex of neighbour AssemblyObject's connected Handle\n-1 if Handle is available or occluded", GH_ParamAccess.tree);
         }
@@ -48,7 +48,7 @@ namespace Assembler
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            List<AssemblyObject> AO = new List<AssemblyObject>();
+            List<AssemblyObject> AOs = new List<AssemblyObject>();
             Assemblage AOa = null;
             // input data sanity check
             if (!DA.GetData("Assemblage", ref AOa)) return;
@@ -56,18 +56,19 @@ namespace Assembler
             if (AOa == null) return;
 
             // cast input to AssemblyObject type
-            AO = AOa.AssemblyObjects.AllData();
+            AOs = AOa.AssemblyObjects.AllData();
 
             GH_Structure<GH_Integer> hOTree = new GH_Structure<GH_Integer>();
             GH_Structure<GH_Integer> nOTree = new GH_Structure<GH_Integer>();
             GH_Structure<GH_Integer> nHTree = new GH_Structure<GH_Integer>();
 
             GH_Path p;
-            for (int i = 0; i < AO.Count; i++)
+            for (int i = 0; i < AOs.Count; i++)
             {
                 //Topology main path is the object AInd
-                p = new GH_Path(0, AO[i].AInd);
-                foreach (Handle h in AO[i].Handles)
+                p = new GH_Path(AOs[i].AInd);
+                //p = new GH_Path(0, AOs[i].AInd); // 1.2 version
+                foreach (Handle h in AOs[i].Handles)
                 {
                     hOTree.Append(new GH_Integer(h.Occupancy), p);
                     nOTree.Append(new GH_Integer(h.NeighbourObject), p);

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Assembler.Utils;
+﻿using Assembler.Utils;
 using AssemblerLib;
 using Grasshopper.Kernel;
-using Rhino.Geometry;
+using System;
 
 namespace Assembler
 {
@@ -14,7 +12,7 @@ namespace Assembler
         /// </summary>
         public D_InspectAOValues()
           : base("Inspect AO values", "IAOval",
-              "Inspect an AssemblyObject receiver and sender values (Debug)",
+              "Inspect an AssemblyObject values (Debug)",
               "Assembler", "Components")
         {
         }
@@ -48,7 +46,6 @@ namespace Assembler
             // sanity check on inputs
             if (!DA.GetData("Assembly Object", ref GH_AO)) return;
             AO = GH_AO.Value;
-
             DA.SetData(0, AO.ReceiverValue);
             DA.SetData(1, AO.SenderValue);
             DA.SetData(2, AO.IWeight);

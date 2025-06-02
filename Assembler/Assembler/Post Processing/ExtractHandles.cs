@@ -36,7 +36,7 @@ namespace Assembler
             pManager.AddPlaneParameter("Handles Sender Planes", "SP", "Sender Planes of each Handle in the AssemblyObject", GH_ParamAccess.list);
             pManager.AddIntegerParameter("Handles Types", "T", "Type of each Handle in the AssemblyObject", GH_ParamAccess.list);
             pManager.AddNumberParameter("Handles Weights", "W", "Weight of each Handle in the AssemblyObject", GH_ParamAccess.list);
-            pManager.AddIntegerParameter("Handle Occupancy", "hO", "Handle Occupancy status\n-1 occluded\n0 available\n1 connected", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("Handle Occupancy", "hO", "Handle Occupancy status\n-1 occluded\n0 available\n1 connected\n2 contact", GH_ParamAccess.list);
             pManager.AddIntegerParameter("Neighbour Object index", "nO", "Neighbour Object\nindex of neighbour AssemblyObject (connected or occluding)\n-1 if Handle is available", GH_ParamAccess.list);
             pManager.AddIntegerParameter("Neighbour Handle index", "nH", "Neighbour Handle\nindex of neighbour AssemblyObject's connected Handle\n-1 if Handle is available or occluded", GH_ParamAccess.list);
         }
@@ -62,7 +62,7 @@ namespace Assembler
 
             for (int i = 0; i < AO.Handles.Length; i++)
             {
-                hSPlanes[i] = new GH_Plane(AO.Handles[i].Sender);
+                hSPlanes[i] = new GH_Plane(AO.Handles[i].SenderPlane);
                 hTypes[i] = new GH_Integer(AO.Handles[i].Type);
                 hWeights[i] = new GH_Number(AO.Handles[i].Weight);
                 hOccupancy[i] = new GH_Integer(AO.Handles[i].Occupancy);
@@ -79,6 +79,15 @@ namespace Assembler
         }
 
         /// <summary>
+        /// Exposure override for position in the Subcategory (options primary to septenary)
+        /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
+        /// </summary>
+        public override GH_Exposure Exposure
+        {
+            get { return GH_Exposure.quarternary; }
+        }
+
+        /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
         protected override System.Drawing.Bitmap Icon
@@ -89,15 +98,6 @@ namespace Assembler
                 // return Resources.IconForThisComponent;
                 return Resources.Extract_Sender_Handles_Planes;
             }
-        }
-
-        /// <summary>
-        /// Exposure override for position in the Subcategory (options primary to septenary)
-        /// https://apidocs.co/apps/grasshopper/6.8.18210/T_Grasshopper_Kernel_GH_Exposure.htm
-        /// </summary>
-        public override GH_Exposure Exposure
-        {
-            get { return GH_Exposure.quarternary; }
         }
 
         /// <summary>

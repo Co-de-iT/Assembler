@@ -1,5 +1,6 @@
 ﻿using Assembler.Properties;
 using AssemblerLib;
+using AssemblerLib.Utils;
 using GH_IO.Serialization;
 using Grasshopper.GUI.Gradient;
 using Grasshopper.Kernel;
@@ -17,12 +18,12 @@ namespace Assembler
     [Obsolete]
     public class L_DisplayAssemblage : GH_Component
     {
-
         private string displayMode;
 
         private Mesh[] meshes;
         private GH_Line[] edges;
         private Color[] colors;
+        private double[] values;
 
         /// <summary>
         /// Initializes a new instance of the DisplayAssemblage class.
@@ -32,6 +33,11 @@ namespace Assembler
               "Display Assemblage with a set of modes",
               "Assembler", "Post Processing")
         {
+            // this hides the component preview when placed onto the canvas
+            // source: http://frasergreenroyd.com/how-to-stop-components-from-automatically-displaying-results-in-grasshopper/
+            IGH_PreviewObject prevObj = (IGH_PreviewObject)this;
+            prevObj.Hidden = true;
+
             displayMode = GetValue("OutputType", "Objects");
             UpdateMessage();
             ExpireSolution(true);
@@ -56,6 +62,7 @@ namespace Assembler
             pManager.AddMeshParameter("Colored Collision Meshes", "CM", "The Collision Meshes, colored by selected mode", GH_ParamAccess.list);
             pManager.AddLineParameter("Edges", "E", "Collision Mesh Edges for display", GH_ParamAccess.list);
             pManager.AddColourParameter("Colors", "C", "The colors by selected mode", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Values", "V", "The values for the selected mode (if pertinent), normalized in a 0-1 range", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -70,15 +77,17 @@ namespace Assembler
             bool colOnly = false;
             DA.GetData(1, ref colOnly);
 
-            meshes = colOnly? null : new Mesh[AOa.AssemblyObjects.BranchCount];
+            meshes = colOnly ? null : new Mesh[AOa.AssemblyObjects.BranchCount];
             edges = null;
             colors = new Color[AOa.AssemblyObjects.BranchCount];
+            values = new double[AOa.AssemblyObjects.BranchCount];
 
             SetPreviewData(AOa, displayMode, colOnly);
 
             DA.SetDataList(0, meshes);
             DA.SetDataList(1, edges);
             DA.SetDataList(2, colors);
+            DA.SetDataList(3, values);
         }
 
         public void SetPreviewData(Assemblage AOa, string displayMode, bool colOnly)
@@ -95,26 +104,25 @@ namespace Assembler
                     break;
                 case "AO Types": // by type
                     // use type palette if number of types is smaller than the number of Colors in the palette
-                    if (AOa.AOSet.Length <= Utilities.AOTypePalette.Length)
+                    if (AOa.AOSet.Length <= Constants.AOTypePalette.Length)
                         Parallel.For(0, colors.Length, i =>
                         {
-                            colors[i] = Utilities.AOTypePalette[AOa.AssemblyObjects.Branches[i][0].Type];
+                            colors[i] = Constants.AOTypePalette[AOa.AssemblyObjects.Branches[i][0].Type];
                         });
                     // otherwise use random Colors
                     else
                         Parallel.For(0, colors.Length, i =>
                         {
-                            colors[i] = Color.FromKnownColor(Utilities.colorlist[AOa.AssemblyObjects.Branches[i][0].Type % Utilities.colorlist.Count]);
+                            colors[i] = Color.FromKnownColor(Constants.KnownColorList[AOa.AssemblyObjects.Branches[i][0].Type % Constants.KnownColorList.Count]);
                         });
                     break;
                 case "Occupancy": // occupancy
                     // saturated 112,117,57 (dark green) - available white - unreachable 194,199,137 (light green)
-                    int[] availableObjects = AOa.ExtractAvailableObjects().Select(i => i.Value).ToArray();
-                    int[] unreachableObjects = AOa.ExtractUnreachableObjects().Select(i => i.Value).ToArray();
+                    int[] availableObjects = AOa.ExtractAvailableObjectsIndexes().Select(i => i.Value).ToArray();
+                    int[] unreachableObjects = AOa.ExtractUnreachableObjectsIndexes().Select(i => i.Value).ToArray();
 
                     Parallel.For(0, colors.Length, i =>
                     {
-                        //int AOInd = AOa.AssemblyObjects.Paths[i][0];
                         int AOInd = AOa.AssemblyObjects.Branches[i][0].AInd;
                         if (availableObjects.Contains(AOInd)) colors[i] = Color.White;
                         else if (unreachableObjects.Contains(AOInd)) colors[i] = Color.FromArgb(194, 199, 137);
@@ -126,35 +134,44 @@ namespace Assembler
                 case "Sequence": // sequence
                     Parallel.For(0, colors.Length, i =>
                     {
-                        colors[i] = Utilities.historyGradient.ColourAt(i / ((double)colors.Length));
+                        colors[i] = Constants.HistoryGradient.ColourAt(i / ((double)colors.Length));
                     });
                     break;
                 case "Z Value": // zHeight
                     BoundingBox AOaBBox = BoundingBox.Empty;
-                    for(int i=0; i< AOa.AssemblyObjects.BranchCount; i++)
-                        AOaBBox.Union(AOa.AssemblyObjects.Branches[i][0].CollisionMesh.GetBoundingBox(false)); //ao.ReferencePlane.Origin
-                    //foreach (AssemblyObject ao in AOa.assemblyObjects.AllData())
-                    //    AOaBBox.Union(ao.CollisionMesh.GetBoundingBox(false)); //ao.ReferencePlane.Origin
+                    for (int i = 0; i < AOa.AssemblyObjects.BranchCount; i++)
+                        AOaBBox.Union(AOa.AssemblyObjects.Branches[i][0].CollisionMesh.GetBoundingBox(false));
                     double minZ = AOaBBox.Min.Z;
                     double maxZ = AOaBBox.Max.Z;
                     double invZSpan = 1 / (maxZ - minZ);
                     Parallel.For(0, colors.Length, i =>
                     {
-                        double t = (AOa.AssemblyObjects.Branches[i][0].ReferencePlane.Origin.Z - minZ) * invZSpan;
-                        colors[i] = Utilities.zHeightGradient.ColourAt(t);
+                        double heightParam = (AOa.AssemblyObjects.Branches[i][0].ReferencePlane.Origin.Z - minZ) * invZSpan;
+                        values[i] = heightParam;
+                        colors[i] = Constants.ZHeightGradient.ColourAt(heightParam);
                     });
                     break;
                 case "AO Weights": // AssemblyObject Weight
+                    double[] weights = new double[colors.Length];
                     Parallel.For(0, colors.Length, i =>
                     {
-                        colors[i] = GH_Gradient.GreyScale().ColourAt(AOa.AssemblyObjects.Branches[i][0].Weight);
+                        weights[i] = AOa.AssemblyObjects.Branches[i][0].Weight;
+                    });
+                    double minWeight = weights.Min();
+                    double maxWeight = weights.Max();
+                    double denominator = minWeight == maxWeight ? 0 : 1.0 / (maxWeight - minWeight);
+                    Parallel.For(0, colors.Length, i =>
+                    {
+                        colors[i] = GH_Gradient.GreyScale().ColourAt((weights[i] - minWeight) * denominator);
                     });
                     break;
                 case "Connectedness": // connectedness (n. of non-free handlesTree/total handlesTree)
+                    // maybe change to n. of connected Handles over total (exclude occluded Handles)
                     Parallel.For(0, colors.Length, i =>
                     {
                         double connectedness = 1 - (AOa.AssemblyObjects.Branches[i][0].Handles.Where(h => h.Occupancy == 0).Sum(x => 1) / (double)(AOa.AssemblyObjects.Branches[i][0].Handles.Length));
                         colors[i] = GH_Gradient.Traffic().ColourAt(connectedness);
+                        values[i] = connectedness;
                     });
                     break;
                 case "Orientation": // Orientation
@@ -182,10 +199,12 @@ namespace Assembler
                     double min = rValues.Min();
                     double max = rValues.Max();
                     // avoid division by 0
-                    double factor = min == max ? 0 : 1 / (max - min);
+                    double factor = min == max ? 0 : 1.0 / (max - min);
                     Parallel.For(0, colors.Length, i =>
                     {
-                        colors[i] = Utilities.receiverValuesGradient.ColourAt((AOa.AssemblyObjects.Branches[i][0].ReceiverValue - min) * factor);
+                        double receiverParam = (AOa.AssemblyObjects.Branches[i][0].ReceiverValue - min) * factor;
+                        colors[i] = Constants.ReceiverValuesGradient.ColourAt(receiverParam);
+                        values[i] = receiverParam;
                     });
                     break;
                 case "Local Density": // Local Density
@@ -203,8 +222,8 @@ namespace Assembler
                             AOCollisionMaxVolume = AOsetCollisionVolumes[i];
                     }
 
-                    double referenceVolume = 1 / (AOCollisionMaxVolume * 8);// equals to a box twice the scale
-                    double[] localDensities = new double[colors.Length];
+                    double referenceVolume = 1.0 / (AOCollisionMaxVolume * 8);// equals to a box twice the scale
+
                     Parallel.For(0, colors.Length, i =>
                     {
                         // get collision volume for the present object
@@ -218,19 +237,20 @@ namespace Assembler
 
                             // else (if connected or occluded) add other object collision volume
                             int connectedIndex = AOa.AssemblyObjects.Branches[i][0].Handles[j].NeighbourObject;
-                            int connectedType = AOa.AssemblyObjects[new GH_Path(connectedIndex),0].Type;
+                            int connectedType = AOa.AssemblyObjects[new GH_Path(connectedIndex), 0].Type;
 
                             localVolumes += AOsetCollisionVolumes[connectedType];
                         }
 
-                        localDensities[i] = localVolumes * referenceVolume;
-                        colors[i] = Utilities.densityGradient.ColourAt(localDensities[i]);
+                        double localDensity = localVolumes * referenceVolume;
+                        colors[i] = Constants.DensityGradient.ColourAt(localDensity);
+                        values[i] = localDensity;
                     });
                     // write a "normalize with limits" function?
-                    //double[] normalizedDensities = Utilities.NormalizeRange(localDensities);
+                    //double[] normalizedDensities = MathUtils.NormalizeRange(localDensities);
                     //Parallel.For(0, Colors.Length, i =>
                     //{
-                    //    Colors[i] = Utilities.densityGradient.ColourAt(normalizedDensities[i]);
+                    //    Colors[i] = Constants.densityGradient.ColourAt(normalizedDensities[i]);
                     //});
                     break;
                 // possible other display modes:
@@ -244,20 +264,20 @@ namespace Assembler
 
             // assign Colors to meshes
             Parallel.For(0, AOa.AssemblyObjects.BranchCount, i =>
-           {
-               Mesh m = new Mesh();
-               m.CopyFrom(AOa.AssemblyObjects.Branches[i][0].CollisionMesh);
-               m.Unweld(0, true);
-               m.VertexColors.Clear();
-               for (int j = 0; j < m.Vertices.Count; j++)
-                   m.VertexColors.Add(colors[i]);
-               meshes[i] = m;
+            {
+                Mesh m = new Mesh();
+                m.CopyFrom(AOa.AssemblyObjects.Branches[i][0].CollisionMesh);
+                m.Unweld(0, true);
+                m.VertexColors.Clear();
+                for (int j = 0; j < m.Vertices.Count; j++)
+                    m.VertexColors.Add(colors[i]);
+                meshes[i] = m;
 
-           });
+            });
 
             joined = new Mesh();
             joined.Append(meshes);
-            edges = Utilities.GetSihouette(joined);
+            edges = MeshUtils.GetSilhouette(joined);
             //cols = Colors;
         }
 
@@ -285,7 +305,7 @@ namespace Assembler
             ToolStripMenuItem toolStripMenuItem10 = Menu_AppendItem(menu, "Receiver Values", ReceiverValues_Click, true, GetValue("OutputType", "Objects") == "Receiver Values");
             toolStripMenuItem10.ToolTipText = "Receiver value of each AssemblyObject - white (minimum), dark red (maximum)";
             ToolStripMenuItem toolStripMenuItem11 = Menu_AppendItem(menu, "Local Density", LocalDensity_Click, true, GetValue("OutputType", "Objects") == "Local Density");
-            toolStripMenuItem11.ToolTipText = "Bounding Box volume of each AssemblyObject and its connected or occluded neighbours / their cumulative Bounding Box volume";
+            toolStripMenuItem11.ToolTipText = "Sum of the Bounding Box volumes of the AssemblyObject and its connected or occluded neighbours / (the volume of the Bounding Box for the largest AO in the AOSet scaled 2x)";
             Menu_AppendSeparator(menu);
         }
 
@@ -428,7 +448,7 @@ namespace Assembler
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("09104f07-118f-46e5-8bb5-d101105897bf"); }
+            get { return new Guid("9E0BC1B6-0F03-4496-9E2B-AE28E3BC1BE9"); }
         }
     }
 }

@@ -1,68 +1,83 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Concurrent;
-using System.Drawing;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿using Assembler.Properties;
+using Assembler.Utils;
+using AssemblerLib;
+using AssemblerLib.Utils;
+using GH_IO.Serialization;
 using Grasshopper;
 using Grasshopper.Kernel;
+using Grasshopper.Kernel.Components;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
-using Rhino.Geometry;
+using Rhino;
 using Rhino.Display;
-using AssemblerLib;
-using Assembler.Properties;
+using Rhino.DocObjects;
+using Rhino.Geometry;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Assembler
 {
     [Obsolete]
-    public class L_HeuristicsDisplay : GH_Component
+    public class L_HeuristicsDisplay : GH_CustomPreviewComponent
     {
-        bool showEdges, haveXData;
-        private BoundingBox _clip;
-        private List<XData> xDCatalog;
-        private List<Mesh> _mesh;
-        private List<Mesh> _invalidMesh;
+        private bool filterkWZLock, _showEdges, _haveXData;
+        private string displayType;
+        private double _textSize;
+        private readonly double _textRatio = 0.025;
+        private readonly double _textShift = 0.45;
+        private readonly int _width = 1;
+        private BoundingBox _boundingBox;
+
+        private List<GH_CustomPreviewItem> _items, _XDitems;
+        private List<XData> _xDCatalog;
+        //private List<Mesh> _mesh;
         private List<Color> _color;
         private List<DisplayMaterial> _mat;
-        private List<Point3d> eg_Points;
-        private List<Curve> eg_Curves;
-        private List<Brep> eg_Breps;
-        private List<Mesh> eg_Meshes;
-        private double textSize;
-        private readonly int _width = 1;
-        private Color[] colorCatalog;
-        private DisplayMaterial[] matCatalog;
-        private GH_Line[][] edgeCatalog;
+        private List<Point3d> _XDPoints;
+        private List<Curve> _XDCurves;
+        private List<Brep> _XDBreps;
+        private List<Mesh> _XDMeshes;
+        private Color[] _typeColorCatalog, _srColorCatalog;
+        private DisplayMaterial[] _typeMatCatalog, _srMatCatalog;
+        private GH_Line[][] _edgeCatalog;
 
-        private Dictionary<string, int> catalog;
-        DataTree<AssemblyObject> AOpairs;
-        DataTree<XData> xData;
-        DataTree<GH_Line> geomEdges;
-        DataTree<GH_Line> displayEdges;
-        DataTree<GH_Line> invalidDisplayEdges;
-        DataTree<Color> edgeColor;
-        DataTree<Plane> textLocations;
-        DataTree<Plane> numberLocations;
-        DataTree<Point3d> bbCenters;
-        DataTree<string> rulesText;
-        DataTree<bool> coherencePattern;
+        private DataTree<AssemblyObject> AOpairs;
+        private DataTree<XData> xData;
+        private DataTree<GH_Line> geomEdges;
+        private DataTree<GH_Line> displayEdges;
+        private DataTree<GH_Line> invalidDisplayEdges;
+        private DataTree<GH_Line> ZincompatibleDisplayEdges;
+        private DataTree<Color> edgeColor;
+        private DataTree<Plane> gridLocations;
+        private DataTree<Plane> textLocations;
+        private DataTree<Plane> numberLocations;
+        private DataTree<Point3d> bbCenters;
+        private DataTree<string> rulesText;
+        private DataTree<bool> coherencePattern;
+        private DataTree<bool> zLockPattern;
 
-        private readonly Color[] objPalette = new Color[] { Color.AliceBlue, Color.SlateGray, Color.Goldenrod, Color.YellowGreen, Color.DarkKhaki, Color.CadetBlue,
-            Color.Plum, Color.LightSteelBlue, Color.PaleTurquoise, Color.Olive, Color.Violet, Color.DarkGray, Color.DarkSlateGray, Color.DarkGoldenrod, Color.DarkOliveGreen};
-
-        private readonly Color[] srPalette = new Color[] { Color.FromArgb(229, 229, 220), Color.SlateGray };
-        private readonly DisplayMaterial[] srMatPalette = new DisplayMaterial[] { new DisplayMaterial(Color.FromArgb(229, 229, 220)), new DisplayMaterial(Color.SlateGray) };
+        public override BoundingBox ClippingBox => _boundingBox;
+        public override bool IsBakeCapable => _items.Count > 0;
 
         /// <summary>
         /// Initializes a new instance of the HeuristicDisplay class.
         /// </summary>
         public L_HeuristicsDisplay()
-          : base("Heuristic Display", "HeuD",
-              "Display Heuristics as visual combination of AssemblyObjects\nLEGACY component",
-              "Assembler", "Heuristics")
+          : base()
         {
+            Name = "Heuristic Display";
+            NickName = "HeuD";
+            Description = "Display Heuristics as visual combination of AssemblyObjects";
+            Category = "Assembler";
+            SubCategory = "Heuristics";
+
+            filterkWZLock = GetValue("ZLockFilter", false);
+            displayType = GetValue("OutputType", "AO Types");
+            UpdateMessage();
+            ExpireSolution(true);
         }
 
         /// <summary>
@@ -73,17 +88,15 @@ namespace Assembler
             pManager.AddPointParameter("Origin Point", "P", "Origin Point for Display", GH_ParamAccess.item, new Point3d());
             pManager.AddGenericParameter("AssemblyObjects Set", "AOs", "List of Assembly Objects in the set", GH_ParamAccess.list);
             pManager.AddGenericParameter("XData", "XD", "Xdata associated with the AssemblyObject in the catalog", GH_ParamAccess.list);
-            pManager.AddTextParameter("Heuristics String", "HeS", "Heuristics String", GH_ParamAccess.list);
-            pManager.AddNumberParameter("X size", "Xs", "Cell size along X direction as % of Bounding Box", GH_ParamAccess.item, 1.0);
-            pManager.AddNumberParameter("Y size", "Ys", "Cell size along Y direction as % of Bounding Box", GH_ParamAccess.item, 1.0);
+            pManager.AddTextParameter("Heuristics Set", "HeS", "Heuristics Set", GH_ParamAccess.list);
+            pManager.AddNumberParameter("X size", "Xs", "Cell size along X direction as % of Bounding Box", GH_ParamAccess.item, 1.2);
+            pManager.AddNumberParameter("Y size", "Ys", "Cell size along Y direction as % of Bounding Box", GH_ParamAccess.item, 1.2);
+            pManager.AddNumberParameter("Text size", "Ts", "Text size as % of default size\nDefault size is computed proportionally to geometry size", GH_ParamAccess.item, 1.0);
             pManager.AddIntegerParameter("n. Rows", "nR", "number of rows", GH_ParamAccess.item, 10);
-            pManager.AddColourParameter("Colors", "C", "Color pair for receiver and sender, receiver first", GH_ParamAccess.list);
-            pManager.AddBooleanParameter("Show Edges", "E", "Show Mesh edges", GH_ParamAccess.item, false);
-            pManager.AddIntegerParameter("Display Mode", "D", "Choose which display mode to use\n0 - by AssemblyObject type\n1 - by Sender/Receiver status\n\nattach a value list component for automatic list generation", GH_ParamAccess.item, 0);
+            pManager.AddColourParameter("Colors", "C", "Colors (OPTIONAL)\n2 colors for Sender-Receiver display mode (receiver first)\nOne color for component type for Display by type", GH_ParamAccess.list);
+
             pManager[2].Optional = true; // XData is optional
-            pManager[7].Optional = true; // Colors are optional
-            pManager[8].Optional = true; // show edges is optional
-            pManager[9].Optional = true; // display mode is optional
+            pManager[8].Optional = true; // Colors are optional
         }
 
         /// <summary>
@@ -99,441 +112,447 @@ namespace Assembler
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "This is an obsolete component - replace it with a new version from the Ribbon");
+            List<AssemblyObjectGoo> GH_AOs = new List<AssemblyObjectGoo>();
+            List<AssemblyObject> AOSet = new List<AssemblyObject>();
+            List<Color> InputColors = new List<Color>();
+            List<Color> TypeColors = new List<Color>();
+            bool edges = GetValue("ShowEdges", true);
 
-            List<AssemblyObject> AOs = new List<AssemblyObject>();
-            List<Color> Cols = new List<Color>();
-            bool edges = false;
+            // sanity check on mandatory inputs
+            if (!DA.GetDataList("AssemblyObjects Set", GH_AOs)) return;
 
-            // sanity check on inputs
-            if (!DA.GetDataList("AssemblyObjects Set", AOs)) return;
-            if (!DA.GetDataList("Colors", Cols))
-            {
-                for (int i = 0; i < AOs.Count; i++)
-                    Cols.Add(objPalette[i % AOs.Count]);
-            }
+            AOSet = GH_AOs.Where(a => a != null).Select(ao => ao.Value).ToList();
+
+            if (AOSet.Count == 0)
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Please provide at least one valid AssemblyObject");
 
             List<string> HeS = new List<string>();
-            if (!DA.GetDataList("Heuristics String", HeS)) return;
+            if (!DA.GetDataList("Heuristics Set", HeS)) return;
 
             // get XData catalog
-            xDCatalog = new List<XData>();
-            DA.GetDataList(2, xDCatalog);
-            // flag for extra geometry existence
-            haveXData = (xDCatalog != null) && (xDCatalog.Count > 0);
+            _xDCatalog = new List<XData>();
+            DA.GetDataList(2, _xDCatalog);
+            // flag for XData existence
+            _haveXData = (_xDCatalog != null) && (_xDCatalog.Count > 0);
 
-            // get the rest of inputs
+            // get the remaining inputs
             Point3d P = new Point3d();
             double xS = double.NaN;
             double yS = double.NaN;
+            double tS = double.NaN;
             int nR = 1;
-            int dMode = 0;
+
             DA.GetData("Origin Point", ref P);
             DA.GetData("X size", ref xS);
             DA.GetData("Y size", ref yS);
+            DA.GetData("Text size", ref tS);
             DA.GetData("n. Rows", ref nR);
-            DA.GetData("Show Edges", ref edges);
-            DA.GetData("Display Mode", ref dMode);
 
-            // __________________ autoList part __________________
-
-            // variable for the list
-            Grasshopper.Kernel.Special.GH_ValueList vList;
-            // tries to cast input as list
-            try
+            if (!DA.GetDataList("Colors", InputColors))
             {
-
-                // if the list is not the first parameter then change Input[0] to the corresponding value
-                vList = (Grasshopper.Kernel.Special.GH_ValueList)Params.Input[9].Sources[0];
-
-                if (!vList.NickName.Equals("Display"))
+                // if there's no Color input build TypeColor from default palette
+                if (AOSet.Count <= Constants.AOTypePalette.Length)
+                    for (int i = 0; i < AOSet.Count; i++)
+                        TypeColors.Add(Constants.AOTypePalette[i]);
+                else
                 {
-                    vList.ClearData();
-                    vList.ListItems.Clear();
-                    vList.NickName = "Display";
-                    var item1 = new Grasshopper.Kernel.Special.GH_ValueListItem("by Type", "0");
-                    var item2 = new Grasshopper.Kernel.Special.GH_ValueListItem("by s/r status", "1");
-                    vList.ListItems.Add(item1);
-                    vList.ListItems.Add(item2);
-
-                    vList.ListItems[0].Value.CastTo(out dMode);
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "You are using an exceptionally large set of AssemblyObjects - " +
+                        "Switching to random palette\n" +
+                        "Have you considered reducing the number of objects in your set?");
+                    Random rand = new Random(0);
+                    for (int i = 0; i < AOSet.Count; i++)
+                        TypeColors.Add(Color.FromKnownColor(Constants.KnownColorList[rand.Next(0, Constants.KnownColorList.Count - 1)]));
                 }
             }
-            catch
+
+            if (InputColors.Count > 0)
             {
-                // handlesTree anything that is not a value list
+                // check input Colors sanity if in AO Types mode
+                if (InputColors.Count < AOSet.Count && GetValue("OutputType", "AO Types") == "AO Types")
+                {
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Please provide one color for each AssemblyObject in the set");
+                    return;
+                }
+                TypeColors = InputColors;
             }
 
-            // cast input to AssemblyObject type
-            AssemblyObject[] components = AOs.ToArray();
+            // update message (otherwise component does not show message when loading a file containing it)
+            UpdateMessage();
 
-            // Build Component catalog
-            catalog = Utilities.BuildDictionary(components);
+            // build Component catalog
+            Dictionary <string, int>_AOcatalog = AssemblageUtils.BuildDictionary(AOSet.ToArray());
 
-            // Build Heuristics Tree
-            DataTree<Rule> HeR = HeuristicsRulesFromString(AOs, HeS);//, out HeSTree);
+            // build Rules List
+            List<Rule> HeR = RuleUtils.HeuristicsRulesFromString(AOSet, _AOcatalog, HeS);
 
             // build edge catalog
-            edgeCatalog = new GH_Line[components.Length][];
-            for (int i = 0; i < edgeCatalog.Length; i++)
-                edgeCatalog[i] = GetSihouette(components[i].CollisionMesh);
+            _edgeCatalog = new GH_Line[AOSet.Count][];
+            for (int i = 0; i < _edgeCatalog.Length; i++)
+                _edgeCatalog[i] = MeshUtils.GetSilhouette(AOSet[i].CollisionMesh);
 
             // build Colors and materials catalogs
-            colorCatalog = Cols.ToArray();
-            matCatalog = CompileMatCatalog(colorCatalog);
+            _typeColorCatalog = TypeColors.ToArray();
+            if (InputColors.Count > 1)
+                _srColorCatalog = new Color[] { InputColors[0], InputColors[1] };
+            else
+                _srColorCatalog = Constants.SRPalette;
 
-            showEdges = edges;
+            _typeMatCatalog = CompileMatCatalog(_typeColorCatalog);
+            _srMatCatalog = CompileMatCatalog(_srColorCatalog);
 
-            AOpairs = GeneratePairs(components, HeR, P, xS, yS, nR);
-            SetPreviewData(AOpairs, xData, dMode != 0);
-
-        }
-
-        public GH_Line[] GetSihouette(Mesh M)
-        {
-            ConcurrentBag<GH_Line> lines = new ConcurrentBag<GH_Line>();
-            double tol = Math.PI * 0.25; // angle tolerance  ignore edges whose faces meet at an angle larger than this
-
-            M.Normals.ComputeNormals();
-            Rhino.Geometry.Collections.MeshTopologyEdgeList topologyEdges = M.TopologyEdges;
-
-            Parallel.For(0, topologyEdges.Count, i =>
-            //for (int i = 0; i < topologyEdges.Count; i++)
+            _showEdges = edges;
+            bool srMode;
+            switch (GetValue("OutputType", "AO Types"))
             {
-                int[] connectedFaces = topologyEdges.GetConnectedFaces(i);
-                if (connectedFaces.Length < 2)
-                    lines.Add(new GH_Line(topologyEdges.EdgeLine(i)));
+                case "AO Types":
+                    srMode = false;
+                    break;
+                case "S-R":
+                    srMode = true;
+                    break;
+                default:
+                    srMode = false;
+                    break;
+            }
 
-                if (connectedFaces.Length == 2)
-                {
-                    Vector3f norm1 = M.FaceNormals[connectedFaces[0]];
-                    Vector3f norm2 = M.FaceNormals[connectedFaces[1]];
-                    double nAng = Vector3d.VectorAngle(new Vector3d((double)norm1.X, (double)norm1.Y, (double)norm1.Z),
-                      new Vector3d((double)norm2.X, (double)norm2.Y, (double)norm2.Z));
-                    if (nAng > tol)
-                        lines.Add(new GH_Line(topologyEdges.EdgeLine(i)));
-
-                }
-            });
-
-            return lines.ToArray();
+            AOpairs = GeneratePairs(AOSet, HeR, P, xS, yS, tS, nR);
+            SetPreviewData(AOpairs, xData, srMode);
         }
 
         DisplayMaterial[] CompileMatCatalog(Color[] colorTable)
         {
-            DisplayMaterial[] mT = new DisplayMaterial[colorTable.Length];
+            DisplayMaterial[] materialTable = new DisplayMaterial[colorTable.Length];
 
             for (int i = 0; i < colorTable.Length; i++)
-                mT[i] = new DisplayMaterial(colorTable[i]);
+                materialTable[i] = new DisplayMaterial(colorTable[i], (255 - colorTable[i].A) / 255.0);
 
-            return mT;
+            return materialTable;
 
         }
 
-        DataTree<Rule> HeuristicsRulesFromString(List<AssemblyObject> AOset, List<string> heu)
-        {
-            DataTree<Rule> heuT = new DataTree<Rule>();
-
-            string[] rComp = heu.ToArray();
-
-            int rT, rH, rR, sT, sH;
-            double rRA;
-            int w;
-            for (int i = 0; i < rComp.Length; i++)
-            {
-                string[] rule = rComp[i].Split(new[] { '<', '%' });
-                string[] rec = rule[0].Split(new[] { '|' });
-                string[] sen = rule[1].Split(new[] { '|' });
-                // sender and receiver component types
-                sT = catalog[sen[0]];
-                rT = catalog[rec[0]];
-                // sender handle index
-                sH = Convert.ToInt32(sen[1]);
-                // weight
-                w = Convert.ToInt32(rule[2]);
-                string[] rRot = rec[1].Split(new[] { '=' });
-                // receiver handle index and rotation
-                rH = Convert.ToInt32(rRot[0]);
-                rRA = Convert.ToDouble(rRot[1]);
-                rR = AOset[rT].Handles[rH].RDictionary[rRA]; // using rotations
-
-                heuT.Add(new Rule(rec[0], rT, rH, rR, rRA, sen[0], sT, sH, w), new GH_Path(rT));
-            }
-            //heS.Graft();
-            return heuT;
-        }
-
-        public DataTree<AssemblyObject> GeneratePairs(AssemblyObject[] AO, DataTree<Rule> Hr, Point3d O, double padX, double padY, int nR)
+        private DataTree<AssemblyObject> GeneratePairs(List<AssemblyObject> AOSet, List<Rule> heuristicsRules, Point3d origin, double padX, double padY, double textSizeMult, int nRows)
         {
             DataTree<AssemblyObject> AOpairs = new DataTree<AssemblyObject>();
-            AssemblyObject sender, receiver;
+            AssemblyObject senderAO, receiverAO;
+            List<XData> XDsenderGeometry, XDreceiverGeometry;
+            List<GH_Line> senderEdges, receiverEdges;
 
-            xData = new DataTree<XData>();
-            XData senGeom, recGeom;
+            double sizeX = 0, sizeY = 0, sizeZ = 0;
 
-            geomEdges = new DataTree<GH_Line>();
-            List<GH_Line> senEdges, recEdges;
-
-            textLocations = new DataTree<Plane>();
-            numberLocations = new DataTree<Plane>();
-            bbCenters = new DataTree<Point3d>();
-            rulesText = new DataTree<string>();
-            coherencePattern = new DataTree<bool>();
-
-            double sX = 0, sY = 0, sZ = 0;
-
-            int rT, rH, sT, sH, rR;
-            Plane loc;
+            Rule rule;
+            Plane locationPlane;
 
             int countY = 0, countX = 0;
-            int total = Hr.AllData().Count;
-            int rowElements = (total / nR) + 1;
+            int totalRules = heuristicsRules.Count;
+            int rowElements = (int)Math.Ceiling(totalRules / (double)nRows);
+
+            /*
+             TO DO:
+            - use a base plane instead of point
+            1.1 record plane origin grid positions
+            1.4 Bounding Box might have to be plane-oriented (maybe not), or use the Receiver's reference plane
+            Do not orient now, wait for later (second loop)
+             */
 
             // sequence
-            // loop 1:
-            // record point grid position (countX, countY)
-            // create copies of AOs
-            // orient sender to receiver according to rule and add to geometries Tree
-            // calculate Bounding Box size and compare to sX, sY, sZ (retain maximum)
-            // calculate consistency (collisions)
-            // if consistent, orient extra geometry (sender to receiver)
+            // / / / loop 1:
+            // 1.1 record point grid position (countX, countY)
+            // 1.2 create copies of AOs
+            // 1.3 orient sender to receiver according to rule and add to geometries Tree
+            // 1.4 calculate Bounding Box size and compare to sX, sY, sZ (retain maximum)
+            // 1.5 calculate consistency (collisions)
+            // 1.5.1 if consistent, orient extra geometry (sender to receiver)
 
-            for (int i = 0; i < Hr.BranchCount; i++)
+            for (int i = 0; i < heuristicsRules.Count; i++)
             {
 
-                Rule[] rules = Hr.Branches[i].ToArray();
-                rT = rules[i].rT;
+                XDsenderGeometry = new List<XData>();
+                XDreceiverGeometry = new List<XData>();
 
-                for (int j = 0; j < rules.Length; j++)
+                // extract rule
+                rule = heuristicsRules[i];
+
+                // define location as point grid position (countX, countY)
+                locationPlane = Plane.WorldXY;
+                locationPlane.Origin = new Point3d(countX, countY, 0);
+
+                // choose sender & receiver AO from catalog
+                receiverAO = AssemblyObjectUtils.Clone(AOSet[rule.rT]);
+                senderAO = AssemblyObjectUtils.Clone(AOSet[rule.sT]);
+
+                // copy edges
+                receiverEdges = new List<GH_Line>();
+                senderEdges = new List<GH_Line>();
+                receiverEdges = _edgeCatalog[rule.rT].Select(l => new GH_Line(l)).ToList();
+                senderEdges = _edgeCatalog[rule.sT].Select(l => new GH_Line(l)).ToList();
+
+                // generate transformation orient: sender to receiver
+                Transform orientStoR = Transform.PlaneToPlane(senderAO.Handles[rule.sH].SenderPlane, receiverAO.Handles[rule.rH].ReceiverPlanes[rule.rR]);
+
+                // orient sender AssemblyObject
+                senderAO.Transform(orientStoR);
+
+                // orient edges
+                for (int j = 0; j < senderEdges.Count; j++)
+                    senderEdges[j].Transform(orientStoR);
+
+                // copy and orient XData if present
+                if (_haveXData)
                 {
-                    senGeom = null;
-                    recGeom = null;
-
-                    // extract rule parameters
-                    rH = rules[j].rH;
-                    sT = rules[j].sT;
-                    sH = rules[j].sH;
-                    rR = rules[j].rR;
-
-                    // define location as point grid position (countX, countY)
-                    loc = Plane.WorldXY;
-                    loc.Origin = new Point3d(countX, countY, 0);
-
-                    // choose components
-                    receiver = Utilities.Clone(AO[rT]);//new AssemblyObject(AO[rT]);
-                    sender = Utilities.Clone(AO[sT]);//new AssemblyObject(AO[sT]);
-
-                    recEdges = new List<GH_Line>();
-                    senEdges = new List<GH_Line>();
-                    // copy edges
-                    recEdges = edgeCatalog[rT].Select(l => new GH_Line(l)).ToList();
-                    senEdges = edgeCatalog[sT].Select(l => new GH_Line(l)).ToList();
-
-                    // generate transformation orient: sender to receiver
-                    Transform orient = Transform.PlaneToPlane(sender.Handles[sH].Sender, receiver.Handles[rH].Receivers[rR]);
-
-                    // orient sender AssemblyObject
-                    sender.Transform(orient);
-
-                    // orient edges
-                    for (int k = 0; k < senEdges.Count; k++)
-                        senEdges[k].Transform(orient);
-
-                    // copy and orient XData if present
-                    if (haveXData)
+                    for (int j = 0; j < _xDCatalog.Count; j++)
                     {
-                        for (int k = 0; k < xDCatalog.Count; k++)
+                        // receiver XData
+                        if (String.Equals(_xDCatalog[j].AOName, receiverAO.Name))
+                            XDreceiverGeometry.Add(new XData(_xDCatalog[j]));
+                        // sender XData
+                        if (String.Equals(_xDCatalog[j].AOName, senderAO.Name))
                         {
-                            // receiver XData
-                            if (String.Equals(xDCatalog[k].AOName, receiver.Name))
-                                recGeom = new XData(xDCatalog[k]);
-                            // sender XData
-                            if (String.Equals(xDCatalog[k].AOName, sender.Name))
-                            {
-                                senGeom = new XData(xDCatalog[k]);
-                                senGeom.Transform(orient);
-                            }
+                            XData XDsenderGeomTemp = new XData(_xDCatalog[j]);
+                            XDsenderGeomTemp.Transform(orientStoR);
+                            XDsenderGeometry.Add(XDsenderGeomTemp);
                         }
                     }
-                    // calculate Bounding Box and compare size to initial parameters
-                    BoundingBox bb = receiver.CollisionMesh.GetBoundingBox(false);
-                    bb.Union(sender.CollisionMesh.GetBoundingBox(false));
+                }
+                // calculate Bounding Box and compare size to initial parameters
+                BoundingBox bb = receiverAO.CollisionMesh.GetBoundingBox(false);
+                bb.Union(senderAO.CollisionMesh.GetBoundingBox(false));
 
-                    // record center plane of AO combination
-                    bbCenters.Add(bb.Center, Hr.Paths[i].AppendElement(j));
+                // record center point of AO combination
+                bbCenters.Add(bb.Center, new GH_Path(i));
 
-                    // retain largest dimensions (for grid final size)
-                    sX = Math.Max(sX, bb.Diagonal.X);
-                    sY = Math.Max(sY, bb.Diagonal.Y);
-                    sZ = Math.Max(sZ, bb.Diagonal.Z);
+                // retain largest dimensions (for grid final size)
+                sizeX = Math.Max(sizeX, bb.Diagonal.X);
+                sizeY = Math.Max(sizeY, bb.Diagonal.Y);
+                sizeZ = Math.Max(sizeZ, bb.Diagonal.Z);
 
-                    // add AssemblyObjects to DataTree - same path of heuristic + one more index for rotations
-                    AOpairs.Add(receiver, Hr.Paths[i].AppendElement(j));
-                    AOpairs.Add(sender, Hr.Paths[i].AppendElement(j));
-                    // edges need one more index for sender/receiver identification (0 receiver, 1 sender)
-                    geomEdges.AddRange(recEdges, Hr.Paths[i].AppendElement(j).AppendElement(0));
-                    geomEdges.AddRange(senEdges, Hr.Paths[i].AppendElement(j).AppendElement(1));
+                // add AssemblyObjects to DataTree - same path of heuristic rule
+                AOpairs.Add(receiverAO, new GH_Path(i));
+                AOpairs.Add(senderAO, new GH_Path(i));
+                // edges need one more index for sender/receiver identification (0 receiver, 1 sender)
+                geomEdges.AddRange(receiverEdges, new GH_Path(i, 0));
+                geomEdges.AddRange(senderEdges, new GH_Path(i, 1));
 
-                    // add point grid location to tree
-                    textLocations.Add(loc, Hr.Paths[i].AppendElement(j));
+                // add point grid location to tree
+                gridLocations.Add(locationPlane, new GH_Path(i));
+                //textLocations.Add(locationPlane, new GH_Path(i));
 
-                    // fill coherence pattern & orient extra geometry only if valid combination
-                    bool valid = !Utilities.CollisionCheckPair(receiver, sender);
-                    coherencePattern.Add(valid, Hr.Paths[i].AppendElement(j));
+                // fill coherence pattern & orient extra geometry only if valid combination
+                bool valid = !AssemblageUtils.IsAOCollidingWithAnother(receiverAO, senderAO);
+                // check for Z orientation lock
+                // if sender is NOT oriented as World Z rule is considered Z-Lock incompatible (but not invalid)
+                bool zLockChecked = true;
+                if (filterkWZLock && senderAO.WorldZLock)
+                    zLockChecked = AssemblyObjectUtils.AbsoluteZCheck(senderAO, Constants.RhinoAbsoluteTolerance);
 
-                    if (valid && haveXData)
-                    {
-                        // extra geometries need one more index for sender/receiver identification (0 receiver, 1 sender)
-                        if (recGeom != null) xData.Add(recGeom, Hr.Paths[i].AppendElement(j).AppendElement(0));
-                        if (senGeom != null) xData.Add(senGeom, Hr.Paths[i].AppendElement(j).AppendElement(1));
-                    }
+                zLockPattern.Add(zLockChecked, new GH_Path(i));
+                coherencePattern.Add(valid, new GH_Path(i));
 
-                    // rewrite rule for display and add to the text Tree
-                    string rule = rules[j].ToString();
-                    rulesText.Add(rule, Hr.Paths[i].AppendElement(j));
+                // display XData only if valid AND zLockChecked
+                if (valid && zLockChecked && _haveXData)
+                {
+                    // extra geometries need one more index for sender/receiver identification (0 receiver, 1 sender)
+                    if (XDreceiverGeometry.Count > 0) xData.AddRange(XDreceiverGeometry, new GH_Path(i, 0));
+                    if (XDsenderGeometry.Count > 0) xData.AddRange(XDsenderGeometry, new GH_Path(i, 1));
+                }
 
-                    // calculate next grid position
-                    countX++;
-                    if (countX % rowElements == 0)
-                    {
-                        countX = 0;
-                        countY++;
-                    }
+                // rewrite rule for display and add to the text Tree
+                string ruleText = heuristicsRules[i].ToString();
+                rulesText.Add(ruleText, new GH_Path(i));
+
+                // calculate next grid position
+                countX++;
+                if (countX % rowElements == 0)
+                {
+                    countX = 0;
+                    countY++;
                 }
             }
 
             // calculate _textSize
-            textSize = sX * 0.025;
+            _textSize = sizeX * _textRatio * textSizeMult;
 
-            // loop2:
-            // scale point grid positions by final sX, sY, sZ
-            // move all elements (AO geometries, edges, extra geometries) in position
+            /*
+             TO-DO
+            2.1 scale along ref plane axes
+            2.2 orient instead of moving, using a custom provided orientation plane (or the input reference plane if no custom plane is provided)
+             */
+
+            // / / / loop 2:
+            // 2.1 scale point grid positions by final sizeX, sizeY, sizeZ
+            // 2.2 move all elements (AO geometries, edges, extra geometries) in position
             for (int i = 0; i < AOpairs.BranchCount; i++)
             {
-                Point3d newLoc = textLocations.Branches[i][0].Origin;
-                newLoc.X = O.X + (newLoc.X + 0.5) * sX * padX;
-                newLoc.Y = O.Y + (newLoc.Y + 0.5) * sY * padY;
-                newLoc.Z = O.Z + sZ * 0.5;
-                Point3d textLoc = new Point3d(newLoc.X, newLoc.Y - 0.45 * sY, 0);
-                Point3d numLoc = new Point3d(newLoc.X, newLoc.Y - 0.35 * sY, 0);
+                Point3d AOLoc = gridLocations.Branches[i][0].Origin;
+                //Point3d AOLoc = textLocations.Branches[i][0].Origin;
+                AOLoc.X = origin.X + (AOLoc.X + 0.5) * sizeX * padX;
+                AOLoc.Y = origin.Y + (AOLoc.Y + 0.5) * sizeY * padY;
+                AOLoc.Z = origin.Z + sizeZ * 0.5;
+                Point3d textLoc = new Point3d(AOLoc.X, AOLoc.Y - _textShift * sizeY * padY, origin.Z);
+                Point3d numLoc = new Point3d(AOLoc.X, textLoc.Y + _textSize * 2, origin.Z);
                 Plane textPlane = Plane.WorldXY;
                 Plane numberPlane = Plane.WorldXY;
                 textPlane.Origin = textLoc;
                 numberPlane.Origin = numLoc;
+
                 // record final text position
-                textLocations.Branches[i][0] = textPlane;
+                //textLocations.Branches[i][0] = textPlane;
+                textLocations.Add(textPlane, new GH_Path(i));
                 numberLocations.Add(numberPlane, new GH_Path(i));
 
                 // define transformation
-                Transform move = Transform.Translation(newLoc - bbCenters.Branches[i][0]);
+                Transform moveToAOLoc = Transform.Translation(AOLoc - bbCenters.Branches[i][0]);
 
                 // transfer AssemblyObjects
                 foreach (AssemblyObject ao in AOpairs.Branches[i])
-                    ao.Transform(move);
+                    ao.Transform(moveToAOLoc);
 
                 //transfer edges
                 for (int k = 0; k < 2; k++)
                     foreach (GH_Line l in geomEdges.Branch(AOpairs.Path(i).AppendElement(k)))
-                        l.Transform(move);
+                        l.Transform(moveToAOLoc);
 
                 // transfer extra geometries
-                if (haveXData && coherencePattern.Branches[i][0])
+                if (_haveXData && coherencePattern.Branches[i][0] && zLockPattern.Branches[i][0])
                     for (int k = 0; k < 2; k++)
                         if (xData.PathExists(AOpairs.Paths[i].AppendElement(k)))
-                            xData.Branch(AOpairs.Paths[i].AppendElement(k))[0].Transform(move);
+                            for (int j = 0; j < xData.Branch(AOpairs.Paths[i].AppendElement(k)).Count; j++)
+                                xData.Branch(AOpairs.Paths[i].AppendElement(k))[j].Transform(moveToAOLoc);
             }
             return AOpairs;
         }
 
-        public void SetPreviewData(DataTree<AssemblyObject> Aopairs, DataTree<XData> xDataTree, bool srMode)
+        private DataTree<AssemblyObject> MoveToGridPosition(DataTree<AssemblyObject> AOpairs, Point3d origin,
+            double sizeX, double sizeY, double sizeZ, double padX, double padY)
+        {
+            return AOpairs;
+        }
+
+        private void SetPreviewData(DataTree<AssemblyObject> Aopairs, DataTree<XData> xDataTree, bool srMode)
         {
             Mesh m;
-            displayEdges = new DataTree<GH_Line>();
-            invalidDisplayEdges = new DataTree<GH_Line>();
-            edgeColor = new DataTree<Color>();
-            Color eColor;
+            Color edgeColor, typeColor;
+            DisplayMaterial typeMaterial;
             int typeIndex;
 
             for (int i = 0; i < Aopairs.BranchCount; i++)
                 for (int j = 0; j < Aopairs.Branches[i].Count; j++)
                 {
                     m = Aopairs.Branches[i][j].CollisionMesh;
-                    _clip = BoundingBox.Union(_clip, m.GetBoundingBox(false));
+                    // improve preview
+                    m.Unweld(0, true);
 
-                    if (coherencePattern.Branches[i][0])
+                    _boundingBox.Union(m.GetBoundingBox(false));
+
+                    if (coherencePattern.Branches[i][0] && zLockPattern.Branches[i][0])
                     {
-                        _mesh.Add(m);
+                        //_mesh.Add(m);
                         typeIndex = AOpairs.Branches[i][j].Type;
-                        if (!haveXData) eColor = Color.Black;
-                        else eColor = srMode ? srPalette[j] : colorCatalog[typeIndex];
-                        edgeColor.Add(eColor, new GH_Path(i));
-                        _color.Add(srMode ? srPalette[j] : colorCatalog[typeIndex]);
-                        _mat.Add(srMode ? srMatPalette[j] : matCatalog[typeIndex]);
+                        if (!_haveXData) edgeColor = Color.Black;
+                        else edgeColor = srMode ? _srColorCatalog[j] : _typeColorCatalog[typeIndex];
+                        this.edgeColor.Add(edgeColor, new GH_Path(i));
+                        typeColor = srMode ? _srColorCatalog[j] : _typeColorCatalog[typeIndex];
+                        typeMaterial = srMode ? _srMatCatalog[j] : _typeMatCatalog[typeIndex];
+                        _color.Add(typeColor);
+                        _mat.Add(typeMaterial);
                         displayEdges.AddRange(geomEdges.Branch(Aopairs.Path(i).AppendElement(j)), new GH_Path(i, j));
+
+                        // create XDitem for rendered preview
+                        GH_CustomPreviewItem item = default(GH_CustomPreviewItem);
+                        GH_Mesh gm = new GH_Mesh(m);
+                        GH_Material GHmat = new GH_Material(typeMaterial);
+                        item.Geometry = gm;
+                        item.Shader = GHmat.Value;// typeMaterial;
+                        item.Colour = typeColor;
+                        item.Material = GHmat;// new GH_Material(typeMaterial);
+                        _items.Add(item);
+                        _boundingBox.Union(gm.Boundingbox);
                     }
                     else
                     {
-                        _invalidMesh.Add(m);
-                        invalidDisplayEdges.AddRange(geomEdges.Branch(Aopairs.Path(i).AppendElement(j)), new GH_Path(i, j));
+                        if (!coherencePattern.Branches[i][0])
+                            invalidDisplayEdges.AddRange(geomEdges.Branch(Aopairs.Path(i).AppendElement(j)), new GH_Path(i, j));
+                        else
+                            ZincompatibleDisplayEdges.AddRange(geomEdges.Branch(Aopairs.Path(i).AppendElement(j)), new GH_Path(i, j));
                     }
 
                 }
-            if (haveXData)
+            if (_haveXData)
             {
                 // Extrusions and Surfaces are detected as Breps
-                eg_Breps = new List<Brep>();
-                eg_Curves = new List<Curve>();
-                eg_Meshes = new List<Mesh>();
-                eg_Points = new List<Point3d>();
-
                 for (int i = 0; i < xDataTree.BranchCount; i++)
-                    if (xDataTree.Branches[i][0] != null)
-                        for (int j = 0; j < xDataTree.Branches[i][0].Data.Count; j++)
+                {
+                    if (xDataTree.Branches[i][0] == null) continue;
+                    for (int j = 0; j < xDataTree.Branches[i].Count; j++)
+                        for (int k = 0; k < xDataTree.Branches[i][j].Data.Count; k++)
                         {
-                            // Point3d are the exception as they are a struct and a cast to GeometryBase is null
+                            // Point3d Vector3d, Line & Plane are the exception as they are a struct and a cast to GeometryBase is null
                             /*
                              When they are referenced from Rhino and result as ReferencedPoint in GH, they can be cast
                             as GeometryBase - ObjectType Rhino.DocObjects.ObjectType.Point
                             If they appear as set of coordinates (as is the case of XData), they are Point3d (struct)
                              */
-                            if (xDataTree.Branches[i][0].Data[j] is Point3d)
-                                eg_Points.Add((Point3d)xDataTree.Branches[i][0].Data[j]);
-                            else
+                            if (xDataTree.Branches[i][j].Data[k] is Point3d pd)
+                                _XDPoints.Add(pd);
+                            //_XDPoints.Add((Point3d)xDataTree.Branches[i][k].Data[j]);
+                            else if (xDataTree.Branches[i][j].Data[k] is Line ld)
+                                _XDCurves.Add(ld.ToNurbsCurve());
+                            else if (xDataTree.Branches[i][j].Data[k] is GeometryBase gb)
                             {
-                                GeometryBase gb = xDataTree.Branches[i][0].Data[j] as GeometryBase;
+                                _boundingBox = BoundingBox.Union(_boundingBox, gb.GetBoundingBox(false));
 
-                                if (gb != null)
+                                // create XDitem for rendered preview
+                                GH_CustomPreviewItem XDitem = default(GH_CustomPreviewItem);
+
+                                //convert GeometryBase in the related object type
+                                switch (gb.ObjectType)
                                 {
-                                    _clip = BoundingBox.Union(_clip, gb.GetBoundingBox(false));
-
-                                    //convert GeometryBase in the related object type
-                                    switch (gb.ObjectType)
-                                    {
-                                        case Rhino.DocObjects.ObjectType.Brep:
-                                            eg_Breps.Add(gb as Brep);
-                                            break;
-                                        case Rhino.DocObjects.ObjectType.Curve:
-                                            eg_Curves.Add(gb as Curve);
-                                            break;
-                                        case Rhino.DocObjects.ObjectType.Surface:
-                                            eg_Breps.Add((gb as Surface).ToBrep());
-                                            break;
-                                        case Rhino.DocObjects.ObjectType.Mesh:
-                                            eg_Meshes.Add(gb as Mesh);
-                                            break;
-                                        // for future implementation:
-                                        //case Rhino.DocObjects.ObjectType.Extrusion:
-                                        //    break;
-                                        //case Rhino.DocObjects.ObjectType.PointSet:
-                                        //    break;
-                                        default:
-                                            break;
-                                    }
-
+                                    case ObjectType.Brep:
+                                        _XDBreps.Add(gb as Brep);
+                                        XDitem.Geometry = new GH_Brep(gb as Brep);
+                                        break;
+                                    case ObjectType.Curve:
+                                        _XDCurves.Add(gb as Curve);
+                                        //XDitem.Geometry = new GH_Curve(gb as Curve);
+                                        break;
+                                    case ObjectType.Surface:
+                                        _XDBreps.Add((gb as Surface).ToBrep());
+                                        XDitem.Geometry = new GH_Surface(gb as Surface);
+                                        break;
+                                    case ObjectType.Mesh:
+                                        _XDMeshes.Add(gb as Mesh);
+                                        XDitem.Geometry = new GH_Mesh(gb as Mesh);
+                                        break;
+                                    // for future implementation:
+                                    //case Rhino.DocObjects.ObjectType.Extrusion:
+                                    //    break;
+                                    //case Rhino.DocObjects.ObjectType.PointSet:
+                                    //    break;
+                                    //case Rhino.DocObjects.ObjectType.SubD:
+                                    //    XD_SubD.Add(gb as SubD); // prepare a list
+                                    //    XDitem.Geometry = new GH_SubD(gb as SubD);
+                                    //    break;
+                                    default:
+                                        XDitem.Geometry = null;
+                                        break;
                                 }
+
+                                if (XDitem.Geometry != null)
+                                {
+                                    //                         AOPairs branch index    AOPairs object index
+                                    typeIndex = AOpairs.Branch(xDataTree.Paths[i][0])[xDataTree.Paths[i][1]].Type;
+                                    typeColor = srMode ? _srColorCatalog[xDataTree.Paths[i][1]] : _typeColorCatalog[typeIndex];
+                                    typeMaterial = srMode ? _srMatCatalog[xDataTree.Paths[i][1]] : _typeMatCatalog[typeIndex];
+                                    XDitem.Shader = typeMaterial;
+                                    XDitem.Colour = typeColor;
+                                    XDitem.Material = new GH_Material(typeMaterial);
+                                    _XDitems.Add(XDitem);
+                                }
+
                             }
                         }
+                }
             }
+
         }
 
 
@@ -542,65 +561,155 @@ namespace Assembler
         /// </summary>
         protected override void BeforeSolveInstance()
         {
-            _clip = BoundingBox.Empty;
-            _mesh = new List<Mesh>();
-            _invalidMesh = new List<Mesh>();
+            _boundingBox = BoundingBox.Empty;
+            //_mesh = new List<Mesh>();
             _color = new List<Color>();
             _mat = new List<DisplayMaterial>();
+            _items = new List<GH_CustomPreviewItem>();
+            _XDitems = new List<GH_CustomPreviewItem>();
+            _XDBreps = new List<Brep>();
+            _XDCurves = new List<Curve>();
+            _XDMeshes = new List<Mesh>();
+            _XDPoints = new List<Point3d>();
+            // initialize global variables
+            xData = new DataTree<XData>();
+            geomEdges = new DataTree<GH_Line>();
+            gridLocations = new DataTree<Plane>();
+            textLocations = new DataTree<Plane>();
+            numberLocations = new DataTree<Plane>();
+            bbCenters = new DataTree<Point3d>();
+            rulesText = new DataTree<string>();
+            coherencePattern = new DataTree<bool>();
+            zLockPattern = new DataTree<bool>();
+            displayEdges = new DataTree<GH_Line>();
+            ZincompatibleDisplayEdges = new DataTree<GH_Line>();
+            invalidDisplayEdges = new DataTree<GH_Line>();
+            edgeColor = new DataTree<Color>();
+            // this prevents an error on Rhino 8 - NOT ANYMORE!!!
+            base.BeforeSolveInstance();
         }
 
-
-        //Return a BoundingBox that contains all the geometry you are about to draw.
-        public override BoundingBox ClippingBox
+        protected override void AfterSolveInstance()
         {
-            get { return _clip; }
+            base.AfterSolveInstance();
+        }
+
+        public override void ClearData()
+        {
+            base.ClearData();
+            //_items = null;
+            //_XDitems = null;
+        }
+
+        [Obsolete]
+        public override void AppendRenderGeometry(GH_RenderArgs args)
+        {
+            //GH_Document gH_Document = OnPingDocument();
+            //if (gH_Document != null && (gH_Document.PreviewMode == GH_PreviewMode.Disabled || gH_Document.PreviewMode == GH_PreviewMode.Wireframe))
+            //{
+            //    return;
+            //}
+
+            //List<GH_CustomPreviewItem> XDitems = _XDitems;
+
+            if (!_haveXData)
+            {
+                if (_items != null && _items.Count != 0)
+                {
+                    foreach (GH_CustomPreviewItem item in _items)
+                        item.PushToRenderPipeline(args);
+                }
+            }
+            else if (_XDitems != null && _XDitems.Count != 0)
+            {
+                foreach (GH_CustomPreviewItem XDitem in _XDitems)
+                    XDitem.PushToRenderPipeline(args);
+
+            }
+
         }
 
         //Draw all meshes in this method.
         public override void DrawViewportMeshes(IGH_PreviewArgs args)
         {
+            // in theory DrawViewportMeshes should not run in Rendered mode when AppendRenderGeometry exists...
+            // BUT: no preview in rendered Rhino 8 with this statement without version check
+            // wait for Rhino 8 SR7 and test what happens when removing version check on this statement
+            if (RhinoApp.ExeVersion < 8 && args.Document.IsRenderMeshPipelineViewport(args.Display)) return;
 
-
-            if (haveXData)
+            if (_haveXData)
             {
-                DisplayMaterial wh = new DisplayMaterial(Color.White);
-                foreach (Brep b in eg_Breps)
-                    args.Display.DrawBrepShaded(b, wh);
-                foreach (Mesh m in eg_Meshes)
-                    args.Display.DrawMeshShaded(m, wh);
+                if (_XDitems != null)
+                {
+                    if (this.Attributes.Selected)
+                    {
+                        GH_PreviewMeshArgs args2 = new GH_PreviewMeshArgs(args.Viewport, args.Display, args.ShadeMaterial_Selected, args.MeshingParameters);
+                        foreach (GH_CustomPreviewItem item in _XDitems)
+                            item.Geometry.DrawViewportMeshes(args2);
+                    }
+                    else
+                    {
+                        foreach (GH_CustomPreviewItem item2 in _XDitems)
+                        {
+                            GH_PreviewMeshArgs args3 = new GH_PreviewMeshArgs(args.Viewport, args.Display, item2.Shader, args.MeshingParameters);
+                            item2.Geometry.DrawViewportMeshes(args3);
+                        }
+                    }
+                }
+                //else
+                //{
+                //    DisplayMaterial wh = new DisplayMaterial(Color.White);
+                //    foreach (Brep b in _XDBreps)
+                //        args.Display.DrawBrepShaded(b, wh);
+                //    foreach (Mesh m in _XDMeshes)
+                //        args.Display.DrawMeshShaded(m, wh);
+                //}
             }
             else
-                for (int i = 0; i < _mesh.Count; i++)
-                    args.Display.DrawMeshShaded(_mesh[i], _mat[i]);
+            {
+                if (_items != null)
+                {
+                    if (this.Attributes.Selected)
+                    {
+                        GH_PreviewMeshArgs args2 = new GH_PreviewMeshArgs(args.Viewport, args.Display, args.ShadeMaterial_Selected, args.MeshingParameters);
+                        foreach (GH_CustomPreviewItem item in _items)
+                            item.Geometry.DrawViewportMeshes(args2);
+                    }
+                    else
+                    {
+                        foreach (GH_CustomPreviewItem item2 in _items)
+                        {
+                            GH_PreviewMeshArgs args3 = new GH_PreviewMeshArgs(args.Viewport, args.Display, item2.Shader, args.MeshingParameters);
+                            item2.Geometry.DrawViewportMeshes(args3);
+                        }
+                    }
+                }
+            }
         }
 
         //Draw all wires and points in this method.
         public override void DrawViewportWires(IGH_PreviewArgs args)
         {
             // text
-            Rhino.Display.Text3d drawText;
+            Text3d drawText;
             for (int i = 0; i < rulesText.BranchCount; i++)
             {
-                drawText = new Text3d(rulesText.Branches[i][0], textLocations.Branches[i][0], textSize);
+                drawText = new Text3d(rulesText.Branches[i][0], textLocations.Branches[i][0], _textSize);
                 drawText.FontFace = "Lucida Console";
-                drawText.HorizontalAlignment = Rhino.DocObjects.TextHorizontalAlignment.Center;
-                drawText.VerticalAlignment = Rhino.DocObjects.TextVerticalAlignment.Top;
+                drawText.HorizontalAlignment = TextHorizontalAlignment.Center;
+                drawText.VerticalAlignment = TextVerticalAlignment.Top;
                 args.Display.Draw3dText(drawText, Color.Black);
                 drawText.Dispose();
-                //args.Display.Draw3dText(rulesText.Branches[i][0], Color.Black, textLocations.Branches[i][0], _textSize, "Lucida Console",
-                //    false, false, Rhino.DocObjects.TextHorizontalAlignment.Center, Rhino.DocObjects.TextVerticalAlignment.Top);
 
-                drawText = new Text3d(string.Format("{0}", i), numberLocations.Branches[i][0], textSize * 0.8);
+                drawText = new Text3d(string.Format("{0}", i), numberLocations.Branches[i][0], _textSize * 0.8);
                 drawText.FontFace = "Lucida Console";
-                drawText.HorizontalAlignment = Rhino.DocObjects.TextHorizontalAlignment.Center;
-                drawText.VerticalAlignment = Rhino.DocObjects.TextVerticalAlignment.Bottom;
+                drawText.HorizontalAlignment = TextHorizontalAlignment.Center;
+                drawText.VerticalAlignment = TextVerticalAlignment.Bottom;
                 args.Display.Draw3dText(drawText, Color.DimGray);
                 drawText.Dispose();
-                //args.Display.Draw3dText(string.Format("{0}", i), Color.DimGray, numberLocations.Branches[i][0], _textSize * 0.8, "Lucida Console",
-                //false, false, Rhino.DocObjects.TextHorizontalAlignment.Center, Rhino.DocObjects.TextVerticalAlignment.Bottom);
             }
 
-            if (haveXData || showEdges)
+            if (_haveXData || _showEdges)
                 for (int i = 0; i < edgeColor.BranchCount; i++)
                     for (int j = 0; j < edgeColor.Branches[i].Count; j++)
                         foreach (GH_Line edge in displayEdges.Branch(edgeColor.Path(i).AppendElement(j)))
@@ -608,35 +717,222 @@ namespace Assembler
 
             // display invalid cases
             foreach (GH_Line edge in invalidDisplayEdges.AllData())
-                args.Display.DrawLine(edge.Value, Color.Red, _width * 2);
+                args.Display.DrawLine(edge.Value, Color.FromArgb(50, 50, 50), _width * 3);
+            // display Z-incompatible cases
+            foreach (GH_Line edge in ZincompatibleDisplayEdges.AllData())
+                args.Display.DrawLine(edge.Value, Color.FromArgb(50, 50, 250), _width * 2);
 
-            if (haveXData)
+            if (_haveXData)
             {
-                foreach (Curve c in eg_Curves)
-                    args.Display.DrawCurve(c, Color.YellowGreen, 3); //DeepPink, Crimson, LimeGreen
-                foreach (Point3d p in eg_Points)
+                foreach (Curve c in _XDCurves)
+                    args.Display.DrawCurve(c, Color.YellowGreen, 3); //Alternatives: DeepPink, Crimson, LimeGreen
+                foreach (Point3d p in _XDPoints)
                     args.Display.DrawPoint(p, Color.DarkRed);
-                if (showEdges)
+                if (_showEdges)
                 {
-                    foreach (Brep b in eg_Breps)
+                    foreach (Brep b in _XDBreps)
                         args.Display.DrawBrepWires(b, Color.DarkSlateGray, 1);
-                    foreach (Mesh m in eg_Meshes)
+                    foreach (Mesh m in _XDMeshes)
                         args.Display.DrawMeshWires(m, Color.DarkSlateGray, 1);
                 }
             }
         }
 
-        /// <summary>
-        /// Provides an Icon for the component.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
+        public override void BakeGeometry(Rhino.RhinoDoc doc, ObjectAttributes att, List<Guid> objectIds)
         {
-            get
+            string HeuristicDisplayLayerName = "HD Geometry";
+            string CollisionLayerName = "HD_CollisionVolumes", XDataLayerName = "HD_XDataGeometry",
+                TextLayerName = "HD_Rules", InvalidLayerName = "HD_Invalid",
+                CurvesLayerName = "HD_XDCurves", PointsLayerName = "HD_XDPoints";
+            Layer HDparent;
+
+            HDparent = new Layer();
+            HDparent.Name = HeuristicDisplayLayerName;
+            HDparent.Color = Color.Black;
+
+            if (doc.Layers.FindByFullPath(HDparent.Name, -1) == -1)
             {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return Resources.Heuristics_Dispay_OLD;
+                doc.Layers.Add(HDparent);
             }
+
+            HDparent = doc.Layers.FindName(HDparent.Name, RhinoMath.UnsetIntIndex);
+
+            if (_items == null || _items.Count == 0) return;
+
+            if (att == null)
+            {
+                att = doc.CreateDefaultAttributes();
+            }
+
+            if (_XDitems != null && _XDitems.Count != 0)
+                att.SetDisplayModeOverride(DisplayModeDescription.FindByName("Wireframe"));
+
+            att.LayerIndex = CreateChildLayer(doc, HDparent, CollisionLayerName, Color.FromArgb(0, 255, 0));
+
+            foreach (GH_CustomPreviewItem item in _items)
+            {
+                att.ColorSource = ObjectColorSource.ColorFromObject;
+                att.ObjectColor = item.Material.Value.Diffuse;
+                Guid guid = item.PushToRhinoDocument(doc, att);
+                if (guid != Guid.Empty)
+                {
+                    objectIds.Add(guid);
+                }
+            }
+
+            // text
+            Text3d drawText;
+            att = doc.CreateDefaultAttributes();
+            att.LayerIndex = CreateChildLayer(doc, HDparent, TextLayerName, Color.DimGray);
+
+            for (int i = 0; i < rulesText.BranchCount; i++)
+            {
+                drawText = new Text3d(rulesText.Branches[i][0], textLocations.Branches[i][0], _textSize);
+                drawText.FontFace = "Lucida Console";
+                drawText.HorizontalAlignment = TextHorizontalAlignment.Center;
+                drawText.VerticalAlignment = TextVerticalAlignment.Top;
+                doc.Objects.AddText(drawText, att);
+                drawText.Dispose();
+
+                drawText = new Text3d(string.Format("{0}", i), numberLocations.Branches[i][0], _textSize * 0.8);
+                drawText.FontFace = "Lucida Console";
+                drawText.HorizontalAlignment = TextHorizontalAlignment.Center;
+                drawText.VerticalAlignment = TextVerticalAlignment.Bottom;
+                doc.Objects.AddText(drawText, att);
+                drawText.Dispose();
+            }
+
+            // invalid cases
+            if (invalidDisplayEdges != null && invalidDisplayEdges.BranchCount > 0)
+            {
+                att.LayerIndex = CreateChildLayer(doc, HDparent, InvalidLayerName, Color.Black);
+
+                foreach (GH_Line edge in invalidDisplayEdges.AllData())
+                    doc.Objects.AddLine(edge.Value, att);
+            }
+
+            // XData
+            if (_XDitems == null || _XDitems.Count == 0) return;
+
+            att.LayerIndex = CreateChildLayer(doc, HDparent, XDataLayerName, Color.Black);
+
+            foreach (GH_CustomPreviewItem XDitem in _XDitems)
+            {
+                att.ColorSource = ObjectColorSource.ColorFromObject;
+                att.ObjectColor = XDitem.Material.Value.Diffuse;
+                Guid guid = XDitem.PushToRhinoDocument(doc, att);
+                if (guid != Guid.Empty)
+                {
+                    objectIds.Add(guid);
+                }
+            }
+
+            // curves & points
+            att.ColorSource = ObjectColorSource.ColorFromLayer;
+            att.LayerIndex = CreateChildLayer(doc, HDparent, CurvesLayerName, Color.YellowGreen);
+            foreach (Curve c in _XDCurves)
+                doc.Objects.AddCurve(c, att);
+
+            att.LayerIndex = CreateChildLayer(doc, HDparent, PointsLayerName, Color.DarkRed);
+            foreach (Point3d p in _XDPoints)
+                doc.Objects.AddPoint(p, att);
+        }
+
+        private int CreateChildLayer(RhinoDoc doc, Layer parent, string childName, Color childColor)
+        {
+            Layer child;
+
+            int childIndex = doc.Layers.FindByFullPath(childName, -1);
+
+            if (childIndex == -1)
+            {
+                child = new Layer();
+                child.Name = childName;
+                child.Color = childColor; // Color.Black;
+                child.ParentLayerId = parent.Id;
+                doc.Layers.Add(child);
+            }
+
+            child = doc.Layers.FindName(childName, RhinoMath.UnsetIntIndex);
+            childName = parent.Name + "::" + child.Name;
+            return doc.Layers.FindByFullPath(childName, -1);
+        }
+
+        protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
+        {
+            Menu_AppendSeparator(menu);
+            ToolStripMenuItem toolStripMenuItem = Menu_AppendItem(menu, "AO Types", AOTypes_Click, true, GetValue("OutputType", "AO Types") == "AO Types");
+            toolStripMenuItem.ToolTipText = "Color by AO type";
+            ToolStripMenuItem toolStripMenuItem2 = Menu_AppendItem(menu, "S-R Status", SR_Click, true, GetValue("OutputType", "AO Types") == "S-R");
+            toolStripMenuItem2.ToolTipText = "Color by Sender-Receiver status - receiver in blue";
+            Menu_AppendSeparator(menu);
+            ToolStripMenuItem toolStripMenuItem3 = Menu_AppendItem(menu, "Show Edges", Edges_Click, true, GetValue("ShowEdges", true));
+            toolStripMenuItem3.ToolTipText = "Show or hide geometry edges";
+            //if (GetValue("ShowEdges", true))
+            //{
+            //    Menu_AppendItem(menu, "Edge thickness in pixels:");
+            //    Menu_AppendDigitScrollerItem(menu, 1m, 10m, 1m, 0);
+            //}
+            Menu_AppendSeparator(menu);
+            ToolStripMenuItem toolStripMenuItem4 = Menu_AppendItem(menu, "Check World Z lock", ZLock_Click, true, filterkWZLock);
+            toolStripMenuItem4.ToolTipText = "Consider absolute Z-Lock (if active for AssemblyObjects)";
+            Menu_AppendSeparator(menu);
+        }
+
+        private void AOTypes_Click(object sender, EventArgs e)
+        {
+            RecordUndoEvent("AO Types");
+            SetValue("OutputType", "AO Types");
+            displayType = GetValue("OutputType", "AO Types");
+            UpdateMessage();
+            ExpireSolution(true);
+        }
+        private void SR_Click(object sender, EventArgs e)
+        {
+            RecordUndoEvent("S-R Status");
+            SetValue("OutputType", "S-R");
+            displayType = GetValue("OutputType", "AO Types");
+            UpdateMessage();
+            ExpireSolution(true);
+        }
+
+        private void Edges_Click(object sender, EventArgs e)
+        {
+            RecordUndoEvent("Show Edges");
+            bool newValue = !GetValue("ShowEdges", true);
+            SetValue("ShowEdges", newValue);
+            UpdateMessage();
+            ExpireSolution(true);
+        }
+
+        private void ZLock_Click(object sender, EventArgs e)
+        {
+            RecordUndoEvent("Check World Z lock");
+            filterkWZLock = !GetValue("ZLockFilter", false);
+            SetValue("ZLockFilter", filterkWZLock);
+            // set component message
+            UpdateMessage();
+            ExpireSolution(true);
+        }
+
+        public override bool Write(GH_IWriter writer)
+        {
+            writer.SetBoolean("ZLockFilter", filterkWZLock);
+            writer.SetString("DisplayType", displayType);
+            return base.Write(writer);
+        }
+
+        public override bool Read(GH_IReader reader)
+        {
+            reader.TryGetBoolean("ZLockFilter", ref filterkWZLock);
+            reader.TryGetString("DisplayType", ref displayType);
+            UpdateMessage();
+            return base.Read(reader);
+        }
+
+        private void UpdateMessage()
+        {
+            Message = filterkWZLock ? displayType + "\nZ Lock" : displayType;
         }
 
         /// <summary>
@@ -649,11 +945,24 @@ namespace Assembler
         }
 
         /// <summary>
+        /// Provides an Icon for the component.
+        /// </summary>
+        protected override System.Drawing.Bitmap Icon
+        {
+            get
+            {
+                //You can add image files to your project resources and access them like this:
+                // return Resources.IconForThisComponent;
+                return Resources.L_Heuristics_Display;
+            }
+        }
+
+        /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("6121d3ac-c714-4b36-aa08-cab168fb7518"); }
+            get { return new Guid("55875EBA-05FA-4F28-915B-F83C8B1A67ED"); }
         }
     }
 }

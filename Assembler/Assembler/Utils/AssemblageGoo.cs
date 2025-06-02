@@ -1,14 +1,12 @@
 ﻿using AssemblerLib;
-using Grasshopper.Kernel.Types;
-using Grasshopper.Kernel;
-using Rhino.Geometry;
-using GH_IO.Serialization;
-using System;
-using Assembler.Utils;
 using AssemblerLib.Utils;
+using GH_IO.Serialization;
+using Grasshopper.Kernel.Types;
+using Rhino.Geometry;
 
-namespace Assembler
+namespace Assembler.Utils
 {
+    // TODO: complete this
     public class AssemblageGoo : GH_GeometricGoo<Assemblage>
     {
         #region properties
@@ -86,10 +84,18 @@ namespace Assembler
         }
         public override bool Write(GH_IWriter writer)
         {
+            // EXAMPLE: write the AssemblyObjects in the Assemblage
+            // better: see this:
+            // SOURCE: https://discourse.mcneel.com/t/de-serialize-nested-classes-gh-geometricgoo/132086/2?u=ale2x72
+            AssemblyObjectGoo aoGoo = new AssemblyObjectGoo(Value.AssemblyObjects.Branches[0][0]);
+            aoGoo.Write(writer.CreateChunk("AO_"+0));
             return base.Write(writer);
         }
         public override bool Read(GH_IReader reader)
         {
+            // EXAMPLE: read the AssemblyObject in the Assemblage (see link in Write)
+            AssemblyObjectGoo aoGoo = new AssemblyObjectGoo();
+            aoGoo.Read(reader.FindChunk("AO_" + 0));
             return base.Read(reader);
         }
     }

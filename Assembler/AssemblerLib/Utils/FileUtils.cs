@@ -68,6 +68,7 @@ namespace AssemblerLib.Utils
             string fileName = ProcessFileName(path, name);
 
             int count = 0;
+
             // save geometries as assets from dictionary (collision and offsetmeshes)
             foreach (AssemblyObject AO in assemblage.AOSet)
             {

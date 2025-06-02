@@ -2,42 +2,15 @@
 using Assembler.Utils;
 using AssemblerLib;
 using AssemblerLib.Utils;
-using GH_IO.Serialization;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace Assembler
 {
     public class ConstructAssemblyObject : GH_Component
     {
-        // see https://developer.rhino3d.com/api/grasshopper/html/5f6a9f31-8838-40e6-ad37-a407be8f2c15.htm
-        private bool m_worldZLock = false;
-        public bool WorldZLock
-        {
-            get { return m_worldZLock; }
-            set
-            {
-                m_worldZLock = value;
-                if (m_worldZLock)
-                {
-                    Message = "World Z Lock";
-                }
-                else
-                {
-                    Message = "";
-                }
-            }
-        }
-        /// <summary>
-        /// Because of its use in the Write method,
-        /// the value of this string is shared AMONG ALL COMPONENTS of a library!
-        /// "ZLockAO" is accessible (and modifyable) by other components!
-        /// </summary>
-        private string ZLockName = "ZLockAO";
-
         /// <summary>
         /// Initializes a new instance of the ConstructAssemblyObject class.
         /// </summary>
@@ -63,6 +36,8 @@ namespace Assembler
             pManager.AddVectorParameter("Direction", "D", "The object's direction vector\ndefault: X direction vector", GH_ParamAccess.item, Vector3d.XAxis);
             pManager.AddGenericParameter("Handles", "H", "The object's Handles", GH_ParamAccess.list);
             pManager.AddNumberParameter("Weight", "W", "The object's weight\n(optional)", GH_ParamAccess.item, 1.0);
+            pManager.AddBooleanParameter("World Z-Lock", "Z", "Preserve Z-up orientation during Assemblage\n" +
+                "Requires checking the Z-Lock option in the Assembler Engine", GH_ParamAccess.item, false);
             pManager[2].Optional = true;
         }
 
@@ -114,8 +89,6 @@ namespace Assembler
                 return;
             }
 
-            DA.GetData("Weight", ref weight);
-
             if (!DA.GetDataList(4, handlesList)) return;
             // if Handles are empty return
             if (handlesList.Count == 0)
@@ -127,39 +100,19 @@ namespace Assembler
             // purge nulls from Handles list
             handlesList = HandleUtils.PurgeNullHandlesFromList(handlesList);
 
-            // construct the AssemblyObject                                                                                iWeight --v  v-- Zlock
-            AssemblyObject AO = new AssemblyObject(collisionMesh, handlesList, referencePlane, directionVector, name, type, weight, -1, WorldZLock);
+            DA.GetData("Weight", ref weight);
+            int iWeight = -1;
+
+            bool worldZLock = false;
+            DA.GetData("World Z-Lock", ref worldZLock);
+
+            Message = worldZLock? "World Z Lock":"";
+
+            // construct the AssemblyObject                                                                                                  Zlock
+            AssemblyObject AO = new AssemblyObject(collisionMesh, handlesList, referencePlane, directionVector, name, type, weight, iWeight, worldZLock);
 
             DA.SetData(0, new AssemblyObjectGoo(AO));
 
-        }
-
-        public override void AppendAdditionalMenuItems(ToolStripDropDown menu)
-        {
-            Menu_AppendSeparator(menu);
-            ToolStripMenuItem toolStripMenuItem = Menu_AppendItem(menu, "World Z lock", ZLock_click, true, WorldZLock);
-            toolStripMenuItem.ToolTipText = "When active (and if the corresponding check Z lock option is active in the Engine)\n" +
-                "the object will be placed only with its reference Plane Z axis parallel to the World Z axis";
-            Menu_AppendSeparator(menu);
-        }
-
-        private void ZLock_click(object sender, EventArgs e)
-        {
-            RecordUndoEvent("World Z lock");
-            WorldZLock = !WorldZLock;
-            ExpireSolution(true);
-        }
-
-        public override bool Write(GH_IWriter writer)
-        {
-            writer.SetBoolean(ZLockName, WorldZLock);
-            return base.Write(writer);
-        }
-
-        public override bool Read(GH_IReader reader)
-        {
-            WorldZLock = reader.GetBoolean(ZLockName);
-            return base.Read(reader);
         }
 
         /// <summary>
@@ -180,7 +133,7 @@ namespace Assembler
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("19C0CD1D-6F1B-4FA7-9D71-6C41FAD8CEA7"); }
+            get { return new Guid("50CEA0F8-882B-4319-9FF2-DE63871D35D5"); }
         }
     }
 }

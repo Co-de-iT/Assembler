@@ -20,6 +20,69 @@ namespace Assembler
               "Collects Heuristics related settings",
               "Assembler", "Heuristics")
         {
+            Params.ParameterSourcesChanged += new GH_ComponentParamServer.ParameterSourcesChangedEventHandler(ParamSourceChanged);
+        }
+
+        // SOURCE: https://discourse.mcneel.com/t/automatic-update-of-valuelist-only-when-connected/152879/6?u=ale2x72
+        // works much better as it does not clog the solver with exceptions if a list of numercal values is connected
+        private void ParamSourceChanged(object sender, GH_ParamServerEventArgs e)
+        {
+            if ((e.ParameterSide == GH_ParameterSide.Input) && (e.ParameterIndex == 3))
+            {
+                foreach (IGH_Param source in e.Parameter.Sources)
+                {
+                    if (source is Grasshopper.Kernel.Special.GH_ValueList)
+                    {
+                        Grasshopper.Kernel.Special.GH_ValueList vListReceiver = source as Grasshopper.Kernel.Special.GH_ValueList;
+
+                        if (!vListReceiver.NickName.Equals("Receiver selection mode"))
+                        {
+                            vListReceiver.ClearData();
+                            vListReceiver.ListItems.Clear();
+                            vListReceiver.NickName = "Receiver selection mode";
+
+                            vListReceiver.ListItems.Add(new GH_ValueListItem("Random", "0"));
+                            vListReceiver.ListItems.Add(new GH_ValueListItem("Scalar Field nearest", "1"));
+                            vListReceiver.ListItems.Add(new GH_ValueListItem("Scalar Field interpolated", "2"));
+                            vListReceiver.ListItems.Add(new GH_ValueListItem("Dense Packing", "3"));
+
+                            vListReceiver.ListMode = Grasshopper.Kernel.Special.GH_ValueListMode.DropDown; // change this for a different mode (DropDown is the default)
+                            vListReceiver.ExpireSolution(true);
+                        }
+                    }
+                }
+            }
+            if ((e.ParameterSide == GH_ParameterSide.Input) && (e.ParameterIndex == 4))
+            {
+                foreach (IGH_Param source in e.Parameter.Sources)
+                {
+                    if (source is Grasshopper.Kernel.Special.GH_ValueList)
+                    {
+                        Grasshopper.Kernel.Special.GH_ValueList vListSender = source as Grasshopper.Kernel.Special.GH_ValueList;
+
+                        if (!vListSender.NickName.Equals("Sender selection mode"))
+                        {
+                            vListSender.ClearData();
+                            vListSender.ListItems.Clear();
+                            vListSender.NickName = "Sender selection mode";
+
+                            vListSender.ListItems.Add(new GH_ValueListItem("Random", "0"));
+                            vListSender.ListItems.Add(new GH_ValueListItem("Scalar Field nearest", "1"));
+                            vListSender.ListItems.Add(new GH_ValueListItem("Scalar Field interpolated", "2"));
+                            vListSender.ListItems.Add(new GH_ValueListItem("Vector Field > nearest", "3"));
+                            vListSender.ListItems.Add(new GH_ValueListItem("Vector Field > interpolated", "4"));
+                            vListSender.ListItems.Add(new GH_ValueListItem("Vector Field <> nearest", "5"));
+                            vListSender.ListItems.Add(new GH_ValueListItem("Vector Field <> interpolated", "6"));
+                            vListSender.ListItems.Add(new GH_ValueListItem("Minimum local AABB volume", "7"));
+                            vListSender.ListItems.Add(new GH_ValueListItem("Minimum local AABB diagonal", "8"));
+                            vListSender.ListItems.Add(new GH_ValueListItem("Weighted Random Choice", "9"));
+
+                            vListSender.ListMode = Grasshopper.Kernel.Special.GH_ValueListMode.DropDown; // change this for a different mode (DropDown is the default)
+                            vListSender.ExpireSolution(true);
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -108,69 +171,6 @@ namespace Assembler
             int ReceiverSelectionMode = 0, SenderSelectionMode = 0;
             DA.GetData("Receiver Selection Mode", ref ReceiverSelectionMode);
             DA.GetData("Sender (Rule) Selection Mode", ref SenderSelectionMode);
-
-            // __________________ autoList - Receiver Selection Mode __________________
-
-            // variable for the list
-            GH_ValueList vListReceiver;
-            // tries to cast input as list
-            try
-            {
-                vListReceiver = (GH_ValueList)Params.Input[3].Sources[0];
-
-                if (!vListReceiver.NickName.Equals("Receiver selection mode"))
-                {
-                    vListReceiver.ClearData();
-                    vListReceiver.ListItems.Clear();
-                    vListReceiver.NickName = "Receiver selection mode";
-
-                    vListReceiver.ListItems.Add(new GH_ValueListItem("Random", "0"));
-                    vListReceiver.ListItems.Add(new GH_ValueListItem("Scalar Field nearest", "1"));
-                    vListReceiver.ListItems.Add(new GH_ValueListItem("Scalar Field interpolated", "2"));
-                    vListReceiver.ListItems.Add(new GH_ValueListItem("Dense Packing", "3"));
-
-                    vListReceiver.ListItems[0].Value.CastTo(out ReceiverSelectionMode);
-                }
-            }
-            catch
-            {
-                // Handles anything that is not a value list
-            }
-
-            // __________________ autoList - Sender (rule) Selection Mode __________________
-
-            // variable for the list
-            GH_ValueList vListSender;
-            // tries to cast input as list
-            try
-            {
-
-                vListSender = (GH_ValueList)Params.Input[4].Sources[0];
-
-                if (!vListSender.NickName.Equals("Sender selection mode"))
-                {
-                    vListSender.ClearData();
-                    vListSender.ListItems.Clear();
-                    vListSender.NickName = "Sender selection mode";
-
-                    vListSender.ListItems.Add(new GH_ValueListItem("Random", "0"));
-                    vListSender.ListItems.Add(new GH_ValueListItem("Scalar Field nearest", "1"));
-                    vListSender.ListItems.Add(new GH_ValueListItem("Scalar Field interpolated", "2"));
-                    vListSender.ListItems.Add(new GH_ValueListItem("Vector Field > nearest", "3"));
-                    vListSender.ListItems.Add(new GH_ValueListItem("Vector Field > interpolated", "4"));
-                    vListSender.ListItems.Add(new GH_ValueListItem("Vector Field <> nearest", "5"));
-                    vListSender.ListItems.Add(new GH_ValueListItem("Vector Field <> interpolated", "6"));
-                    vListSender.ListItems.Add(new GH_ValueListItem("Minimum local AABB volume", "7"));
-                    vListSender.ListItems.Add(new GH_ValueListItem("Minimum local AABB diagonal", "8"));
-                    vListSender.ListItems.Add(new GH_ValueListItem("Weighted Random Choice", "9"));
-
-                    vListSender.ListItems[0].Value.CastTo(out SenderSelectionMode);
-                }
-            }
-            catch
-            {
-                // Handles anything that is not a value list
-            }
 
             HeuristicsSettings HS = new HeuristicsSettings(HeuristicsStrings, currentHeuristics, HeuristicsMode, ReceiverSelectionMode, SenderSelectionMode);
 

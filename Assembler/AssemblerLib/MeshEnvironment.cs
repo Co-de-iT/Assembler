@@ -12,16 +12,16 @@ namespace AssemblerLib
         /// Mesh
         /// </summary>
         public Mesh Mesh { get; }
-        public enum EnvType : ushort { Void = 0, Solid = 1, Container = 2 } // cannot use negative values with ushort
+        //public enum EnvironmentType : int { Container = -1, Void = 0, Solid = 1 }
         /// <summary>
         /// defines the EnvironmentMesh type
         /// <list type="bullet">
+        /// <item><description>-1 - Container</description></item>
         /// <item><description>0 - Void</description></item>
         /// <item><description>1 - Solid</description></item>
-        /// <item><description>2 - Container</description></item>
         /// </list>
         /// </summary>
-        public EnvType Type { get; }
+        public EnvironmentType Type { get; }
 
         //private Polyline[] intersections, overlaps;
         //private Mesh overlapsMesh;
@@ -30,36 +30,35 @@ namespace AssemblerLib
         /// Constructs a <see cref="MeshEnvironment"/> from a Mesh and an explicit type
         /// </summary>
         /// <param name="mesh"></param>
-        /// <param name="type">the <see cref="EnvType"/> of Environment mesh to build</param>
-        public MeshEnvironment(Mesh Mesh, int Type)
+        /// <param name="type">the <see cref="EnvironmentType"/> of Environment mesh to build</param>
+        public MeshEnvironment(Mesh Mesh, EnvironmentType Type)
         {
             this.Mesh = Mesh;
             this.Mesh.RebuildNormals();
-            switch (Type)
+            this.Type = Type;
+            switch (this.Type)
             {
-                case 0: // void
+                case EnvironmentType.Void: // void
                     if (this.Mesh.Volume() < 0)
                         this.Mesh.Flip(true, true, true);
                     break;
-                case 1: // solid
-                    goto case 0;
-                case 2: // container
+                case EnvironmentType.Solid: // solid
+                    goto case EnvironmentType.Void;
+                case EnvironmentType.Container: // container
                     if (this.Mesh.Volume() > 0)
                         this.Mesh.Flip(true, true, true);
                     break;
-                default: // any other value is converted to solid
-                    Type = 1;
-                    break;
+                    //default: // any other value is converted to solid
+                    //    Type = EnvironmentType.Solid;
+                    //    break;
             }
-
-            this.Type = (EnvType)Type;
         }
 
         /// <summary>
         /// Constructs a <see cref="MeshEnvironment"/> from a Mesh - can create only solids or voids according to mesh volume
         /// </summary>
         /// <param name="mesh"></param>
-        public MeshEnvironment(Mesh mesh) : this(mesh, mesh.Volume() > 0 ? 1 : 0)
+        public MeshEnvironment(Mesh mesh) : this(mesh, mesh.Volume() < 0 ? EnvironmentType.Void : EnvironmentType.Solid)
         { }
 
         /// <summary>
@@ -81,7 +80,7 @@ namespace AssemblerLib
         public bool IsPointInvalid(Point3d P)
         {
             bool result = Mesh.IsPointInside(P, 0, false);
-            if (Type == EnvType.Container) result = !result;
+            if (Type == EnvironmentType.Container) result = !result;
 
             return result;
         }

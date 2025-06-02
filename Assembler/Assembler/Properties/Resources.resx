@@ -118,169 +118,190 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="AO_param" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\AO_param.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="AO_Param" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AO_Param.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Assemblage_From_JSON" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Assemblage From JSON.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Assemblage_From_JSON.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Assemblage_To_JSON" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Assemblage To JSON.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Assemblage_To_JSON.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Assembler_Engine" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Assembler Engine.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Assembler_Engine_X" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Assembler Engine X.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Assembler_Engine.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Assembler_Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Assembler_Icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Assembler_Setup" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Assembler_Setup.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Associate_XData" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Associate XData.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Associate_XData.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Associate_XData_OLD" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Associate XData_OLD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Clone_Assemblage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Clone_Assemblage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Color_Field_attractors" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Color Field attractors.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Color_Field_scalars" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Color Field scalars.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Color_Field_Scalars" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Color_Field_Scalars.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Construct_AO" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Construct AO.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Construct_compositeAO" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Construct compositeAO.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Construct_AO.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Construct_Handle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Construct Handle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Construct_Handle_OLD" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Construct Handle_OLD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Construct_Handle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Construct_XData" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Construct XData.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Construct_XData.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Debug_Display" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Debug_Display.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Deconstruct_AO" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Deconstruct AO.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Deconstruct_AO.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Deconstruct_Assemblage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Deconstruct Assemblage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Deconstruct_Assemblage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Deconstruct_Field" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Deconstruct Field.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Deconstruct_Field.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Deconstruct_Handle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Deconstruct Handle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Deconstruct_Handle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Deconstruct_XData" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Deconstruct XData.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Deconstruct_XData.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Display_Assemblage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Display Assemblage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Display_Assemblage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Display_Handle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Display Handle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Display_Handle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Etract_AOSet" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Etract AOSet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Exogenous_settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Exogenous settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Exogenous_Settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Exogenous_Settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Extract_AOSet" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Extract AOSet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Extract_AOSet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Extract_AOSet_from_AOs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Extract_AOSet_from_AOs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Extract_Candidates" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Extract Candidates.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Extract_Candidates.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Extract_CollisionMesh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Extract CollisionMesh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Extract_CollisionMesh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Extract_Reference_Plane" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Extract Reference Plane.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Extract_Reference Plane.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Extract_Sender_Handles_Planes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Extract Sender Handles Planes.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Extract_Sender_Handles_Planes.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Extract_Topology" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Extract Topology.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Extract_Topology.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Extract_Type" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Extract Type.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Extract_Type.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Field_from_Box_N" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Field from Box N.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Field_From_Geometry_N" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Field_From_Geometry_N.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Field_from_Box_XYZ" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Field from Box XYZ.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Field_From_Geometry_Res" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Field_From_Geometry_Res.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Field_from_Mesh_N" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Field from Mesh N.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Field_from_Mesh_XYZ" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Field from Mesh XYZ.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Field_N_OLD" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Field N_OLD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Field_From_Geometry_XYZ" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Field_From_Geometry_XYZ.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Field_Sparse" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Field Sparse.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Field_Sparse.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Field_XYZ_OLD" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Field XYZ_OLD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Heuristics_Display" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Heuristics_Display.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="FlamIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\FlamIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Heuristics_Dispay" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Heuristics Dispay.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Heuristics_Dispay_OLD" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Heuristics Dispay_OLD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Heuristics_Dispay_X" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Heuristics Dispay X.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Heuristics_Dispay_X_OLD" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Heuristics Dispay X_OLD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Heuristics_Display_X" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Heuristics_Display_X.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Heuristics_Settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Heuristics Settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Heuristics_Settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Heuristics_Writer" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Heuristics Writer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Heuristics_Writer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Heuristics_Writer_OLD" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Heuristics Writer_OLD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="L_Assembler_Engine" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\L_Assembler_Engine.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="L_Assembler_Engine_X" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\L_Assembler_Engine_X.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="L_Associate_XData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\L_Associate_XData.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="L_Construct_AO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\L_Construct_AO.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="L_Construct_Handle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\L_Construct_Handle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="L_Construct_XData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\L_Construct_XData.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="L_Deconstruct_AO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\L_Deconstruct_AO.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="L_Deconstruct_XData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\L_Deconstruct_XData.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="L_Display_Assemblage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\L_Display_Assemblage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="L_Display_Handle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\L_Display_Handle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="L_Extract_Sender_Handles_Planes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\L_Extract_Sender_Handles_Planes.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="L_Field_from_Mesh_N" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\L_Field_from_Mesh_N.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="L_Field_from_Mesh_XYZ" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\L_Field_from Mesh_XYZ.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="L_Heuristics_Display" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\L_Heuristics_Display.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="L_Heuristics_Display_X" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\L_Heuristics_Display_X.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="L_Heuristics_Writer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\L_Heuristics_Writer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="L_Remove_AssemblyObject" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\L_Remove_AssemblyObject.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="L_Transform_AO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\L_Transform_AO.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Populate_Field" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Populate Field.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Populate_Field_iW_attractors" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Populate Field iW attractors.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Populate_Field_iW_scalars" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Populate Field iW scalars.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Populate_Field.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Remove_AssemblyObject" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Remove AssemblyObject.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Remove_AssemblyObject.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Reset_AO" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Reset AO.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Reset_AO.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Transform_AO" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Transform AO.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Select_Receiver" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Select_Receiver.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Select_Sender" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Select_Sender.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Transform_XData" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Transform XData.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Transform_XData.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Weigh_Rules" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Weigh Rules.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Weigh_Rules_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Weigh Rules_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Weigh_Rules.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

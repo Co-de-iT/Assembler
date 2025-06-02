@@ -1,28 +1,53 @@
 ﻿using Assembler.Properties;
 using AssemblerLib;
 using AssemblerLib.Utils;
-using GH_IO.Serialization;
 using Grasshopper.GUI.Gradient;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
+using Grasshopper.Kernel.Special;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 using System;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Assembler
 {
     public class DisplayAssemblage : GH_Component
     {
-        private string displayMode;
+        public enum DMType : int
+        {
+            Objects = 0, AOTypes = 1, Occupancy = 2, Sequence = 3, ZValue = 4, AOWeights = 5, Connectedness = 6, Orientation = 7, ZOrientation = 8, ReceiverValues = 9, LocalDensity = 10
+        }
+        internal struct DisplayMode
+        {
+            internal DMType type;
+            internal string name;
+            internal string description;
+        }
 
-        private Mesh[] meshes;
+        internal DisplayMode[] displayModes = new DisplayMode[]
+        {
+            new DisplayMode { type = DMType.Objects, name = "Objects", description =  "Just White. A timeless classic, approved by The Thin White Duke" },
+            new DisplayMode {type = DMType.AOTypes, name = "AO Types", description = "Colors assigned by AssemblyObject type"},
+            new DisplayMode {type = DMType.Occupancy, name = "Occupancy", description = "Colors assigned by occupancy status:\n  white (available), light green (unreachable), dark green (saturated)"},
+            new DisplayMode {type = DMType.Sequence, name = "Sequence", description = "Colors assigned by assemblage sequence:\n  black (older) < blue shades > white (younger)"},
+            new DisplayMode {type = DMType.ZValue, name = "Z Value", description = "Colors assigned by World Z value of Assemblyobject Reference Plane origin - pink gradient"},
+            new DisplayMode {type = DMType.AOWeights, name = "AO Weights", description = "Colors assigned by AssemblyObjects weights\n  grayscale gradient - black (minimum) <--> white (maximum)"},
+            new DisplayMode {type = DMType.Connectedness, name = "Connectedness", description = "Percentage of free handles\n  traffic gradient - green (free) <--> red (fully occupied)"},
+            new DisplayMode {type = DMType.Orientation, name = "Orientation", description = "Faux-Normal-style color map for AssemblyObjects direction vector"},
+            new DisplayMode {type = DMType.ZOrientation, name = "Z Orientation", description = "Faux-Normal-style color map for AssemblyObjects Reference Plane Z vector"},
+            new DisplayMode {type = DMType.ReceiverValues, name = "Receiver Values", description = "Receiver value of each AssemblyObject\n  white (minimum) <--> dark red (maximum)"},
+            new DisplayMode {type = DMType.LocalDensity, name = "Local Density", description = "(Sum of Bounding Box volumes of the AssemblyObject + its connected and occluded neighbours) / (2x the volume of the Bounding Box for the largest AO in the AOSet)"},
+        };
+
+        internal string displayModeString;
+
+        private GH_Mesh[] meshes;
         private GH_Line[] edges;
         private Color[] colors;
-        private double[] values;
+        private GH_Number[] values;
 
         /// <summary>
         /// Initializes a new instance of the DisplayAssemblage class.
@@ -37,9 +62,32 @@ namespace Assembler
             IGH_PreviewObject prevObj = (IGH_PreviewObject)this;
             prevObj.Hidden = true;
 
-            displayMode = GetValue("OutputType", "Objects");
-            UpdateMessage();
-            ExpireSolution(true);
+            Params.ParameterSourcesChanged += new GH_ComponentParamServer.ParameterSourcesChangedEventHandler(ParamSourceChanged);
+        }
+
+        // SOURCE: https://discourse.mcneel.com/t/automatic-update-of-valuelist-only-when-connected/152879/6?u=ale2x72
+        // works much better as it does not clog the solver with exceptions if a list of numercal values is connected
+        private void ParamSourceChanged(object sender, GH_ParamServerEventArgs e)
+        {
+            if ((e.ParameterSide == GH_ParameterSide.Input) && (e.ParameterIndex == 1))
+                foreach (IGH_Param source in e.Parameter.Sources)
+                    if (source is Grasshopper.Kernel.Special.GH_ValueList)
+                    {
+                        Grasshopper.Kernel.Special.GH_ValueList vListDispMode = source as Grasshopper.Kernel.Special.GH_ValueList;
+
+                        if (!vListDispMode.NickName.Equals("Display Mode"))
+                        {
+                            vListDispMode.ClearData();
+                            vListDispMode.ListItems.Clear();
+                            vListDispMode.NickName = "Display Mode";
+
+                            for (int i = 0; i < displayModes.Length; i++)
+                                vListDispMode.ListItems.Add(new GH_ValueListItem(displayModes[i].name, i.ToString()));
+
+                            vListDispMode.ListMode = Grasshopper.Kernel.Special.GH_ValueListMode.Cycle; // change this for a different mode
+                            vListDispMode.ExpireSolution(true);
+                        }
+                    }
         }
 
         /// <summary>
@@ -48,8 +96,27 @@ namespace Assembler
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Assemblage", "AOa", "The Assemblage", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Display Mode", "D", "Display Mode for the Assemblage. Available modes:\n\n" +
+                "0. Objects - Just White. A timeless classic, approved by The Thin White Duke\n" +
+                "1. AO Types - Colors assigned by AssemblyObject type\n" +
+                "2. Occupancy - Colors assigned by occupancy status:\n" +
+                "  white (available), light green (unreachable), dark green (saturated)\n" +
+                "3. Sequence - Colors assigned by assemblage sequence:\n" +
+                "  black (older) < blue shades > white (younger)\n" +
+                "4. Z Value - Colors assigned by World Z value of Assemblyobject Reference Plane origin - pink gradient\n" +
+                "5. AO Weights - Colors assigned by AssemblyObjects weights\n" +
+                "  grayscale gradient - black (minimum) <--> white (maximum)\n" +
+                "6. Connectedness - Percentage of free handles\n" +
+                "  traffic gradient - green (free) <--> red (fully occupied)\n" +
+                "7. Orientation - Faux-Normal-style color map for AssemblyObjects direction vector\n" +
+                "8. Z Orientation - Faux-Normal-style color map for AssemblyObjects Reference Plane Z vector\n" +
+                "9. Receiver Values - Receiver value of each AssemblyObject\n" +
+                "  white (minimum) <--> dark red (maximum)\n" +
+                "10. Local Density - (Sum of Bounding Box volumes of the AssemblyObject + its connected and occluded neighbours) / (2x the volume of the Bounding Box for the largest AO in the AOSet)\n\n" +
+                "attach a Value List for automatic list generation", GH_ParamAccess.item, 0);
             pManager.AddBooleanParameter("Colors only", "C", "If true, just the Colors will output", GH_ParamAccess.item, false);
-            pManager[1].Optional = true; // Colors only is optional
+            pManager[1].Optional = true; // Display mode is optional (default 0)
+            pManager[2].Optional = true; // Colors only is optional (default False)
 
         }
 
@@ -71,15 +138,29 @@ namespace Assembler
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             Assemblage AOa = null;
-            if (!DA.GetData(0, ref AOa)) return;
+            if (!DA.GetData("Assemblage", ref AOa) || AOa == null) return;
+
+            DMType displayMode;
+            int displayModeIndex = 0;
+            DA.GetData(1, ref displayModeIndex);
+
+            displayMode = displayModes[displayModeIndex].type;
+            displayModeString = displayModes[displayModeIndex].name;
+            UpdateMessage();
 
             bool colOnly = false;
-            DA.GetData(1, ref colOnly);
+            DA.GetData(2, ref colOnly);
 
-            meshes = colOnly ? null : new Mesh[AOa.AssemblyObjects.BranchCount];
+            if (AOa == null)
+            {
+                Message = "";
+                ExpirePreview(true);
+                return;
+            }
+            meshes = colOnly ? null : new GH_Mesh[AOa.AssemblyObjects.BranchCount];
             edges = null;
             colors = new Color[AOa.AssemblyObjects.BranchCount];
-            values = new double[AOa.AssemblyObjects.BranchCount];
+            values = new GH_Number[AOa.AssemblyObjects.BranchCount];
 
             SetPreviewData(AOa, displayMode, colOnly);
 
@@ -89,19 +170,19 @@ namespace Assembler
             DA.SetDataList(3, values);
         }
 
-        public void SetPreviewData(Assemblage AOa, string displayMode, bool colOnly)
+        private void SetPreviewData(Assemblage AOa, DMType displayMode, bool colorOnly)
         {
             Mesh joined;
 
             switch (displayMode)
             {
-                case "Objects": // just objects
+                case DMType.Objects: // just objects
                     Parallel.For(0, colors.Length, i =>
                     {
                         colors[i] = Color.White;
                     });
                     break;
-                case "AO Types": // by type
+                case DMType.AOTypes: // by type
                     // use type palette if number of types is smaller than the number of Colors in the palette
                     if (AOa.AOSet.Length <= Constants.AOTypePalette.Length)
                         Parallel.For(0, colors.Length, i =>
@@ -115,10 +196,10 @@ namespace Assembler
                             colors[i] = Color.FromKnownColor(Constants.KnownColorList[AOa.AssemblyObjects.Branches[i][0].Type % Constants.KnownColorList.Count]);
                         });
                     break;
-                case "Occupancy": // occupancy
-                    // saturated 112,117,57 (dark green) - available white - unreachable 194,199,137 (light green)
-                    int[] availableObjects = AOa.ExtractAvailableObjects().Select(i => i.Value).ToArray();
-                    int[] unreachableObjects = AOa.ExtractUnreachableObjects().Select(i => i.Value).ToArray();
+                case DMType.Occupancy: // occupancy
+                    // saturated: 112,117,57 (dark green) - available: white - unreachable: 194,199,137 (light green)
+                    int[] availableObjects = AOa.ExtractAvailableObjectsIndexes().Select(i => i.Value).ToArray();
+                    int[] unreachableObjects = AOa.ExtractUnreachableObjectsIndexes().Select(i => i.Value).ToArray();
 
                     Parallel.For(0, colors.Length, i =>
                     {
@@ -130,13 +211,13 @@ namespace Assembler
                     });
 
                     break;
-                case "Sequence": // sequence
+                case DMType.Sequence: // sequence
                     Parallel.For(0, colors.Length, i =>
                     {
                         colors[i] = Constants.HistoryGradient.ColourAt(i / ((double)colors.Length));
                     });
                     break;
-                case "Z Value": // zHeight
+                case DMType.ZValue: // zHeight
                     BoundingBox AOaBBox = BoundingBox.Empty;
                     for (int i = 0; i < AOa.AssemblyObjects.BranchCount; i++)
                         AOaBBox.Union(AOa.AssemblyObjects.Branches[i][0].CollisionMesh.GetBoundingBox(false));
@@ -146,11 +227,11 @@ namespace Assembler
                     Parallel.For(0, colors.Length, i =>
                     {
                         double heightParam = (AOa.AssemblyObjects.Branches[i][0].ReferencePlane.Origin.Z - minZ) * invZSpan;
-                        values[i] = heightParam;
+                        values[i] = new GH_Number(heightParam);
                         colors[i] = Constants.ZHeightGradient.ColourAt(heightParam);
                     });
                     break;
-                case "AO Weights": // AssemblyObject Weight
+                case DMType.AOWeights: // AssemblyObject Weight
                     double[] weights = new double[colors.Length];
                     Parallel.For(0, colors.Length, i =>
                     {
@@ -164,49 +245,55 @@ namespace Assembler
                         colors[i] = GH_Gradient.GreyScale().ColourAt((weights[i] - minWeight) * denominator);
                     });
                     break;
-                case "Connectedness": // connectedness (n. of non-free handlesTree/total handlesTree)
+                case DMType.Connectedness: // connectedness (n. of non-free handlesTree/total handlesTree)
                     // maybe change to n. of connected Handles over total (exclude occluded Handles)
                     Parallel.For(0, colors.Length, i =>
                     {
                         double connectedness = 1 - (AOa.AssemblyObjects.Branches[i][0].Handles.Where(h => h.Occupancy == 0).Sum(x => 1) / (double)(AOa.AssemblyObjects.Branches[i][0].Handles.Length));
                         colors[i] = GH_Gradient.Traffic().ColourAt(connectedness);
-                        values[i] = connectedness;
+                        values[i] = new GH_Number(connectedness);
                     });
                     break;
-                case "Orientation": // Orientation
+                case DMType.Orientation: // Orientation
                     Parallel.For(0, colors.Length, i =>
                     {
                         Vector3d v = AOa.AssemblyObjects.Branches[i][0].Direction;
-                        //normal-map like - see https://en.wikipedia.org/wiki/Normal_mapping
+                        //normal-map like
+                        //SOURCE: https://en.wikipedia.org/wiki/Normal_mapping
                         //Colors[i] = Color.FromArgb((int)((v.X * .5 + .5) * 255), (int)((v.Y * .5 + .5) * 255), (int)(v.Z <= 0 ? 128 : 128 + v.Z * 127));
                         // faux normal map
                         colors[i] = Color.FromArgb((int)((v.X * .5 + .5) * 255), (int)((v.Y * .5 + .5) * 255), (int)((v.Z * .5 + .5) * 255));
                     });
                     break;
-                case "Z Orientation": // Orientation
+                case DMType.ZOrientation: // Z Orientation
                     Parallel.For(0, colors.Length, i =>
                     {
                         Vector3d v = AOa.AssemblyObjects.Branches[i][0].ReferencePlane.ZAxis;
-                        //normal-map like - see https://en.wikipedia.org/wiki/Normal_mapping
+                        //normal-map like
+                        //SOURCE: https://en.wikipedia.org/wiki/Normal_mapping
                         //Colors[i] = Color.FromArgb((int)((v.X * .5 + .5) * 255), (int)((v.Y * .5 + .5) * 255), (int)(v.Z <= 0 ? 128 : 128 + v.Z * 127));
                         // faux normal map
                         colors[i] = Color.FromArgb((int)((v.X * .5 + .5) * 255), (int)((v.Y * .5 + .5) * 255), (int)((v.Z * .5 + .5) * 255));
                     });
                     break;
-                case "Receiver Values":
+                case DMType.ReceiverValues:
                     double[] rValues = AOa.AssemblyObjects.AllData().Select(ao => ao.ReceiverValue).ToArray();
+
+                    if (rValues.Length == 0) break;
+
                     double min = rValues.Min();
                     double max = rValues.Max();
+
                     // avoid division by 0
                     double factor = min == max ? 0 : 1.0 / (max - min);
                     Parallel.For(0, colors.Length, i =>
                     {
                         double receiverParam = (AOa.AssemblyObjects.Branches[i][0].ReceiverValue - min) * factor;
                         colors[i] = Constants.ReceiverValuesGradient.ColourAt(receiverParam);
-                        values[i] = receiverParam;
+                        values[i] = new GH_Number(receiverParam);
                     });
                     break;
-                case "Local Density": // Local Density
+                case DMType.LocalDensity: // Local Density
                     // volume of AO+connected/occluding neighbours individual Collision meshes/volume of twice the largest object in the AOset
                     // compute density values over a fixed voulme reference, then remap results on 0-1 scale
                     // best thing would be user choice of the reference volume, but I'm not keen on putting another input on this
@@ -243,7 +330,7 @@ namespace Assembler
 
                         double localDensity = localVolumes * referenceVolume;
                         colors[i] = Constants.DensityGradient.ColourAt(localDensity);
-                        values[i] = localDensity;
+                        values[i] = new GH_Number(localDensity);
                     });
                     // write a "normalize with limits" function?
                     //double[] normalizedDensities = MathUtils.NormalizeRange(localDensities);
@@ -256,10 +343,10 @@ namespace Assembler
 
                 // Valence (n. of handlesTree)?
                 default:
-                    goto case "Objects";
+                    goto case DMType.Objects;
             }
 
-            if (colOnly) return;
+            if (colorOnly) return;
 
             // assign Colors to meshes
             Parallel.For(0, AOa.AssemblyObjects.BranchCount, i =>
@@ -270,154 +357,18 @@ namespace Assembler
                 m.VertexColors.Clear();
                 for (int j = 0; j < m.Vertices.Count; j++)
                     m.VertexColors.Add(colors[i]);
-                meshes[i] = m;
+                meshes[i] = new GH_Mesh(m);
 
             });
 
             joined = new Mesh();
-            joined.Append(meshes);
-            edges = MeshUtils.GetSihouette(joined);
-            //cols = Colors;
-        }
-
-        public override void AppendAdditionalMenuItems(ToolStripDropDown menu)
-        {
-            Menu_AppendSeparator(menu);
-            ToolStripMenuItem toolStripMenuItem = Menu_AppendItem(menu, "Objects", Objects_Click, true, GetValue("OutputType", "Objects") == "Objects");
-            toolStripMenuItem.ToolTipText = "Just White. Approved by The Thin White Duke";
-            ToolStripMenuItem toolStripMenuItem2 = Menu_AppendItem(menu, "AO Types", Type_Click, true, GetValue("OutputType", "Objects") == "AO Types");
-            toolStripMenuItem2.ToolTipText = "Colors assigned by AssemblyObject type";
-            ToolStripMenuItem toolStripMenuItem3 = Menu_AppendItem(menu, "Occupancy", Occupancy_Click, true, GetValue("OutputType", "Objects") == "Occupancy");
-            toolStripMenuItem3.ToolTipText = "white (available), light green (unreachable), dark green (saturated)";
-            ToolStripMenuItem toolStripMenuItem4 = Menu_AppendItem(menu, "Sequence", Sequence_Click, true, GetValue("OutputType", "Objects") == "Sequence");
-            toolStripMenuItem4.ToolTipText = "black (older) < blue shades > white (younger)";
-            ToolStripMenuItem toolStripMenuItem5 = Menu_AppendItem(menu, "Z Value", ZValue_Click, true, GetValue("OutputType", "Objects") == "Z Value");
-            toolStripMenuItem5.ToolTipText = "Pink gradient by World Z value of Assemblyobject Reference Plane origin";
-            ToolStripMenuItem toolStripMenuItem6 = Menu_AppendItem(menu, "AO Weights", OWeights_Click, true, GetValue("OutputType", "Objects") == "AO Weights");
-            toolStripMenuItem6.ToolTipText = "AssemblyObjects weights in grayscale gradient";
-            ToolStripMenuItem toolStripMenuItem7 = Menu_AppendItem(menu, "Connectedness", Connectedness_Click, true, GetValue("OutputType", "Objects") == "Connectedness");
-            toolStripMenuItem7.ToolTipText = "Percentage of free handles green (free) to red (fully occupied) gradient";
-            ToolStripMenuItem toolStripMenuItem8 = Menu_AppendItem(menu, "Orientation", Orientation_Click, true, GetValue("OutputType", "Objects") == "Orientation");
-            toolStripMenuItem8.ToolTipText = "Faux-Normal-style color map for AssemblyObjects direction vector";
-            ToolStripMenuItem toolStripMenuItem9 = Menu_AppendItem(menu, "Z Orientation", ZOrientation_Click, true, GetValue("OutputType", "Objects") == "Z Orientation");
-            toolStripMenuItem9.ToolTipText = "Faux-Normal-style color map for AssemblyObjects Reference Plane Z vector";
-            ToolStripMenuItem toolStripMenuItem10 = Menu_AppendItem(menu, "Receiver Values", ReceiverValues_Click, true, GetValue("OutputType", "Objects") == "Receiver Values");
-            toolStripMenuItem10.ToolTipText = "Receiver value of each AssemblyObject - white (minimum), dark red (maximum)";
-            ToolStripMenuItem toolStripMenuItem11 = Menu_AppendItem(menu, "Local Density", LocalDensity_Click, true, GetValue("OutputType", "Objects") == "Local Density");
-            toolStripMenuItem11.ToolTipText = "Sum of the Bounding Box volumes of the AssemblyObject and its connected or occluded neighbours / (the volume of the Bounding Box for the largest AO in the AOSet scaled 2x)";
-            Menu_AppendSeparator(menu);
-        }
-
-        private void Objects_Click(object sender, EventArgs e)
-        {
-            RecordUndoEvent("Objects");
-            SetValue("OutputType", "Objects");
-            displayMode = GetValue("OutputType", "Objects");
-            UpdateMessage();
-            ExpireSolution(true);
-        }
-        private void Type_Click(object sender, EventArgs e)
-        {
-            RecordUndoEvent("AO Types");
-            SetValue("OutputType", "AO Types");
-            displayMode = GetValue("OutputType", "Objects");
-            UpdateMessage();
-            ExpireSolution(true);
-        }
-        private void Occupancy_Click(object sender, EventArgs e)
-        {
-            RecordUndoEvent("Occupancy");
-            SetValue("OutputType", "Occupancy");
-            displayMode = GetValue("OutputType", "Objects");
-            UpdateMessage();
-            ExpireSolution(true);
-        }
-        private void Sequence_Click(object sender, EventArgs e)
-        {
-            RecordUndoEvent("Sequence");
-            SetValue("OutputType", "Sequence");
-            displayMode = GetValue("OutputType", "Objects");
-            UpdateMessage();
-            ExpireSolution(true);
-        }
-        private void ZValue_Click(object sender, EventArgs e)
-        {
-            RecordUndoEvent("Z Value");
-            SetValue("OutputType", "Z Value");
-            displayMode = GetValue("OutputType", "Objects");
-            UpdateMessage();
-            ExpireSolution(true);
-        }
-        private void OWeights_Click(object sender, EventArgs e)
-        {
-            RecordUndoEvent("AO Weights");
-            SetValue("OutputType", "AO Weights");
-            displayMode = GetValue("OutputType", "Objects");
-            UpdateMessage();
-            ExpireSolution(true);
-        }
-        private void Connectedness_Click(object sender, EventArgs e)
-        {
-            RecordUndoEvent("Connectedness");
-            SetValue("OutputType", "Connectedness");
-            displayMode = GetValue("OutputType", "Objects");
-            UpdateMessage();
-            ExpireSolution(true);
-        }
-        private void Orientation_Click(object sender, EventArgs e)
-        {
-            RecordUndoEvent("Orientation");
-            SetValue("OutputType", "Orientation");
-            displayMode = GetValue("OutputType", "Objects");
-            UpdateMessage();
-            ExpireSolution(true);
-        }
-        private void ZOrientation_Click(object sender, EventArgs e)
-        {
-            RecordUndoEvent("Z Orientation");
-            SetValue("OutputType", "Z Orientation");
-            displayMode = GetValue("OutputType", "Objects");
-            UpdateMessage();
-            ExpireSolution(true);
-        }
-
-        private void ReceiverValues_Click(object sender, EventArgs e)
-        {
-            RecordUndoEvent("Receiver Values");
-            SetValue("OutputType", "Receiver Values");
-            displayMode = GetValue("OutputType", "Objects");
-            UpdateMessage();
-            ExpireSolution(true);
-        }
-
-        private void LocalDensity_Click(object sender, EventArgs e)
-        {
-            RecordUndoEvent("Local Density");
-            SetValue("OutputType", "Local Density");
-            displayMode = GetValue("OutputType", "Objects");
-            UpdateMessage();
-            ExpireSolution(true);
-        }
-
-        public override bool Write(GH_IWriter writer)
-        {
-            // NOTE: the value in between "" is shared AMONG ALL COMPONENTS of a library!
-            // OutputType is accessible (and modifyable) by other components!
-            writer.SetString("OutputType", displayMode);
-            return base.Write(writer);
-        }
-
-        public override bool Read(GH_IReader reader)
-        {
-
-            reader.TryGetString("OutputType", ref displayMode);
-            UpdateMessage();
-            return base.Read(reader);
+            joined.Append(meshes.Select(m =>m.Value));
+            edges = MeshUtils.GetSilhouette(joined);
         }
 
         private void UpdateMessage()
         {
-            Message = displayMode;
+            Message = displayModeString;
         }
 
         /// <summary>
@@ -447,7 +398,7 @@ namespace Assembler
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("9E0BC1B6-0F03-4496-9E2B-AE28E3BC1BE9"); }
+            get { return new Guid("DCC6220A-D864-4D29-AE55-08A669E235B7"); }
         }
     }
 }

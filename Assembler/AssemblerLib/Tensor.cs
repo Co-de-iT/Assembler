@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Rhino.Geometry;
+﻿using Rhino.Geometry;
+using System.Collections.Generic;
 
 namespace AssemblerLib
 {
@@ -84,9 +84,9 @@ namespace AssemblerLib
         /// <summary>
         /// Gets Scalar value at index
         /// </summary>
-        /// <param name="index">index at which read the value - opitonal (default is 0)</param>
+        /// <param name="index">index at which read the value - optional (default is 0)</param>
         /// <returns>scalar value at index 0</returns>
-        public double GetScalar(int index=0)
+        public double GetScalar(int index = 0)
         {
             return Scalars[index];
         }
@@ -94,9 +94,9 @@ namespace AssemblerLib
         /// <summary>
         /// Gets Vector value at index
         /// </summary>
-        /// <param name="index">index at which read the value - opitonal (default is 0)</param>
+        /// <param name="index">index at which read the value - optional (default is 0)</param>
         /// <returns>vector value at index 0</returns>
-        public Vector3d GetVector(int index=0)
+        public Vector3d GetVector(int index = 0)
         {
             return Vectors[index];
         }
@@ -104,7 +104,7 @@ namespace AssemblerLib
         /// <summary>
         /// Gets iWeight value at index
         /// </summary>
-        /// <param name="index">index at which read the value - opitonal (default is 0)</param>
+        /// <param name="index">index at which read the value - optional (default is 0)</param>
         /// <returns>iWeight value at index 0</returns>
         public int GetiWeight(int index = 0)
         {
@@ -173,6 +173,33 @@ namespace AssemblerLib
             diff = new Tensor(sDiff, vDiff, iWDiff);
 
             return diff;
+        }
+
+        /// <summary>
+        /// Multiplication operator for Tensor
+        /// </summary>
+        /// <param name="t">Tensor operand</param>
+        /// <param name="d">double operand</param>
+        /// <returns>Tensor with scalars and vectors multiplied by <paramref name="d"/></returns>
+        static public Tensor operator *(Tensor t, double d)
+        {
+            Tensor mult;
+            double[] sMult = new double[t.Scalars.Length];
+            Vector3d[] vMult = new Vector3d[t.Vectors.Length];
+            int[] iMult = new int[t.IWeights.Length];
+
+            for (int i = 0; i < t.Scalars.Length; i++)
+                sMult[i] = t.Scalars[i] * d;
+
+            for (int i = 0; i < t.Vectors.Length; i++)
+                vMult[i] = t.Vectors[i] * d;
+
+            for (int i = 0; i < t.IWeights.Length; i++)
+                iMult[i] = t.IWeights[i];
+
+            mult = new Tensor(sMult, vMult, iMult);
+
+            return mult;
         }
     }
 }

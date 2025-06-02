@@ -95,7 +95,7 @@ namespace Assembler
                             if (components[rOi].Handles[rHi].Type == components[sOi].Handles[sHi].Type || crossT)
                             {
                                 // consider all receiver rotations
-                                for (int rRi = 0; rRi < components[rOi].Handles[rHi].Receivers.Length; rRi++)
+                                for (int rRi = 0; rRi < components[rOi].Handles[rHi].ReceiverPlanes.Length; rRi++)
                                 {
                                     hs = string.Format("{0}|{1}={2}<{3}|{4}%0", components[rOi].Name, rHi, components[rOi].Handles[rHi].Rotations[rRi], components[sOi].Name, sHi);
                                     //hs = string.Format("{0}|{1}={2}<{3}|{4}%0", components[rOi].Name, rHi, rRi, components[sOi].Name, sHi);
@@ -128,7 +128,7 @@ namespace Assembler
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.Heuristics_Writer_OLD;
+                return Resources.L_Heuristics_Writer;
             }
         }
 

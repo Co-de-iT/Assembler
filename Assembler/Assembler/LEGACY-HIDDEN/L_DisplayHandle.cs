@@ -108,33 +108,33 @@ namespace Assembler
         void SetDisplayData()
         {
             Transform move;
-            Handle hand;
+            Handle currHandle;
 
             for (int i = 0; i < handles.Count; i++)
             {
-                hand = handles[i];
-                Line rZ = new Line(hand.Sender.Origin, hand.Sender.Origin + (hand.Sender.ZAxis * offset * (_rotations.Branches[i].Count + 1)));
+                currHandle = handles[i];
+                Line rZ = new Line(currHandle.SenderPlane.Origin, currHandle.SenderPlane.Origin + (currHandle.SenderPlane.ZAxis * offset * (_rotations.Branches[i].Count + 1)));
                 _dotCurve.Add(rZ);
                 _clip.Union(rZ.BoundingBox);
 
-                Line rX = new Line(hand.Sender.Origin, hand.Sender.Origin + (hand.Sender.XAxis * lineOffset));//1.2
-                Line rY = new Line(hand.Sender.Origin, hand.Sender.Origin + (hand.Sender.YAxis * lineOffset));
+                Line rX = new Line(currHandle.SenderPlane.Origin, currHandle.SenderPlane.Origin + (currHandle.SenderPlane.XAxis * lineOffset));//1.2
+                Line rY = new Line(currHandle.SenderPlane.Origin, currHandle.SenderPlane.Origin + (currHandle.SenderPlane.YAxis * lineOffset));
                 _curve.Add(rX);
                 _color.Add(xAxis);
                 _curve.Add(rY);
                 _color.Add(yAxis);
                 _clip.Union(rX.BoundingBox);
                 _clip.Union(rY.BoundingBox);
-                Plane textLoc = hand.Sender;
+                Plane textLoc = currHandle.SenderPlane;
                 
                 _textLocations.Add(textLoc, new GH_Path(0, i));
 
                 for (int j = 0; j < _rotations.Branches[i].Count; j++)
                 {
                     double transformAmount = j * planeOffset + planeOffset;
-                    move = Transform.Translation(hand.Receivers[j].ZAxis * - transformAmount);
-                    rX = new Line(hand.Receivers[j].Origin, hand.Receivers[j].Origin + (hand.Receivers[j].XAxis * lineOffset));
-                    rY = new Line(hand.Receivers[j].Origin, hand.Receivers[j].Origin + (hand.Receivers[j].YAxis * lineOffset));
+                    move = Transform.Translation(currHandle.ReceiverPlanes[j].ZAxis * - transformAmount);
+                    rX = new Line(currHandle.ReceiverPlanes[j].Origin, currHandle.ReceiverPlanes[j].Origin + (currHandle.ReceiverPlanes[j].XAxis * lineOffset));
+                    rY = new Line(currHandle.ReceiverPlanes[j].Origin, currHandle.ReceiverPlanes[j].Origin + (currHandle.ReceiverPlanes[j].YAxis * lineOffset));
                     rX.Transform(move);
                     rY.Transform(move);
                     _curve.Add(rX);
@@ -144,7 +144,7 @@ namespace Assembler
                     _clip.Union(rX.BoundingBox);
                     _clip.Union(rY.BoundingBox);
 
-                    textLoc.Origin = hand.Sender.Origin + hand.Sender.ZAxis * transformAmount;
+                    textLoc.Origin = currHandle.SenderPlane.Origin + currHandle.SenderPlane.ZAxis * transformAmount;
                     _textLocations.Add(textLoc, new GH_Path(0, i));
                 }
             }
@@ -290,7 +290,7 @@ namespace Assembler
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.Display_Handle;
+                return Resources.L_Display_Handle;
             }
         }
 

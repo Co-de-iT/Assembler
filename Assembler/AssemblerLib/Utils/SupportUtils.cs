@@ -2,9 +2,11 @@
 using Rhino.Geometry.Intersect;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AssemblerLib.Utils
 {
+    /// <exclude>Exclude from documentation</exclude>
     public static class SupportUtils
     {
 
@@ -113,14 +115,13 @@ namespace AssemblerLib.Utils
         /// <returns></returns>
         internal static bool SupportIntersect(Support s, List<AssemblyObject> neighbours)
         {
-            int[] faceIds;
             Point3d[] intPts;
             //Vector3d dir = s.line.Direction;
             //dir.Unitize();
             //double minD;
             foreach (AssemblyObject AO in neighbours)
             {
-                intPts = Intersection.MeshLine(AO.CollisionMesh, s.Line, out faceIds);
+                intPts = Intersection.MeshLine(AO.CollisionMesh, s.Line, out _);
                 // if intersections are found resize support line to intersection point and return true
                 if (intPts.Length > 0)
                 {
@@ -150,28 +151,8 @@ namespace AssemblerLib.Utils
         /// <returns></returns>
         internal static bool SupportIntersect(Support s, List<MeshEnvironment> envMeshes)
         {
-            int[] faceIds;
-            Point3d[] intPts;
-            Vector3d dir = s.Line.Direction;
-            dir.Unitize();
-            double minD;
-            foreach (MeshEnvironment mE in envMeshes)
-            {
-                intPts = Intersection.MeshLine(mE.Mesh, s.Line, out faceIds);
-                // if intersections are found resize support line to intersection point and return true
-                if (intPts.Length > 0)
-                {
-                    minD = double.MaxValue;
-                    for (int i = 0; i < intPts.Length; i++)
-                        minD = Math.Min(minD, s.Line.From.DistanceToSquared(intPts[i]));
-                    dir *= minD;
-                    s.Line = new Line(s.Line.From, s.Line.From + dir);
-                    s.NeighbourObject = -2;
-                    return true;
-                }
-            }
-
-            return false;
+            List<Mesh> meshes = envMeshes.Select(em => em.Mesh).ToList();
+            return SupportIntersect(s, meshes);
         }
 
         /// <summary>
@@ -182,14 +163,13 @@ namespace AssemblerLib.Utils
         /// <returns></returns>
         internal static bool SupportIntersect(Support s, List<Mesh> meshes)
         {
-            int[] faceIds;
             Point3d[] intPts;
             Vector3d dir = s.Line.Direction;
             dir.Unitize();
             double minD;
             foreach (Mesh m in meshes)
             {
-                intPts = Intersection.MeshLine(m, s.Line, out faceIds);
+                intPts = Intersection.MeshLine(m, s.Line, out _);
                 // if intersections are found resize support line to intersection point and return true
                 if (intPts.Length > 0)
                 {
@@ -205,6 +185,5 @@ namespace AssemblerLib.Utils
 
             return false;
         }
-
     }
 }

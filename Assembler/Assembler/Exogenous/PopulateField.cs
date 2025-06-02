@@ -7,7 +7,6 @@ using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 using System;
-using System.Linq;
 
 namespace Assembler
 {
@@ -18,7 +17,7 @@ namespace Assembler
         /// </summary>
         public PopulateField()
           : base("Populate Field", "AFPop",
-              "Populates a Field with Scalar, Vector, and integer Weight values (optional)",
+              "Populates a Field with Scalar, Vector, and/or integer Weight values",
               "Assembler", "Exogenous")
         {
             // this hides the component preview when placed onto the canvas

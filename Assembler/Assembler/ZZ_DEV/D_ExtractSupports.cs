@@ -1,6 +1,5 @@
 ﻿using Assembler.Utils;
 using AssemblerLib;
-using GH_IO.Types;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System;

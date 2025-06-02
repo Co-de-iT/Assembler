@@ -2,7 +2,7 @@
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
 
-namespace Assembler
+namespace Assembler.Utils
 {
     class RuleGoo : GH_Goo<Rule>
     {
@@ -30,7 +30,6 @@ namespace Assembler
         public override string ToString()
         {
             return $"{Value.rT}|{Value.rH}={Value.rRA}<{Value.sT}|{Value.sH}%{Value.iWeight}";
-            //return string.Format("{0}|{1}={2}<{3}|{4}%{5}", Value.rT, Value.rH, Value.rRA, Value.sT, Value.sH, Value.iWeight);
         }
     }
 }

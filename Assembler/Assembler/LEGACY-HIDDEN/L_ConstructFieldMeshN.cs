@@ -81,7 +81,7 @@ namespace Assembler
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.Field_N_OLD;
+                return Resources.L_Field_from_Mesh_N;
             }
         }
 

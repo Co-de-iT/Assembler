@@ -5,6 +5,7 @@ using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -34,7 +35,7 @@ namespace AssemblerLib
 
         #region properties
         /// <summary>
-        /// The sequential DataTree of <see cref="AssemblyObject"/>s in the Assemblage, each Branch Path is the object AInd
+        /// The DataTree of <see cref="AssemblyObject"/>s in the Assemblage; each Branch Path is the object AInd
         /// </summary>
         public DataTree<AssemblyObject> AssemblyObjects
         { get; internal set; }
@@ -44,31 +45,12 @@ namespace AssemblerLib
         public AssemblyObject[] AOSet
         { get; internal set; }
         /// <summary>
-        /// Heuristics settings (rules + selection criteria)
-        /// </summary>
-        public HeuristicsSettings HeuristicsSettings;
-        /// <summary>
-        /// Exogenous settings (external influences)
-        /// </summary>
-        public ExogenousSettings ExogenousSettings;
-        /// <summary>
-        /// Collision radius for collision checks with neighbour AssemblyObjects
-        /// based on the largest object in AOSet (largest Bounding Box diagonal)
+        /// Search radius for collision checks
         /// </summary>
         public double CollisionRadius
         { get; internal set; }
-        //public int RulesCount { get => heuristicsTree.BranchCount; }
         /// <summary>
-        /// Candidate sender objects at each iteration
-        /// </summary>
-        public List<AssemblyObject> CandidateObjects
-        { get; private set; }
-        /// <summary>
-        /// Multiplying factors for candidates values at each iteration - affect candidates selection
-        /// </summary>
-        public List<double> CandidateFactors;
-        /// <summary>
-        /// Data Tree of Heuristics used during the assemblage
+        /// Data Tree of Heuristics used at each iteration during the assemblage
         /// </summary>
         public DataTree<string> AssemblageRules
         { get; internal set; }
@@ -79,73 +61,38 @@ namespace AssemblerLib
         { get; internal set; }
         /// <summary>
         /// Gets or Sets the check for absolute Z Direction lock.
-        /// if True, only candidates whose <see cref="AssemblyObject.ReferencePlane"/> Z axis is parallel to the World Z axis (fixed up Direction) are selected
+        /// If True, only candidates whose <see cref="AssemblyObject.ReferencePlane"/>'s Z axis is parallel to the World Z axis (fixed up Direction) are selected
         /// </summary>
-        public bool CheckWorldZLock;
+        public bool CheckWorldZLock
+        { get; set; }
+
+
+        // EXP: Supports are experimental. Yet to be implemented
         /// <summary>
         /// Gets or Sets the check for Supports
         /// if True, AssemblyObjects with <see cref="Support"/>s will be added if they pass support check
         /// </summary>
         /// <remarks><see cref="Support"/>s NOT IMPLEMENTED YET</remarks>
-        public bool UseSupports;
+        /// <exclude>Exclude from documentation</exclude>
+        public bool UseSupports
+        { get; set; }
 
         #endregion properties
 
-        #region delegates
-        // . . . delegates for sender-receiver computation and selection
-
-        /// <summary>
-        /// Delegate type for environment container behavior (collision or inclusion)
-        /// </summary>
-        /// <param name="sO"></param>
-        /// <returns>True if an <see cref="AssemblyObject"/> is invalid (clash detected or other invalidating condition), False if valid</returns>
-        public delegate bool EnvironmentCheckMethod(AssemblyObject sO);
-        /// <summary>
-        /// Delegate variable for environment check mode
-        /// </summary>
-        public EnvironmentCheckMethod environmentCheck;
-        /// <summary>
-        /// Delegate type for computing candidates (sender) values
-        /// </summary>
-        /// <param name="candidates"></param>
-        /// 
-        /// <returns>array of values associated with the candidates</returns>
-        public delegate T[] ComputeCandidatesValuesMethod<T>(List<AssemblyObject> candidates);
-        /// <summary>
-        /// Delegate variable for computing sender values
-        /// </summary>
-        public ComputeCandidatesValuesMethod<double> computeSendersValues;
-        /// <summary>
-        /// Delegate type for computing a single receiver value
-        /// </summary>
-        /// <param name="receiver"></param>
-        /// 
-        /// <returns>value computed for the receiver object</returns>
-        public delegate T ComputeReceiverMethod<T>(AssemblyObject receiver);
-        /// <summary>
-        /// Delegate variable for computing receiver value
-        /// </summary>
-        public ComputeReceiverMethod<double> computeReceiverValue;
-        /// <summary>
-        /// Delegate type for choosing winner index from sender values
-        /// </summary>
-        /// <param name="values">a collection of values, as array or list</param>
-        /// <returns>index of winner candidate</returns>
-        public delegate int SelectWinnerMethod<T>(T[] values);
-        /// <summary>
-        /// Delegate variable for selecting a sender from candidates (based on their values)
-        /// </summary>
-        public SelectWinnerMethod<double> selectSender;
-        /// <summary>
-        /// Delegate variable for selecting a receiver from available ones (based on their values)
-        /// </summary>
-        public SelectWinnerMethod<double> selectReceiver;
-
-        #endregion delegates
-
         #region fields
-        // . . . internal fields (E_ stands for Experimental feature) - used across the .dll library
 
+        private bool ShouldComputeReceiver;
+
+        /// <summary>
+        /// Heuristics settings - <see cref="Rule"/>s + selection criteria for Receiver and Sender suring the Assemblage
+        /// </summary>
+        public HeuristicsSettings HeuristicsSettings;
+        /// <summary>
+        /// Exogenous settings - external influences such as environment geometries and a <see cref="Field"/>
+        /// </summary>
+        public ExogenousSettings ExogenousSettings;
+
+        // . . . internal fields (E_ stands for Experimental feature) - used across the .dll library
         /// <summary>
         /// Heuristics as a <see cref="Rule"/> DataTree
         /// </summary>
@@ -165,11 +112,11 @@ namespace AssemblerLib
         /// <summary>
         /// list of AssemblyObject AInd for each centroid in the RTree - obsolete?
         /// </summary>
-        internal List<int> centroidsAO;
+        internal List<int> centroidsAInds;
         /// <summary>
         /// List of available objects AInd
         /// </summary>
-        internal List<int> availableObjects;
+        internal List<int> availableObjectsAInds;
         /// <summary>
         /// Stores receiver values for available objects (for faster retrieval)
         /// </summary>
@@ -177,53 +124,62 @@ namespace AssemblerLib
         /// <summary>
         /// List of unreachable objects AInd
         /// </summary>
-        internal List<int> unreachableObjects;
-
-        /// <summary>
-        /// Sandbox for focused assemblage growth - EXPERIMENTAL - NOT IMPLEMENTED YET
-        /// </summary>
-        internal Box E_sandbox;
-        internal RTree E_sandboxCentroidsTree;
-        internal List<int> E_sandboxCentroidsAO; // list of sandbox centroid/AssemblyObject correspondances
-        internal List<int> E_sandboxAvailableObjects;
-        internal List<int> E_sandboxUnreachableObjects;
-
-        //  . . . private fields
-
+        internal List<int> unreachableObjectsAInds;
         /// <summary>
         /// stores next AIndex to assign
         /// </summary>
-        private int nextAInd;
-        private int E_sequentialRuleIndex; // progressive index for rule selection in sequential mode
-        private readonly Random rnd;
+        internal int nextAInd;
+
+        // EXP: experimental. Yet to be implemented
+        /// <summary>
+        /// Experimental fields variable
+        /// </summary>
+        internal Sandbox E_sb;
+
 
         // . . . iteration fields (updated at each Assemblage iteration)
 
         /// <summary>
-        /// stores selected sender sequential index (for candidates list) at each Assemblage iteration
+        /// Candidate sender objects at each iteration
         /// </summary>
-        private int i_senderSeqInd;
+        public List<AssemblyObject> i_CandidateObjects
+        { get; private set; }
+        /// <summary>
+        /// Multiplying factors for candidates values at each iteration - affect candidates selection
+        /// </summary>
+        public List<double> i_CandidateFactors
+        { get; private set; }
+        /// <summary>
+        /// stores selected sender sequential index (in candidates list) at each Assemblage iteration
+        /// </summary>
+        internal int i_senderSeqInd;
         /// <summary>
         /// stores selected receiver AInd at each Assemblage iteration
         /// </summary>
-        private int i_receiverAInd;
+        internal int i_receiverAInd;
         /// <summary>
-        /// stores receiver branch sequential index in <see cref="AssemblyObjects"/> at each Assemblage iteration to speed up search 
+        /// stores receiver branch sequential index in <see cref="AssemblyObjects"/> Tree at each Assemblage iteration to speed up search 
         /// </summary>
-        private int i_receiverBranchSeqInd;
+        internal int i_receiverBranchSeqInd;
         /// <summary>
         /// stores <see cref="Rule"/>s pertaining the selected receiver at each Assemblage iteration
         /// </summary>
-        private List<Rule> i_receiverRules;
+        internal List<Rule> i_receiverRules;
         /// <summary>
         /// stores indexes of filtered valid rules from <see cref="i_receiverRules"/> at each Assemblage iteration
         /// </summary>
-        private List<int> i_validRulesIndexes;
+        internal List<int> i_validRulesIndexes;
         /// <summary>
         /// Keeps arrays of neighbours AInd for each valid candidate at each Assemblage iteration
         /// passes the winning candidate array to Obstruction check (avoid RTree search twice)
         /// </summary>
-        private List<int[]> i_candidatesNeighAInd;
+        internal List<int[]> i_candidatesNeighAInd;
+        /// <summary>
+        /// receiver AInd at each Assemblage iteration
+        /// </summary>
+        public int i_CurrentReceiver { get => i_receiverAInd; }
+
+        //internal IterationVariables iVars;
 
         #endregion fields
 
@@ -235,6 +191,54 @@ namespace AssemblerLib
         /// </summary>
         public Assemblage()
         { }
+        /// <summary>
+        /// Construct an Assemblage from essential parameters
+        /// </summary>
+        /// <param name="AOSet">A list of unique <see cref="AssemblyObject"/>s</param>
+        /// <param name="startAOs">A list of one or more <see cref="AssemblyObject"/>s to start the Assemblage from</param>
+        /// <param name="HeuristicsSettings">The Heuristics Settings</param>
+        /// <param name="ExogenousSettings">The Exogenous Settings</param>
+        /// <param name="CheckWorldZLock">boolean flag for checking alignment with World Z-axis</param>
+        public Assemblage(List<AssemblyObject> AOSet, List<AssemblyObject> startAOs, HeuristicsSettings HeuristicsSettings, ExogenousSettings ExogenousSettings, bool CheckWorldZLock = false)//, bool UseSupports = false)
+        {
+            if (startAOs == null || startAOs.Count == 0) return;
+
+            // initialize AssemblyObjects variables
+            AssemblyObjects = new DataTree<AssemblyObject>();
+            centroidsTree = new RTree();
+            centroidsAInds = new List<int>();
+            availableObjectsAInds = new List<int>();
+            availableReceiverValues = new List<double>();
+            unreachableObjectsAInds = new List<int>();
+            // initialize other variables
+            //i_CandidateObjects = new List<AssemblyObject>(); // iteration variable - Update takes care of this
+            AssemblageRules = new DataTree<string>();
+            ReceiverAIndexes = new DataTree<int>();
+
+            this.CheckWorldZLock = CheckWorldZLock;
+            // EXP: experimental. Yet to be implemented
+            this.UseSupports = false;// UseSupports;
+            E_sb = new Sandbox();
+            //iVars = new IterationVariables(); // transfer to AssemblageCompute class?
+            //E_sandboxAvailableObjects = new List<int>();
+            //E_sandboxUnreachableObjects = new List<int>();
+            //rnd = new Random();
+
+            // initialize AOSet and AOSetDictionary
+            this.AOSet = AOSet.ToArray();
+
+            // build the dictionary (needed by AssignType)
+            AOSetDictionary = AssemblageUtils.BuildDictionary(this.AOSet);
+
+            // populate the Assemblage with the starting AOs
+            PopulateAssemblage(startAOs);
+
+            // compute collision radius
+            CollisionRadius = ComputeCollisionRadius(this.AOSet);
+
+            // reset Assemblage Status (Heu-Exo settings, compute receivers, update occupancy)
+            ResetAssemblageStatus(HeuristicsSettings, ExogenousSettings);
+        }
 
         /// <summary>
         /// Construct an Assemblage from essential parameters
@@ -245,50 +249,52 @@ namespace AssemblerLib
         /// <param name="startType"></param>
         /// <param name="HeuristicsSettings"></param>
         /// <param name="ExogenousSettings"></param>
+        /// <remarks>LEGACY CONSTRUCTOR</remarks>
+        /// <exclude>Eclude from documentation</exclude>
+        [Obsolete]
         public Assemblage(List<AssemblyObject> AOSet, List<AssemblyObject> pAO, Plane startPlane, int startType, HeuristicsSettings HeuristicsSettings, ExogenousSettings ExogenousSettings)
         {
 
             // initialize AssemblyObjects variables
             AssemblyObjects = new DataTree<AssemblyObject>();
             centroidsTree = new RTree();
-            centroidsAO = new List<int>();
-            availableObjects = new List<int>();
+            centroidsAInds = new List<int>();
+            availableObjectsAInds = new List<int>();
             availableReceiverValues = new List<double>();
-            unreachableObjects = new List<int>();
+            unreachableObjectsAInds = new List<int>();
             // initialize other variables
-            CandidateObjects = new List<AssemblyObject>();
+            i_CandidateObjects = new List<AssemblyObject>();
             AssemblageRules = new DataTree<string>();
             ReceiverAIndexes = new DataTree<int>();
-            E_sequentialRuleIndex = 0; // progressive index for rule selection in sequential mode (EXPERIMENTAL)
-            rnd = new Random();
 
             // initialize AOSet and AOSetDictionary
             this.AOSet = AOSet.ToArray();
             // build the dictionary (needed by AssignType)
             AOSetDictionary = AssemblageUtils.BuildDictionary(this.AOSet);
 
+            // compute collision radius
+            CollisionRadius = ComputeCollisionRadius(this.AOSet);
+
             // if there is a previous AssemblyObjects list popoulate, else start with one object
             if (pAO != null && pAO.Count > 0) PopulateAssemblage(pAO);
             else StartAssemblage(startType, startPlane);
-
-            // compute collision radius
-            CollisionRadius = ComputeCollisionRadius(this.AOSet);
         }
 
         private double ComputeCollisionRadius(AssemblyObject[] AOset)
         {
-            double cR = 0;
+            double collisionRadius = AOset[0].CollisionMesh.GetBoundingBox(false).Diagonal.Length;
             double diag;
 
-            for (int i = 0; i < AOset.Length; i++)
+            for (int i = 1; i < AOset.Length; i++)
             {
                 diag = AOset[i].CollisionMesh.GetBoundingBox(false).Diagonal.Length;
-                if (diag > cR) cR = diag;
+                if (diag > collisionRadius) collisionRadius = diag;
             }
 
-            return cR * 2.5;
+            return collisionRadius * Constants.CollisionRadiusMultiplier;
         }
 
+        [Obsolete]
         private void StartAssemblage(int startType, Plane startPlane)
         {
             // start the assemblage with one object
@@ -300,32 +306,36 @@ namespace AssemblerLib
             AssemblyObjects.Add(startObject, new GH_Path(startObject.AInd));
             centroidsTree.Insert(AssemblyObjects[new GH_Path(startObject.AInd), 0].ReferencePlane.Origin, startObject.AInd);
             // future implementation: if object has children or multiple centroids, insert all children centroids under the same AInd (0 in this case)
-            centroidsAO.Add(startObject.AInd);
+            centroidsAInds.Add(startObject.AInd);
             // just for initialization (environment checks will come later)
-            availableObjects.Add(startObject.AInd);
+            availableObjectsAInds.Add(startObject.AInd);
             // just for initialization (compute methods aren't defined yet)
             availableReceiverValues.Add(startObject.ReceiverValue);
         }
 
-        private void PopulateAssemblage(List<AssemblyObject> pAO)
+        private void PopulateAssemblage(List<AssemblyObject> startAOs)
         {
             // reassign type, update AOSet & AOSetDictionary
-            AssemblyObjects = AssignType(pAO);
+            AssemblyObjects = AssignType(startAOs);
 
             // add previous objects to the centroids tree and check their occupancy/availability status
             for (int i = 0; i < AssemblyObjects.BranchCount; i++)
             {
+                // fill the Rules and Receiver index trees with data for the starting AOs
+                AssemblageRules.Add("", AssemblyObjects.Path(i));
+                ReceiverAIndexes.Add(-1, AssemblyObjects.Path(i));
+
                 // add object to the centroids tree
                 // future implementation: if object has children, insert all children centroids under the same AInd
                 centroidsTree.Insert(AssemblyObjects.Branches[i][0].ReferencePlane.Origin, AssemblyObjects.Branches[i][0].AInd);
-                centroidsAO.Add(AssemblyObjects.Branches[i][0].AInd);
+                centroidsAInds.Add(AssemblyObjects.Branches[i][0].AInd);
 
                 // ResetAvailableObjects() needs lists of availables and unreachables
                 // initialize availableObjects list
                 foreach (Handle h in AssemblyObjects.Branches[i][0].Handles)
                     if (h.Occupancy == 0)
                     {
-                        availableObjects.Add(AssemblyObjects.Branches[i][0].AInd);
+                        availableObjectsAInds.Add(AssemblyObjects.Branches[i][0].AInd);
                         availableReceiverValues.Add(0); // just for initialization (these are computed later)
                         break;
                     }
@@ -336,11 +346,11 @@ namespace AssemblerLib
 
         #region setup methods
         /// <summary>
-        /// Assigns types to previous AssemblyObjects, updating <see cref="AOSet"/> and <see cref="AOSetDictionary"/>
+        /// Assigns types to previous AssemblyObjects, updating <see cref="AOSet"/>, <see cref="AOSetDictionary"/>, and <see cref="nextAInd"/>
         /// </summary>
-        /// <param name="pAO">List of previous Objects in input</param>
+        /// <param name="startingAOs">List of starting <see cref="AssemblyObject"/>s in input</param>
         /// <returns>Data Tree of type-updated AssemblyObjects, with their AInd as branch Path</returns>
-        private DataTree<AssemblyObject> AssignType(List<AssemblyObject> pAO)
+        private DataTree<AssemblyObject> AssignType(List<AssemblyObject> startingAOs)
         {
             nextAInd = 0;
             // previous objects are checked against the dictionary
@@ -348,39 +358,44 @@ namespace AssemblerLib
 
             // checks if AssemblyObjects need to be reindexed (ex. two or more with same AInd)
             bool reIndex = false;
-            int ind = pAO[0].AInd;
-            for (int i = 1; i < pAO.Count; i++)
-                if (pAO[i].AInd == ind)
+            int ind = startingAOs[0].AInd;
+            for (int i = 1; i < startingAOs.Count; i++)
+                if (startingAOs[i].AInd == ind)
                 {
                     reIndex = true;
                     break;
                 }
 
             List<AssemblyObject> newTypes = new List<AssemblyObject>();
-            DataTree<AssemblyObject> pAOTyped = new DataTree<AssemblyObject>();
+            DataTree<AssemblyObject> typedStartingAOs = new DataTree<AssemblyObject>();
             int newTypeIndex = AOSetDictionary.Count;
-            for (int i = 0; i < pAO.Count; i++)
+            for (int i = 0; i < startingAOs.Count; i++)
             {
                 // if object Name isn't already in the dictionary - new type identified
-                if (!AOSetDictionary.ContainsKey(pAO[i].Name))
+                if (!AOSetDictionary.ContainsKey(startingAOs[i].Name))
                 {
                     // add new type to the dictionary
-                    AOSetDictionary.Add(pAO[i].Name, newTypeIndex);
+                    AOSetDictionary.Add(startingAOs[i].Name, newTypeIndex);
                     // add new type object to the dictionary candidates
-                    AssemblyObject AOnewType = AssemblyObjectUtils.Clone(pAO[i]);
+                    AssemblyObject AOnewType = AssemblyObjectUtils.Clone(startingAOs[i]);
                     AOnewType.Type = newTypeIndex;
                     newTypes.Add(AOnewType);
                     newTypeIndex++;
                 }
+                else
+                {
+                    // assign type from dictionary
+                    startingAOs[i].Type = AOSetDictionary[startingAOs[i].Name];
+                }
                 // if reIndex or AssemblyObjects do not belong to an assemblage (i.e. user-made starting input list)
-                if (reIndex || pAO[i].AInd == -1)
-                    pAO[i].AInd = nextAInd;
+                if (reIndex || startingAOs[i].AInd == -1)
+                    startingAOs[i].AInd = nextAInd;
                 // update next AInd
-                if (pAO[i].AInd >= nextAInd) nextAInd = pAO[i].AInd + 1;
+                if (startingAOs[i].AInd >= nextAInd) nextAInd = startingAOs[i].AInd + 1;
                 // reassign type
-                pAO[i].Type = AOSetDictionary[pAO[i].Name];
+                startingAOs[i].Type = AOSetDictionary[startingAOs[i].Name];
                 // add a copy of the original object to the AssemblyObject Data Tree
-                pAOTyped.Add(AssemblyObjectUtils.CloneWithConnectivity(pAO[i]), new GH_Path(pAO[i].AInd));
+                typedStartingAOs.Add(AssemblyObjectUtils.CloneWithConnectivity(startingAOs[i]), new GH_Path(startingAOs[i].AInd));
             }
 
             // update AOSet with new types
@@ -391,17 +406,17 @@ namespace AssemblerLib
                 AOSet = AOsetList.ToArray();
             }
 
-            return pAOTyped;
+            return typedStartingAOs;
         }
 
-        private DataTree<Rule> InitHeuristics(List<string> heu)
+        private DataTree<Rule> InitHeuristics(List<string> heuristicsString)
         {
             // rules data tree has a path of {k;rT} where k is the heuristics set and rT the receiving type
-            DataTree<Rule> heuT = new DataTree<Rule>();
-            for (int k = 0; k < heu.Count; k++)
+            DataTree<Rule> heuristicsTree = new DataTree<Rule>();
+            for (int k = 0; k < heuristicsString.Count; k++)
             {
                 //             split by list of rules (,)
-                string[] rComp = heu[k].Split(new[] { ',' });
+                string[] rComp = heuristicsString[k].Split(new[] { ',' });
 
                 int rT, rH, rR, sT, sH;
                 double rRA;
@@ -425,183 +440,32 @@ namespace AssemblerLib
                     // using rotations
                     rR = AOSet[rT].Handles[rH].RDictionary[rRA];
 
-                    heuT.Add(new Rule(rec[0], rT, rH, rR, rRA, sen[0], sT, sH, w), new GH_Path(k, rT));
+                    heuristicsTree.Add(new Rule(rec[0], rT, rH, rR, rRA, sen[0], sT, sH, w), new GH_Path(k, rT));
                 }
             }
-            return heuT;
+            return heuristicsTree;
         }
 
+        // EXP: experimental. Yet to be implemented
         /// <summary>
         /// Sets Sandbox geometry
         /// </summary>
         /// <param name="sandbox"></param>
         private void SetSandbox(Box sandbox)
         {
-            if (sandbox.IsValid)
+            if (!sandbox.IsValid)
             {
-                E_sandbox = sandbox;
-                Transform scale = Transform.Scale(E_sandbox.Center, Constants.SafeScaleMultiplier);
-                E_sandbox.Transform(scale);
-                E_sandboxAvailableObjects = new List<int>();
-                E_sandboxUnreachableObjects = new List<int>();
-                ResetSandboxRtree();
+                E_sb.E_sandbox = Box.Unset;
+                return;
             }
-            else
-            {
-                E_sandbox = Box.Empty;
-            }
+
+            E_sb.E_sandbox = sandbox;
+            Transform scale = Transform.Scale(E_sb.E_sandbox.Center, Constants.SafeScaleMultiplier);
+            E_sb.E_sandbox.Transform(scale);
+            E_sb.E_sandboxAvailableObjects = new List<int>();
+            E_sb.E_sandboxUnreachableObjects = new List<int>();
+            ResetSandboxRtree();
         }
-
-        /// <summary>
-        /// Sets Environment Check Method to use
-        /// </summary>
-        private void SetEnvCheckMethod()
-        {
-            switch (ExogenousSettings.EnvironmentMode)
-            {
-                case -1:
-                    // custom mode - method assigned in scripted component
-                    break;
-                case 0:
-                    environmentCheck = (AssemblyObject sO) => { return false; };
-                    break;
-                case 1:
-                    environmentCheck = EnvClashCollision;
-                    break;
-                case 2:
-                    environmentCheck = EnvClashInclusion;
-                    break;
-                default:
-                    environmentCheck = EnvClashInclusion;
-                    break;
-            }
-
-        }
-
-        /// <summary>
-        /// sets appropriate delegates for computing receiver values and selection according to the chosen criteria
-        /// </summary>
-        /// <param name="receiverSelectionMode"></param>
-        private void SetReceiverSelectionMode(int receiverSelectionMode)
-        {
-            // set receiver compute and selection delegates
-            switch (receiverSelectionMode)
-            {
-                case -1:
-                    // custom mode - methods assigned in scripted component
-                    break;
-                case 0:
-                    // random selection among available objects
-                    computeReceiverValue = ComputeRZero;
-                    selectReceiver = SelectRandomIndex;
-                    break;
-                case 1:
-                    // scalar Field search - closest Field point
-                    computeReceiverValue = ComputeRScalarField;
-                    selectReceiver = SelectMinIndex;
-                    break;
-                case 2:
-                    // scalar Field search - interpolated values
-                    computeReceiverValue = ComputeRScalarFieldInterpolated;
-                    selectReceiver = SelectMinIndex;
-                    break;
-                case 3:
-                    // maximum sum weight around candidate
-                    computeReceiverValue = ComputeRWeightDensity;
-                    selectReceiver = SelectMaxIndex;
-                    break;
-
-                // add more criteria here (must return an avInd)
-                // density driven
-                // component weight driven
-                // ....
-
-                case 99:
-                    // "sequential" mode - return last available object in the list
-                    computeReceiverValue = (ao) => 0; // anonymous function that always returns 0
-                    selectReceiver = (a) => { return availableObjects.Count - 1; }; // anonymous function that returns AInd of last available object
-                    break;
-
-                default: goto case 0;
-            }
-        }
-
-        /// <summary>
-        /// sets appropriate delegates for computing sender candidates values and selection according to the chosen criteria
-        /// </summary>
-        /// <param name="senderSelectionMode"></param>
-        private void SetSenderSelectionMode(int senderSelectionMode)
-        {
-            // set sender candidates (rules) compute and selection delegates
-            switch (senderSelectionMode)
-            {
-                case -1:
-                    // custom mode - methods assigned in scripted component
-                    break;
-                case 0:
-                    // random selection - chooses one candidate at random
-                    computeSendersValues = ComputeZero;
-                    selectSender = SelectRandomIndex;
-                    break;
-                case 1:
-                    // scalar Field nearest with threshold - chooses candidate whose centroid closest scalar Field value is closer to the threshold
-                    computeSendersValues = ComputeScalarField;
-                    selectSender = SelectSenderMinIndex;
-                    break;
-                case 2:
-                    // scalar Field interpolated with threshold - chooses candidate whose centroid interpolated scalar Field value is closer to the threshold
-                    computeSendersValues = ComputeScalarFieldInterpolated;
-                    selectSender = SelectSenderMinIndex;
-                    break;
-                case 3:
-                    // vector Field nearest - chooses candidate whose Direction has minimum angle with closest vector Field point
-                    computeSendersValues = ComputeVectorField;
-                    selectSender = SelectSenderMinIndex;
-                    break;
-                case 4:
-                    // vector Field interpolated - chooses candidate whose Direction has minimum angle with interpolated vector Field point
-                    computeSendersValues = ComputeVectorFieldInterpolated;
-                    selectSender = SelectSenderMinIndex;
-                    break;
-                case 5:
-                    // vector Field bidirectional nearest - chooses candidate whose Direction has minimum angle with closest vector Field point (bidirectional)
-                    computeSendersValues = ComputeVectorFieldBidirectional;
-                    selectSender = SelectSenderMinIndex;
-                    break;
-                case 6:
-                    // vector Field bidirectional interpolated - chooses candidate whose Direction has minimum angle with interpolated vector Field point (bidirectional)
-                    computeSendersValues = ComputeVectorFieldBidirectionalInterpolated;
-                    selectSender = SelectSenderMinIndex;
-                    break;
-                case 7:
-                    // density search 1 - chooses candidate with minimal bounding box volume with receiver
-                    computeSendersValues = ComputeBBVolume;
-                    selectSender = SelectSenderMinIndex;
-                    break;
-                case 8:
-                    // density search 2 - chooses candidate with minimal bounding box diagonal with receiver
-                    computeSendersValues = ComputeBBDiagonal;
-                    selectSender = SelectSenderMinIndex;
-                    break;
-                case 9:
-                    // Weighted Random Choice among valid rules
-                    computeSendersValues = ComputeWRC;
-                    selectSender = SelectWRCIndex;
-                    break;
-                // . add more criteria here
-                // ...
-                //
-                case 99:
-                    // sequential Rule - tries to apply the heuristics set rules in sequence (buggy)
-                    // anonymous function - the computation is not necessary
-                    computeSendersValues = (candidates) => { return candidates.Select(ri => 0.0).ToArray(); };
-                    selectSender = SelectNextRuleIndex;
-                    break;
-
-                default: goto case 0;
-            }
-        }
-
         #endregion
 
         #region update methods
@@ -625,12 +489,15 @@ namespace AssemblerLib
         ///{
         ///    // 0. reset iteration variables
         ///    ResetIterationVariables();
-        ///    AssemblyObject newObject;
         ///    // 1. receiver selection and candidates retrieval attempt
         ///    // if there are no available candidates return
         ///    if (!TryGetReceiverAndCandidates()) return;
-        ///    // 2. rule selection
-        ///    Rule rule = SelectRule(CandidateObjects, out newObject);
+        ///    // 2. candidate selection
+        ///    AssemblyObject newObject;
+        ///    Rule rule;
+        ///    (newObject, rule, _) = SelectCandidate(CandidateObjects, computeSendersValues(CandidateObjects));
+        ///    // add Candidates factors to the values
+        ///    AddCandidateFactors(ref candidateValues);
         ///    // 3. new object addition
         ///    AddValidObject(newObject, rule);
         ///    // 4. Assemblage status update
@@ -644,23 +511,35 @@ namespace AssemblerLib
 
             ResetIterationVariables();
 
-            AssemblyObject newObject;
-
             // . . . . . . .    1. receiver selection and candidates retrieval attempt
 
             // if there are no available candidates return
             if (!TryGetReceiverAndCandidates()) return;
 
 
-            // . . . . . . .    2. rule selection
+            // . . . . . . .    2. candidate selection
 
-            Rule rule = SelectRule(CandidateObjects, out newObject);
+            AssemblyObject newObject;
+            Rule rule;
 
+            // compute Candidates values
+            double[] candidateValues = HeuristicsSettings.computeSendersValues(this, i_CandidateObjects);
+
+            // add Candidates factors to the values
+            AddCandidateFactors(ref candidateValues, i_CandidateFactors);
+            //for (int i = 0; i < candidateValues.Length; i++)
+            //    candidateValues[i] += i_CandidateFactors[i];
+
+            (newObject, rule, _) = SelectCandidate(i_CandidateObjects, candidateValues);
+
+            // compute selected candidate's receiver value & iWeight (if that's the case)
+            CallComputeReceiverValue(newObject);
+            if (HeuristicsSettings.HeuristicsMode == HeuristicModes.Field)
+                newObject.IWeight = CallComputeReceiveriWeight(newObject);
 
             // . . . . . . .    3. new object addition
 
             AddValidObject(newObject, rule);
-
 
             // . . . . . . .    4. Assemblage status update
 
@@ -675,6 +554,8 @@ namespace AssemblerLib
         /// </summary>
         public void ResetIterationVariables()
         {
+            i_CandidateObjects = new List<AssemblyObject>();
+            i_CandidateFactors = new List<double>();
             i_senderSeqInd = 0;
             i_receiverAInd = 0;
             i_receiverBranchSeqInd = 0;
@@ -683,53 +564,57 @@ namespace AssemblerLib
             i_candidatesNeighAInd = new List<int[]>();
         }
 
+        private void AddCandidateFactors(ref double[] candidateValues, List<double> i_CandidateFactors)
+        {
+            for (int i = 0; i < candidateValues.Length; i++)
+                candidateValues[i] += i_CandidateFactors[i];
+        }
+
         /// <summary>
-        /// A virtual method that tries to retrieve a valid receiver and compile related list of candidates
+        /// A virtual method that tries to retrieve a valid receiver and compile related list of candidates and their factors
         /// </summary>
         /// <returns>True if a valid receiver is found, False otherwise</returns>
         /// <remarks>The method is virtual, so it can be customized with an override</remarks>
         public virtual bool TryGetReceiverAndCandidates()
         {
-            while (availableObjects.Count > 0)
+            // while there are available receivers...
+            while (availableObjectsAInds.Count > 0)
             {
-                // . . . . . . .    0. reset loop iteration variables
-
-                CandidateObjects = new List<AssemblyObject>();
-                CandidateFactors = new List<double>();
-                i_candidatesNeighAInd.Clear();
-                i_validRulesIndexes = new List<int>();
-
-                // . . . . . . .    1. receiver selection
+                // . . . . . . .    0. receiver selection
 
                 // select receiver from list of available values
                 // sequential receiver index in the available objects AInd list
-                int availableSeqIndex = selectReceiver(availableReceiverValues.ToArray());
+                int availableReceiverInd = HeuristicsSettings.selectReceiver(availableReceiverValues.ToArray());
 
                 // convert sequential index into AInd and find its related branch Path
-                i_receiverAInd = availableObjects[availableSeqIndex];
+                i_receiverAInd = availableObjectsAInds[availableReceiverInd];
                 i_receiverBranchSeqInd = AssemblyObjects.Paths.IndexOf(new GH_Path(i_receiverAInd));
 
-                if (IsReceiverOutsideField())
+                // check if receiver is outside field
+                if (IsReceiverOutsideField(i_receiverBranchSeqInd))
                 {
-                    MarkAsUnreachable(availableSeqIndex);
+                    MarkAsUnreachable(availableReceiverInd);
                     continue;
                 }
 
-                // . . . . . . .    1.1 candidates retrieval attempt
+                // . . . . . . .    1. candidates retrieval attempt
 
                 if (RetrieveCandidates())
                     break;
                 else
-                    MarkAsUnreachable(availableSeqIndex);
+                    MarkAsUnreachable(availableReceiverInd);
             }
 
-            return CandidateObjects.Count > 0;
+            return i_CandidateObjects.Count > 0;
         }
-
+        /// <summary>
+        /// Marks an object as unreachable, adding its index to <see cref="unreachableObjectsAInds"/> removing its related index from <see cref="availableObjectsAInds"/> and its related value from <see cref="availableReceiverValues"/>
+        /// </summary>
+        /// <param name="availableSeqIndex"></param>
         private void MarkAsUnreachable(int availableSeqIndex)
         {
-            unreachableObjects.Add(i_receiverAInd);
-            availableObjects.RemoveAt(availableSeqIndex);
+            unreachableObjectsAInds.Add(availableObjectsAInds[availableSeqIndex]);
+            availableObjectsAInds.RemoveAt(availableSeqIndex);
             availableReceiverValues.RemoveAt(availableSeqIndex);
         }
 
@@ -738,14 +623,12 @@ namespace AssemblerLib
         /// </summary>
         /// <param name="availableSeqIndex"></param>
         /// <returns></returns>
-        private bool IsReceiverOutsideField()
+        private bool IsReceiverOutsideField(int AOBranchSeqInd)
         {
             // if Field is null or Heuristics Settings are not Field dependent return false
-            //if (ExogenousSettings.Field == null || HeuristicsSettings.ReceiverSelectionMode < 1 || HeuristicsSettings.ReceiverSelectionMode > 2)
-            if (ExogenousSettings.Field == null || !HeuristicsSettings.IsFieldDependent)
-                return false;
+            if (ExogenousSettings.Field == null || !HeuristicsSettings.IsFieldDependent) return false;
 
-            Point3d origin = AssemblyObjects.Branch(i_receiverBranchSeqInd)[0].ReferencePlane.Origin;
+            Point3d origin = AssemblyObjects.Branch(AOBranchSeqInd)[0].ReferencePlane.Origin;
             int closestPointInd = ExogenousSettings.Field.GetClosestIndex(origin);
             Point3d fieldClosestPoint = ExogenousSettings.Field.GetPoints()[closestPointInd];
             double distanceSquared = origin.DistanceToSquared(fieldClosestPoint);
@@ -754,19 +637,18 @@ namespace AssemblerLib
         }
 
         /// <summary>
-        /// Retrieve the <see cref="CandidateObjects"/> for the current iteration
+        /// This method sifts candidates filtering invalid results (i.e. collisions, environment), eventually
+        /// populating lists of: <see cref="i_validRulesIndexes"/>, <see cref="i_CandidateObjects"/>, <see cref="i_candidatesNeighAInd"/>, <see cref="i_CandidateFactors"/>
         /// </summary>
         /// <returns>True if at least one suitable candidate has been found, False otherwise</returns>
-        /// <remarks>This function sifts candidates filtering invalid results (i.e. collisions, environment), eventually
-        /// compiling lists of: i_validRulesIndexes, <see cref="CandidateObjects"/>, i_candidatesNeighAInd </remarks>
-        public bool RetrieveCandidates()
+        private bool RetrieveCandidates()
         {
             // . find receiver object type
             int receiverType = AssemblyObjects.Branch(i_receiverBranchSeqInd)[0].Type;
 
             // select current heuristics - check if heuristic mode is set to Field driven
             // in that case, use the receiver's iWeight (where the heuristics index is stored)
-            if (HeuristicsSettings.HeuristicsMode == 1)
+            if (HeuristicsSettings.HeuristicsMode == HeuristicModes.Field)
                 currentHeuristicsIndex = AssemblyObjects.Branch(i_receiverBranchSeqInd)[0].IWeight;
 
             // . sanity check on rules
@@ -785,6 +667,7 @@ namespace AssemblerLib
             AssemblyObject candidateObject;
             i_receiverRules = heuristicsTree.Branch(currentHeuristicsIndex, receiverType);
             int[] neighbourIndexes;
+
             // orient all candidates around receiving object and keep track of valid indices
             // parse through all rules and filter valid ones
             for (int i = 0; i < i_receiverRules.Count; i++)
@@ -792,73 +675,147 @@ namespace AssemblerLib
                 // if receiver handle isn't free skip to next rule
                 if (AssemblyObjects.Branch(i_receiverBranchSeqInd)[0].Handles[i_receiverRules[i].rH].Occupancy != 0) continue;
 
-                // make a copy of corresponding sender type from catalog
-                candidateObject = AssemblyObjectUtils.Clone(AOSet[i_receiverRules[i].sT]);
+                if (!IsCandidateValid(i_receiverRules[i], AssemblyObjects.Branch(i_receiverBranchSeqInd)[0], out candidateObject, out neighbourIndexes)) continue;
 
-                // create Transformation
-                Transform orient = Transform.PlaneToPlane(AOSet[i_receiverRules[i].sT].Handles[i_receiverRules[i].sH].Sender,
-                    AssemblyObjects.Branch(i_receiverBranchSeqInd)[0].Handles[i_receiverRules[i].rH].Receivers[i_receiverRules[i].rR]);
-
-                // transform sender object
-                candidateObject.Transform(orient);
-
-                // verify Z lock
-                // if absolute Z lock is true for the current object...
-                if (CheckWorldZLock && candidateObject.WorldZLock)
-                    // ...perform that check too - if test is not passed continue to next object
-                    if (!AssemblyObjectUtils.AbsoluteZCheck(candidateObject)) continue;
-
-                // verify environment clash
-                // if the object clashes with the environment continue to next object
-                if (environmentCheck(candidateObject)) continue;
-
-                // verify clash with existing assemblage
-                // if the object clashes with surrounding objects continue to next object
-                if (AssemblageUtils.CollisionCheckInAssemblage(this, candidateObject, out neighbourIndexes)) continue;
-
-                // if checks were passed add new objects to candidates and
-                // corresponding rule index to valid list
+                // if checks are passed add new objects to candidates and corresponding rule index to valid list
                 i_validRulesIndexes.Add(i);
-                CandidateObjects.Add(candidateObject);
+                i_CandidateObjects.Add(candidateObject);
                 double candidateFactor = i_receiverRules[i].iWeight + candidateObject.Weight + candidateObject.Handles[i_receiverRules[i].sH].Weight;
-                CandidateFactors.Add(candidateFactor);
+                i_CandidateFactors.Add(candidateFactor);
                 // neighbourIndexes are saved for Obstruction check
                 i_candidatesNeighAInd.Add(neighbourIndexes);
             }
 
-            return CandidateObjects.Count > 0;
+            return i_CandidateObjects.Count > 0;
         }
 
+        private bool IsCandidateValid(Rule rule, AssemblyObject receiver, out AssemblyObject candidateObject, out int[] neighbourIndexes)
+        {
+            neighbourIndexes = null;
+
+            // make a copy of corresponding sender type from catalog
+            candidateObject = AssemblyObjectUtils.Clone(AOSet[rule.sT]);
+
+            // create Transformation
+            Transform orient = Transform.PlaneToPlane(AOSet[rule.sT].Handles[rule.sH].SenderPlane, receiver.Handles[rule.rH].ReceiverPlanes[rule.rR]);
+
+            // transform candidate sender object
+            candidateObject.Transform(orient);
+
+            // verify Z lock
+            // if absolute Z lock is true for the current object...
+            if (CheckWorldZLock && candidateObject.WorldZLock)
+                // ...perform that check too - if test is not passed return false
+                if (!AssemblyObjectUtils.AbsoluteZCheck(candidateObject, Constants.RhinoAbsoluteTolerance))
+                {
+                    candidateObject = null;
+                    return false;
+                }
+
+            // verify environment clash
+            // if the object clashes with the environment return false
+            if (ExogenousSettings.environmentClash(candidateObject, ExogenousSettings.EnvironmentMeshes))
+            {
+                candidateObject = null;
+                return false;
+            }
+
+            // verify clash with existing assemblage
+            // if the object clashes with surrounding objects return false
+            if (AssemblageUtils.IsAOCollidingWithAssemblage(this, candidateObject, out neighbourIndexes))
+            {
+                candidateObject = null;
+                neighbourIndexes = null;
+                return false;
+            }
+
+            return true;
+        }
+
+        private AssemblyObject OrientCandidate(Rule rule, AssemblyObject receiver)
+        {
+            // make a copy of corresponding sender type from catalog
+            AssemblyObject candidateObject = AssemblyObjectUtils.Clone(AOSet[rule.sT]);
+
+            // create Transformation
+            Transform orient = Transform.PlaneToPlane(AOSet[rule.sT].Handles[rule.sH].SenderPlane, receiver.Handles[rule.rH].ReceiverPlanes[rule.rR]);
+
+            // transform candidate sender object
+            candidateObject.Transform(orient);
+
+            return candidateObject;
+        }
+
+        ///// <summary>
+        ///// A virtual method for <see cref="Rule"/> selection - default version uses internally predefined criteria
+        ///// </summary>
+        ///// <param name="candidates">List of candidates <see cref="AssemblyObject"/>s</param>
+        ///// <param name="sendersvalues">Array of senders values to compute the winner candidate</param>
+        ///// <param name="newObject">new <see cref="AssemblyObject"/> to add to the <see cref="Assemblage"/></param>
+        ///// <returns>The selected <see cref="Rule"/></returns>
+        ///// <remarks>The method is virtual, so it can be customized with an override</remarks>
+        ////public virtual Rule SelectRule(List<AssemblyObject> candidates, out AssemblyObject newObject)
+        ////{
+        ////    // sequential index of winner candidate
+        ////    int winnerIndex;
+        ////    double[] sendersvalues = computeSendersValues(candidates);
+        ////    winnerIndex = selectSender(sendersvalues);
+        ////    i_senderSeqInd = winnerIndex;
+        ////    // new Object is found
+        ////    newObject = candidates[winnerIndex];
+        ////    // record its sender value before returning
+        ////    newObject.SenderValue = sendersvalues[winnerIndex];
+        ////    return i_receiverRules[i_validRulesIndexes[winnerIndex]];
+        ////}
+        //public virtual Rule SelectRule(List<AssemblyObject> candidates, double[] sendersvalues, out AssemblyObject newObject)
+        //{
+        //    // sequential index of winner candidate
+        //    int winnerIndex;
+        //    winnerIndex = selectSender(sendersvalues);
+        //    i_senderSeqInd = winnerIndex;
+        //    // new Object is found
+        //    newObject = candidates[winnerIndex];
+        //    // record its sender value before returning
+        //    newObject.SenderValue = sendersvalues[winnerIndex];
+        //    return i_receiverRules[i_validRulesIndexes[winnerIndex]];
+        //}
+
         /// <summary>
-        /// A virtual method for <see cref="Rule"/> selection - default version uses internally predefined criteria
+        /// A virtual method to select a winner <see cref="AssemblyObject"/> candidate and its associated <see cref="Rule"/>
         /// </summary>
         /// <param name="candidates">List of candidates <see cref="AssemblyObject"/>s</param>
-        /// <param name="newObject">new <see cref="AssemblyObject"/> to add to the <see cref="Assemblage"/></param>
-        /// <returns>The selected <see cref="Rule"/></returns>
-        /// <remarks>The method is virtual, so it can be customized with an override</remarks>
-        public virtual Rule SelectRule(List<AssemblyObject> candidates, out AssemblyObject newObject)
+        /// <param name="sendersValues">Array of senders values to compute the winner candidate</param>
+        /// <returns>A Tuple with the winning <see cref="AssemblyObject"/>, the used <see cref="Rule"/>, and its index in the candidates list</returns>
+        public virtual (AssemblyObject, Rule, int) SelectCandidate(List<AssemblyObject> candidates, double[] sendersValues)
         {
+            AssemblyObject winnerCandidate;
+            Rule rule;
+
             // sequential index of winner candidate
             int winnerIndex;
-            double[] sendersvalues = computeSendersValues(candidates);
-            winnerIndex = selectSender(sendersvalues);
+            winnerIndex = HeuristicsSettings.selectSender(sendersValues);
             i_senderSeqInd = winnerIndex;
+
             // new Object is found
-            newObject = candidates[winnerIndex];
+            winnerCandidate = candidates[winnerIndex];
+
             // record its sender value before returning
-            newObject.SenderValue = sendersvalues[winnerIndex];
-            return i_receiverRules[i_validRulesIndexes[winnerIndex]];
+            winnerCandidate.SenderValue = sendersValues[winnerIndex];
+            rule = i_receiverRules[i_validRulesIndexes[winnerIndex]];
+
+            return (winnerCandidate, rule, winnerIndex);
         }
 
         /// <summary>
         /// Adds a valid <see cref="AssemblyObject"/> to the <see cref="Assemblage"/>, updating connectivity
         /// </summary>
-        /// <param name="newObject"></param>
-        /// <param name="rule"></param>
+        /// <param name="newObject"><see cref="AssemblyObject"/> to add to the Assemblage</param>
+        /// <param name="rule">The <see cref="Rule"/> associated with the object</param>
         /// 
         public virtual void AddValidObject(AssemblyObject newObject, Rule rule)
         {
-            // assign index (in future implementations, check for index uniqueness or transform in Hash)
+            // assign index
+            // TODO: in future implementations, check for index uniqueness or transform in Hash
             newObject.AInd = nextAInd;
             nextAInd++;
             GH_Path newObjectPath = new GH_Path(newObject.AInd);
@@ -871,20 +828,15 @@ namespace AssemblerLib
 
             // . . . . . UPDATE HANDLES
             // update sender + receiver handle status (handle index, occupancy, neighbourObject, neighbourHandle, weight)
-            HandleUtils.UpdateHandlesOnConnection(newObject, rule.sH, AssemblyObjects.Branch(i_receiverBranchSeqInd)[0], rule.rH);
-
-            // compute newObject receiver value
-            newObject.ReceiverValue = computeReceiverValue(newObject);
-            if (HeuristicsSettings.HeuristicsMode == 1)
-                newObject.IWeight = ComputeRiWeight(newObject);
+            HandleUtils.UpdateHandlesOnConnection(newObject, rule.sH, AssemblyObjects.Branch(i_receiverBranchSeqInd)[0], rule.rH, 1, rule.rR);
 
             // add centroid to assemblage centroids tree
             // future implementation: if object has children, insert all children centroids under the same AO index (assemblage.Count in this case)
-            centroidsTree.Insert(newObject.ReferencePlane.Origin, newObject.AInd);// assemblyObjects.Count);
-            centroidsAO.Add(newObject.AInd);// assemblyObjects.Count);
+            centroidsTree.Insert(newObject.ReferencePlane.Origin, newObject.AInd);
+            centroidsAInds.Add(newObject.AInd);
 
             // add new object to available objects indexes and its receiver value to the list
-            availableObjects.Add(newObject.AInd);// assemblyObjects.Count);
+            availableObjectsAInds.Add(newObject.AInd);
             availableReceiverValues.Add(newObject.ReceiverValue);
 
             // add new object to assemblage, its AInd to the index map
@@ -893,482 +845,67 @@ namespace AssemblerLib
             // if receiving object is fully occupied (all Handles either connected or occluded) remove it from the available objects
             if (AssemblyObjects.Branch(i_receiverBranchSeqInd)[0].Handles.Where(x => x.Occupancy != 0).Sum(x => 1) == AssemblyObjects.Branch(i_receiverBranchSeqInd)[0].Handles.Length)
             {
-                availableReceiverValues.RemoveAt(availableObjects.IndexOf(i_receiverAInd));
-                availableObjects.Remove(i_receiverAInd);
+                availableReceiverValues.RemoveAt(availableObjectsAInds.IndexOf(i_receiverAInd));
+                availableObjectsAInds.Remove(i_receiverAInd);
             }
         }
 
         #endregion
 
-        #region compute receiver methods
+        #region call compute receivers methods
 
-        private double ComputeRZero(AssemblyObject receiver) => 0.0;
-
-        private double ComputeRRandom(AssemblyObject receiver) => rnd.NextDouble();
+        private void CallComputeReceiverValue(AssemblyObject AO, double rValue = 0)
+        {
+            // compute AO receiver value (if Receiver Selection mode is not -1 or custom compute method is not null)
+            if (ShouldComputeReceiver)
+                AO.ReceiverValue = HeuristicsSettings.computeReceiverValue(this, AO);
+            else
+                AO.ReceiverValue = rValue;
+        }
 
         /// <summary>
-        /// Computes receiver scalar Field with sign
+        /// Calls the <see cref="HeuristicsSettings.computeReceiverValue"/> delegate method for each <see cref="AssemblyObject"/> in the Assemblage
         /// </summary>
-        /// <param name="receiver"></param>
-        /// <returns></returns>
-        private double ComputeRScalarFieldSigned(AssemblyObject receiver)
+        public void CallComputeReceiversValues()
         {
-            return ExogenousSettings.FieldScalarThreshold - ExogenousSettings.Field.GetClosestScalar(receiver.ReferencePlane.Origin);
-        }
-        /// <summary>
-        /// Computes receiver scalar Field within threshold; receivers outside will return -1
-        /// to stay within the threshold couple it with SelectMaxValue
-        /// </summary>
-        /// <param name="receiver"></param>
-        /// <returns></returns>
-        private double ComputeRScalerFieldWithin(AssemblyObject receiver)
-        {
-            double scalarValue = ExogenousSettings.Field.GetClosestScalar(receiver.ReferencePlane.Origin);
-            if (scalarValue < ExogenousSettings.FieldScalarThreshold) return -1;
-            else return scalarValue;
-        }
-
-        private double ComputeRScalarField(AssemblyObject receiver)
-        {
-            return Math.Abs(ExogenousSettings.FieldScalarThreshold - ExogenousSettings.Field.GetClosestScalar(receiver.ReferencePlane.Origin));
-        }
-
-        private double ComputeRScalarFieldInterpolated(AssemblyObject receiver)
-        {
-            return Math.Abs(ExogenousSettings.FieldScalarThreshold - ExogenousSettings.Field.GetInterpolatedScalar(receiver.ReferencePlane.Origin));
-        }
-        /// <summary>
-        /// Computes absolute difference between scalar <see cref="Field"/> value and threshold from each free <see cref="Handle"/> 
-        /// </summary>
-        /// <param name="receiver"></param>
-        /// <returns>the minimum absolute difference from the threshold</returns>
-        private double ComputeRScalarFieldHandles(AssemblyObject receiver)
-        {
-            double scalarValue = double.MaxValue;
-            double handleValue;
-            foreach (Handle h in receiver.Handles)
-            {
-                if (h.Occupancy != 0) continue;
-                handleValue = Math.Abs(ExogenousSettings.FieldScalarThreshold - ExogenousSettings.Field.GetClosestScalar(h.Sender.Origin));
-                if (handleValue < scalarValue) scalarValue = handleValue;
-            }
-            return scalarValue;
-        }
-        /// <summary>
-        /// Computes sum of <see cref="AssemblyObject"/> weights in a search sphere, updating neighbours accordingly
-        /// </summary>
-        /// <param name="receiver"></param>
-        /// <returns>the weights sum</returns>
-        /// 
-        private double ComputeRWeightDensity(AssemblyObject receiver)
-        {
-            // search for neighbour objects in radius
-            double density = 0;
-            centroidsTree.Search(new Sphere(receiver.ReferencePlane.Origin, CollisionRadius), (s, args) =>
-            {
-                GH_Path neighPath = new GH_Path(centroidsAO[args.Id]);
-                density += AssemblyObjects[neighPath, 0].Weight;
-                // update neighbour object receiver value with current weight
-                AssemblyObjects[neighPath, 0].ReceiverValue += receiver.Weight;
-            });
-
-            return density;
-        }
-
-        private int ComputeRiWeight(AssemblyObject receiver)
-        {
-            return ExogenousSettings.Field.GetClosestiWeights(receiver.ReferencePlane.Origin)[0];
-        }
-
-        private void ComputeReceivers()
-        {
-            if (AssemblyObjects.BranchCount < 1000)
+            if (AssemblyObjects.BranchCount < Constants.parallelLimit)
                 for (int i = 0; i < AssemblyObjects.BranchCount; i++)
-                    AssemblyObjects.Branches[i][0].ReceiverValue = computeReceiverValue(AssemblyObjects.Branches[i][0]);
+                    CallComputeReceiverValue(AssemblyObjects.Branches[i][0]);
             else
             {
                 Parallel.For(0, AssemblyObjects.BranchCount, i =>
                 {
-                    AssemblyObjects.Branches[i][0].ReceiverValue = computeReceiverValue(AssemblyObjects.Branches[i][0]);
+                    CallComputeReceiverValue(AssemblyObjects.Branches[i][0]);
                 });
             }
         }
 
-        private void ComputeReceiversiWeights()
+        private int CallComputeReceiveriWeight(AssemblyObject receiver) => ExogenousSettings.Field.GetClosestiWeights(receiver.ReferencePlane.Origin)[0];
+
+        private void CallComputeReceiversiWeights()
         {
-            if (AssemblyObjects.BranchCount < 1000)
+            if (AssemblyObjects.BranchCount < Constants.parallelLimit)
                 for (int i = 0; i < AssemblyObjects.BranchCount; i++)
-                    AssemblyObjects.Branches[i][0].IWeight = ComputeRiWeight(AssemblyObjects.Branches[i][0]);
+                    AssemblyObjects.Branches[i][0].IWeight = CallComputeReceiveriWeight(AssemblyObjects.Branches[i][0]);
             else
             {
                 Parallel.For(0, AssemblyObjects.BranchCount, i =>
                 {
-                    AssemblyObjects.Branches[i][0].IWeight = ComputeRiWeight(AssemblyObjects.Branches[i][0]);
+                    AssemblyObjects.Branches[i][0].IWeight = CallComputeReceiveriWeight(AssemblyObjects.Branches[i][0]);
                 });
             }
-        }
-
-        #endregion
-
-        #region compute candidates methods
-        private double[] ComputeZero(List<AssemblyObject> candidates) => candidates.Select(c => 0.0).ToArray();
-        private double[] ComputeRandom(List<AssemblyObject> candidates) => candidates.Select(c => rnd.NextDouble()).ToArray();
-        private double[] ComputeBBVolume(List<AssemblyObject> candidates)
-        {
-            BoundingBox bBox;
-
-            double[] BBvolumes = new double[candidates.Count];
-
-            // compute BBvolume for all candidates
-            if (candidates.Count < 100)
-                for (int i = 0; i < candidates.Count; i++)
-                {
-                    bBox = AssemblyObjects.Branch(i_receiverBranchSeqInd)[0].CollisionMesh.GetBoundingBox(false);
-                    bBox.Union(candidates[i].CollisionMesh.GetBoundingBox(false));
-                    BBvolumes[i] = bBox.Volume;
-                }
-            else
-                Parallel.For(0, candidates.Count, i =>
-                {
-                    BoundingBox bBoxpar = AssemblyObjects.Branch(i_receiverBranchSeqInd)[0].CollisionMesh.GetBoundingBox(false);
-                    bBoxpar.Union(candidates[i].CollisionMesh.GetBoundingBox(false));
-                    BBvolumes[i] = bBoxpar.Volume;
-                });
-
-            return BBvolumes;
-        }
-
-        private double[] ComputeBBDiagonal(List<AssemblyObject> candidates)
-        {
-            BoundingBox bBox;
-
-            double[] BBdiagonals = new double[candidates.Count];
-
-            // compute BBvolume for all candidates
-            if (candidates.Count < 100)
-                for (int i = 0; i < candidates.Count; i++)
-                {
-                    bBox = AssemblyObjects.Branch(i_receiverBranchSeqInd)[0].CollisionMesh.GetBoundingBox(false);
-                    bBox.Union(candidates[i].CollisionMesh.GetBoundingBox(false));
-                    BBdiagonals[i] = bBox.Diagonal.Length;
-                }
-            else
-                Parallel.For(0, candidates.Count, i =>
-                {
-                    BoundingBox bBoxpar = AssemblyObjects.Branch(i_receiverBranchSeqInd)[0].CollisionMesh.GetBoundingBox(false);
-                    bBoxpar.Union(candidates[i].CollisionMesh.GetBoundingBox(false));
-                    BBdiagonals[i] = bBoxpar.Diagonal.Length;
-                });
-
-            return BBdiagonals;
-        }
-
-        private double[] ComputeScalarField(List<AssemblyObject> candidates)
-        {
-            double[] scalarValues = new double[candidates.Count];
-
-            // compute scalarvalue for all candidates
-            if (candidates.Count < 100)
-                for (int i = 0; i < candidates.Count; i++)
-                {
-                    // try, instead of Math.Abs(), the following:
-                    //version 1
-                    //i = x < 0 ? -x : x;
-                    //version 2 (bitwise operations)
-                    //i = (x ^ (x >> 31)) - (x >> 31);
-                    scalarValues[i] = Math.Abs(ExogenousSettings.FieldScalarThreshold - ExogenousSettings.Field.GetClosestScalar(candidates[i].ReferencePlane.Origin));
-                }
-            else
-                Parallel.For(0, candidates.Count, i =>
-                {
-                    scalarValues[i] = Math.Abs(ExogenousSettings.FieldScalarThreshold - ExogenousSettings.Field.GetClosestScalar(candidates[i].ReferencePlane.Origin));
-                });
-
-            return scalarValues;
-        }
-
-        private double[] ComputeScalarFieldInterpolated(List<AssemblyObject> candidates)
-        {
-            double[] scalarValues = new double[candidates.Count];
-
-            // compute scalarvalue for all candidates
-            if (candidates.Count < 100)
-                for (int i = 0; i < candidates.Count; i++)
-                {
-                    scalarValues[i] = Math.Abs(ExogenousSettings.FieldScalarThreshold - ExogenousSettings.Field.GetInterpolatedScalar(candidates[i].ReferencePlane.Origin));
-                }
-            else
-                Parallel.For(0, candidates.Count, i =>
-                {
-                    scalarValues[i] = Math.Abs(ExogenousSettings.FieldScalarThreshold - ExogenousSettings.Field.GetInterpolatedScalar(candidates[i].ReferencePlane.Origin));
-                });
-
-            return scalarValues;
-        }
-
-        private double[] ComputeVectorField(List<AssemblyObject> candidates)
-        {
-            double[] vectorValues = new double[candidates.Count];
-
-            // compute Vector angle value for all candidates
-            if (candidates.Count < 100)
-                for (int i = 0; i < candidates.Count; i++)
-                {
-                    vectorValues[i] = Vector3d.VectorAngle(candidates[i].Direction, ExogenousSettings.Field.GetClosestVector(candidates[i].ReferencePlane.Origin));
-                }
-            else
-                Parallel.For(0, candidates.Count, i =>
-                {
-                    vectorValues[i] = Vector3d.VectorAngle(candidates[i].Direction, ExogenousSettings.Field.GetClosestVector(candidates[i].ReferencePlane.Origin));
-                });
-
-            return vectorValues;
-        }
-
-        private double[] ComputeVectorFieldBidirectional(List<AssemblyObject> candidates)
-        {
-            double[] vectorValues = new double[candidates.Count];
-
-            // compute bidirectional Vector angle value for all candidates
-            if (candidates.Count < 100)
-                for (int i = 0; i < candidates.Count; i++)
-                {
-                    vectorValues[i] = 1 - Math.Abs(candidates[i].Direction * ExogenousSettings.Field.GetClosestVector(candidates[i].ReferencePlane.Origin));
-                }
-            else
-                Parallel.For(0, candidates.Count, i =>
-                {
-                    vectorValues[i] = 1 - Math.Abs(candidates[i].Direction * ExogenousSettings.Field.GetClosestVector(candidates[i].ReferencePlane.Origin));
-                });
-
-            return vectorValues;
-        }
-
-        private double[] ComputeVectorFieldInterpolated(List<AssemblyObject> candidates)
-        {
-            double[] vectorValues = new double[candidates.Count];
-
-            // compute Vector angle value for all candidates
-            if (candidates.Count < 100)
-                for (int i = 0; i < candidates.Count; i++)
-                {
-                    vectorValues[i] = Vector3d.VectorAngle(candidates[i].Direction, ExogenousSettings.Field.GetInterpolatedVector(candidates[i].ReferencePlane.Origin));
-                }
-            else
-                Parallel.For(0, candidates.Count, i =>
-                {
-                    vectorValues[i] = Vector3d.VectorAngle(candidates[i].Direction, ExogenousSettings.Field.GetInterpolatedVector(candidates[i].ReferencePlane.Origin));
-                });
-
-            return vectorValues;
-        }
-
-        private double[] ComputeVectorFieldBidirectionalInterpolated(List<AssemblyObject> candidates)
-        {
-            double[] vectorValues = new double[candidates.Count];
-
-            // compute bidirectional Vector angle value for all candidates
-            if (candidates.Count < 100)
-                for (int i = 0; i < candidates.Count; i++)
-                {
-                    vectorValues[i] = 1 - Math.Abs(candidates[i].Direction * ExogenousSettings.Field.GetInterpolatedVector(candidates[i].ReferencePlane.Origin));
-                }
-            else
-                Parallel.For(0, candidates.Count, i =>
-                {
-                    vectorValues[i] = 1 - Math.Abs(candidates[i].Direction * ExogenousSettings.Field.GetInterpolatedVector(candidates[i].ReferencePlane.Origin));
-                });
-
-            return vectorValues;
-        }
-
-        private double[] ComputeWRC(List<AssemblyObject> candidates)
-        {
-            double[] wrcWeights = new double[candidates.Count];
-
-            for (int i = 0; i < i_validRulesIndexes.Count; i++)
-                wrcWeights[i] = i_receiverRules[i_validRulesIndexes[i]].iWeight;
-
-            return wrcWeights;
         }
 
         /// <summary>
-        /// Performs a Weighted Random Choice given an array of weights
+        /// Calls the <see cref="HeuristicsSettings.computeReceiverValue"/> delegate method for each <see cref="AssemblyObject"/> in the Assemblage, as well as computing their respective iWeights if the <see cref="HeuristicsSettings.HeuristicsMode"/> is set to Field
         /// </summary>
-        /// <param name="weights"></param>
-        /// <returns>index of the selected weight</returns>
-        private int WeightedRandomChoiceIndex(int[] weights)
+        public void CallComputeReceiversValuesiWeights()
         {
-
-            int totWeights = weights.Sum(w => w);
-
-            int chosenInd = rnd.Next(totWeights);
-            int valueInd = 0;
-
-            while (chosenInd >= 0)
-            {
-                chosenInd -= weights[valueInd];
-                valueInd++;
-            }
-
-            valueInd -= 1;
-
-            return valueInd;
-        }
-
-        /// <summary>
-        /// Performs a Weighted Random Choice on a data array and corresponding weights
-        /// </summary>
-        /// <typeparam Name="T"></typeparam>
-        /// <param name="values"></param>
-        /// <param name="weights"></param>
-        /// <returns>the selected value</returns>
-        private T WeightedRandomChoice<T>(T[] values, int[] weights)
-        {
-            return values[WeightedRandomChoiceIndex(weights)];
-        }
-
-        #endregion
-
-        #region select value methods
-
-        private int SelectRandomIndex(double[] values) => (int)(rnd.NextDouble() * values.Length);
-
-        private int SelectSenderMinIndex(double[] values)
-        {
-            double min = values[0];// double.MaxValue;
-            int minindex = 0;// -1;
-            for (int i = 1; i < values.Length; i++)
-            {
-                if (values[i] < min)
-                {
-                    min = values[i];
-                    minindex = i;
-                }
-                else if (values[i] == min)
-                {
-                    if (CandidateFactors[i] > CandidateFactors[minindex])
-                    {
-                        min = values[i];
-                        minindex = i;
-                    }
-                }
-            }
-
-            return minindex;
-        }
-
-        private int SelectMinIndex(double[] values)
-        {
-            double min = values[0];// double.MaxValue;
-            int minindex = 0;// -1;
-            for (int i = 1; i < values.Length; i++)
-            {
-                if (values[i] < min)
-                {
-                    min = values[i];
-                    minindex = i;
-                }
-            }
-
-            return minindex;
-        }
-
-        private int SelectMaxIndex(double[] values)
-        {
-            double max = values[0];//double.MinValue;
-            int maxindex = 0;//-1;
-            for (int i = 1; i < values.Length; i++)
-            {
-                if (values[i] > max)
-                {
-                    max = values[i];
-                    maxindex = i;
-                }
-            }
-
-            return maxindex;
-        }
-
-        private int SelectWRCIndex(double[] values)
-        {
-            // Weighted Random Choice among valid rules
-            int[] iWeights = values.Select(v => (int)v).ToArray();
-            int[] indexes = new int[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                indexes[i] = i;
-
-            return WeightedRandomChoice(indexes, iWeights);
-        }
-
-        private int SelectNextRuleIndex(double[] values)
-        {
-            int count = 0;
-            while (!i_validRulesIndexes.Contains(E_sequentialRuleIndex) && count < 100)
-            {
-                E_sequentialRuleIndex = (E_sequentialRuleIndex++) % i_receiverRules.Count;
-                count++;
-            }
-            return i_validRulesIndexes.IndexOf(E_sequentialRuleIndex);
-        }
-
-        #endregion
-
-        #region environment methods
-
-        /// <summary>
-        /// Checks environment compatibility of an AssemblyObject
-        /// </summary>
-        /// <param name="AO"></param>
-        /// <returns>true if an object is not compatible with the <see cref="MeshEnvironment"/>s</returns>
-        /// <remarks>An eventual Container is checked using collision mode</remarks>
-        private bool EnvClashCollision(AssemblyObject AO)
-        {
-            foreach (MeshEnvironment mEnv in ExogenousSettings.EnvironmentMeshes)
-            {
-
-                switch (mEnv.Type)
-                {
-                    case MeshEnvironment.EnvType.Void: // controls only centroid in/out
-                        if (mEnv.IsPointInvalid(AO.ReferencePlane.Origin)) return true;
-                        break;
-                    case MeshEnvironment.EnvType.Solid:
-                        if (mEnv.CollisionCheck(AO.CollisionMesh)) return true;
-                        goto case MeshEnvironment.EnvType.Void;
-                    case MeshEnvironment.EnvType.Container:
-                        goto case MeshEnvironment.EnvType.Solid;
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Checks environment compatibility of an AssemblyObject
-        /// </summary>
-        /// <param name="AO">AssemblyObject to verify</param>
-        /// <returns>true if an object is not compatible with the <see cref="MeshEnvironment"/>s</returns>
-        /// <remarks>An eventual Container is checked using inclusion mode (default behaviour)</remarks>
-
-        private bool EnvClashInclusion(AssemblyObject AO)
-        {
-            foreach (MeshEnvironment mEnv in ExogenousSettings.EnvironmentMeshes)
-            {
-
-                switch (mEnv.Type)
-                {
-                    case MeshEnvironment.EnvType.Void: // controls only centroid in/out
-                        if (mEnv.IsPointInvalid(AO.ReferencePlane.Origin)) return true;
-                        break;
-                    case MeshEnvironment.EnvType.Solid:
-                        if (mEnv.CollisionCheck(AO.CollisionMesh)) return true;
-                        goto case MeshEnvironment.EnvType.Void;
-                    case MeshEnvironment.EnvType.Container:
-                        goto case MeshEnvironment.EnvType.Void;
-                }
-            }
-
-            return false;
+            // compute receiver values
+            CallComputeReceiversValues();
+            // if heuristics is Field driven compute iWeights
+            if (HeuristicsSettings.HeuristicsMode == HeuristicModes.Field)
+                CallComputeReceiversiWeights();
         }
 
         #endregion
@@ -1376,176 +913,176 @@ namespace AssemblerLib
         #region reset methods
 
         /// <summary>
+        /// Reset Assemblage Status - reset Heuristics and Exogenous Settings, compute all Receivers and reset AOs Occupancy Status
+        /// </summary>
+        /// <param name="Heu"></param>
+        /// <param name="Exo"></param>
+        public void ResetAssemblageStatus(HeuristicsSettings Heu, ExogenousSettings Exo)
+        {
+            ResetHESettings(Heu, Exo);
+            CallComputeReceiversValuesiWeights();
+            ResetAOsOccupancyStatus();
+        }
+
+        /// <summary>
         /// Reset Heuristics and Exogenous Settings
         /// </summary>
         /// <param name="Heu">Heuristics Setting</param>
         /// <param name="Exo">Exogenous Settings</param>
-        public void ResetSettings(HeuristicsSettings Heu, ExogenousSettings Exo)
+        public void ResetHESettings(HeuristicsSettings Heu, ExogenousSettings Exo)
         {
+            // reset all settings, including computing and selection modes for senders and receivers
             HeuristicsSettings = Heu;
             ExogenousSettings = Exo;
 
+            // compute AO receiver value if Receiver Selection mode is not -1 or compute method is not null
+            ShouldComputeReceiver = HeuristicsSettings.ReceiverSelectionMode != -1 || HeuristicsSettings.computeReceiverValue != null;
+
             // reset heuristicsTree
             heuristicsTree = InitHeuristics(HeuristicsSettings.HeuSetsString);
-            // comment this in case CurrentHeuristics is taken directly from HeuristicsSettings
             currentHeuristicsIndex = HeuristicsSettings.CurrentHeuristics;
 
-            // environment
-            SetEnvCheckMethod();
+            // reset environment
+            //SetEnvCheckMethod();
+            // EXP: experimental. Yet to be implemented
             SetSandbox(ExogenousSettings.SandBox);
-
-            // selection modes
-            SetReceiverSelectionMode(HeuristicsSettings.ReceiverSelectionMode);
-            SetSenderSelectionMode(HeuristicsSettings.SenderSelectionMode);
-
-            // compute receiver values
-            ComputeReceivers();
-            // if heuristics is Field driven compute iWeights
-            if (HeuristicsSettings.HeuristicsMode == 1)
-                ComputeReceiversiWeights();
-
-            // reset available/unreachable objects
-            ResetAvailableObjects();
         }
 
+        // EXP: experimental. Yet to be implemented
         private void ResetSandboxRtree()
         {
-            E_sandboxCentroidsTree = new RTree();
-            E_sandboxCentroidsAO = new List<int>();
+            E_sb.E_sandboxCentroidsTree = new RTree();
+            E_sb.E_sandboxCentroidsAO = new List<int>();
             // create List of centroid correspondance with their AO
-            centroidsTree.Search(E_sandbox.BoundingBox, (sender, args) =>
+            centroidsTree.Search(E_sb.E_sandbox.BoundingBox, (sender, args) =>
             {
                 // recover the AssemblyObject centroid related to the found centroid
                 // args.Id contains the AInd
-                E_sandboxCentroidsTree.Insert(AssemblyObjects[new GH_Path(args.Id), 0].ReferencePlane.Origin, args.Id);
-                E_sandboxCentroidsAO.Add(args.Id);
+                E_sb.E_sandboxCentroidsTree.Insert(AssemblyObjects[new GH_Path(args.Id), 0].ReferencePlane.Origin, args.Id);
+                E_sb.E_sandboxCentroidsAO.Add(args.Id);
             });
         }
 
         /// <summary>
-        /// Verify list of available/unreachable objects according to current environment and heuristics
+        /// Verify list of available/unreachable <see cref="AssemblyObject"/>s according to current environment and heuristics
         /// </summary>
-        private void ResetAvailableObjects()
+        public void ResetAOsOccupancyStatus()
         {
-            /*
-             CURRENT LOGIC: saturated objects will remain as such, so no need to check them (not working with remove AO)
-             . consider all unreachable initially as available
-             . perform checks to find new unreachables and remove from available and their receiver values lists
-             */
+            // . . . . . . .    1. move all AInds to available AInd list and clear unreachable AInd list
 
-            /*
-              NEW LOGIC (to be implemented - works with remove AO)
-              . let RemoveAssemblyObject update available-unreachable lists
-              . preserve current logic in this method
-            */
+            ResetAvailableUnreachableObjects();
 
-            // move all unreachable indexes to available and clear unrechable list 
-            foreach (int unreachInd in unreachableObjects)
-                if (!availableObjects.Contains(unreachInd)) availableObjects.Add(unreachInd);
+            // . . . . . . .    2. scan available objects
 
-            unreachableObjects.Clear();
+            ScanAvailableObjects();
 
-            // reset availableReceiverValues list
-            availableReceiverValues.Clear();
-            for (int i = 0; i < availableObjects.Count; i++)
-            {
-                availableReceiverValues.Add(AssemblyObjects[new GH_Path(availableObjects[i]), 0].ReceiverValue);
-            }
-
-            // reset according to environment meshes
-            ResetAvailableObjectsEnvironment();
-
-            // check for every available object and move from available to unreachable if:
-            // - there isn't a rule with their rType
-            // - a rule exists for their rType but no match for any of its free Handles 
-
-            List<int> newUnreachables = new List<int>();
-            GH_Path path;
-
-
-            // . . . scan available objects
-            for (int i = availableObjects.Count - 1; i >= 0; i--)
-            {
-
-                AssemblyObject avObject = AssemblyObjects[new GH_Path(availableObjects[i]), 0];
-
-                // check if current heuristics is fixed or Field-dependent
-                if (HeuristicsSettings.HeuristicsMode == 1)
-                    currentHeuristicsIndex = avObject.IWeight;
-
-
-                // current heuristics path to search for {current heuristics; receiver type}
-                path = new GH_Path(currentHeuristicsIndex, avObject.Type);
-
-                // if object type is not in the heuristics assign as unreachable and remove from available
-                if (!heuristicsTree.PathExists(path))
-                {
-                    newUnreachables.Add(availableObjects[i]);
-                    availableObjects.RemoveAt(i);
-                    availableReceiverValues.RemoveAt(i);
-                }
-                else // if a path exists as receiver, check if there are rules for its free Handles
-                {
-                    bool unreachable = true;
-                    // scan its Handles against current heuristics rules
-                    for (int j = 0; j < avObject.Handles.Length; j++)
-                    {
-                        // continue if handle is connected or occluded
-                        if (avObject.Handles[j].Occupancy != 0) continue;
-
-                        foreach (Rule rule in heuristicsTree.Branch(path))
-                            // if there is at least a free handle with an available rule for it (rH is the receiving handle index)
-                            if (rule.rH == j)
-                            {
-                                // activate flag and break loop
-                                unreachable = false;
-                                break;
-                            }
-                    }
-
-                    // test if unreachable after looping through all Handles
-                    if (unreachable)
-                    // assign as unreachable and remove from available
-                    {
-                        newUnreachables.Add(availableObjects[i]);
-                        availableObjects.RemoveAt(i);
-                        availableReceiverValues.RemoveAt(i);
-                    }
-                }
-            }
-
-            // add new unreachables to list
-            unreachableObjects.AddRange(newUnreachables);
-
-            // add to specific Sandbox lists if a valid Sandbox is present
-            if (E_sandbox.IsValid)
-            {
-                E_sandboxAvailableObjects.Clear();
-                E_sandboxUnreachableObjects.Clear();
-                foreach (int avOb in availableObjects)
-                    if (E_sandbox.Contains(AssemblyObjects[new GH_Path(avOb), 0].ReferencePlane.Origin)) E_sandboxAvailableObjects.Add(avOb);
-                //if (E_sandboxCentroidsAO.Contains(avOb)) E_sandboxAvailableObjects.Add(avOb);
-                foreach (int unrOb in unreachableObjects)
-                    if (E_sandbox.Contains(AssemblyObjects[new GH_Path(unrOb), 0].ReferencePlane.Origin)) E_sandboxAvailableObjects.Add(unrOb);
-                //if (E_sandboxCentroidsAO.Contains(unrOb)) E_sandboxUnreachableObjects.Add(unrOb);
-            }
+            // . . . . . . .    3. [OPTIONAL] add to specific Sandbox lists if a valid Sandbox is present
+            // EXP: experimental. Yet to be implemented
+            //if (E_sb.E_sandbox.Volume > 0)
+            //{
+            //    E_sb.E_sandboxAvailableObjects.Clear();
+            //    E_sb.E_sandboxUnreachableObjects.Clear();
+            //    foreach (int avOb in availableObjectsAInds)
+            //        if (E_sb.E_sandbox.Contains(AssemblyObjects[new GH_Path(avOb), 0].ReferencePlane.Origin)) E_sb.E_sandboxAvailableObjects.Add(avOb);
+            //    //if (E_sandboxCentroidsAO.Contains(avOb)) E_sandboxAvailableObjects.Add(avOb);
+            //    foreach (int unrOb in unreachableObjectsAInds)
+            //        if (E_sb.E_sandbox.Contains(AssemblyObjects[new GH_Path(unrOb), 0].ReferencePlane.Origin)) E_sb.E_sandboxAvailableObjects.Add(unrOb);
+            //    //if (E_sandboxCentroidsAO.Contains(unrOb)) E_sandboxUnreachableObjects.Add(unrOb);
+            //}
 
         }
 
-        private void ResetAvailableObjectsEnvironment()
+        private void ResetAvailableUnreachableObjects()
         {
+            // move all unreachable indexes to available and clear unrechable list 
+            foreach (int unreachAInd in unreachableObjectsAInds)
+                if (!availableObjectsAInds.Contains(unreachAInd)) availableObjectsAInds.Add(unreachAInd);
 
-            // verify available objects against new environment meshes to update unreachable list
-            for (int i = availableObjects.Count - 1; i >= 0; i--)
+            unreachableObjectsAInds.Clear();
+
+            // clear availableReceiverValues list and set updated values
+            availableReceiverValues.Clear();
+
+            PopulateAvailableReceiverValues();
+        }
+
+        private void PopulateAvailableReceiverValues()
+        {
+            for (int i = 0; i < availableObjectsAInds.Count; i++)
+                availableReceiverValues.Add(AssemblyObjects[new GH_Path(availableObjectsAInds[i]), 0].ReceiverValue);
+        }
+
+        private void ScanAvailableObjects()
+        {
+            // check for every available object and move from available to unreachable if:
+            // 2.1. they do not pass environmental geometry check
+            // 2.2. they do not pass rules checks:
+            //  2.2.1. there aren't rules with their rType
+            //  2.2.2. rules exists for their rType but no match for any of its free Handles
+            //  2.2.3. rules exist for a free Handle but sender placement is precluded by other objects (AOs or environmental)
+
+            for (int i = availableObjectsAInds.Count - 1; i >= 0; i--)
             {
-                if (environmentCheck(AssemblyObjects[new GH_Path(availableObjects[i]), 0]))
-                {
-                    unreachableObjects.Add(availableObjects[i]);
-                    availableObjects.RemoveAt(i);
-                    availableReceiverValues.RemoveAt(i);
-                }
-            }
+                AssemblyObject avObject = AssemblyObjects[new GH_Path(availableObjectsAInds[i]), 0];
 
+                // . . . . 2.1. environmental geometry check
+
+                if (ExogenousSettings.environmentClash(avObject, ExogenousSettings.EnvironmentMeshes))
+                {
+                    MarkAsUnreachable(i);
+                    continue;
+                }
+
+                // . . . . 2.2. rules check
+
+                // check if current heuristics is fixed or Field-dependent
+                if (HeuristicsSettings.HeuristicsMode == HeuristicModes.Field)
+                    currentHeuristicsIndex = avObject.IWeight; // when starting an Assemblage this is still -1!!!
+                // current heuristics tree path to search for {current heuristics; receiver type}
+                GH_Path rulesPath = new GH_Path(currentHeuristicsIndex, avObject.Type);
+
+                // . . . . . 2.2.1. check if there aren't rules with AO rType
+
+                // if object type cannot be a receiver (it hasn't a path in the heuristics tree)
+                // assign as unreachable and continue to the next available AO
+                if (!heuristicsTree.PathExists(rulesPath))
+                {
+                    MarkAsUnreachable(i);
+                    continue;
+                }
+
+                // . . . . . 2.2.2. rules exists for AO rType but no match for any of its free Handles
+                // . . . . . 2.2.3. rules exist for a free Handle but sender placement is precluded by other objects (AOs or environmental)
+
+                // test if unreachable after looping through all Handles
+                bool unreachable = CheckHandlesAndRules(avObject, rulesPath);
+                if (unreachable) MarkAsUnreachable(i);
+
+            }
+        }
+
+        private bool CheckHandlesAndRules(AssemblyObject avObject, GH_Path rulesPath)
+        {
+            bool unreachable = true;
+            // scan AO Handles against current heuristics rules
+            for (int j = 0; j < avObject.Handles.Length; j++)
+            {
+                // continue if handle is not available
+                if (avObject.Handles[j].Occupancy != 0) continue;
+
+                foreach (Rule rule in heuristicsTree.Branch(rulesPath))
+                    // Check if a Rule can be succesfully applied
+                    // if there is at least a free handle with an available rule for it (rH is the receiving handle index)
+                    // AND its related candidate fits without clashing (using discards for out variables)
+                    if (rule.rH == j && IsCandidateValid(rule, avObject, out _, out _))
+                    {
+                        // activate flag and break loop
+                        unreachable = false;
+                        break;
+                    }
+                if (!unreachable) break;
+            }
+            return unreachable;
         }
         #endregion
 
@@ -1555,17 +1092,17 @@ namespace AssemblerLib
         /// Extract available objects indices
         /// </summary>
         /// <returns>An array of AInd of available objects in the Assemblage</returns>
-        public GH_Integer[] ExtractAvailableObjects()
+        public GH_Integer[] ExtractAvailableObjectsIndexes()
         {
-            GH_Integer[] outIndexes = new GH_Integer[availableObjects.Count];
+            GH_Integer[] outIndexes = new GH_Integer[availableObjectsAInds.Count];
 
-            if (availableObjects.Count < 1000)
-                for (int i = 0; i < availableObjects.Count; i++)
-                    outIndexes[i] = new GH_Integer(availableObjects[i]);
+            if (availableObjectsAInds.Count < Constants.parallelLimit)
+                for (int i = 0; i < availableObjectsAInds.Count; i++)
+                    outIndexes[i] = new GH_Integer(availableObjectsAInds[i]);
             else
-                Parallel.For(0, availableObjects.Count, i =>
+                Parallel.For(0, availableObjectsAInds.Count, i =>
                 {
-                    outIndexes[i] = new GH_Integer(availableObjects[i]);
+                    outIndexes[i] = new GH_Integer(availableObjectsAInds[i]);
                 });
             return outIndexes;
         }
@@ -1574,19 +1111,64 @@ namespace AssemblerLib
         /// Extract unreachable objects indices
         /// </summary>
         /// <returns>An array of AInd of unreachable objects in the Assemblage</returns>
-        public GH_Integer[] ExtractUnreachableObjects()
+        public GH_Integer[] ExtractUnreachableObjectsIndexes()
         {
-            GH_Integer[] outIndexes = new GH_Integer[unreachableObjects.Count];
+            GH_Integer[] outIndexes = new GH_Integer[unreachableObjectsAInds.Count];
 
-            if (unreachableObjects.Count < 1000)
-                for (int i = 0; i < unreachableObjects.Count; i++)
-                    outIndexes[i] = new GH_Integer(unreachableObjects[i]);
+            if (unreachableObjectsAInds.Count < Constants.parallelLimit)
+                for (int i = 0; i < unreachableObjectsAInds.Count; i++)
+                    outIndexes[i] = new GH_Integer(unreachableObjectsAInds[i]);
             else
-                Parallel.For(0, unreachableObjects.Count, i =>
+                Parallel.For(0, unreachableObjectsAInds.Count, i =>
                 {
-                    outIndexes[i] = new GH_Integer(unreachableObjects[i]);
+                    outIndexes[i] = new GH_Integer(unreachableObjectsAInds[i]);
                 });
             return outIndexes;
+        }
+
+        /// <summary>
+        /// Extract receivers' <see cref="AssemblyObject.AInd"/>
+        /// </summary>
+        /// <returns>A Data Tree of receivers' <see cref="AssemblyObject.AInd"/> - one for each <see cref="AssemblyObject"/> in the Assemblage</returns>
+        /// <remarks>Returns a -1 index for starting AssemblyObjects</remarks>
+        public DataTree<GH_Integer> ExtractReceiverAIndexes()
+        {
+            DataTree<GH_Integer> outAIndexes = new DataTree<GH_Integer>();
+
+            for (int i = 0; i < ReceiverAIndexes.BranchCount; i++)
+                for (int j = 0; j < ReceiverAIndexes.Branches[i].Count; j++)
+                    outAIndexes.Add(new GH_Integer(ReceiverAIndexes.Branches[i][j]), ReceiverAIndexes.Paths[i]);
+
+            return outAIndexes;
+        }
+
+        /// <summary>
+        /// Extract used <see cref="Rule"/>s
+        /// </summary>
+        /// <returns>A Data Tree of the <see cref="Rule"/>s used for each <see cref="AssemblyObject"/> in the Assemblage</returns>
+        /// <remarks>Returns an empty string for starting AssemblyObjects</remarks>
+        public DataTree<GH_String> ExtractRules()
+        {
+            DataTree<GH_String> outRules = new DataTree<GH_String>();
+
+            for (int i = 0; i < AssemblageRules.BranchCount; i++)
+                for (int j = 0; j < AssemblageRules.Branches[i].Count; j++)
+                    outRules.Add(new GH_String(AssemblageRules.Branches[i][j]), AssemblageRules.Paths[i]);
+
+            return outRules;
+        }
+
+        /// <summary>
+        /// Extract <see cref="Rule"/>s associated with each candidate
+        /// </summary>
+        /// <returns>The <see cref="Rule"/>s associated with each candidate</returns>
+        public List<Rule> ExtractCandidatesRules()
+        {
+            List<Rule> rules = new List<Rule>();
+            for (int i = 0; i < i_validRulesIndexes.Count; i++)
+                rules.Add(i_receiverRules[i_validRulesIndexes[i]]);
+
+            return rules;
         }
 
         #endregion

@@ -112,77 +112,6 @@ namespace AssemblerLib
 
         #region Sparse Field Constructor
 
-        ///// <summary>
-        ///// Construct a Field from a List of Point3d, DataTrees for scalar and vector (multiple values per point), and a DataTree for Topology (neighbours map)
-        ///// </summary>
-        ///// <param name="points"></param>
-        ///// <param name="scalars"></param>
-        ///// <param name="vectors"></param>
-        ///// <param name="iWeights"></param>
-        ///// <param name="Topology"></param>
-        ///// <param name="TransCoeff"></param>
-        //public Field(List<Point3d> points, DataTree<double> scalars, DataTree<Vector3d> vectors, DataTree<int> iWeights, DataTree<int> Topology, DataTree<double> TransCoeff)
-        //{
-        //    this.points = new Point3dList();
-        //    this.points.AddRange(points);
-        //    pointsTree = RTree.CreateFromPointArray(points);
-
-        //    // initialize Tensors array
-        //    Tensors = new Tensor[points.Count];
-
-        //    // Populate Field
-        //    PopulateField(scalars, vectors, iWeights);
-
-        //    // convert Topology DataTree to bidimensional array of neighbours
-        //    if (Topology != null) this.Topology = DataUtils.ToJaggedArray(Topology);
-        //    if (TransCoeff != null) this.TransCoeff = DataUtils.ToJaggedArray(TransCoeff);
-        //    ComputeSearchRadiusAndMaxDist();
-        //}
-
-        ///// <summary>
-        ///// Construct a Field from a List of Point3d, and DataTrees for scalar and vector values (multiple values per point)
-        ///// </summary>
-        ///// <param name="points"></param>
-        ///// <param name="scalar"></param>
-        ///// <param name="vector"></param>
-        //public Field(List<Point3d> points, DataTree<double> scalar, DataTree<Vector3d> vector) : this(points, scalar, vector, null, null, null)
-        //{ }
-
-        ///// <summary>
-        ///// Construct a Field from a List of Point3d, Lists for scalar, vector, iWeight (single values per point), and a DataTree for Topology (neighbours map)
-        ///// </summary>
-        ///// <param name="points"></param>
-        ///// <param name="scalar"></param>
-        ///// <param name="vector"></param>
-        ///// <param name="iWeights"></param>
-        ///// <param name="Topology"></param><param name="TransCoeff"></param>
-        //public Field(List<Point3d> points, List<double> scalar, List<Vector3d> vector, List<int> iWeights, DataTree<int> Topology, DataTree<double> TransCoeff)
-        //{
-        //    this.points = new Point3dList();
-        //    this.points.AddRange(points);
-        //    pointsTree = RTree.CreateFromPointArray(points);
-
-        //    // initialize Tensors array
-        //    Tensors = new Tensor[points.Count];
-
-        //    // Populate Field
-        //    PopulateField(scalar, vector, iWeights);
-
-        //    // convert Topology DataTree to bidimensional array of neighbours
-        //    if (Topology != null) this.Topology = DataUtils.ToJaggedArray(Topology);
-        //    if (TransCoeff != null) this.TransCoeff = DataUtils.ToJaggedArray(TransCoeff);
-        //    ComputeSearchRadiusAndMaxDist();
-        //}
-
-        ///// <summary>
-        ///// Construct a Field from a List of Point3d, and Lists for scalar and vector (single values per point)
-        ///// </summary>
-        ///// <param name="points"></param>
-        ///// <param name="scalar"></param>
-        ///// <param name="vector"></param>
-        //public Field(List<Point3d> points, List<double> scalar, List<Vector3d> vector) : this(points, scalar, vector, null, null, null)
-        //{ }
-
         /// <summary>
         /// Construct an empty Field from a List of Point3d, and DataTrees for Topology and transmission coefficients
         /// </summary>
@@ -291,7 +220,7 @@ namespace AssemblerLib
             // initialize Tensors array
             Tensors = new Tensor[points.Count];
 
-            // costruct Topology
+            // construct Topology
             Topology = ConstructTopology(points, nX, nY, nZ, resX, resY, resZ);
         }
 
@@ -315,7 +244,7 @@ namespace AssemblerLib
 
             double totalWeight;// = 2 * (resXcoeff + resYcoeff + resZcoeff) + 4 * (dXYcoeff + dXZcoeff + dYZcoeff + dXYZcoeff); // if all neighbours are present
 
-            // costruct Topology
+            // construct Topology
             int[][] topology = new int[points.Count][];
             TransCoeff = new double[points.Count][];
             int[] dimIndexes;
@@ -486,24 +415,6 @@ namespace AssemblerLib
         #endregion
 
         #region Populate methods
-        ///// <summary>
-        ///// Populate Field with scalar values - 1 value per Field point
-        ///// </summary>
-        ///// <param name="scalarValues"></param>
-        ///// <returns></returns>
-        //public bool PopulateScalars(List<double> scalarValues)
-        //{
-        //    if (scalarValues.Count != points.Count) return false;
-
-        //    scalarValues = MathUtils.NormalizeRange(scalarValues);
-
-        //    if (Tensors[0] == null)
-        //        Tensors = scalarValues.Select(s => new Tensor(new[] { s })).ToArray();
-        //    else for (int i = 0; i < scalarValues.Count; i++)
-        //            Tensors[i].Scalars = new[] { scalarValues[i] };
-
-        //    return true;
-        //}
 
         /// <summary>
         /// Populate Field with scalar values - multiple values per Field point
@@ -528,23 +439,6 @@ namespace AssemblerLib
             return true;
         }
 
-        ///// <summary>
-        ///// Populate Field with vector values - 1 value per Field point
-        ///// </summary>
-        ///// <param name="vectorValues"></param>
-        ///// <returns></returns>
-        //public bool PopulateVectors(List<Vector3d> vectorValues)
-        //{
-        //    if (vectorValues.Count != points.Count) return false;
-
-        //    if (Tensors[0] == null)
-        //        Tensors = vectorValues.Select(v => new Tensor(new[] { v })).ToArray();
-        //    else for (int i = 0; i < vectorValues.Count; i++)
-        //            Tensors[i].Vectors = new[] { vectorValues[i] };
-
-        //    return true;
-        //}
-
         /// <summary>
         /// Populate Field with vector values - multiple values per Field point
         /// </summary>
@@ -565,23 +459,6 @@ namespace AssemblerLib
 
             return true;
         }
-
-        ///// <summary>
-        ///// Populate Field with weights distribution - 1 value per Field point
-        ///// </summary>
-        ///// <param name="iWeights"></param>
-        ///// <returns></returns>
-        //public bool PopulateiWeights(List<int> iWeights)
-        //{
-        //    if (iWeights.Count != points.Count) return false;
-
-        //    if (Tensors[0] == null)
-        //        Tensors = iWeights.Select(s => new Tensor(new[] { s })).ToArray();
-        //    else for (int i = 0; i < iWeights.Count; i++)
-        //            Tensors[i].IWeights = new[] { iWeights[i] };
-
-        //    return true;
-        //}
 
         /// <summary>
         /// Populate Field with weights distribution - multiple values per Field point
@@ -605,72 +482,6 @@ namespace AssemblerLib
             }
             return true;
         }
-
-        //[Obsolete("This method has been deprecated, use the PopulateiWeights(DataTree<int> iWeights) instead")]
-        ///// <summary>
-        ///// Populate Field with weights distribution - multiple values per Field point
-        ///// </summary>
-        ///// <param name="iWeights"></param>
-        ///// <returns>true if operation was successful</returns>
-        //private bool PopulateiWeights(int[][] iWeights)
-        //{
-        //    if (iWeights.Length != points.Count) return false;
-        //    // if Tensors aren't populated yet
-        //    if (Tensors[0] == null)
-        //        Tensors = iWeights.Select(iW => new Tensor(iW)).ToArray();
-        //    else
-        //    {
-        //        for (int i = 0; i < Tensors.Length; i++)
-        //            Tensors[i].IWeights = iWeights[i];
-        //    }
-        //    return true;
-        //}
-
-        ///// <summary>
-        ///// Populates Field - a single scalar and vector for each Field point, no iWeights
-        ///// </summary>
-        ///// <param name="scalarValues"></param>
-        ///// <param name="vectorValues"></param>
-        ///// <returns></returns>
-        //public bool PopulateField(List<double> scalarValues, List<Vector3d> vectorValues)
-        //{
-        //    return (PopulateScalars(scalarValues) && PopulateVectors(vectorValues));
-        //}
-
-        ///// <summary>
-        ///// Populates Field - lists of scalars and vectors for each Field point, no iWeights
-        ///// </summary>
-        ///// <param name="scalarValues"></param>
-        ///// <param name="vectorValues"></param>
-        ///// <returns></returns>
-        //public bool PopulateField(DataTree<double> scalarValues, DataTree<Vector3d> vectorValues)
-        //{
-        //    return (PopulateScalars(scalarValues) && PopulateVectors(vectorValues));
-        //}
-
-        ///// <summary>
-        ///// Populates Field - lists of scalars, vectors and iWeights for each Field point
-        ///// </summary>
-        ///// <param name="scalarValues"></param>
-        ///// <param name="vectorValues"></param>
-        ///// <param name="iWeights"></param>
-        ///// <returns></returns>
-        //public bool PopulateField(List<double> scalarValues, List<Vector3d> vectorValues, List<int> iWeights)
-        //{
-        //    return (PopulateScalars(scalarValues) && PopulateVectors(vectorValues) && PopulateiWeights(iWeights));
-        //}
-
-        ///// <summary>
-        ///// Populates Field - lists of scalars, vectors, and data tree of iWeights for each Field point
-        ///// </summary>
-        ///// <param name="scalarValues"></param>
-        ///// <param name="vectorValues"></param>
-        ///// <param name="iWeights"></param>
-        ///// <returns></returns>
-        //public bool PopulateField(List<double> scalarValues, List<Vector3d> vectorValues, DataTree<int> iWeights)
-        //{
-        //    return (PopulateScalars(scalarValues) && PopulateVectors(vectorValues) && PopulateiWeights(iWeights));
-        //}
 
         /// <summary>
         /// Populates Field - data trees of scalars, vectors and iWeights for each Field point

@@ -108,7 +108,7 @@ namespace Assembler
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.Associate_XData_OLD;
+                return Resources.L_Associate_XData;
             }
         }
 
